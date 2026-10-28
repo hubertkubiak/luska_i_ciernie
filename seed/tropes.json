@@ -1,13 +1,13 @@
 [
   {
     "slug": "enemies-to-lovers",
-    "name": "Enemies to lovers",
+    "name": "Od wrogów do kochanków",
     "realm": "turnie",
     "description": "Ostrza skrzyżowały się, zanim splotły się dłonie. Każde spotkanie to pojedynek, a każdy pojedynek — o krok bliżej do kapitulacji, której żadne z nich nie chce przyznać."
   },
   {
     "slug": "fated-mates",
-    "name": "Fated mates",
+    "name": "Przeznaczeni sobie",
     "realm": "mgly",
     "description": "Nici przeznaczenia splotły się, zanim którekolwiek z nich wiedziało o istnieniu drugiego. Pytanie nie brzmi „czy”, lecz „ile będzie kosztować przyjęcie tej więzi”."
   },
@@ -43,25 +43,25 @@
   },
   {
     "slug": "slow-burn",
-    "name": "Slow burn",
+    "name": "Powolny żar",
     "realm": "skryptorium",
     "description": "Żar tli się przez setki stron. Spojrzenia, niedokończone zdania, dłonie, które prawie się spotykają — i nagroda dla cierpliwych."
   },
   {
     "slug": "forced-proximity",
-    "name": "Forced proximity",
+    "name": "Wymuszona bliskość",
     "realm": "skryptorium",
     "description": "Jeden namiot, jedna komnata, jedna droga przez zaśnieżone przełęcze. Trudno nienawidzić kogoś, kto czuwa przy twoim ognisku."
   },
   {
     "slug": "morally-grey",
-    "name": "Morally grey",
+    "name": "Moralna szarość",
     "realm": "mgly",
     "description": "Bohater, który zrobił rzeczy niewybaczalne — z powodów, które prawie da się zrozumieć. Ciemność tu nie jest kostiumem."
   },
   {
     "slug": "found-family",
-    "name": "Found family",
+    "name": "Wybrana rodzina",
     "realm": "skryptorium",
     "description": "Rodzina wybrana, nie dana. Ludzie, którzy pojawili się przypadkiem, a zostali na zawsze — i za których warto spłonąć."
   },
@@ -91,7 +91,7 @@
   },
   {
     "slug": "rivals-to-lovers",
-    "name": "Rivals to lovers",
+    "name": "Od rywali do kochanków",
     "realm": "skryptorium",
     "description": "Nie wrogowie, tylko rywale: ta sama posada, ta sama nagroda, ten sam upór. Rywalizacja, która powoli zamienia się w coś zupełnie innego."
   },

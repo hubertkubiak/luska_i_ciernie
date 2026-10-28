@@ -1,11 +1,11 @@
 @if (author.hasValue()) {
   @let a = author.value();
   <article class="author">
-    <p class="label">Kronika autorki · {{ a.books.length }} {{ booksWord(a.books.length) }} w archiwum</p>
+    <p class="label" i18n="@@author.label">Kronika autorki · {a.books.length, plural, one {{{ a.books.length }} księga} few {{{ a.books.length }} księgi} many {{{ a.books.length }} ksiąg} other {{{ a.books.length }} księgi}} w archiwum</p>
     <h1>{{ a.name }}</h1>
     <p class="bio">{{ a.bio }}</p>
 
-    <h2>Bibliografia</h2>
+    <h2 i18n="@@author.bibliography">Bibliografia</h2>
     <ul class="books">
       @for (b of a.books; track b.slug) {
         <li><app-book-card [book]="b" /></li>
@@ -13,9 +13,9 @@
     </ul>
   </article>
 } @else if (notFound()) {
-  <app-not-found message="Archiwum nie zna takiego nazwiska." />
+  <app-not-found i18n-message="@@author.notFound" message="Archiwum nie zna takiego nazwiska." />
 } @else if (author.error()) {
-  <p class="state">Coś przebudziło się w lochach. Próbujemy to uspokoić.</p>
+  <p class="state" i18n="@@state.error">Coś przebudziło się w lochach. Próbujemy to uspokoić.</p>
 } @else {
-  <p class="state" role="status">Smok przeszukuje skarbiec…</p>
+  <p class="state" role="status" i18n="@@state.loading">Smok przeszukuje skarbiec…</p>
 }

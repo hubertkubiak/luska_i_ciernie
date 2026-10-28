@@ -15,7 +15,6 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import type { BookSummary, Trope } from '../../../shared/models';
 import { Canonical } from '../../core/canonical';
 import { BookCard } from '../../ui/book-card/book-card';
-import { books } from '../../ui/plural';
 import { Rune } from '../../ui/rune/rune';
 import { parseCriteria, toApiUrl, toQueryParams, toQueryString } from './search-criteria';
 
@@ -56,7 +55,6 @@ export class SearchPage {
 
   protected readonly loading = this.results.isLoading;
   protected readonly failed = computed(() => !!this.results.error());
-  protected readonly booksWord = books;
   protected readonly spiceLevels = [0, 1, 2, 3, 4, 5] as const;
 
   private readonly form = viewChild.required<ElementRef<HTMLFormElement>>('form');

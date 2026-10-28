@@ -40,10 +40,16 @@ export class BookPage {
   protected readonly seriesLabel = computed(() => {
     const series = this.book.value()?.series;
     if (!series) return null;
-    const tom = `Tom ${ROMAN[series.index] ?? series.index}`;
-    const of = series.plannedBooks ? ` z ${series.plannedBooks}` : '';
-    const status = series.status === 'completed' ? 'seria zakończona' : 'seria w trakcie';
-    return `${tom}${of} · ${status}`;
+    const volume = ROMAN[series.index] ?? String(series.index);
+    // Nazwane placeholdery (:volume:) — tłumacz widzi w pliku nazwę, a nie ${…}, i może zmienić kolejność.
+    const tom = series.plannedBooks
+      ? $localize`:@@book.volumeOf:Tom ${volume}:volume: z ${series.plannedBooks}:total:`
+      : $localize`:@@book.volume:Tom ${volume}:volume:`;
+    const status =
+      series.status === 'completed'
+        ? $localize`:@@book.seriesCompleted:seria zakończona`
+        : $localize`:@@book.seriesOngoing:seria w trakcie`;
+    return `${tom} · ${status}`;
   });
 
   constructor() {

@@ -3,7 +3,6 @@ import { Component, computed, effect, inject, input } from '@angular/core';
 import type { AuthorDetail } from '../../../shared/models';
 import { ServerResponse } from '../../core/server-response';
 import { BookCard } from '../../ui/book-card/book-card';
-import { books } from '../../ui/plural';
 import { NotFound } from '../not-found/not-found';
 
 @Component({
@@ -13,8 +12,6 @@ import { NotFound } from '../not-found/not-found';
   styleUrl: './author.scss',
 })
 export class AuthorPage {
-  protected readonly booksWord = books;
-
   private readonly response = inject(ServerResponse);
 
   readonly slug = input.required<string>();

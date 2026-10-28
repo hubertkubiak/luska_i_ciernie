@@ -3,7 +3,7 @@
   <article class="book" [attr.data-realm]="b.realm">
     <div class="cover">
       <!-- priority: obraz LCP. Na serwerze Angular dopisze dla niego <link rel="preload"> w <head>. -->
-      <img [ngSrc]="b.coverUrl" width="180" height="270" priority [alt]="'Okładka: ' + b.title" />
+      <img [ngSrc]="b.coverUrl" width="180" height="270" priority i18n-alt="@@book.coverAlt" alt="Okładka: {{ b.title }}" />
     </div>
 
     <header class="head">
@@ -13,10 +13,10 @@
       <h1>{{ b.title }}</h1>
       <p class="author">
         <a [routerLink]="['/autor', b.author.slug]">{{ b.author.name }}</a>
-        <span class="label">· {{ b.year }} · {{ b.pages }} stron</span>
+        <span class="label" i18n="@@book.yearPages">· {{ b.year }} · {b.pages, plural, one {{{ b.pages }} strona} few {{{ b.pages }} strony} many {{{ b.pages }} stron} other {{{ b.pages }} strony}}</span>
       </p>
       <app-spice-meter [spice]="b.spice" />
-      <ul class="tropes" aria-label="Tropy">
+      <ul class="tropes" i18n-aria-label="@@book.tropesLabel" aria-label="Tropy">
         @for (t of b.tropes; track t.slug) {
           <li><a [routerLink]="['/tropy', t.slug]"><app-rune [trope]="t.slug" />{{ t.name }}</a></li>
         }
@@ -29,15 +29,15 @@
       @if (b.contentWarnings.length) {
         <aside class="warnings" aria-labelledby="cw-title">
           <h2 id="cw-title">
-            <span aria-hidden="true">⚠</span> Zanim przekroczysz próg
-            <small>Ostrzeżenia treści</small>
+            <span aria-hidden="true">⚠</span> <ng-container i18n="@@book.cwTitle">Zanim przekroczysz próg</ng-container>
+            <small i18n="@@book.cwMeaning">Ostrzeżenia treści</small>
           </h2>
           <p>{{ b.contentWarnings.join(' · ') }}</p>
         </aside>
       }
 
       @if (b.seriesBooks.length > 1) {
-        <nav class="series" aria-label="Tomy serii">
+        <nav class="series" i18n-aria-label="@@book.seriesLabel" aria-label="Tomy serii">
           <h2>{{ b.series!.name }}</h2>
           <ol>
             @for (s of b.seriesBooks; track s.slug) {
@@ -55,12 +55,12 @@
     </div>
   </article>
 } @else if (notFound()) {
-  <app-not-found message="W archiwum nie ma takiej księgi." />
+  <app-not-found i18n-message="@@book.notFound" message="W archiwum nie ma takiej księgi." />
 } @else if (book.error()) {
   <section class="state">
-    <h1>Coś przebudziło się w lochach.</h1>
-    <p>Próbujemy to uspokoić. Spróbuj ponownie za chwilę.</p>
+    <h1 i18n="@@book.errorTitle">Coś przebudziło się w lochach.</h1>
+    <p i18n="@@book.errorText">Próbujemy to uspokoić. Spróbuj ponownie za chwilę.</p>
   </section>
 } @else {
-  <p class="state" role="status">Smok przeszukuje skarbiec…</p>
+  <p class="state" role="status" i18n="@@state.loading">Smok przeszukuje skarbiec…</p>
 }

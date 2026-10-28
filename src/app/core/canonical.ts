@@ -1,4 +1,4 @@
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, Location } from '@angular/common';
 import { Injectable, inject } from '@angular/core';
 
 /**
@@ -9,6 +9,7 @@ import { Injectable, inject } from '@angular/core';
 @Injectable({ providedIn: 'root' })
 export class Canonical {
   private readonly doc = inject(DOCUMENT);
+  private readonly location = inject(Location);
 
   /** @param path ścieżka z query stringiem, np. "/szukaj?trop=slow-burn" */
   set(path: string): void {
@@ -20,7 +21,8 @@ export class Canonical {
     }
     // Adres kanoniczny powinien być absolutny. Origin pochodzi z żądania (na serwerze — z nagłówka
     // Host, który przepuścił security.allowedHosts z angular.json).
-    link.setAttribute('href', new URL(path, this.doc.location.origin).href);
+    // prepareExternalUrl dokleja <base href> — w wersji /en/ adres kanoniczny to /en/szukaj?….
+    link.setAttribute('href', new URL(this.location.prepareExternalUrl(path), this.doc.location.origin).href);
   }
 
   clear(): void {

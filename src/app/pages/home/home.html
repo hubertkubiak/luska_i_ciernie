@@ -1,16 +1,16 @@
 <section class="hero">
   <app-sparks />
-  <h1>Łuska i Ciernie</h1>
-  <p class="tagline">
+  <h1 i18n="@@home.title">Łuska i Ciernie</h1>
+  <p class="tagline" i18n="@@home.tagline">
     Archiwum romantasy czytane po tropach — od więzi przeznaczenia po jeźdźców smoków.
   </p>
-  <a class="cta" routerLink="/szukaj">Przeszukaj archiwum</a>
+  <a class="cta" routerLink="/szukaj" i18n="@@home.cta">Przeszukaj archiwum</a>
 </section>
 
 <app-trope-of-the-day />
 
 <section class="start">
-  <h2>Na dobry początek</h2>
+  <h2 i18n="@@home.starters">Na dobry początek</h2>
   <ul>
     @for (b of starters; track b.slug) {
       <li><a [routerLink]="['/ksiazka', b.slug]">{{ b.title }}</a></li>

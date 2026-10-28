@@ -13,5 +13,5 @@ import { RouterLink } from '@angular/router';
   styleUrl: './not-found.scss',
 })
 export class NotFound {
-  readonly message = input('Nikt nie chodził tędy od stuleci.');
+  readonly message = input($localize`:@@notFound.default:Nikt nie chodził tędy od stuleci.`);
 }

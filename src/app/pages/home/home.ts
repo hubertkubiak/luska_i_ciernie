@@ -15,7 +15,7 @@ export class Home {
     { slug: 'a-court-of-thorns-and-roses', title: 'A Court of Thorns and Roses' },
     { slug: 'the-cruel-prince', title: 'The Cruel Prince' },
     { slug: 'one-dark-window', title: 'One Dark Window' },
-    { slug: 'nie-ma-takiej-ksiazki', title: '(ćwiczenie: nieistniejąca księga → 404)' },
-    { slug: 'okrutny-ksiaze', title: '(ćwiczenie: stary adres → 301)' },
+    { slug: 'nie-ma-takiej-ksiazki', title: $localize`:@@home.exercise404:(ćwiczenie: nieistniejąca księga → 404)` },
+    { slug: 'okrutny-ksiaze', title: $localize`:@@home.exercise301:(ćwiczenie: stary adres → 301)` },
   ];
 }

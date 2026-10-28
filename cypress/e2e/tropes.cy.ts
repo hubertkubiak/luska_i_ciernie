@@ -4,7 +4,7 @@ describe('Tropy (prerender)', () => {
       expect(res.status).to.eq(200);
       // ng-server-context mówi, jak powstał HTML: ssg = prerender w buildzie, ssr = na żądanie.
       expect(res.body).to.contain('ng-server-context="ssg"');
-      expect(res.body).to.contain('Enemies to lovers');
+      expect(res.body).to.contain('Od wrogów do kochanków');
     });
   });
 
@@ -19,9 +19,10 @@ describe('Tropy (prerender)', () => {
 
   it('runa w HTML wskazuje symbol ze sprite’a', () => {
     cy.visit('/tropy/fated-mates');
-    cy.contains('h1', 'Fated mates');
+    cy.contains('h1', 'Przeznaczeni sobie');
     cy.get('#rune-fated-mates').should('exist');
-    cy.get('app-rune use').first().should('have.attr', 'href', '#rune-fated-mates');
+    // „article”: pierwsza runa na stronie siedzi w przycisku „Zwiń mapę” w nagłówku.
+    cy.get('article app-rune use').first().should('have.attr', 'href', '#rune-fated-mates');
   });
 
   it('z listy tropów przechodzi do tropu i dalej do książki', () => {

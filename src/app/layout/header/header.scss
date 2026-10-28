@@ -1,8 +1,11 @@
+// Szerokość, poniżej której nawigacja chowa się pod przyciskiem „Mapa”. Dobrana tak, żeby
+// pięć pozycji z podpisami + „Przekrocz próg” mieściło się w jednej linii (sprawdzone przy 1280 px).
+$collapse: 78rem;
+
 .header {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 1rem 2rem;
+  gap: 1rem;
   padding: 1rem clamp(1rem, 4vw, 3rem);
   background: var(--surface);
   border-bottom: 1px solid var(--velvet);
@@ -17,14 +20,10 @@
   white-space: nowrap;
 }
 
-nav {
-  flex: 1;
-}
-
 ul {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.25rem 1.5rem;
+  gap: 0.25rem 1.25rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -67,5 +66,168 @@ small {
   &:focus {
     left: 1rem;
     top: 1rem;
+  }
+}
+
+// --- Przycisk „Mapa” (tylko wąskie ekrany) ---
+
+.toggle,
+.close {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--velvet);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--gilt);
+  font: inherit;
+  cursor: pointer;
+  transition:
+    border-color var(--dur) var(--ease),
+    background var(--dur) var(--ease);
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--gilt);
+    background: var(--velvet);
+  }
+}
+
+.toggle {
+  flex: none;
+  flex-direction: column;
+  gap: 0.1rem;
+  margin-left: auto;
+  padding: 0.35rem 0.6rem;
+
+  svg {
+    width: 1.6rem;
+    height: 1.6rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+  }
+}
+
+.toggle-label {
+  font-family: var(--font-heading);
+  font-variant: small-caps;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+}
+
+.close {
+  justify-self: end;
+  gap: 0.5rem;
+  padding: 0.4rem 0.9rem;
+  font-family: var(--font-heading);
+  font-variant: small-caps;
+  font-size: 1rem;
+
+  app-rune {
+    font-size: 1.2rem;
+  }
+}
+
+// --- Panel menu ---
+
+// Wąsko: popover w top layer, rozwijany z góry jak zwój.
+@media (width < $collapse) {
+  .menu {
+    inset: 0 0 auto;
+    width: 100%;
+    max-height: 100dvh;
+    margin: 0;
+    padding: 1.25rem clamp(1rem, 4vw, 3rem) 1.75rem;
+    border: 0;
+    border-bottom: 1px solid var(--gilt);
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 1.5rem 3rem rgb(0 0 0 / 0.5);
+    // Złocone krawędzie „zwoju”
+    background-image: var(--grad-gilt), var(--grad-gilt);
+    background-size: 100% 1px;
+    background-position: top, bottom 0.5rem center;
+    background-repeat: no-repeat;
+    // Rozwijanie: clip-path od góry do dołu. @starting-style daje stan początkowy przy wejściu,
+    // allow-discrete pozwala animować display/overlay (popover znika z top layer dopiero po animacji).
+    clip-path: inset(0 0 100% 0);
+    transition:
+      clip-path var(--dur) var(--ease),
+      display var(--dur) allow-discrete,
+      overlay var(--dur) allow-discrete;
+
+    &:popover-open {
+      display: grid;
+      gap: 1.25rem;
+      clip-path: inset(0 0 0 0);
+
+      @starting-style {
+        clip-path: inset(0 0 100% 0);
+      }
+    }
+
+    &::backdrop {
+      background: rgb(11 9 16 / 0.6);
+      backdrop-filter: blur(3px);
+    }
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  nav li + li {
+    border-top: 1px solid var(--velvet);
+  }
+
+  nav a {
+    padding: 0.75rem 0;
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    font-weight: 700;
+
+    small {
+      font-family: var(--font-ui);
+      font-weight: 400;
+    }
+  }
+
+  .login {
+    justify-self: start;
+  }
+}
+
+// Szeroko: ten sam element to zwykły pasek nawigacji. Style autora wygrywają ze stylami
+// przeglądarki (inne źródło kaskady), więc display nadpisuje UA-owe „ukryj zamknięty popover”.
+@media (width >= $collapse) {
+  .toggle,
+  .close {
+    display: none;
+  }
+
+  .header {
+    column-gap: 1.5rem;
+  }
+
+  .menu {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 1rem 1.5rem;
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    overflow: visible;
+    background: none;
+    color: inherit;
+  }
+
+  nav {
+    flex: 1;
   }
 }

@@ -1,0 +1,7 @@
+@let t = trope();
+<a [routerLink]="['/tropy', t.slug]">
+  <app-rune [trope]="t.slug" />
+  <span class="name">{{ t.name }}</span>
+  <!-- Pipe zamiast ICU — wyjaśnienie w books-count.pipe.ts. -->
+  <span class="label">{{ t.bookCount | booksCount }}</span>
+</a>

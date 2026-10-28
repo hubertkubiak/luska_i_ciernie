@@ -2,7 +2,8 @@ describe('Wyszukiwarka /szukaj', () => {
   it('serwer renderuje wyniki z query params i kanoniczny adres', () => {
     cy.request('/szukaj?tryb=wszystkie&trop=enemies-to-lovers&trop=jezdzcy-smokow').then((res) => {
       expect(res.status).to.eq(200);
-      expect(res.body).to.match(/Znaleziono [1-9]\d* ksi/);
+      // ICU zostawia w HTML znaczniki hydracji, np. „Znaleziono <!--ngtns-->6 ksiąg”.
+      expect(res.body).to.match(/Znaleziono (<!--[^>]*-->)?[1-9]\d* ksi/);
       expect(res.body).to.contain('Fourth Wing');
       // Inna kolejność + domyślny tryb w adresie → ten sam adres kanoniczny.
       expect(res.body).to.match(/<link rel="canonical" href="[^"]+\/szukaj\?trop=enemies-to-lovers&amp;trop=jezdzcy-smokow">/);
@@ -10,8 +11,7 @@ describe('Wyszukiwarka /szukaj', () => {
   });
 
   it('formularz działa bez JavaScriptu (zwykły GET)', () => {
-    // Blokujemy wszystkie skrypty z naszego originu — zostaje sam HTML z serwera.
-    cy.intercept({ method: 'GET', url: /\/[^/]+\.js$/ }, { forceNetworkError: true });
+    cy.disableJavaScript();
     cy.visit('/szukaj');
 
     cy.get('input[name="trop"][value="wampiry"]').check({ force: true });
@@ -41,7 +41,7 @@ describe('Wyszukiwarka /szukaj', () => {
 
   it('„Wyczyść filtry” odznacza też to, co kliknęła czytelniczka', () => {
     cy.visit('/szukaj');
-    cy.contains('label.pill', 'Slow burn').click();
+    cy.contains('label.pill', 'Powolny żar').click();
     cy.location('search').should('eq', '?trop=slow-burn');
 
     cy.contains('a', 'Wyczyść filtry').click();

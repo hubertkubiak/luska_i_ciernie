@@ -1,43 +1,27 @@
-// ***********************************************
-// This example namespace declaration will help
-// with Intellisense and code completion in your
-// IDE or Text Editor.
-// ***********************************************
-// declare namespace Cypress {
-//   interface Chainable<Subject = any> {
-//     customCommand(param: any): typeof customCommand;
-//   }
-// }
-//
-// function customCommand(param: any): void {
-//   console.warn(param);
-// }
-//
-// NOTE: You can use it like so:
-// Cypress.Commands.add('customCommand', customCommand);
-//
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add("login", (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Cypress {
+    interface Chainable {
+      /**
+       * Symuluje przeglądarkę z WYŁĄCZONYM JavaScriptem: z każdego dokumentu HTML wycina
+       * wszystkie <script> — także wbudowany skrypt event replay (ng-event-dispatch-contract).
+       *
+       * Samo blokowanie plików .js to inny scenariusz („JS się nie załadował”): wtedy wbudowany
+       * skrypt nadal przechwytuje kliknięcia linków routera (preventDefault do czasu hydracji,
+       * która nigdy nie nastąpi) i linki są martwe.
+       */
+      disableJavaScript(): Chainable<null>;
+    }
+  }
+}
+
+Cypress.Commands.add('disableJavaScript', () => {
+  cy.intercept({ method: 'GET', url: '**' }, (req) => {
+    if (!String(req.headers['accept'] ?? '').includes('text/html')) return;
+    req.on('response', (res) => {
+      if (typeof res.body === 'string') res.body = res.body.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '');
+    });
+  });
+});
+
+export {};

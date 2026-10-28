@@ -1,15 +1,13 @@
-import { registerLocaleData } from '@angular/common';
 import { provideHttpClient, withFetch } from '@angular/common/http';
-import localePl from '@angular/common/locales/pl';
-import { ApplicationConfig, LOCALE_ID, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideClientHydration } from '@angular/platform-browser';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { provideClientHydration, withI18nSupport } from '@angular/platform-browser';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { routes } from './app.routes';
 
-// Dane locale muszą być zarejestrowane w obu bundlach (ten plik trafia też do serwera
-// przez mergeApplicationConfig w app.config.server.ts), inaczej pipe'y wyrzucą błąd.
-registerLocaleData(localePl);
-
+// LOCALE_ID nie jest tu ustawiany ręcznie: przy i18n CLI wkompilowuje locale w każdy build
+// (pl dla wersji źródłowej, en/de dla tłumaczeń — patrz "i18n" w angular.json) i sam dołącza
+// dane locale. Ręczne { provide: LOCALE_ID, useValue: 'pl' } zablokowałoby polski we wszystkich
+// wersjach językowych. Serwer i przeglądarka mają ten sam build, więc formatują identycznie.
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
@@ -19,8 +17,8 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     // provideClientHydration domyślnie włącza też HTTP transfer cache: odpowiedzi GET
     // pobrane podczas SSR lądują w <script id="ng-state"> i klient nie pyta API drugi raz.
-    provideClientHydration(),
-    // Jawne locale: serwer (Node) i przeglądarka formatują daty/liczby tak samo (SPEC §6, pułapka #5).
-    { provide: LOCALE_ID, useValue: 'pl' },
+    // withI18nSupport: BEZ tego Angular pomija hydrację każdego komponentu z blokami i18n
+    // i renderuje go od nowa (nowe węzły DOM, zgubione kliknięcia sprzed hydracji) — po cichu.
+    provideClientHydration(withI18nSupport()),
   ],
 };

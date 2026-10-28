@@ -1,23 +1,41 @@
 <header class="header">
-  <a class="skip" href="#tresc">Przejdź do treści</a>
+  <!-- Nie samo href="#tresc": względem <base href="/"> to "/#tresc", czyli strona główna. -->
+  <a class="skip" [attr.href]="skipHref()" i18n="@@header.skip">Przejdź do treści</a>
 
-  <a class="logo" routerLink="/" aria-label="Łuska i Ciernie — strona główna">Łuska i Ciernie</a>
+  <a class="logo" routerLink="/" i18n-aria-label="@@header.logoLabel" aria-label="Łuska i Ciernie — strona główna">Łuska i Ciernie</a>
 
-  <nav aria-label="Główna nawigacja">
-    <ul>
-      @for (item of nav; track item.path) {
-        <li>
-          <a [routerLink]="item.path" routerLinkActive="active">
-            {{ item.label }}
-            <small>{{ item.meaning }}</small>
-          </a>
-        </li>
-      }
-    </ul>
-  </nav>
+  <!-- Na wąskich ekranach menu chowa się w popoverze. popovertarget = przeglądarka sama
+       otwiera i zamyka panel (Esc, klik obok) — działa przed hydracją i bez JavaScriptu. -->
+  <button class="toggle" type="button" popovertarget="mapa-krain" i18n-aria-label="@@header.openMenu" aria-label="Otwórz menu">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <!-- trzy smocze pazury -->
+      <path d="M6 3c3 5 3 12 0 18M12 3c3 5 3 12 0 18M18 3c3 5 3 12 0 18" />
+    </svg>
+    <span class="toggle-label" i18n="@@header.menu">Mapa</span>
+  </button>
 
-  <a class="login" routerLink="/logowanie">
-    Przekrocz próg
-    <small>Zaloguj się</small>
-  </a>
+  <div id="mapa-krain" class="menu" popover #menu>
+    <button class="close" type="button" popovertarget="mapa-krain" popovertargetaction="hide">
+      <app-rune trope="enemies-to-lovers" />
+      <span i18n="@@header.closeMenu">Zwiń mapę</span>
+    </button>
+
+    <nav i18n-aria-label="@@header.navLabel" aria-label="Główna nawigacja">
+      <ul>
+        @for (item of nav; track item.path) {
+          <li>
+            <a [routerLink]="item.path" routerLinkActive="active">
+              {{ item.label }}
+              <small>{{ item.meaning }}</small>
+            </a>
+          </li>
+        }
+      </ul>
+    </nav>
+
+    <a class="login" routerLink="/logowanie">
+      <ng-container i18n="@@header.login">Przekrocz próg</ng-container>
+      <small i18n="@@header.loginMeaning">Zaloguj się</small>
+    </a>
+  </div>
 </header>

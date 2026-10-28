@@ -1,10 +1,8 @@
 import { httpResource } from '@angular/common/http';
 import { Component, computed } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import type { Trope } from '../../../shared/models';
-import { Rune } from '../../ui/rune/rune';
 import { REALMS } from '../../ui/realm';
-import { books } from '../../ui/plural';
+import { TropeTile } from './trope-tile/trope-tile';
 
 /**
  * /tropy — prerenderowana w `ng build` (app.routes.server.ts). Skąd dane, skoro nikt nie
@@ -13,13 +11,11 @@ import { books } from '../../ui/plural';
  */
 @Component({
   selector: 'app-tropes-page',
-  imports: [RouterLink, Rune],
+  imports: [TropeTile],
   templateUrl: './tropes.html',
   styleUrl: './tropes.scss',
 })
 export class TropesPage {
-  protected readonly booksWord = books;
-
   protected readonly tropes = httpResource<Trope[]>(() => '/api/tropes', { defaultValue: [] });
 
   protected readonly groups = computed(() =>

@@ -17,6 +17,22 @@
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
+      "i18n": {
+        "sourceLocale": {
+          "code": "pl",
+          "subPath": ""
+        },
+        "locales": {
+          "en": {
+            "translation": "src/locale/messages.en.json",
+            "subPath": "en"
+          },
+          "de": {
+            "translation": "src/locale/messages.de.json",
+            "subPath": "de"
+          }
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular/build:application",
@@ -38,7 +54,8 @@
             },
             "ssr": {
               "entry": "src/server.ts"
-            }
+            },
+            "polyfills": ["@angular/localize/init"]
           },
           "configurations": {
             "production": {
@@ -60,6 +77,12 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "en": {
+              "localize": ["en"]
+            },
+            "de": {
+              "localize": ["de"]
             }
           },
           "defaultConfiguration": "production"
@@ -72,6 +95,12 @@
             },
             "development": {
               "buildTarget": "luska-i-ciernie:build:development"
+            },
+            "en": {
+              "buildTarget": "luska-i-ciernie:build:development,en"
+            },
+            "de": {
+              "buildTarget": "luska-i-ciernie:build:development,de"
             }
           },
           "defaultConfiguration": "development"
@@ -122,6 +151,14 @@
             "production": {
               "devServerTarget": "luska-i-ciernie:serve:production"
             }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular/build:extract-i18n",
+          "options": {
+            "buildTarget": "luska-i-ciernie:build",
+            "format": "json",
+            "outputPath": "src/locale"
           }
         }
       }

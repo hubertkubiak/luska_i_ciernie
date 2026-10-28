@@ -55,12 +55,7 @@
     </div>
   </article>
 } @else if (notFound()) {
-  <!-- Wciąż HTTP 200 — prawdziwe 404 w etapie 4. -->
-  <section class="state">
-    <h1>Ta ścieżka zarosła cierniami.</h1>
-    <p>W archiwum nie ma takiej księgi.</p>
-    <a routerLink="/">Wróć na trakt</a>
-  </section>
+  <app-not-found message="W archiwum nie ma takiej księgi." />
 } @else if (book.error()) {
   <section class="state">
     <h1>Coś przebudziło się w lochach.</h1>

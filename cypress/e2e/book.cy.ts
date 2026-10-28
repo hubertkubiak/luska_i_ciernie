@@ -25,7 +25,8 @@ describe('Strona książki (SSR + transfer cache)', () => {
   });
 
   it('pokazuje komunikat dla nieistniejącej księgi', () => {
-    cy.visit('/ksiazka/nie-ma-takiej-ksiazki');
+    // Od etapu 4 strona odpowiada 404, a cy.visit domyślnie traktuje to jako błąd.
+    cy.visit('/ksiazka/nie-ma-takiej-ksiazki', { failOnStatusCode: false });
     cy.contains('Ta ścieżka zarosła cierniami.');
   });
 });

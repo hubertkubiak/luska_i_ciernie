@@ -16,6 +16,8 @@ import type {
 // Kształt rekordów w seed/*.json. Relacje zapisane slugami, żeby plik dało się edytować ręcznie.
 interface SeedBook {
   slug: string;
+  /** Dawne adresy (np. z czasów, gdy katalog używał polskich tytułów) — odpowiadają 301. */
+  oldSlugs?: string[];
   title: string;
   author: string;
   series?: string;
@@ -58,6 +60,8 @@ export class Catalog {
   private readonly tropes = new Map<string, SeedTrope>();
   private readonly authors = new Map<string, SeedAuthor>();
   private readonly series = new Map<string, SeriesRef>();
+  /** stary slug → aktualny slug */
+  private readonly redirects = new Map<string, string>();
 
   constructor(
     books: SeedBook[] = booksSeed,
@@ -68,8 +72,16 @@ export class Catalog {
     for (const t of tropes) this.tropes.set(t.slug, t);
     for (const a of authors) this.authors.set(a.slug, a);
     for (const s of series) this.series.set(s.slug, s);
-    for (const b of books) this.books.set(b.slug, b);
+    for (const b of books) {
+      this.books.set(b.slug, b);
+      for (const old of b.oldSlugs ?? []) this.redirects.set(old, b.slug);
+    }
     this.validate();
+  }
+
+  /** Aktualny slug dla dawnego adresu książki albo undefined. */
+  currentBookSlug(oldSlug: string): string | undefined {
+    return this.redirects.get(oldSlug);
   }
 
   listBooks(filter: BookFilter = {}): BookSummary[] {
@@ -151,6 +163,9 @@ export class Catalog {
         if (!this.tropes.has(t)) throw new Error(`[seed] ${b.slug}: nieznany trop "${t}"`);
       }
       if (b.spice < 0 || b.spice > 5) throw new Error(`[seed] ${b.slug}: pikanteria poza zakresem 0–5`);
+    }
+    for (const [old, current] of this.redirects) {
+      if (this.books.has(old)) throw new Error(`[seed] stary slug "${old}" (→ ${current}) koliduje z istniejącą książką`);
     }
   }
 }

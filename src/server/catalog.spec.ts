@@ -23,6 +23,11 @@ describe('Catalog', () => {
     expect(catalog.getTrope('dwory-fae')?.bookCount).toBe(fae.length);
   });
 
+  it('maps old slugs to the current one', () => {
+    expect(catalog.currentBookSlug('okrutny-ksiaze')).toBe('the-cruel-prince');
+    expect(catalog.currentBookSlug('the-cruel-prince')).toBeUndefined();
+  });
+
   it('rejects a seed with a dangling trope reference', () => {
     const broken = [
       {

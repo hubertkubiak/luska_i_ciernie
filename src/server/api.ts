@@ -37,7 +37,14 @@ export function apiRouter(catalog = new Catalog()): Router {
 
   router.get('/books/:slug', (req, res) => {
     const book = catalog.getBook(req.params.slug);
-    if (book) res.json(book);
+    if (book) {
+      res.json(book);
+      return;
+    }
+    // Stary adres → 301 na aktualny zasób API. fetch (także ten w SSR) podąża za
+    // przekierowaniem sam, więc Angular dostanie dane książki pod nowym slugiem.
+    const current = catalog.currentBookSlug(req.params.slug);
+    if (current) res.redirect(301, `${req.baseUrl}/books/${current}`);
     else notFound(res, 'Książka nie istnieje');
   });
 

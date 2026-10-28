@@ -11,8 +11,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/book/book').then((m) => m.BookPage),
   },
   {
-    // Na razie łapie wszystkie nieistniejące linki z nawigacji. Status HTTP to wciąż 200 —
-    // naprawimy to w etapie 4 przez RESPONSE_INIT.
+    path: 'autor/:slug',
+    loadComponent: () => import('./pages/author/author').then((m) => m.AuthorPage),
+  },
+  {
+    // Status 404 dla tej trasy ustawia app.routes.server.ts.
     path: '**',
     title: 'Ścieżka zarosła cierniami',
     loadComponent: () => import('./pages/not-found/not-found').then((m) => m.NotFound),

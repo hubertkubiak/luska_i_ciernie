@@ -1,6 +1,9 @@
 [
   {
     "slug": "fourth-wing",
+    "oldSlugs": [
+      "czwarte-skrzydlo"
+    ],
     "title": "Fourth Wing",
     "author": "rebecca-yarros",
     "series": "empyrean",
@@ -72,6 +75,10 @@
   },
   {
     "slug": "a-court-of-thorns-and-roses",
+    "oldSlugs": [
+      "dwor-cierni-i-roz",
+      "acotar"
+    ],
     "title": "A Court of Thorns and Roses",
     "author": "sarah-j-maas",
     "series": "a-court-of-thorns-and-roses",
@@ -143,6 +150,9 @@
   },
   {
     "slug": "the-cruel-prince",
+    "oldSlugs": [
+      "okrutny-ksiaze"
+    ],
     "title": "The Cruel Prince",
     "author": "holly-black",
     "series": "the-folk-of-the-air",
@@ -210,6 +220,9 @@
   },
   {
     "slug": "serpent-and-dove",
+    "oldSlugs": [
+      "serpent-dove"
+    ],
     "title": "Serpent & Dove",
     "author": "shelby-mahurin",
     "series": "serpent-and-dove",

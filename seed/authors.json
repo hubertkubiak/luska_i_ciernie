@@ -1,0 +1,62 @@
+[
+  {
+    "slug": "rebecca-yarros",
+    "name": "Rebecca Yarros",
+    "bio": "Amerykańska autorka, która przed romantasy pisała romanse współczesne. Seria Empyrean uczyniła z niej jedną z najgłośniejszych autorek gatunku."
+  },
+  {
+    "slug": "sarah-j-maas",
+    "name": "Sarah J. Maas",
+    "bio": "Amerykańska autorka, której pierwsze teksty powstawały jako opowiadania publikowane w sieci. Jej cykle o dworach fae i zabójczyni ze szklanego tronu ukształtowały współczesne romantasy."
+  },
+  {
+    "slug": "holly-black",
+    "name": "Holly Black",
+    "bio": "Amerykańska autorka fantastyki, współtwórczyni „Kronik Spiderwick”. Specjalistka od okrutnych, kapryśnych fae."
+  },
+  {
+    "slug": "shelby-mahurin",
+    "name": "Shelby Mahurin",
+    "bio": "Amerykańska autorka, która zadebiutowała trylogią o czarownicy i łowcy czarownic."
+  },
+  {
+    "slug": "jennifer-l-armentrout",
+    "name": "Jennifer L. Armentrout",
+    "bio": "Amerykańska autorka niezwykle płodna w wielu gatunkach — od young adult po paranormal romance. Publikuje także jako J. Lynn."
+  },
+  {
+    "slug": "kerri-maniscalco",
+    "name": "Kerri Maniscalco",
+    "bio": "Amerykańska autorka znana wcześniej z gotyckich kryminałów młodzieżowych; w romantasy przeniosła się do świata książąt piekieł."
+  },
+  {
+    "slug": "danielle-l-jensen",
+    "name": "Danielle L. Jensen",
+    "bio": "Kanadyjska autorka fantastyki, ceniona za polityczne intrygi i romanse rozgrywane między wrogimi królestwami."
+  },
+  {
+    "slug": "carissa-broadbent",
+    "name": "Carissa Broadbent",
+    "bio": "Autorka, która wydawała swoje cykle niezależnie, zanim trafiły do dużych wydawnictw. Pisze mroczne, gęste od bogów i wampirów światy."
+  },
+  {
+    "slug": "callie-hart",
+    "name": "Callie Hart",
+    "bio": "Autorka znana z mrocznych romansów, która w romantasy wkroczyła cyklem o fae i alchemii — szeroko komentowanym w mediach społecznościowych."
+  },
+  {
+    "slug": "lauren-roberts",
+    "name": "Lauren Roberts",
+    "bio": "Amerykańska autorka, której debiutancka trylogia zdobyła popularność dzięki czytelniczkom w mediach społecznościowych."
+  },
+  {
+    "slug": "elise-kova",
+    "name": "Elise Kova",
+    "bio": "Amerykańska autorka wydająca niezależnie, twórczyni kilku cykli łączących magię z romansem."
+  },
+  {
+    "slug": "rebecca-ross",
+    "name": "Rebecca Ross",
+    "bio": "Amerykańska autorka fantastyki, która w duologii o listach i bogach połączyła romans z melancholią wojennej opowieści."
+  }
+]

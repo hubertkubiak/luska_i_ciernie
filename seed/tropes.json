@@ -1,0 +1,98 @@
+[
+  {
+    "slug": "enemies-to-lovers",
+    "name": "Enemies to lovers",
+    "realm": "turnie",
+    "description": "Ostrza skrzyżowały się, zanim splotły się dłonie. Każde spotkanie to pojedynek, a każdy pojedynek — o krok bliżej do kapitulacji, której żadne z nich nie chce przyznać."
+  },
+  {
+    "slug": "fated-mates",
+    "name": "Fated mates",
+    "realm": "mgly",
+    "description": "Nici przeznaczenia splotły się, zanim którekolwiek z nich wiedziało o istnieniu drugiego. Pytanie nie brzmi „czy”, lecz „ile będzie kosztować przyjęcie tej więzi”."
+  },
+  {
+    "slug": "jezdzcy-smokow",
+    "name": "Jeźdźcy smoków",
+    "realm": "turnie",
+    "description": "Więź z bestią, która mogłaby spopielić miasto, a wybrała właśnie ciebie. Skrzydła, ogień i lojalność silniejsza niż rozkazy."
+  },
+  {
+    "slug": "dwory-fae",
+    "name": "Dwory fae",
+    "realm": "mgly",
+    "description": "Piękno ostre jak szkło, uczty, które trwają tygodniami, i słowa, które nigdy nie są kłamstwem — choć rzadko są całą prawdą."
+  },
+  {
+    "slug": "pakty-i-targi",
+    "name": "Pakty i targi",
+    "realm": "mgly",
+    "description": "Pieczęć odciśnięta w wosku albo na skórze. Raz zawarty targ wiąże mocniej niż łańcuch, a jego warunki zawsze kryją drugie dno."
+  },
+  {
+    "slug": "wojenne-akademie",
+    "name": "Wojenne akademie",
+    "realm": "turnie",
+    "description": "Mury, które bardziej sprawdzają, niż uczą. Kadeci giną, przetrwają najtwardsi — i ci, którzy znajdą sojuszników."
+  },
+  {
+    "slug": "proby-i-turnieje",
+    "name": "Próby i turnieje",
+    "realm": "turnie",
+    "description": "Areny, wyzwania, eliminacje. Zwycięstwo daje władzę lub wolność, porażka zwykle kończy się na piasku."
+  },
+  {
+    "slug": "slow-burn",
+    "name": "Slow burn",
+    "realm": "skryptorium",
+    "description": "Żar tli się przez setki stron. Spojrzenia, niedokończone zdania, dłonie, które prawie się spotykają — i nagroda dla cierpliwych."
+  },
+  {
+    "slug": "forced-proximity",
+    "name": "Forced proximity",
+    "realm": "skryptorium",
+    "description": "Jeden namiot, jedna komnata, jedna droga przez zaśnieżone przełęcze. Trudno nienawidzić kogoś, kto czuwa przy twoim ognisku."
+  },
+  {
+    "slug": "morally-grey",
+    "name": "Morally grey",
+    "realm": "mgly",
+    "description": "Bohater, który zrobił rzeczy niewybaczalne — z powodów, które prawie da się zrozumieć. Ciemność tu nie jest kostiumem."
+  },
+  {
+    "slug": "found-family",
+    "name": "Found family",
+    "realm": "skryptorium",
+    "description": "Rodzina wybrana, nie dana. Ludzie, którzy pojawili się przypadkiem, a zostali na zawsze — i za których warto spłonąć."
+  },
+  {
+    "slug": "malzenstwo-z-rozsadku",
+    "name": "Małżeństwo z rozsądku",
+    "realm": "skryptorium",
+    "description": "Sojusz przypieczętowany obrączką. Najpierw polityka i obowiązek, potem wspólna komnata i coraz trudniejsza do utrzymania obojętność."
+  },
+  {
+    "slug": "ukryta-tozsamosc",
+    "name": "Ukryta tożsamość",
+    "realm": "mgly",
+    "description": "Maska, fałszywe imię, sekret, którego odkrycie oznacza wyrok. Im bliżej ktoś podchodzi, tym bardziej niebezpieczna staje się prawda."
+  },
+  {
+    "slug": "wampiry",
+    "name": "Wampiry",
+    "realm": "mgly",
+    "description": "Nieśmiertelni władcy nocy, dwory spowite mrokiem i głód, który jest zarówno groźbą, jak i obietnicą."
+  },
+  {
+    "slug": "smiertelniczka-wsrod-niesmiertelnych",
+    "name": "Śmiertelniczka wśród nieśmiertelnych",
+    "realm": "mgly",
+    "description": "Jedno krótkie życie w świecie istot, które liczą czas stuleciami. Krucha — i właśnie dlatego nieprzewidywalna."
+  },
+  {
+    "slug": "rivals-to-lovers",
+    "name": "Rivals to lovers",
+    "realm": "skryptorium",
+    "description": "Nie wrogowie, tylko rywale: ta sama posada, ta sama nagroda, ten sam upór. Rywalizacja, która powoli zamienia się w coś zupełnie innego."
+  }
+]

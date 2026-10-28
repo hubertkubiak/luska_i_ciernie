@@ -1,0 +1,21 @@
+.footer {
+  padding: 1.5rem clamp(1rem, 4vw, 3rem) 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.gilt {
+  height: 1px;
+  margin: 0 auto 1.5rem;
+  max-width: 40rem;
+  border: 0;
+  background: var(--grad-gilt);
+}
+
+p {
+  margin: 0.25rem 0;
+}
+
+.note {
+  color: var(--text-muted);
+}

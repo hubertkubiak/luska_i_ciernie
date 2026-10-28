@@ -1,0 +1,52 @@
+// Tokeny projektu (SPEC §2.3). Jedyne źródło kolorów — komponenty używają tylko var(--…).
+
+:root {
+  // Baza — tryb nocny (domyślny)
+  --obsidian: #0b0910;
+  --midnight: #161226;
+  --velvet: #2a1f3d;
+  --nightshade: #4b2a5e;
+  --ember: #e8a33d;
+  --gilt: #c9a75a;
+  --blood: #9e1b32;
+  --fae: #5fc4a8;
+  --moonsilver: #c7cde0;
+  --mist: #8a84a3;
+  --ink: #1f1a2b;
+
+  // Role semantyczne — komponenty odwołują się do nich, nie do kolorów bazowych
+  --bg: var(--obsidian);
+  --surface: var(--midnight);
+  --text: var(--moonsilver);
+  --text-muted: var(--mist);
+
+  // Gradienty sygnaturowe
+  --grad-nebula: radial-gradient(ellipse at top, var(--nightshade), var(--obsidian) 70%);
+  --grad-ember: linear-gradient(135deg, #f2c26b, var(--ember) 45%, #b4541f);
+  --grad-gilt: linear-gradient(90deg, transparent, var(--gilt), transparent);
+
+  // Typografia (SPEC §2.4)
+  --font-display: 'Cinzel Decorative', serif;
+  --font-heading: 'Cormorant Garamond', serif;
+  --font-body: 'EB Garamond', serif;
+  --font-ui: 'Inter', system-ui, sans-serif;
+
+  // Ruch (SPEC §2.8): powoli i miękko
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur: 400ms;
+
+  color-scheme: dark;
+}
+
+// Tryb „pergamin”. Atrybut ustawi w etapie 11 serwer na podstawie cookie.
+:root[data-theme='parchment'] {
+  --ember: #a8661a;
+  --blood: #7d1426;
+  --bg: #efe5cf;
+  --surface: #f7f0df;
+  --text: var(--ink);
+  --text-muted: #5a5068;
+  --grad-nebula: radial-gradient(ellipse at top, #e2d3b0, #efe5cf 70%);
+
+  color-scheme: light;
+}

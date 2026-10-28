@@ -1,0 +1,35 @@
+.hero {
+  display: grid;
+  justify-items: center;
+  gap: 1.5rem;
+  padding: clamp(4rem, 12vw, 9rem) 1rem;
+  text-align: center;
+  background: var(--grad-nebula);
+}
+
+h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  color: var(--gilt);
+}
+
+.tagline {
+  margin: 0;
+  max-width: 36rem;
+  font-size: 1.25rem;
+}
+
+// Przycisk główny: gradient „Żar”, Cormorant small-caps (SPEC §2.7)
+.cta {
+  padding: 0.7rem 1.8rem;
+  border-radius: 2px;
+  background: var(--grad-ember);
+  color: var(--obsidian);
+  font-family: var(--font-heading);
+  font-variant: small-caps;
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+}

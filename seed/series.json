@@ -1,14 +1,120 @@
 [
-  { "slug": "empyrean", "name": "The Empyrean", "status": "ongoing", "plannedBooks": 5 },
-  { "slug": "a-court-of-thorns-and-roses", "name": "A Court of Thorns and Roses", "status": "ongoing" },
-  { "slug": "the-folk-of-the-air", "name": "The Folk of the Air", "status": "completed", "plannedBooks": 3 },
-  { "slug": "serpent-and-dove", "name": "Serpent & Dove", "status": "completed", "plannedBooks": 3 },
-  { "slug": "blood-and-ash", "name": "Blood and Ash", "status": "ongoing" },
-  { "slug": "kingdom-of-the-wicked", "name": "Kingdom of the Wicked", "status": "completed", "plannedBooks": 3 },
-  { "slug": "the-bridge-kingdom", "name": "The Bridge Kingdom", "status": "completed" },
-  { "slug": "crowns-of-nyaxia", "name": "Crowns of Nyaxia", "status": "ongoing" },
-  { "slug": "fae-and-alchemy", "name": "Fae & Alchemy", "status": "ongoing" },
-  { "slug": "powerless", "name": "The Powerless Trilogy", "status": "completed", "plannedBooks": 3 },
-  { "slug": "letters-of-enchantment", "name": "Letters of Enchantment", "status": "completed", "plannedBooks": 2 },
-  { "slug": "throne-of-glass", "name": "Throne of Glass", "status": "completed", "plannedBooks": 8 }
+  {
+    "slug": "empyrean",
+    "name": "The Empyrean",
+    "status": "ongoing",
+    "plannedBooks": 5
+  },
+  {
+    "slug": "a-court-of-thorns-and-roses",
+    "name": "A Court of Thorns and Roses",
+    "status": "ongoing"
+  },
+  {
+    "slug": "the-folk-of-the-air",
+    "name": "The Folk of the Air",
+    "status": "completed",
+    "plannedBooks": 3
+  },
+  {
+    "slug": "serpent-and-dove",
+    "name": "Serpent & Dove",
+    "status": "completed",
+    "plannedBooks": 3
+  },
+  {
+    "slug": "blood-and-ash",
+    "name": "Blood and Ash",
+    "status": "ongoing"
+  },
+  {
+    "slug": "kingdom-of-the-wicked",
+    "name": "Kingdom of the Wicked",
+    "status": "completed",
+    "plannedBooks": 3
+  },
+  {
+    "slug": "the-bridge-kingdom",
+    "name": "The Bridge Kingdom",
+    "status": "completed"
+  },
+  {
+    "slug": "crowns-of-nyaxia",
+    "name": "Crowns of Nyaxia",
+    "status": "ongoing"
+  },
+  {
+    "slug": "fae-and-alchemy",
+    "name": "Fae & Alchemy",
+    "status": "ongoing"
+  },
+  {
+    "slug": "powerless",
+    "name": "The Powerless Trilogy",
+    "status": "completed",
+    "plannedBooks": 3
+  },
+  {
+    "slug": "letters-of-enchantment",
+    "name": "Letters of Enchantment",
+    "status": "completed",
+    "plannedBooks": 2
+  },
+  {
+    "slug": "throne-of-glass",
+    "name": "Throne of Glass",
+    "status": "completed",
+    "plannedBooks": 8
+  },
+  {
+    "slug": "crescent-city",
+    "name": "Crescent City",
+    "status": "ongoing"
+  },
+  {
+    "slug": "the-shepherd-king",
+    "name": "The Shepherd King",
+    "status": "completed",
+    "plannedBooks": 2
+  },
+  {
+    "slug": "once-upon-a-broken-heart",
+    "name": "Once Upon a Broken Heart",
+    "status": "completed",
+    "plannedBooks": 3
+  },
+  {
+    "slug": "lightlark",
+    "name": "The Lightlark Saga",
+    "status": "ongoing"
+  },
+  {
+    "slug": "the-hurricane-wars",
+    "name": "The Hurricane Wars",
+    "status": "ongoing",
+    "plannedBooks": 3
+  },
+  {
+    "slug": "the-crimson-moth",
+    "name": "The Crimson Moth",
+    "status": "completed",
+    "plannedBooks": 2
+  },
+  {
+    "slug": "assistant-to-the-villain",
+    "name": "Assistant to the Villain",
+    "status": "ongoing"
+  },
+  {
+    "slug": "faebound",
+    "name": "Faebound",
+    "status": "ongoing",
+    "plannedBooks": 3
+  },
+  {
+    "slug": "the-celestial-kingdom",
+    "name": "The Celestial Kingdom",
+    "status": "completed",
+    "plannedBooks": 2
+  }
 ]

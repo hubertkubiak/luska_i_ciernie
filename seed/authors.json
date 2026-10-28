@@ -58,5 +58,60 @@
     "slug": "rebecca-ross",
     "name": "Rebecca Ross",
     "bio": "Amerykańska autorka fantastyki, która w duologii o listach i bogach połączyła romans z melancholią wojennej opowieści."
+  },
+  {
+    "slug": "thea-guanzon",
+    "name": "Thea Guanzon",
+    "bio": "Filipińska autorka, której debiutancka trylogia o władcach burz i cieni stała się jednym z głośniejszych debiutów romantasy."
+  },
+  {
+    "slug": "kristen-ciccarelli",
+    "name": "Kristen Ciccarelli",
+    "bio": "Kanadyjska autorka fantastyki, znana wcześniej z cyklu o smoczej zabójczyni z Iskari."
+  },
+  {
+    "slug": "stephanie-garber",
+    "name": "Stephanie Garber",
+    "bio": "Amerykańska autorka, twórczyni magicznego karnawału z cyklu „Caraval”. Pisze baśnie, w których każde życzenie ma swoją cenę."
+  },
+  {
+    "slug": "alex-aster",
+    "name": "Alex Aster",
+    "bio": "Amerykańska autorka, której zapowiedź powieści o przeklętej wyspie rozeszła się w mediach społecznościowych, zanim książka trafiła do druku."
+  },
+  {
+    "slug": "tricia-levenseller",
+    "name": "Tricia Levenseller",
+    "bio": "Amerykańska autorka młodzieżowej fantastyki, znana z powieści o piratkach i niebezpiecznych bohaterkach."
+  },
+  {
+    "slug": "sue-lynn-tan",
+    "name": "Sue Lynn Tan",
+    "bio": "Autorka urodzona w Malezji, inspirująca się chińską mitologią i legendami o bogini księżyca."
+  },
+  {
+    "slug": "ali-hazelwood",
+    "name": "Ali Hazelwood",
+    "bio": "Autorka i naukowczyni, znana z komedii romantycznych osadzonych w świecie nauki; w romantasy sięgnęła po wampiry i wilkołaki."
+  },
+  {
+    "slug": "kaylie-smith",
+    "name": "Kaylie Smith",
+    "bio": "Amerykańska autorka, która zadebiutowała gotycką powieścią o śmiertelnej grze w nawiedzonym dworze."
+  },
+  {
+    "slug": "hannah-nicole-maehrer",
+    "name": "Hannah Nicole Maehrer",
+    "bio": "Autorka, która zyskała popularność krótkimi komediowymi scenkami w sieci, a potem rozwinęła je w powieść."
+  },
+  {
+    "slug": "rachel-gillig",
+    "name": "Rachel Gillig",
+    "bio": "Amerykańska autorka gotyckiej fantastyki, mistrzyni mglistego, niepokojącego klimatu."
+  },
+  {
+    "slug": "saara-el-arifi",
+    "name": "Saara El-Arifi",
+    "bio": "Brytyjska autorka fantastyki, czerpiąca z mitologii i kultur Afryki Zachodniej i Bliskiego Wschodu."
   }
 ]

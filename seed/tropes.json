@@ -94,5 +94,11 @@
     "name": "Rivals to lovers",
     "realm": "skryptorium",
     "description": "Nie wrogowie, tylko rywale: ta sama posada, ta sama nagroda, ten sam upór. Rywalizacja, która powoli zamienia się w coś zupełnie innego."
+  },
+  {
+    "slug": "klatwy",
+    "name": "Klątwy",
+    "realm": "mgly",
+    "description": "Zaklęcie rzucone pokolenia temu wciąż zbiera żniwo. Ktoś musi zapłacić, by je złamać — i rzadko jest to ten, kto je rzucił."
   }
 ]

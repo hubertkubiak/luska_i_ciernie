@@ -10,8 +10,17 @@
     "pages": 518,
     "coverId": 14407898,
     "spice": 3,
-    "tropes": ["jezdzcy-smokow", "wojenne-akademie", "enemies-to-lovers", "proby-i-turnieje"],
-    "contentWarnings": ["przemoc", "śmierć", "sceny erotyczne"],
+    "tropes": [
+      "jezdzcy-smokow",
+      "wojenne-akademie",
+      "enemies-to-lovers",
+      "proby-i-turnieje"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "śmierć",
+      "sceny erotyczne"
+    ],
     "description": "Krucha dziewczyna, która miała zostać skrybą, trafia do akademii jeźdźców smoków, gdzie odpadnięcie oznacza śmierć. Każdy dzień to walka o przetrwanie — a najgroźniejszy kadet ma powody, by jej nienawidzić."
   },
   {
@@ -25,8 +34,17 @@
     "pages": 640,
     "coverId": 14405746,
     "spice": 3,
-    "tropes": ["jezdzcy-smokow", "wojenne-akademie", "morally-grey"],
-    "contentWarnings": ["przemoc", "tortury", "śmierć", "sceny erotyczne"],
+    "tropes": [
+      "jezdzcy-smokow",
+      "wojenne-akademie",
+      "morally-grey"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "tortury",
+      "śmierć",
+      "sceny erotyczne"
+    ],
     "description": "Drugi rok w akademii przynosi nowe próby i prawdę, której nie da się już odwidzieć. Zaufanie staje się najrzadszą walutą."
   },
   {
@@ -40,8 +58,16 @@
     "pages": 544,
     "coverId": 14826089,
     "spice": 3,
-    "tropes": ["jezdzcy-smokow", "found-family", "morally-grey"],
-    "contentWarnings": ["przemoc", "śmierć", "sceny erotyczne"],
+    "tropes": [
+      "jezdzcy-smokow",
+      "found-family",
+      "morally-grey"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "śmierć",
+      "sceny erotyczne"
+    ],
     "description": "Wojna wychodzi poza mury akademii. Wyprawa za granice znanego świata wystawia na próbę więzi — zarówno te ze smokami, jak i te między ludźmi."
   },
   {
@@ -55,8 +81,16 @@
     "pages": 454,
     "coverId": 15254465,
     "spice": 2,
-    "tropes": ["dwory-fae", "smiertelniczka-wsrod-niesmiertelnych", "pakty-i-targi"],
-    "contentWarnings": ["przemoc", "przemoc psychiczna", "sceny erotyczne"],
+    "tropes": [
+      "dwory-fae",
+      "smiertelniczka-wsrod-niesmiertelnych",
+      "pakty-i-targi"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "przemoc psychiczna",
+      "sceny erotyczne"
+    ],
     "description": "Myśliwa z ubogiej wioski zabija w lesie istotę, której nie powinna była tknąć. Zapłatą jest życie po drugiej stronie muru, na dworze fae."
   },
   {
@@ -70,8 +104,18 @@
     "pages": 626,
     "coverId": 14315081,
     "spice": 4,
-    "tropes": ["dwory-fae", "fated-mates", "found-family", "pakty-i-targi", "morally-grey"],
-    "contentWarnings": ["trauma", "przemoc psychiczna", "sceny erotyczne"],
+    "tropes": [
+      "dwory-fae",
+      "fated-mates",
+      "found-family",
+      "pakty-i-targi",
+      "morally-grey"
+    ],
+    "contentWarnings": [
+      "trauma",
+      "przemoc psychiczna",
+      "sceny erotyczne"
+    ],
     "description": "Po zwycięstwie przychodzi pustka. Dawny targ wzywa bohaterkę na inny dwór, gdzie zamiast więzienia znajduje przestrzeń, by na nowo nauczyć się oddychać."
   },
   {
@@ -85,8 +129,16 @@
     "pages": 720,
     "coverId": 8506724,
     "spice": 3,
-    "tropes": ["dwory-fae", "fated-mates", "found-family"],
-    "contentWarnings": ["przemoc", "wojna", "sceny erotyczne"],
+    "tropes": [
+      "dwory-fae",
+      "fated-mates",
+      "found-family"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "wojna",
+      "sceny erotyczne"
+    ],
     "description": "Gra pozorów na wrogim dworze i sojusze zawierane w ostatniej chwili. Nadciąga wojna, która nie oszczędzi żadnego z dworów."
   },
   {
@@ -100,8 +152,16 @@
     "pages": 378,
     "coverId": 8361789,
     "spice": 1,
-    "tropes": ["dwory-fae", "enemies-to-lovers", "smiertelniczka-wsrod-niesmiertelnych", "morally-grey"],
-    "contentWarnings": ["przemoc", "nękanie"],
+    "tropes": [
+      "dwory-fae",
+      "enemies-to-lovers",
+      "smiertelniczka-wsrod-niesmiertelnych",
+      "morally-grey"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "nękanie"
+    ],
     "description": "Śmiertelna dziewczyna wychowana na dworze fae nie chce być ofiarą. Skoro nie może być silniejsza, stanie się sprytniejsza — i bardziej bezwzględna."
   },
   {
@@ -115,8 +175,16 @@
     "pages": 332,
     "coverId": 8361788,
     "spice": 1,
-    "tropes": ["dwory-fae", "enemies-to-lovers", "pakty-i-targi", "morally-grey"],
-    "contentWarnings": ["przemoc", "manipulacja"],
+    "tropes": [
+      "dwory-fae",
+      "enemies-to-lovers",
+      "pakty-i-targi",
+      "morally-grey"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "manipulacja"
+    ],
     "description": "Władza zdobyta podstępem musi być utrzymana jeszcze większym podstępem. Każda przysługa ma swój termin ważności."
   },
   {
@@ -130,8 +198,14 @@
     "pages": 336,
     "coverId": 9146990,
     "spice": 1,
-    "tropes": ["dwory-fae", "enemies-to-lovers", "malzenstwo-z-rozsadku"],
-    "contentWarnings": ["przemoc"],
+    "tropes": [
+      "dwory-fae",
+      "enemies-to-lovers",
+      "malzenstwo-z-rozsadku"
+    ],
+    "contentWarnings": [
+      "przemoc"
+    ],
     "description": "Wygnanie w świecie śmiertelnych nie trwa długo. Powrót do Elfhame oznacza ostatnią rozgrywkę o koronę i o to, kim naprawdę jest."
   },
   {
@@ -145,8 +219,16 @@
     "pages": 524,
     "coverId": 10136559,
     "spice": 2,
-    "tropes": ["enemies-to-lovers", "malzenstwo-z-rozsadku", "ukryta-tozsamosc"],
-    "contentWarnings": ["przemoc", "palenie na stosie", "sceny erotyczne"],
+    "tropes": [
+      "enemies-to-lovers",
+      "malzenstwo-z-rozsadku",
+      "ukryta-tozsamosc"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "palenie na stosie",
+      "sceny erotyczne"
+    ],
     "description": "Czarownica ukrywająca się w mieście, które pali czarownice, zostaje zmuszona do ślubu z łowcą czarownic. Przysięga nie przewiduje rozwodu."
   },
   {
@@ -160,8 +242,16 @@
     "pages": 493,
     "coverId": 14105538,
     "spice": 4,
-    "tropes": ["wampiry", "ukryta-tozsamosc", "enemies-to-lovers"],
-    "contentWarnings": ["przemoc", "przemoc fizyczna", "sceny erotyczne"],
+    "tropes": [
+      "wampiry",
+      "ukryta-tozsamosc",
+      "enemies-to-lovers"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "przemoc fizyczna",
+      "sceny erotyczne"
+    ],
     "description": "Wybrana przez bogów dziewczyna żyje za zasłoną, bez prawa do dotyku i własnych decyzji. Nowy strażnik pokazuje jej, jak smakuje wolność — i ma własne sekrety."
   },
   {
@@ -175,8 +265,15 @@
     "pages": 448,
     "coverId": 10526129,
     "spice": 2,
-    "tropes": ["pakty-i-targi", "enemies-to-lovers", "morally-grey"],
-    "contentWarnings": ["morderstwo", "przemoc"],
+    "tropes": [
+      "pakty-i-targi",
+      "enemies-to-lovers",
+      "morally-grey"
+    ],
+    "contentWarnings": [
+      "morderstwo",
+      "przemoc"
+    ],
     "description": "Na Sycylii czarownica szuka zabójcy swojej siostry bliźniaczki. Żeby go znaleźć, wiąże się paktem z jednym z książąt piekieł."
   },
   {
@@ -190,8 +287,15 @@
     "pages": 354,
     "coverId": 10252382,
     "spice": 3,
-    "tropes": ["malzenstwo-z-rozsadku", "ukryta-tozsamosc", "enemies-to-lovers"],
-    "contentWarnings": ["przemoc", "sceny erotyczne"],
+    "tropes": [
+      "malzenstwo-z-rozsadku",
+      "ukryta-tozsamosc",
+      "enemies-to-lovers"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "sceny erotyczne"
+    ],
     "description": "Księżniczka szkolona na szpiega zostaje żoną władcy wrogiego królestwa. Jej misja: znaleźć słabość mostu, który daje mu władzę. Problem: zaczyna jej na nim zależeć."
   },
   {
@@ -205,8 +309,17 @@
     "pages": 499,
     "coverId": 13451855,
     "spice": 3,
-    "tropes": ["wampiry", "proby-i-turnieje", "enemies-to-lovers", "morally-grey"],
-    "contentWarnings": ["przemoc", "krew", "sceny erotyczne"],
+    "tropes": [
+      "wampiry",
+      "proby-i-turnieje",
+      "enemies-to-lovers",
+      "morally-grey"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "krew",
+      "sceny erotyczne"
+    ],
     "description": "Ludzka córka wampirzego króla staje do turnieju, w którym stawką jest łaska bogini śmierci. Jedyny sojusznik, jakiego może znaleźć, jest jej wrogiem."
   },
   {
@@ -220,8 +333,16 @@
     "pages": 624,
     "coverId": 15227615,
     "spice": 4,
-    "tropes": ["dwory-fae", "enemies-to-lovers", "forced-proximity"],
-    "contentWarnings": ["przemoc", "sceny erotyczne", "wulgaryzmy"],
+    "tropes": [
+      "dwory-fae",
+      "enemies-to-lovers",
+      "forced-proximity"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "sceny erotyczne",
+      "wulgaryzmy"
+    ],
     "description": "Złodziejka z mroźnego miasta zostaje wciągnięta przez portal do krainy fae. Drogę powrotną zna tylko ten, kogo najbardziej chciałaby uniknąć."
   },
   {
@@ -235,8 +356,15 @@
     "pages": 600,
     "coverId": 14567864,
     "spice": 0,
-    "tropes": ["proby-i-turnieje", "enemies-to-lovers", "ukryta-tozsamosc"],
-    "contentWarnings": ["przemoc", "śmierć"],
+    "tropes": [
+      "proby-i-turnieje",
+      "enemies-to-lovers",
+      "ukryta-tozsamosc"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "śmierć"
+    ],
     "description": "W królestwie, gdzie brak mocy jest zbrodnią, dziewczyna bez daru trafia na królewskie próby. Musi przetrwać, udając kogoś, kim nie jest — obok księcia, który poluje na takich jak ona."
   },
   {
@@ -248,8 +376,15 @@
     "pages": 338,
     "coverId": 10483619,
     "spice": 2,
-    "tropes": ["malzenstwo-z-rozsadku", "pakty-i-targi", "slow-burn"],
-    "contentWarnings": ["choroba", "żałoba"],
+    "tropes": [
+      "malzenstwo-z-rozsadku",
+      "pakty-i-targi",
+      "slow-burn"
+    ],
+    "contentWarnings": [
+      "choroba",
+      "żałoba"
+    ],
     "description": "Zielarka z wioski na skraju świata zostaje wybrana na żonę króla elfów. Zamiast bajki czeka ją umowa, zamek pełen tajemnic i powoli topniejący chłód."
   },
   {
@@ -263,8 +398,15 @@
     "pages": 408,
     "coverId": 13268161,
     "spice": 1,
-    "tropes": ["rivals-to-lovers", "slow-burn"],
-    "contentWarnings": ["wojna", "żałoba", "uzależnienie w rodzinie"],
+    "tropes": [
+      "rivals-to-lovers",
+      "slow-burn"
+    ],
+    "contentWarnings": [
+      "wojna",
+      "żałoba",
+      "uzależnienie w rodzinie"
+    ],
     "description": "Dwoje młodych dziennikarzy rywalizuje o tę samą posadę, gdy bogowie znów prowadzą wojnę. Ona pisze listy wsuwane pod drzwi szafy — nie wiedząc, kto je czyta."
   },
   {
@@ -278,8 +420,15 @@
     "pages": 517,
     "coverId": 14572083,
     "spice": 1,
-    "tropes": ["rivals-to-lovers", "found-family"],
-    "contentWarnings": ["wojna", "utrata pamięci", "żałoba"],
+    "tropes": [
+      "rivals-to-lovers",
+      "found-family"
+    ],
+    "contentWarnings": [
+      "wojna",
+      "utrata pamięci",
+      "żałoba"
+    ],
     "description": "Rozdzieleni przez front, dawni rywale walczą po dwóch stronach tej samej wojny. Listy wciąż docierają, ale nie wszystko da się w nich powiedzieć."
   },
   {
@@ -293,8 +442,478 @@
     "pages": 432,
     "coverId": 13312488,
     "spice": 1,
-    "tropes": ["proby-i-turnieje", "ukryta-tozsamosc"],
-    "contentWarnings": ["przemoc", "morderstwo"],
+    "tropes": [
+      "proby-i-turnieje",
+      "ukryta-tozsamosc"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "morderstwo"
+    ],
     "description": "Najsłynniejsza zabójczyni królestwa dostaje szansę na wolność: wygrać turniej i zostać mieczem króla, którego nienawidzi."
+  },
+  {
+    "slug": "a-court-of-silver-flames",
+    "title": "A Court of Silver Flames",
+    "author": "sarah-j-maas",
+    "series": "a-court-of-thorns-and-roses",
+    "seriesIndex": 4,
+    "isbn": "9781681196282",
+    "year": 2021,
+    "pages": 768,
+    "coverId": 10643508,
+    "spice": 5,
+    "tropes": [
+      "dwory-fae",
+      "fated-mates",
+      "found-family",
+      "slow-burn"
+    ],
+    "contentWarnings": [
+      "trauma",
+      "uzależnienie",
+      "sceny erotyczne"
+    ],
+    "description": "Po wojnie najbardziej zbuntowana z sióstr zostaje zmuszona do treningu u boku wojownika, który nie odpuszcza. Opowieść o gniewie, żałobie i powolnym wychodzeniu z ciemności."
+  },
+  {
+    "slug": "house-of-earth-and-blood",
+    "title": "House of Earth and Blood",
+    "author": "sarah-j-maas",
+    "series": "crescent-city",
+    "seriesIndex": 1,
+    "isbn": "9781526638922",
+    "year": 2020,
+    "pages": 805,
+    "coverId": 9289603,
+    "spice": 3,
+    "tropes": [
+      "found-family",
+      "slow-burn",
+      "morally-grey"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "żałoba",
+      "narkotyki",
+      "sceny erotyczne"
+    ],
+    "description": "Półkrwi fae z nowoczesnego, magicznego miasta prowadzi śledztwo w sprawie serii morderstw. Partnerem jest upadły anioł związany przysięgą służby."
+  },
+  {
+    "slug": "house-of-sky-and-breath",
+    "title": "House of Sky and Breath",
+    "author": "sarah-j-maas",
+    "series": "crescent-city",
+    "seriesIndex": 2,
+    "isbn": "9781639732876",
+    "year": 2022,
+    "pages": 816,
+    "coverId": 10327411,
+    "spice": 4,
+    "tropes": [
+      "found-family",
+      "fated-mates",
+      "ukryta-tozsamosc"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "tortury",
+      "sceny erotyczne"
+    ],
+    "description": "Bohaterowie chcieliby po prostu żyć, ale rodzący się bunt nie pozwala im pozostać z boku. Tajemnice sięgają dalej, niż ktokolwiek przypuszczał."
+  },
+  {
+    "slug": "crown-of-midnight",
+    "title": "Crown of Midnight",
+    "author": "sarah-j-maas",
+    "series": "throne-of-glass",
+    "seriesIndex": 2,
+    "isbn": "9781619630628",
+    "year": 2013,
+    "pages": 448,
+    "coverId": 14348029,
+    "spice": 1,
+    "tropes": [
+      "ukryta-tozsamosc",
+      "morally-grey"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "morderstwo",
+      "żałoba"
+    ],
+    "description": "Królewska zabójczyni wykonuje rozkazy władcy — przynajmniej oficjalnie. Każde sfingowane zlecenie przybliża ją do ujawnienia, a zamek skrywa starszą magię."
+  },
+  {
+    "slug": "a-kingdom-of-flesh-and-fire",
+    "title": "A Kingdom of Flesh and Fire",
+    "author": "jennifer-l-armentrout",
+    "series": "blood-and-ash",
+    "seriesIndex": 2,
+    "isbn": "9781952457104",
+    "year": 2020,
+    "pages": 572,
+    "coverId": 10360316,
+    "spice": 4,
+    "tropes": [
+      "wampiry",
+      "enemies-to-lovers",
+      "malzenstwo-z-rozsadku"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "krew",
+      "sceny erotyczne"
+    ],
+    "description": "Prawda wyszła na jaw, a sojusz z dawnym wrogiem staje się koniecznością. Podróż przez nieznane ziemie zmienia wszystko, co bohaterka wiedziała o sobie."
+  },
+  {
+    "slug": "kingdom-of-the-cursed",
+    "title": "Kingdom of the Cursed",
+    "author": "kerri-maniscalco",
+    "series": "kingdom-of-the-wicked",
+    "seriesIndex": 2,
+    "isbn": "9780316428491",
+    "year": 2021,
+    "pages": 448,
+    "coverId": 12100229,
+    "spice": 3,
+    "tropes": [
+      "pakty-i-targi",
+      "enemies-to-lovers",
+      "morally-grey"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "sceny erotyczne"
+    ],
+    "description": "Czarownica schodzi do piekielnych kręgów, by na dworach książąt szukać odpowiedzi. Każdy dwór ma swoje gry, a każdy książę — swój grzech."
+  },
+  {
+    "slug": "blood-and-honey",
+    "title": "Blood & Honey",
+    "author": "shelby-mahurin",
+    "series": "serpent-and-dove",
+    "seriesIndex": 2,
+    "isbn": "9780062878083",
+    "year": 2020,
+    "pages": 544,
+    "coverId": 10136462,
+    "spice": 2,
+    "tropes": [
+      "found-family",
+      "malzenstwo-z-rozsadku"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "samookaleczenie",
+      "sceny erotyczne"
+    ],
+    "description": "Ścigani zarówno przez Kościół, jak i przez czarownice, małżonkowie z rozsądku szukają sojuszników. Magia ma swoją cenę, a ta zaczyna rosnąć."
+  },
+  {
+    "slug": "the-traitor-queen",
+    "title": "The Traitor Queen",
+    "author": "danielle-l-jensen",
+    "series": "the-bridge-kingdom",
+    "seriesIndex": 2,
+    "isbn": "9781405955898",
+    "year": 2020,
+    "pages": 350,
+    "coverId": 10434983,
+    "spice": 3,
+    "tropes": [
+      "malzenstwo-z-rozsadku",
+      "morally-grey"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "wojna",
+      "sceny erotyczne"
+    ],
+    "description": "Wygnana królowa wraca, by ratować królestwo, które sama naraziła. Odkupienie wymaga więcej niż przeprosin."
+  },
+  {
+    "slug": "the-ashes-and-the-star-cursed-king",
+    "title": "The Ashes and the Star-Cursed King",
+    "author": "carissa-broadbent",
+    "series": "crowns-of-nyaxia",
+    "seriesIndex": 2,
+    "isbn": "9781957779072",
+    "year": 2023,
+    "pages": 624,
+    "coverId": 13976045,
+    "spice": 3,
+    "tropes": [
+      "wampiry",
+      "enemies-to-lovers",
+      "morally-grey"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "krew",
+      "żałoba",
+      "sceny erotyczne"
+    ],
+    "description": "Po turnieju świat bohaterki leży w gruzach. Żeby odzyskać to, co jej odebrano, musi zawrzeć sojusz z kimś, komu nie potrafi już ufać."
+  },
+  {
+    "slug": "reckless",
+    "title": "Reckless",
+    "author": "lauren-roberts",
+    "series": "powerless",
+    "seriesIndex": 2,
+    "isbn": "9781665955447",
+    "year": 2024,
+    "pages": 400,
+    "coverId": 14644120,
+    "spice": 0,
+    "tropes": [
+      "enemies-to-lovers",
+      "forced-proximity",
+      "ukryta-tozsamosc"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "żałoba"
+    ],
+    "description": "Po próbach bohaterka jest zbiegiem, a pościg prowadzi ten, któremu najmniej chciałaby się poddać. Długa droga przez pustkowia i jeszcze dłuższe milczenie."
+  },
+  {
+    "slug": "the-hurricane-wars",
+    "title": "The Hurricane Wars",
+    "author": "thea-guanzon",
+    "series": "the-hurricane-wars",
+    "seriesIndex": 1,
+    "isbn": "9780063277274",
+    "year": 2023,
+    "pages": 480,
+    "coverId": 14421764,
+    "spice": 3,
+    "tropes": [
+      "enemies-to-lovers",
+      "forced-proximity",
+      "morally-grey"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "wojna",
+      "sceny erotyczne"
+    ],
+    "description": "Władająca światłem żołnierka i książę imperium cieni walczą po przeciwnych stronach wojny. Gdy nad światem zbierają się większe burze, muszą połączyć moce."
+  },
+  {
+    "slug": "heartless-hunter",
+    "title": "Heartless Hunter",
+    "author": "kristen-ciccarelli",
+    "series": "the-crimson-moth",
+    "seriesIndex": 1,
+    "isbn": "9780008650568",
+    "year": 2024,
+    "pages": 410,
+    "coverId": 14656740,
+    "spice": 1,
+    "tropes": [
+      "enemies-to-lovers",
+      "ukryta-tozsamosc",
+      "malzenstwo-z-rozsadku"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "egzekucje"
+    ],
+    "description": "Bywalczyni salonów nocą ratuje czarownice przed egzekucją. Łowca czarownic zaczyna się do niej zalecać — i oboje udają, że chodzi o coś innego."
+  },
+  {
+    "slug": "once-upon-a-broken-heart",
+    "title": "Once Upon a Broken Heart",
+    "author": "stephanie-garber",
+    "series": "once-upon-a-broken-heart",
+    "seriesIndex": 1,
+    "isbn": "9781250268389",
+    "year": 2021,
+    "pages": 416,
+    "coverId": 11427092,
+    "spice": 1,
+    "tropes": [
+      "pakty-i-targi",
+      "klatwy",
+      "morally-grey"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "żałoba"
+    ],
+    "description": "Dziewczyna ze złamanym sercem zawiera układ z nieśmiertelnym, którego pocałunek bywa śmiertelny. Trzy przysługi, żadnych wyjaśnień."
+  },
+  {
+    "slug": "lightlark",
+    "title": "Lightlark",
+    "author": "alex-aster",
+    "series": "lightlark",
+    "seriesIndex": 1,
+    "isbn": "9781419760860",
+    "year": 2022,
+    "pages": 432,
+    "coverId": 12917631,
+    "spice": 0,
+    "tropes": [
+      "klatwy",
+      "proby-i-turnieje"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "śmierć"
+    ],
+    "description": "Co sto lat wyspa wynurza się z mgły, a władcy przeklętych królestw stają do śmiertelnej gry o złamanie klątw. Tym razem gra ma nową uczestniczkę."
+  },
+  {
+    "slug": "the-shadows-between-us",
+    "title": "The Shadows Between Us",
+    "author": "tricia-levenseller",
+    "isbn": "9781250189974",
+    "year": 2020,
+    "pages": 352,
+    "coverId": 10115579,
+    "spice": 1,
+    "tropes": [
+      "morally-grey",
+      "slow-burn"
+    ],
+    "contentWarnings": [
+      "morderstwo",
+      "przemoc"
+    ],
+    "description": "Ambitna arystokratka ma plan: uwieść Króla Cieni, poślubić go i zabić. Tyle że król okazuje się kimś, kogo nie da się tak łatwo rozgrywać."
+  },
+  {
+    "slug": "daughter-of-the-moon-goddess",
+    "title": "Daughter of the Moon Goddess",
+    "author": "sue-lynn-tan",
+    "series": "the-celestial-kingdom",
+    "seriesIndex": 1,
+    "isbn": "9780063031326",
+    "year": 2022,
+    "pages": 512,
+    "coverId": 12547572,
+    "spice": 0,
+    "tropes": [
+      "ukryta-tozsamosc",
+      "slow-burn"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "wojna"
+    ],
+    "description": "Córka uwięzionej na księżycu bogini ukrywa swoje pochodzenie w Niebiańskim Królestwie. Łuk w jej dłoniach może zmienić los matki — i całego dworu."
+  },
+  {
+    "slug": "bride",
+    "title": "Bride",
+    "author": "ali-hazelwood",
+    "isbn": "9780593550403",
+    "year": 2024,
+    "pages": 401,
+    "coverId": 14591818,
+    "spice": 4,
+    "tropes": [
+      "malzenstwo-z-rozsadku",
+      "wampiry",
+      "forced-proximity",
+      "enemies-to-lovers"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "sceny erotyczne"
+    ],
+    "description": "Wampirzyca zostaje żoną przywódcy wilkołaków w ramach kruchego rozejmu. Mieszkanie w sercu wrogiego stada nie było częścią jej planów."
+  },
+  {
+    "slug": "phantasma",
+    "title": "Phantasma",
+    "author": "kaylie-smith",
+    "isbn": "9781836182160",
+    "year": 2023,
+    "pages": 465,
+    "coverId": 14842920,
+    "spice": 3,
+    "tropes": [
+      "proby-i-turnieje",
+      "pakty-i-targi"
+    ],
+    "contentWarnings": [
+      "przemoc",
+      "śmierć",
+      "zdrowie psychiczne",
+      "sceny erotyczne"
+    ],
+    "description": "Nekromantka wkracza do nawiedzonego dworu, gdzie toczy się śmiertelna gra. Przewodnikiem jest demon, a jego pomoc ma swoją cenę."
+  },
+  {
+    "slug": "assistant-to-the-villain",
+    "title": "Assistant to the Villain",
+    "author": "hannah-nicole-maehrer",
+    "series": "assistant-to-the-villain",
+    "seriesIndex": 1,
+    "isbn": "9781649375803",
+    "year": 2023,
+    "pages": 352,
+    "coverId": 13620190,
+    "spice": 1,
+    "tropes": [
+      "morally-grey",
+      "slow-burn",
+      "found-family"
+    ],
+    "contentWarnings": [
+      "przemoc (z przymrużeniem oka)"
+    ],
+    "description": "Potrzebowała pracy, a ogłoszenie dał Złoczyńca królestwa. Biurowa komedia w świecie lochów, gdzie przełożony jest groźny, a współpracownicy — dziwni."
+  },
+  {
+    "slug": "one-dark-window",
+    "title": "One Dark Window",
+    "author": "rachel-gillig",
+    "series": "the-shepherd-king",
+    "seriesIndex": 1,
+    "isbn": "9780316312486",
+    "year": 2022,
+    "pages": 400,
+    "coverId": 12431959,
+    "spice": 1,
+    "tropes": [
+      "klatwy",
+      "slow-burn",
+      "pakty-i-targi"
+    ],
+    "contentWarnings": [
+      "choroba",
+      "przemoc"
+    ],
+    "description": "W głowie bohaterki mieszka obca, starożytna istota. Żeby ocalić królestwo spowite trującą mgłą, musi zebrać zakazane magiczne karty — razem z kapitanem straży."
+  },
+  {
+    "slug": "faebound",
+    "title": "Faebound",
+    "author": "saara-el-arifi",
+    "series": "faebound",
+    "seriesIndex": 1,
+    "isbn": "9780593723005",
+    "year": 2024,
+    "pages": 400,
+    "coverId": 14613364,
+    "spice": 2,
+    "tropes": [
+      "dwory-fae",
+      "forced-proximity",
+      "slow-burn"
+    ],
+    "contentWarnings": [
+      "wojna",
+      "przemoc",
+      "sceny erotyczne"
+    ],
+    "description": "Wygnana żołnierka trafia do krainy fae, które uważano za wymarłe. Między ich dworem a wojną, którą zostawiła, wybór nie będzie prosty."
   }
 ]

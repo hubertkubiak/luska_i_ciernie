@@ -1,0 +1,21 @@
+@if (author.hasValue()) {
+  @let a = author.value();
+  <article class="author">
+    <p class="label">Kronika autorki · {{ a.books.length }} ksiąg w archiwum</p>
+    <h1>{{ a.name }}</h1>
+    <p class="bio">{{ a.bio }}</p>
+
+    <h2>Bibliografia</h2>
+    <ul class="books">
+      @for (b of a.books; track b.slug) {
+        <li><app-book-card [book]="b" /></li>
+      }
+    </ul>
+  </article>
+} @else if (notFound()) {
+  <app-not-found message="Archiwum nie zna takiego nazwiska." />
+} @else if (author.error()) {
+  <p class="state">Coś przebudziło się w lochach. Próbujemy to uspokoić.</p>
+} @else {
+  <p class="state" role="status">Smok przeszukuje skarbiec…</p>
+}

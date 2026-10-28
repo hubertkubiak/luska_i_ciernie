@@ -1,0 +1,27 @@
+<section class="tropes">
+  <p class="label">Księga run</p>
+  <h1>Tropy</h1>
+  <p class="lead">
+    Każdy trop to ścieżka, którą prowadzi opowieść. Wybierz runę, a kronikarka pokaże księgi, które nią
+    podążają.
+  </p>
+
+  @for (group of groups(); track group.id) {
+    <section class="realm" [attr.data-realm]="group.id">
+      <h2>{{ group.name }}</h2>
+      <ul>
+        @for (t of group.tropes; track t.slug) {
+          <li>
+            <a [routerLink]="['/tropy', t.slug]">
+              <app-rune [trope]="t.slug" />
+              <span class="name">{{ t.name }}</span>
+              <span class="label">{{ t.bookCount }} {{ t.bookCount === 1 ? 'księga' : 'ksiąg' }}</span>
+            </a>
+          </li>
+        }
+      </ul>
+    </section>
+  } @empty {
+    <p class="state" role="status">Smok przeszukuje skarbiec…</p>
+  }
+</section>

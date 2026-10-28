@@ -1,0 +1,49 @@
+.trope {
+  --accent: var(--gilt);
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 2rem clamp(1rem, 4vw, 3rem) 3rem;
+
+  &[data-realm='turnie'] {
+    --accent: var(--ember);
+  }
+  &[data-realm='mgly'] {
+    --accent: var(--fae);
+  }
+}
+.back {
+  color: var(--text-muted);
+  text-decoration: none;
+}
+header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+header app-rune {
+  font-size: 4.5rem;
+  color: var(--accent);
+  filter: drop-shadow(0 0 0.6rem color-mix(in srgb, var(--accent) 45%, transparent));
+}
+h1 {
+  margin: 0.25rem 0 0;
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--gilt);
+}
+.description {
+  max-width: 42rem;
+  font-size: 1.15rem;
+  font-style: italic;
+}
+.books {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+}
+.state {
+  padding: 6rem 1rem;
+  text-align: center;
+}

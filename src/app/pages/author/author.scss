@@ -1,0 +1,24 @@
+.author {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 3rem clamp(1rem, 4vw, 3rem);
+}
+h1 {
+  margin: 0.25rem 0 1rem;
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--gilt);
+}
+.bio {
+  max-width: 42rem;
+}
+.books {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+}
+.state {
+  padding: 6rem 1rem;
+  text-align: center;
+}

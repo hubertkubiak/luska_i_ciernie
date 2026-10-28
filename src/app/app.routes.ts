@@ -21,7 +21,7 @@ export const routes: Routes = [
   },
   {
     path: 'tropy/:slug',
-    loadComponent: () => import('./pages/tropes/trope').then((m) => m.TropePage),
+    loadComponent: () => import('./pages/trope/trope').then((m) => m.TropePage),
   },
   {
     // Status 404 dla tej trasy ustawia app.routes.server.ts.

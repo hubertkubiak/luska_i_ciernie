@@ -6,8 +6,10 @@ import type { Trope } from '../shared/models';
 
 // Strategia renderowania per trasa (SPEC §3). Ścieżki muszą odpowiadać tym z app.routes.ts.
 export const serverRoutes: ServerRoute[] = [
-  // Landing: HTML generowany raz w `ng build` → plik dist/.../browser/index.html.
-  { path: '', renderMode: RenderMode.Prerender },
+  // Landing: render na żądanie, choć SPEC §3 proponuje Prerender. Powód: Trop dnia. W prerenderze
+  // „dzisiaj” = dzień `ng build`, zapisany w TransferState pliku index.html — strona byłaby spójna
+  // przy hydracji, ale codziennie nieaktualna. (Cache do północy UTC dołożymy w etapie 12.)
+  { path: '', renderMode: RenderMode.Server },
   // Lista tropów zmienia się rzadko → też plik z buildu (dist/.../browser/tropy/index.html).
   { path: 'tropy', renderMode: RenderMode.Prerender },
   {

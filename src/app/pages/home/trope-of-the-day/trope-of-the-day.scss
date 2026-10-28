@@ -1,0 +1,54 @@
+.wrap {
+  max-width: 40rem;
+  margin: -2.5rem auto 0;
+  padding: 0 1rem;
+}
+.card {
+  --accent: var(--gilt);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.2rem 1rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--velvet);
+  border-radius: 0.5rem;
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+  box-shadow: 0 1rem 2.5rem rgb(0 0 0 / 0.35);
+  transition: border-color var(--dur) var(--ease);
+
+  &[data-realm='turnie'] {
+    --accent: var(--ember);
+  }
+  &[data-realm='mgly'] {
+    --accent: var(--fae);
+  }
+  &:hover,
+  &:focus-visible {
+    border-color: var(--accent);
+  }
+}
+app-rune {
+  grid-row: span 4;
+  align-self: center;
+  font-size: 3rem;
+  color: var(--accent);
+}
+.name {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--gilt);
+}
+.badge {
+  justify-self: start;
+  padding: 0 0.6rem;
+  border-radius: 999px;
+  background: var(--velvet);
+  color: var(--accent);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+}
+.description {
+  font-style: italic;
+}

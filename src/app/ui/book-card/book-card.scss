@@ -1,0 +1,32 @@
+.card {
+  display: grid;
+  justify-items: start;
+  gap: 0.35rem;
+  padding: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--velvet);
+  color: var(--text);
+  text-decoration: none;
+  transition:
+    transform var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease);
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 1.5rem color-mix(in srgb, var(--ember) 30%, transparent);
+}
+img {
+  width: 120px;
+  height: 180px;
+  object-fit: cover;
+  border: 1px solid var(--gilt);
+}
+.title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.2rem;
+  line-height: 1.2;
+}
+app-spice-meter {
+  font-size: 0.8rem;
+}

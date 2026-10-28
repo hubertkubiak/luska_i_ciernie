@@ -1,0 +1,29 @@
+@if (trope.hasValue()) {
+  @let t = trope.value();
+  <article class="trope" [attr.data-realm]="t.realm">
+    <a class="back label" routerLink="/tropy">← Wszystkie tropy</a>
+    <header>
+      <app-rune [trope]="t.slug" />
+      <div>
+        <p class="label">Trop · {{ realm() }}</p>
+        <h1>{{ t.name }}</h1>
+      </div>
+    </header>
+    <p class="description">{{ t.description }}</p>
+
+    <h2>Księgi tym tropem ({{ t.books.length }})</h2>
+    <ul class="books">
+      @for (b of t.books; track b.slug) {
+        <li><app-book-card [book]="b" /></li>
+      } @empty {
+        <li class="empty">Archiwum milczy. Żadna księga nie podąża jeszcze tą ścieżką.</li>
+      }
+    </ul>
+  </article>
+} @else if (notFound()) {
+  <app-not-found message="Nie znamy takiej runy." />
+} @else if (trope.error()) {
+  <p class="state">Coś przebudziło się w lochach. Próbujemy to uspokoić.</p>
+} @else {
+  <p class="state" role="status">Smok przeszukuje skarbiec…</p>
+}

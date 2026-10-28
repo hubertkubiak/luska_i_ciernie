@@ -1,0 +1,11 @@
+@for (s of sparks(); track $index) {
+  <span
+    class="spark"
+    [style.left.%]="s.left"
+    [style.width.px]="s.size"
+    [style.height.px]="s.size"
+    [style.animation-delay.s]="s.delay"
+    [style.animation-duration.s]="s.duration"
+    [style.--drift]="s.drift + 'px'"
+  ></span>
+}

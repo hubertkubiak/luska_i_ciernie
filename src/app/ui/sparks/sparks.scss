@@ -1,0 +1,25 @@
+:host {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+}
+.spark {
+  position: absolute;
+  bottom: -1rem;
+  border-radius: 50%;
+  background: var(--ember);
+  box-shadow: 0 0 6px 2px color-mix(in srgb, var(--ember) 60%, transparent);
+  opacity: 0;
+  animation: rise linear infinite;
+}
+@keyframes rise {
+  10% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(var(--drift), -28rem);
+    opacity: 0;
+  }
+}

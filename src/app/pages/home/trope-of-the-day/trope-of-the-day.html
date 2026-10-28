@@ -1,0 +1,13 @@
+@if (trope(); as t) {
+  <section class="wrap" aria-labelledby="trop-dnia">
+    <a class="card" [routerLink]="['/tropy', t.slug]" [attr.data-realm]="t.realm">
+      <app-rune [trope]="t.slug" />
+      <span class="label" id="trop-dnia">Trop dnia · {{ day }}</span>
+      <span class="name">{{ t.name }}</span>
+      @if (t.bookCount >= 5) {
+        <span class="badge">Szeroko uczęszczana ścieżka</span>
+      }
+      <span class="description">{{ t.description }}</span>
+    </a>
+  </section>
+}

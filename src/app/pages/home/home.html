@@ -1,4 +1,5 @@
 <section class="hero">
+  <app-sparks />
   <h1>Łuska i Ciernie</h1>
   <p class="tagline">
     Archiwum romantasy czytane po tropach — od więzi przeznaczenia po jeźdźców smoków.
@@ -6,8 +7,8 @@
   <a class="cta" routerLink="/szukaj">Przeszukaj archiwum</a>
 </section>
 
-<!-- Statyczne linki: landing jest prerenderowany, więc na razie nie pobiera danych z API
-     (prerender + dane to temat etapów 5–6). -->
+<app-trope-of-the-day />
+
 <section class="start">
   <h2>Na dobry początek</h2>
   <ul>

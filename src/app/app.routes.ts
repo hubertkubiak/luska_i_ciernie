@@ -15,6 +15,15 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/author/author').then((m) => m.AuthorPage),
   },
   {
+    path: 'tropy',
+    title: 'Tropy — Łuska i Ciernie',
+    loadComponent: () => import('./pages/tropes/tropes').then((m) => m.TropesPage),
+  },
+  {
+    path: 'tropy/:slug',
+    loadComponent: () => import('./pages/tropes/trope').then((m) => m.TropePage),
+  },
+  {
     // Status 404 dla tej trasy ustawia app.routes.server.ts.
     path: '**',
     title: 'Ścieżka zarosła cierniami',

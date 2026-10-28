@@ -18,7 +18,7 @@
       <app-spice-meter [spice]="b.spice" />
       <ul class="tropes" aria-label="Tropy">
         @for (t of b.tropes; track t.slug) {
-          <li><a [routerLink]="['/tropy', t.slug]">{{ t.name }}</a></li>
+          <li><a [routerLink]="['/tropy', t.slug]"><app-rune [trope]="t.slug" />{{ t.name }}</a></li>
         }
       </ul>
     </header>

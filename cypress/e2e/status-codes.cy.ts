@@ -4,14 +4,17 @@ describe('Kody HTTP z SSR', () => {
   const status = (url: string) =>
     cy.request({ url, failOnStatusCode: false, followRedirect: false });
 
-  it('200 dla istniejącej książki i autorki', () => {
+  it('200 dla istniejącej książki, autorki i tropu', () => {
     status('/ksiazka/fourth-wing').its('status').should('eq', 200);
     status('/autor/holly-black').its('status').should('eq', 200);
+    status('/tropy').its('status').should('eq', 200);
+    status('/tropy/enemies-to-lovers').its('status').should('eq', 200);
   });
 
-  it('404 dla nieistniejącej książki, autorki i nieznanej ścieżki', () => {
+  it('404 dla nieistniejącej książki, autorki, tropu i nieznanej ścieżki', () => {
     status('/ksiazka/nie-ma-takiej-ksiazki').its('status').should('eq', 404);
     status('/autor/nikt-taki').its('status').should('eq', 404);
+    status('/tropy/nie-ma-takiej-runy').its('status').should('eq', 404);
     status('/zarosla/sciezka').its('status').should('eq', 404);
   });
 

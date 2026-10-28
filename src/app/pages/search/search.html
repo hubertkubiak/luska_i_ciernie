@@ -1,0 +1,85 @@
+@let c = criteria();
+<section class="search">
+  <p class="label">Archiwum</p>
+  <h1>Przeszukaj archiwum</h1>
+
+  <!-- method="get" + action: bez JS to zwykła nawigacja na /szukaj?… obsłużona przez SSR.
+       Nazwy pól = nazwy parametrów w URL, więc FormData i ParamMap czyta ta sama funkcja.
+       Stan pól idzie przez ATRYBUTY (attr.checked / attr.selected / attr.value), nie właściwości:
+       atrybut to wartość domyślna — trafia do HTML-a z serwera, a przeglądarka nie nadpisze nim
+       pola, które czytelniczka zdążyła zmienić przed hydracją. Synchronizację po nawigacji
+       robi form.reset() w search.ts. -->
+  <form #form class="filters" method="get" action="/szukaj" role="search" (submit)="onSubmit($event)" (change)="onChange($event)">
+    <div class="field query">
+      <label for="q">Tytuł, autorka lub seria</label>
+      <input id="q" name="q" type="search" [attr.value]="c.q" placeholder="np. Fourth Wing, Holly Black, Kingdom of the Wicked…" />
+    </div>
+
+    <fieldset class="tropes">
+      <legend>Tropy</legend>
+      <ul>
+        @for (t of tropes.value(); track t.slug) {
+          <li>
+            <label class="pill">
+              <input type="checkbox" name="trop" [value]="t.slug" [attr.checked]="c.tropes.includes(t.slug) ? '' : null" />
+              <app-rune [trope]="t.slug" />
+              {{ t.name }}
+            </label>
+          </li>
+        }
+      </ul>
+    </fieldset>
+
+    <div class="row">
+      <div class="field">
+        <label for="tryb">Łączenie tropów</label>
+        <select id="tryb" name="tryb">
+          <option value="wszystkie" [attr.selected]="c.mode === 'wszystkie' ? '' : null">wszystkie naraz (i)</option>
+          <option value="dowolny" [attr.selected]="c.mode === 'dowolny' ? '' : null">dowolny z nich (lub)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="pikanteria">Pikanteria najwyżej</label>
+        <select id="pikanteria" name="pikanteria">
+          <option value="" [attr.selected]="c.maxSpice === null ? '' : null">bez limitu</option>
+          @for (s of spiceLevels; track s) {
+            <option [value]="s" [attr.selected]="c.maxSpice === s ? '' : null">{{ s }}/5</option>
+          }
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="status">Seria</label>
+        <select id="status" name="status">
+          <option value="" [attr.selected]="c.status === null ? '' : null">obojętnie</option>
+          <option value="w-trakcie" [attr.selected]="c.status === 'w-trakcie' ? '' : null">w trakcie</option>
+          <option value="zakonczona" [attr.selected]="c.status === 'zakonczona' ? '' : null">zakończona</option>
+          <option value="pojedyncza" [attr.selected]="c.status === 'pojedyncza' ? '' : null">pojedynczy tom</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="cta" type="submit">Szukaj</button>
+      <a class="reset" routerLink="/szukaj">Wyczyść filtry</a>
+    </div>
+  </form>
+
+  <section class="results" aria-live="polite" [attr.aria-busy]="loading()">
+    @if (shown(); as list) {
+      <p class="count label">Znaleziono {{ list.length }} {{ booksWord(list.length) }}</p>
+      <ul class="books">
+        @for (b of list; track b.slug) {
+          <li><app-book-card [book]="b" /></li>
+        } @empty {
+          <li class="empty">Archiwum milczy. Spróbuj innych run.</li>
+        }
+      </ul>
+    } @else if (failed()) {
+      <p class="state">Coś przebudziło się w lochach. Próbujemy to uspokoić.</p>
+    } @else {
+      <p class="state" role="status">Smok przeszukuje skarbiec…</p>
+    }
+  </section>
+</section>

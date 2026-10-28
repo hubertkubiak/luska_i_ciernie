@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import type { Trope } from '../../../shared/models';
 import { Rune } from '../../ui/rune/rune';
 import { REALMS } from '../../ui/realm';
+import { books } from '../../ui/plural';
 
 /**
  * /tropy — prerenderowana w `ng build` (app.routes.server.ts). Skąd dane, skoro nikt nie
@@ -17,6 +18,8 @@ import { REALMS } from '../../ui/realm';
   styleUrl: './tropes.scss',
 })
 export class TropesPage {
+  protected readonly booksWord = books;
+
   protected readonly tropes = httpResource<Trope[]>(() => '/api/tropes', { defaultValue: [] });
 
   protected readonly groups = computed(() =>

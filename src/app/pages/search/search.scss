@@ -1,0 +1,169 @@
+.search {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 3rem clamp(1rem, 4vw, 3rem);
+}
+
+h1 {
+  margin: 0.25rem 0 1.5rem;
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--gilt);
+}
+
+.filters {
+  display: grid;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  border: 1px solid var(--velvet);
+  border-radius: 0.5rem;
+  background: var(--surface);
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+
+  label {
+    font-family: var(--font-ui);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+}
+
+// Pole formularza (SPEC §2.7): tylko dolna linia jak atrament; przy focusie rozlewa się złoto od środka.
+input[type='search'],
+select {
+  padding: 0.4rem 0.1rem;
+  border: 0;
+  border-bottom: 1px solid var(--velvet);
+  background:
+    linear-gradient(var(--gilt), var(--gilt)) center bottom / 0 1px no-repeat,
+    transparent;
+  color: var(--text);
+  font: inherit;
+  transition: background-size var(--dur) var(--ease);
+
+  &:focus {
+    outline: none;
+    background-size:
+      100% 1px,
+      auto;
+  }
+}
+
+select option {
+  background: var(--surface);
+}
+
+.tropes {
+  margin: 0;
+  padding: 0;
+  border: 0;
+
+  legend {
+    margin-bottom: 0.5rem;
+    font-family: var(--font-ui);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}
+
+// Tag tropu (SPEC §2.7): pigułka z runą; aktywny filtr — świecąca obwódka.
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.8rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: var(--velvet);
+  color: var(--fae);
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition:
+    border-color var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease);
+
+  // Sam checkbox chowamy wizualnie, ale zostaje dostępny dla klawiatury i czytników ekranu.
+  input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &:has(input:checked) {
+    border-color: var(--fae);
+    box-shadow: 0 0 0.6rem color-mix(in srgb, var(--fae) 45%, transparent);
+  }
+
+  &:has(input:focus-visible) {
+    outline: 2px solid var(--gilt);
+    outline-offset: 2px;
+  }
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 1rem;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.cta {
+  padding: 0.55rem 1.6rem;
+  border: 0;
+  border-radius: 2px;
+  background: var(--grad-ember);
+  color: var(--obsidian);
+  font-family: var(--font-heading);
+  font-variant: small-caps;
+  font-weight: 700;
+  font-size: 1.15rem;
+  cursor: pointer;
+}
+
+.reset {
+  color: var(--text-muted);
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+}
+
+.results {
+  margin-top: 2rem;
+  transition: opacity var(--dur) var(--ease);
+
+  &[aria-busy='true'] {
+    opacity: 0.55;
+  }
+}
+
+.books {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.empty,
+.state {
+  grid-column: 1 / -1;
+  padding: 4rem 1rem;
+  text-align: center;
+  font-style: italic;
+}

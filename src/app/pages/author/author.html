@@ -1,7 +1,7 @@
 @if (author.hasValue()) {
   @let a = author.value();
   <article class="author">
-    <p class="label">Kronika autorki · {{ a.books.length }} ksiąg w archiwum</p>
+    <p class="label">Kronika autorki · {{ a.books.length }} {{ booksWord(a.books.length) }} w archiwum</p>
     <h1>{{ a.name }}</h1>
     <p class="bio">{{ a.bio }}</p>
 

@@ -15,6 +15,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/author/author').then((m) => m.AuthorPage),
   },
   {
+    path: 'szukaj',
+    title: 'Przeszukaj archiwum — Łuska i Ciernie',
+    loadComponent: () => import('./pages/search/search').then((m) => m.SearchPage),
+  },
+  {
     path: 'tropy',
     title: 'Tropy — Łuska i Ciernie',
     loadComponent: () => import('./pages/tropes/tropes').then((m) => m.TropesPage),

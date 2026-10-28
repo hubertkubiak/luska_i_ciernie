@@ -8,6 +8,7 @@ describe('Kody HTTP z SSR', () => {
     status('/ksiazka/fourth-wing').its('status').should('eq', 200);
     status('/autor/holly-black').its('status').should('eq', 200);
     status('/tropy').its('status').should('eq', 200);
+    status('/szukaj?trop=slow-burn').its('status').should('eq', 200);
     status('/tropy/enemies-to-lovers').its('status').should('eq', 200);
   });
 

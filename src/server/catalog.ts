@@ -5,8 +5,10 @@ import tropesSeed from '../../seed/tropes.json';
 import type {
   AuthorDetail,
   BookDetail,
+  BookQuery,
   BookSummary,
   Realm,
+  SeriesFilter,
   SeriesRef,
   Spice,
   Trope,
@@ -45,11 +47,6 @@ interface SeedAuthor {
   bio: string;
 }
 
-export interface BookFilter {
-  trope?: string;
-  author?: string;
-}
-
 /**
  * Katalog w pamięci, zbudowany raz przy starcie procesu.
  * W etapie 9 zastąpimy go SQLite — API (src/server/api.ts) zostanie bez zmian,
@@ -84,10 +81,21 @@ export class Catalog {
     return this.redirects.get(oldSlug);
   }
 
-  listBooks(filter: BookFilter = {}): BookSummary[] {
+  /** Lista książek po filtrach, posortowana po tytule — kolejność wyników jest stabilna. */
+  listBooks(query: BookQuery = {}): BookSummary[] {
+    const needle = query.q ? fold(query.q) : '';
+    const tropes = query.tropes ?? [];
+    const has = (b: SeedBook, t: string) => b.tropes.includes(t);
+
     return [...this.books.values()]
-      .filter((b) => !filter.trope || b.tropes.includes(filter.trope))
-      .filter((b) => !filter.author || b.author === filter.author)
+      .filter((b) => !query.author || b.author === query.author)
+      .filter((b) =>
+        tropes.length === 0 || (query.match === 'any' ? tropes.some((t) => has(b, t)) : tropes.every((t) => has(b, t))),
+      )
+      .filter((b) => query.maxSpice === undefined || b.spice <= query.maxSpice)
+      .filter((b) => !query.status || this.seriesFilterOf(b) === query.status)
+      .filter((b) => !needle || this.searchText(b).includes(needle))
+      .sort((x, y) => x.title.localeCompare(y.title, 'pl'))
       .map((b) => this.toSummary(b));
   }
 
@@ -127,7 +135,16 @@ export class Catalog {
   getTrope(slug: string): TropeDetail | undefined {
     const t = this.tropes.get(slug);
     if (!t) return undefined;
-    return { ...this.toTrope(t), books: this.listBooks({ trope: slug }) };
+    return { ...this.toTrope(t), books: this.listBooks({ tropes: [slug] }) };
+  }
+
+  private seriesFilterOf(b: SeedBook): SeriesFilter {
+    return b.series ? this.series.get(b.series)!.status : 'standalone';
+  }
+
+  private searchText(b: SeedBook): string {
+    const series = b.series ? this.series.get(b.series)!.name : '';
+    return fold(`${b.title} ${this.authors.get(b.author)!.name} ${series}`);
   }
 
   private toTrope(t: SeedTrope): Trope {
@@ -168,4 +185,9 @@ export class Catalog {
       if (this.books.has(old)) throw new Error(`[seed] stary slug "${old}" (→ ${current}) koliduje z istniejącą książką`);
     }
   }
+}
+
+/** "Łuska Ćmy" → "luska cmy": małe litery, bez ogonków (ł nie rozkłada się w NFD, stąd osobno). */
+function fold(text: string): string {
+  return text.toLowerCase().normalize('NFD').replace(/\p{M}/gu, '').replace(/ł/g, 'l').trim();
 }

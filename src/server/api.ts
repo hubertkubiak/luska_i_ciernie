@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import type { ApiError } from '../shared/models';
+import type { ApiError, BookQuery, SeriesFilter, Spice } from '../shared/models';
 import { Catalog } from './catalog';
 
 /**
@@ -26,13 +26,9 @@ export function apiRouter(catalog = new Catalog()): Router {
     router.use((_req, _res, next) => void setTimeout(next, delay));
   }
 
+  // GET /api/books?q=…&trope=a&trope=b&match=any&maxSpice=3&status=completed&author=…
   router.get('/books', (req, res) => {
-    res.json(
-      catalog.listBooks({
-        trope: stringParam(req.query['trope']),
-        author: stringParam(req.query['author']),
-      }),
-    );
+    res.json(catalog.listBooks(bookQuery(req.query)));
   });
 
   router.get('/books/:slug', (req, res) => {
@@ -75,7 +71,31 @@ function notFound(res: import('express').Response, message: string): void {
   res.status(404).json({ error: message } satisfies ApiError);
 }
 
-/** ?trope=a&trope=b daje tablicę — na razie bierzemy tylko pojedyncze wartości. */
+const SERIES_FILTERS: SeriesFilter[] = ['ongoing', 'completed', 'standalone'];
+
+/**
+ * Query string → BookQuery. Nieznane lub błędne wartości pomijamy (zamiast 400) — to filtr,
+ * a nie formularz z walidacją; lepiej pokazać szersze wyniki niż stronę błędu.
+ */
+function bookQuery(query: Record<string, unknown>): BookQuery {
+  const spice = Number(stringParam(query['maxSpice']));
+  const status = stringParam(query['status']) as SeriesFilter | undefined;
+  return {
+    q: stringParam(query['q']),
+    tropes: listParam(query['trope']),
+    match: query['match'] === 'any' ? 'any' : 'all',
+    maxSpice: Number.isInteger(spice) && spice >= 0 && spice <= 5 ? (spice as Spice) : undefined,
+    status: status && SERIES_FILTERS.includes(status) ? status : undefined,
+    author: stringParam(query['author']),
+  };
+}
+
 function stringParam(value: unknown): string | undefined {
-  return typeof value === 'string' && value.length > 0 ? value : undefined;
+  return typeof value === 'string' && value.trim().length > 0 ? value.trim() : undefined;
+}
+
+/** ?trope=a&trope=b → Express daje tablicę, ?trope=a → string. Normalizujemy do tablicy. */
+function listParam(value: unknown): string[] {
+  const values = Array.isArray(value) ? value : [value];
+  return values.map(stringParam).filter((v): v is string => v !== undefined);
 }

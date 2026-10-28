@@ -15,7 +15,7 @@
             <a [routerLink]="['/tropy', t.slug]">
               <app-rune [trope]="t.slug" />
               <span class="name">{{ t.name }}</span>
-              <span class="label">{{ t.bookCount }} {{ t.bookCount === 1 ? 'księga' : 'ksiąg' }}</span>
+              <span class="label">{{ t.bookCount }} {{ booksWord(t.bookCount) }}</span>
             </a>
           </li>
         }

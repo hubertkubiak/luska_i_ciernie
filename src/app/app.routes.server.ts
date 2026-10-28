@@ -24,6 +24,8 @@ export const serverRoutes: ServerRoute[] = [
     // Slug spoza listy z buildu → render na żądanie (domyślne zachowanie, tu jawnie).
     fallback: PrerenderFallback.Server,
   },
+  // Wyniki zależą od query params → tylko render na żądanie (prerender zna wyłącznie ścieżkę).
+  { path: 'szukaj', renderMode: RenderMode.Server },
   // Tysiące pozycji i zmienne dane → render na żądanie. 404/301 ustawia sama strona
   // (RESPONSE_INIT), bo zależą od odpowiedzi API.
   { path: 'ksiazka/:slug', renderMode: RenderMode.Server },

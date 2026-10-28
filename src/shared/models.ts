@@ -63,6 +63,21 @@ export interface TropeDetail extends Trope {
   books: BookSummary[];
 }
 
+/** Status serii z perspektywy wyszukiwania — „standalone” = książka spoza serii. */
+export type SeriesFilter = SeriesStatus | 'standalone';
+
+/** Filtry GET /api/books. Wszystkie opcjonalne; brak = bez ograniczenia. */
+export interface BookQuery {
+  /** Fraza szukana w tytule, autorze i nazwie serii (bez względu na wielkość liter i ogonki). */
+  q?: string;
+  tropes?: string[];
+  /** all = książka ma wszystkie tropy (AND), any = choć jeden (OR). Domyślnie all. */
+  match?: 'all' | 'any';
+  maxSpice?: Spice;
+  status?: SeriesFilter;
+  author?: string;
+}
+
 export interface ApiError {
   error: string;
 }

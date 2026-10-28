@@ -1,0 +1,71 @@
+@if (book.hasValue()) {
+  @let b = book.value();
+  <article class="book" [attr.data-realm]="b.realm">
+    <div class="cover">
+      <!-- priority: obraz LCP. Na serwerze Angular dopisze dla niego <link rel="preload"> w <head>. -->
+      <img [ngSrc]="b.coverUrl" width="180" height="270" priority [alt]="'Okładka: ' + b.title" />
+    </div>
+
+    <header class="head">
+      @if (seriesLabel(); as label) {
+        <p class="label">{{ b.series!.name }} · {{ label }}</p>
+      }
+      <h1>{{ b.title }}</h1>
+      <p class="author">
+        <a [routerLink]="['/autor', b.author.slug]">{{ b.author.name }}</a>
+        <span class="label">· {{ b.year }} · {{ b.pages }} stron</span>
+      </p>
+      <app-spice-meter [spice]="b.spice" />
+      <ul class="tropes" aria-label="Tropy">
+        @for (t of b.tropes; track t.slug) {
+          <li><a [routerLink]="['/tropy', t.slug]">{{ t.name }}</a></li>
+        }
+      </ul>
+    </header>
+
+    <div class="body">
+      <p class="description">{{ b.description }}</p>
+
+      @if (b.contentWarnings.length) {
+        <aside class="warnings" aria-labelledby="cw-title">
+          <h2 id="cw-title">
+            <span aria-hidden="true">⚠</span> Zanim przekroczysz próg
+            <small>Ostrzeżenia treści</small>
+          </h2>
+          <p>{{ b.contentWarnings.join(' · ') }}</p>
+        </aside>
+      }
+
+      @if (b.seriesBooks.length > 1) {
+        <nav class="series" aria-label="Tomy serii">
+          <h2>{{ b.series!.name }}</h2>
+          <ol>
+            @for (s of b.seriesBooks; track s.slug) {
+              <li [class.current]="s.slug === b.slug">
+                @if (s.slug === b.slug) {
+                  <span aria-current="page">{{ s.title }}</span>
+                } @else {
+                  <a [routerLink]="['/ksiazka', s.slug]">{{ s.title }}</a>
+                }
+              </li>
+            }
+          </ol>
+        </nav>
+      }
+    </div>
+  </article>
+} @else if (notFound()) {
+  <!-- Wciąż HTTP 200 — prawdziwe 404 w etapie 4. -->
+  <section class="state">
+    <h1>Ta ścieżka zarosła cierniami.</h1>
+    <p>W archiwum nie ma takiej księgi.</p>
+    <a routerLink="/">Wróć na trakt</a>
+  </section>
+} @else if (book.error()) {
+  <section class="state">
+    <h1>Coś przebudziło się w lochach.</h1>
+    <p>Próbujemy to uspokoić. Spróbuj ponownie za chwilę.</p>
+  </section>
+} @else {
+  <p class="state" role="status">Smok przeszukuje skarbiec…</p>
+}

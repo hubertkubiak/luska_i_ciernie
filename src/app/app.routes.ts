@@ -7,6 +7,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/home/home').then((m) => m.Home),
   },
   {
+    path: 'ksiazka/:slug',
+    loadComponent: () => import('./pages/book/book').then((m) => m.BookPage),
+  },
+  {
     // Na razie łapie wszystkie nieistniejące linki z nawigacji. Status HTTP to wciąż 200 —
     // naprawimy to w etapie 4 przez RESPONSE_INIT.
     path: '**',

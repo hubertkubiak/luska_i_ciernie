@@ -9,6 +9,16 @@ import { Catalog } from './catalog';
 export function apiRouter(catalog = new Catalog()): Router {
   const router = Router();
 
+  // Log każdego żądania z informacją, kto pyta: przeglądarka czy SSR (fetch z Node ma
+  // User-Agent "node"). Pozwala sprawdzić w terminalu, czy transfer cache działa —
+  // po wejściu na stronę książki powinien pojawić się tylko wpis od SSR.
+  router.use((req, _res, next) => {
+    const ua = req.get('user-agent') ?? '';
+    const who = ua === 'node' || ua.startsWith('undici') ? 'SSR' : 'przeglądarka';
+    console.log(`[api] ${req.method} ${req.originalUrl} ← ${who}`);
+    next();
+  });
+
   // Sztuczne opóźnienie (np. API_DELAY_MS=1500) — przyda się, żeby zobaczyć stany ładowania
   // i porównać SSR z renderowaniem po stronie klienta.
   const delay = Number(process.env['API_DELAY_MS'] ?? 0);

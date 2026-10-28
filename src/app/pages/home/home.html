@@ -5,3 +5,14 @@
   </p>
   <a class="cta" routerLink="/szukaj">Przeszukaj archiwum</a>
 </section>
+
+<!-- Statyczne linki: landing jest prerenderowany, więc na razie nie pobiera danych z API
+     (prerender + dane to temat etapów 5–6). -->
+<section class="start">
+  <h2>Na dobry początek</h2>
+  <ul>
+    @for (b of starters; track b.slug) {
+      <li><a [routerLink]="['/ksiazka', b.slug]">{{ b.title }}</a></li>
+    }
+  </ul>
+</section>

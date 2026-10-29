@@ -1,373 +1,384 @@
 # Łuska i Ciernie
 
-> Archiwum romantasy czytane po tropach: od więzi przeznaczenia po jeźdźców smoków.
+> *Scale and Thorns* — a romantasy archive read by trope: from fated bonds to dragon riders.
 
-Łuska i Ciernie to katalog i wyszukiwarka książek romantasy. Czytelniczki tego gatunku szukają
-inaczej niż w zwykłej księgarni: po **tropach** („enemies to lovers”, „fated mates”, „dwory fae”),
-po **poziomie pikanterii** i po tym, **czy seria jest już zakończona**. Serwis jest zbudowany
-właśnie wokół tych pytań.
+Łuska i Ciernie is a catalogue and search engine for romantasy books. Readers of the genre search
+differently than in an ordinary bookshop: by **trope** ("enemies to lovers", "fated mates",
+"fae courts"), by **spice level** and by **whether the series is finished yet**. The site is built
+around exactly those questions.
 
-Równocześnie to **projekt edukacyjny**: aplikacja powstawała etapami (każdy etap to jeden commit),
-tak żeby przećwiczyć całe spektrum **Angular SSR** — od renderowania na serwerze, przez prerender,
-hydrację i transfer state, po SEO, sesje po stronie serwera, i18n i hydrację przyrostową.
-Pełna specyfikacja produktu i założenia wizualne są w [`SPEC.md`](SPEC.md).
+It is also an **educational project**: the app was built in stages (one commit per stage) to
+practise the whole range of **Angular SSR** — server rendering, prerendering, hydration and
+transfer state, through SEO, server-side sessions and i18n, to incremental hydration.
+The full product specification and visual guidelines are in [`SPEC.md`](SPEC.md) (in Polish).
+The UI is Polish by default, with an English version under `/en/`.
 
 ---
 
-## Spis treści
+## Contents
 
-1. [Co potrafi serwis](#co-potrafi-serwis)
-2. [Szybki start](#szybki-start)
-3. [Stos technologiczny](#stos-technologiczny)
-4. [Architektura](#architektura)
-5. [Strategie renderowania](#strategie-renderowania)
-6. [Dane i baza](#dane-i-baza)
+1. [Features](#features)
+2. [Quick start](#quick-start)
+3. [Tech stack](#tech-stack)
+4. [Architecture](#architecture)
+5. [Rendering strategies](#rendering-strategies)
+6. [Data and database](#data-and-database)
 7. [API](#api)
-8. [Konta, sesja i bezpieczeństwo](#konta-sesja-i-bezpieczeństwo)
-9. [Wersje językowe](#wersje-językowe)
-10. [SEO i cache](#seo-i-cache)
-11. [Hydracja: pułapki i rozwiązania](#hydracja-pułapki-i-rozwiązania)
-12. [Testy](#testy)
-13. [Konfiguracja (zmienne środowiskowe)](#konfiguracja-zmienne-środowiskowe)
-14. [Struktura katalogów](#struktura-katalogów)
-15. [Konwencje](#konwencje)
-16. [Historia etapów](#historia-etapów)
-17. [Kwestie prawne](#kwestie-prawne)
+8. [Accounts, sessions and security](#accounts-sessions-and-security)
+9. [Languages](#languages)
+10. [SEO and caching](#seo-and-caching)
+11. [Hydration: pitfalls and solutions](#hydration-pitfalls-and-solutions)
+12. [Tests](#tests)
+13. [Configuration (environment variables)](#configuration-environment-variables)
+14. [Directory structure](#directory-structure)
+15. [Conventions](#conventions)
+16. [Stage history](#stage-history)
+17. [Legal notes](#legal-notes)
 
 ---
 
-## Co potrafi serwis
+## Features
 
-| Funkcja | Adres | Opis |
+URLs are Polish (the source language); the English version lives under the `/en/` prefix.
+
+| Feature | URL | Description |
 |---|---|---|
-| Strona główna | `/` | Hero z mgławicą i iskrami, **Trop dnia** (ten sam dla wszystkich przez całą dobę UTC) |
-| Strona książki | `/ksiazka/:slug` | Opis, tropy z runami, pikanteria 0–5 („płomienie”), seria i jej status, ostrzeżenia treści, tomy serii, **Podobne ścieżki** (książki z największą liczbą wspólnych tropów), przycisk półki |
-| Strona autorki/autora | `/autor/:slug` | Biogram i bibliografia |
-| Tropy | `/tropy`, `/tropy/:slug` | Katalog tropów pogrupowany w trzy krainy (Turnie Smoków, Dwór Mgieł, Skryptorium) i lista książek danego tropu |
-| Wyszukiwarka | `/szukaj` | Fraza (tytuł, autor, seria — bez względu na ogonki), tropy łączone AND/OR, maks. pikanteria, status serii. **Działa bez JavaScriptu** (formularz GET) |
-| Premiery | `/premiery` | Kalendarz zapowiedzi z odliczaniem (dni → godziny, minuty, sekundy w ostatniej dobie) i kanał **RSS** `/rss/premiery` |
-| Konto | `/logowanie`, `/rejestracja` | „Przekrocz próg” / „Zawrzyj pakt”. Formularze działają bez JS, po zalogowaniu powrót na stronę, z której się przyszło |
-| Skarbiec | `/moja-polka` | Własna półka: do przeczytania / czytam / przeczytane, ocena 1–5, notatka |
-| Motyw | przełącznik w nagłówku | Noc (ciemny) i pergamin (jasny), zapamiętany w ciasteczku — bez mignięcia przy ładowaniu |
-| Wersje językowe | `/…` i `/en/…` | Polska (domyślna) i angielska, z tytułami książek w wersji danego rynku |
+| Home | `/` | Hero with a nebula and sparks, **Trope of the day** (the same for everyone for a whole UTC day) |
+| Book page | `/ksiazka/:slug` | Description, tropes with runes, spice 0–5 ("flames"), series and its status, content warnings, other volumes, **Kindred paths** (books sharing the most tropes), shelf button |
+| Author page | `/autor/:slug` | Bio and bibliography |
+| Tropes | `/tropy`, `/tropy/:slug` | Trope catalogue grouped into three realms (Dragon Peaks, Court of Mists, Scriptorium) and the books of each trope |
+| Search | `/szukaj` | Phrase (title, author, series — diacritics-insensitive), tropes combined with AND/OR, max spice, series status. **Works without JavaScript** (GET form) |
+| Releases | `/premiery` | Upcoming releases with a countdown (days → hours, minutes, seconds on the last day) and an **RSS** feed at `/rss/premiery` |
+| Account | `/logowanie`, `/rejestracja` | "Cross the threshold" / "Seal the pact". Forms work without JS; after signing in you return to the page you came from |
+| Treasury | `/moja-polka` | Your own shelf: to read / reading / read, rating 1–5, note |
+| Oracle | `/wyrocznia` | Quiz "Which trope is yours?" with recommendations, rendered in the browser only |
+| Theme | toggle in the header | Night (dark) and parchment (light), remembered in a cookie — no flash on load |
+| Languages | `/…` and `/en/…` | Polish (default) and English, with book titles as published in each market |
 
-Katalog zawiera **91 książek**, **38 autorek i autorów** oraz **17 tropów**. To prawdziwe tytuły
-romantasy, ale wyłącznie z metadanymi i własnymi opisami — **bez cytatów**. Premiery w
-`seed/releases.json` są **fikcyjne** (dane przykładowe, strona to zaznacza).
+The catalogue contains **91 books**, **38 authors** and **17 tropes**. These are real romantasy
+titles, but only with metadata and our own descriptions — **no quotes**. Releases in
+`seed/releases.json` are **fictional** sample data (the page says so).
 
-Na kolejnych etapach: **Wyrocznia** (quiz „Jaki trop jest dla Ciebie?”, renderowany tylko w
-przeglądarce) i **deploy** (Docker + hosting z trwałym dyskiem).
+The last planned stage is **deployment** (Docker + hosting with a persistent disk).
 
 ---
 
-## Szybki start
+## Quick start
 
-Wymagania: **Node.js 24** (wbudowany moduł `node:sqlite`) i npm 11. Nie trzeba instalować żadnej
-bazy danych ani zakładać kont — SQLite to zwykłe pliki w `data/`.
+Requirements: **Node.js 24** (built-in `node:sqlite` module) and npm 11. No database server and
+no accounts to set up — SQLite is just files in `data/`.
 
 ```bash
 npm install
 
-# Serwer deweloperski z SSR i hot reload (http://localhost:4200)
-npm start            # wersja polska
-npm run start:en     # wersja angielska
+# Dev server with SSR and hot reload (http://localhost:4200)
+npm start            # Polish version
+npm run start:en     # English version
 
-# Build produkcyjny obu wersji językowych i uruchomienie serwera Node (http://localhost:4000)
+# Production build of both languages and the Node server (http://localhost:4000)
 npm run build:i18n
 npm run serve:ssr:luska-i-ciernie
 ```
 
-`npm start`, `npm run build` i `npm run build:i18n` same odpalają wcześniej `npm run db:seed`,
-który buduje bazę katalogu `data/luska.db` z plików JSON w `seed/`. Baza kont `data/users.db`
-powstaje sama przy pierwszym uruchomieniu serwera.
+`npm start`, `npm run build` and `npm run build:i18n` run `npm run db:seed` first, which builds
+the catalogue database `data/luska.db` from the JSON files in `seed/`. The accounts database
+`data/users.db` is created on the server's first start.
 
-| Skrypt | Co robi |
+| Script | What it does |
 |---|---|
-| `npm start` / `npm run start:en` | `ng serve` — dev server z SSR (pl / en) |
-| `npm run build` | build wersji polskiej |
-| `npm run build:i18n` | build obu wersji językowych (`--localize`) |
-| `npm run serve:ssr:luska-i-ciernie` | produkcyjny serwer Express z `dist/` |
-| `npm run db:seed` | przebudowa `data/luska.db` z `seed/*.json` (w miejscu, w jednej transakcji) |
-| `npm test` | testy jednostkowe (Vitest) |
-| `npm run cypress:run` | testy e2e (Cypress) — wymagają działającego serwera |
-| `npx ng extract-i18n` | aktualizacja `src/locale/messages.json` po zmianie tekstów |
+| `npm start` / `npm run start:en` | `ng serve` — dev server with SSR (pl / en) |
+| `npm run build` | build of the Polish version |
+| `npm run build:i18n` | build of both languages (`--localize`) |
+| `npm run serve:ssr:luska-i-ciernie` | production Express server from `dist/` |
+| `npm run db:seed` | rebuilds `data/luska.db` from `seed/*.json` (in place, in one transaction) |
+| `npm test` | unit tests (Vitest) |
+| `npm run cypress:run` | e2e tests (Cypress) — need a running server |
+| `npx ng extract-i18n` | updates `src/locale/messages.json` after changing UI texts |
 
 ---
 
-## Stos technologiczny
+## Tech stack
 
-| Warstwa | Technologia | Po co |
+| Layer | Technology | Why |
 |---|---|---|
-| Framework | **Angular 22** (standalone, **zoneless**, sygnały) | `httpResource`, `linkedSignal`, `input()`, `@defer`, `@let`, control flow |
-| SSR | **@angular/ssr** (`AngularNodeAppEngine`) | render per trasa: Server / Prerender / Client |
-| Serwer | **Express 5** | API, sesje, formularze bez JS, sitemap, RSS, nagłówki cache — w tym samym procesie co SSR |
-| Baza | **node:sqlite** (wbudowany w Node 24) | katalog tylko do odczytu + osobna baza kont i półek |
-| i18n | **@angular/localize** | build per język (`/` i `/en/`), własne identyfikatory komunikatów |
-| Style | SCSS, tokeny CSS (`src/styles/_tokens.scss`) | dwa motywy, krainy kolorystyczne, `color-mix()` |
-| Fonty | `@fontsource` (Cinzel Decorative, Cormorant Garamond, EB Garamond, Inter) | serwowane z własnej domeny (RODO) |
-| Obrazy | `NgOptimizedImage` | okładka LCP z `priority` i preloadem; na listach `loading="lazy"` |
-| Testy | **Vitest** (`@angular/build:unit-test`), **Cypress 16** | jednostkowe + e2e na zbudowanym serwerze SSR |
+| Framework | **Angular 22** (standalone, **zoneless**, signals) | `httpResource`, `linkedSignal`, `input()`, `@defer`, `@let`, control flow |
+| SSR | **@angular/ssr** (`AngularNodeAppEngine`) | per-route rendering: Server / Prerender / Client |
+| Server | **Express 5** | API, sessions, no-JS forms, sitemap, RSS, cache headers — in the same process as SSR |
+| Database | **node:sqlite** (built into Node 24) | read-only catalogue + a separate database for accounts and shelves |
+| i18n | **@angular/localize** | one build per language (`/` and `/en/`), custom message IDs |
+| Styles | SCSS, CSS tokens (`src/styles/_tokens.scss`) | two themes, realm colours, `color-mix()` |
+| Fonts | `@fontsource` (Cinzel Decorative, Cormorant Garamond, EB Garamond, Inter) | self-hosted (GDPR) |
+| Images | `NgOptimizedImage` | LCP cover with `priority` and preload; `loading="lazy"` on lists |
+| Tests | **Vitest** (`@angular/build:unit-test`), **Cypress 16** | unit + e2e against the built SSR server |
 
 ---
 
-## Architektura
+## Architecture
 
-Jeden proces Node obsługuje wszystko. Kolejność middleware w `src/server.ts` ma znaczenie:
+A single Node process serves everything. Middleware order in `src/server.ts` matters:
 
 ```
-żądanie
+request
   │
-  ├─ /api/me, /api/shelf/*   → sesja → JSON API półki (Origin, application/json)
-  ├─ /api/*                  → katalog (SQLite, tylko odczyt)
+  ├─ /api/me, /api/shelf/*   → session → shelf JSON API (Origin check, application/json)
+  ├─ /api/*                  → catalogue (SQLite, read-only)
   ├─ /robots.txt, /sitemap.xml, /rss/premiery
-  ├─ pliki statyczne z dist/browser (+ prerenderowane HTML-e)
-  ├─ sesja (ciasteczko sid → użytkownik)
-  ├─ /auth/*, /polka, /motyw → formularze POST działające bez JavaScriptu (303 z powrotem)
-  ├─ strażnicy: /moja-polka bez sesji → 302 na logowanie; /logowanie z sesją → 302 dalej
+  ├─ static files from dist/browser (+ prerendered HTML)
+  ├─ session (sid cookie → user)
+  ├─ /auth/*, /polka, /motyw → POST forms that work without JavaScript (303 back)
+  ├─ guards: /moja-polka without a session → 302 to sign-in; /logowanie with a session → 302 onwards
   └─ Angular SSR: angularApp.handle(req, { user })
-        → motyw wstawiony do <html data-theme>
-        → Cache-Control: private, no-store dla zalogowanych, Vary: Cookie
+        → theme injected into <html data-theme>
+        → Cache-Control: private, no-store for signed-in users, Vary: Cookie
 ```
 
-Po stronie Angulara:
+On the Angular side:
 
-- **`src/app/pages/*`** — strony (ładowane leniwie przez `loadComponent`).
-- **`src/app/ui/*`** — komponenty wielokrotnego użytku (karta książki, okładka, runa, pikanteria…).
-- **`src/app/layout/*`** — nagłówek z menu „Mapa” (hamburger na mobile), konto, przełącznik motywu, stopka.
-- **`src/app/core/*`** — serwisy i interceptory: `Seo`, `Session`, `ServerResponse` (statusy HTTP z SSR),
-  `daily` (deterministyczny „dzień renderu”), `forwardSessionInterceptor`, `apiLanguageInterceptor`, motyw.
-- **`src/shared/models.ts`** — typy wspólne dla serwera i przeglądarki (jedno źródło prawdy o kształcie API).
+- **`src/app/pages/*`** — pages (lazy-loaded with `loadComponent`).
+- **`src/app/ui/*`** — reusable components (book card, cover, rune, spice meter…).
+- **`src/app/layout/*`** — header with the "Map" menu (hamburger on mobile), account, theme toggle, footer.
+- **`src/app/core/*`** — services and interceptors: `Seo`, `Session`, `ServerResponse` (HTTP status
+  codes from SSR), `daily` (deterministic "render day"), `forwardSessionInterceptor`,
+  `apiLanguageInterceptor`, theme.
+- **`src/shared/models.ts`** — types shared by server and browser (one source of truth for the API shape).
 
-Komponenty pobierają dane przez **względne URL-e** (`httpResource('/api/books/…')`). Podczas SSR
-Angular rozwiązuje je względem adresu żądania, a odpowiedzi trafiają do **HTTP transfer cache**
-w HTML-u — przeglądarka po hydracji nie pyta API drugi raz.
+Components fetch data with **relative URLs** (`httpResource('/api/books/…')`). During SSR Angular
+resolves them against the request URL, and the responses land in the **HTTP transfer cache**
+embedded in the HTML — after hydration the browser does not call the API again.
 
 ---
 
-## Strategie renderowania
+## Rendering strategies
 
-Zdefiniowane w `src/app/app.routes.server.ts`, każda z uzasadnieniem w komentarzu:
+Defined in `src/app/app.routes.server.ts`, each with its rationale in a comment:
 
-| Trasa | Tryb | Dlaczego |
+| Route | Mode | Why |
 |---|---|---|
-| `/` | Server | Trop dnia zmienia się co dobę — prerender byłby nieaktualny |
-| `/tropy`, `/tropy/:slug` | **Prerender** | rzadko się zmienia; `getPrerenderParams` pobiera listę slugów z API w czasie `ng build`; nieznany slug → render na żądanie z 404 |
-| `/ksiazka/:slug`, `/autor/:slug` | Server | dużo stron, zmienne dane; strona sama ustawia 404 / 301 (`RESPONSE_INIT`) |
-| `/szukaj` | Server | wynik zależy od query params |
-| `/premiery` | Server + cache CDN | odliczanie w dniach → HTML ważny dobę (`s-maxage`) |
-| `/logowanie`, `/rejestracja` | Server | komunikat błędu i wypełnione pola z query params |
-| `/moja-polka/**` | **Client** | prywatne, bez SEO; niezalogowanych przekierowuje wcześniej Express |
-| `**` | Server, status 404 | nieznane adresy |
+| `/` | Server | the trope of the day changes daily — a prerender would go stale |
+| `/tropy`, `/tropy/:slug` | **Prerender** | rarely changes; `getPrerenderParams` fetches the slugs from the API during `ng build`; an unknown slug → on-demand render with 404 |
+| `/ksiazka/:slug`, `/autor/:slug` | Server | many pages, changing data; the page itself sets 404 / 301 (`RESPONSE_INIT`) |
+| `/szukaj` | Server | the result depends on query params |
+| `/premiery` | Server + CDN cache | countdown in days → HTML valid for a day (`s-maxage`) |
+| `/logowanie`, `/rejestracja` | Server | error message and filled-in fields come from query params |
+| `/moja-polka/**` | **Client** | private, no SEO; Express redirects anonymous visitors before Angular runs |
+| `/wyrocznia` | **Client** | an interactive quiz with nothing for crawlers; the server sends an empty shell |
+| `**` | Server, status 404 | unknown URLs |
 
 ---
 
-## Dane i baza
+## Data and database
 
-- **`seed/*.json`** — źródło prawdy katalogu: książki, autorzy, serie, tropy, premiery. Tytuły i
-  nazwy serii mają warianty per język (np. „Okrutny książę” / „The Cruel Prince”), podobnie okładki
-  wydań lokalnych.
-- **`scripts/seed.ts`** → **`data/luska.db`**: schemat w `src/server/db/database.ts` (książki, tytuły
-  per język, okładki per język, tropy, ostrzeżenia, serie, premiery, stare slugi → przekierowania 301).
-  Seed przebudowuje bazę **w miejscu, w jednej transakcji**, z kontrolą kluczy obcych — działa nawet
-  wtedy, gdy uruchomiony serwer trzyma plik otwarty.
-- **`data/users.db`**: konta, sesje i półki (zapisywalna, poza gitem). Półka kasuje się razem z
-  kontem (`ON DELETE CASCADE`), reguły (np. ocena tylko dla „przeczytane”) pilnuje `CHECK`.
-- **`src/server/catalog.ts`** — cała logika zapytań: filtry wyszukiwarki w SQL, sortowanie z polską
-  kolejnością liter w JS (`localeCompare`), wyszukiwanie bez ogonków (kolumna `search_text`),
-  „podobne książki” po liczbie wspólnych tropów.
+- **`seed/*.json`** — the catalogue's source of truth: books, authors, series, tropes, releases.
+  Titles and series names have per-language variants (e.g. "Okrutny książę" / "The Cruel Prince"),
+  and so do covers of local editions.
+- **`scripts/seed.ts`** → **`data/luska.db`**: schema in `src/server/db/database.ts` (books, titles
+  per language, covers per language, tropes, warnings, series, releases, old slugs → 301 redirects).
+  The seed rebuilds the database **in place, in a single transaction**, with a foreign key check —
+  it works even while a running server holds the file open.
+- **`data/users.db`**: accounts, sessions and shelves (writable, not in git). A shelf is deleted
+  together with its account (`ON DELETE CASCADE`); rules (e.g. a rating only for "read") are
+  enforced with `CHECK`.
+- **`src/server/catalog.ts`** — all query logic: search filters in SQL, sorting with Polish letter
+  order in JS (`localeCompare`), diacritics-insensitive search (`search_text` column), "kindred
+  books" by number of shared tropes.
 
-Okładki: domyślnie z Open Library; `COVER_SOURCE=none` włącza **własne, generowane okładki**
-(tło krainy, runa tropu, tytuł) — patrz [kwestie prawne](#kwestie-prawne).
+Covers come from Open Library by default; `COVER_SOURCE=none` switches to **our own generated
+covers** (realm background, trope rune, title) — see [legal notes](#legal-notes).
 
 ---
 
 ## API
 
-Wszystkie odpowiedzi to JSON. Język treści wybiera nagłówek dodawany przez `apiLanguageInterceptor`.
+All responses are JSON. The content language is selected by a header added by `apiLanguageInterceptor`.
 
-| Metoda i ścieżka | Opis |
+| Method and path | Description |
 |---|---|
-| `GET /api/books?q=&trope=&match=any&maxSpice=&status=&author=` | lista książek po filtrach (`trope` można powtórzyć) |
-| `GET /api/books/:slug` | szczegóły książki z tomami serii i `similar`; stary slug → 301 |
-| `GET /api/authors/:slug` | autor z bibliografią |
-| `GET /api/tropes`, `GET /api/tropes/:slug` | tropy z liczbą książek / trop z książkami |
-| `GET /api/releases` | premiery od dziś |
-| `GET /api/me` | zalogowana osoba (e-mail, imię) albo 401 |
-| `GET /api/shelf` | cała półka (wymaga sesji) |
-| `GET /api/shelf/:slug` | pozycja na półce albo `null`, gdy książki na niej nie ma |
-| `PUT /api/shelf/:slug` | zapis statusu, oceny, notatki |
-| `DELETE /api/shelf/:slug` | zdjęcie z półki |
+| `GET /api/books?q=&trope=&match=any&maxSpice=&status=&author=` | book list by filters (`trope` may repeat) |
+| `GET /api/books/:slug` | book details with series volumes and `similar`; an old slug → 301 |
+| `GET /api/authors/:slug` | author with bibliography |
+| `GET /api/tropes`, `GET /api/tropes/:slug` | tropes with book counts / a trope with its books |
+| `GET /api/releases` | releases from today on |
+| `GET /api/me` | the signed-in person (e-mail, name) or 401 |
+| `GET /api/shelf` | the whole shelf (session required) |
+| `GET /api/shelf/:slug` | the shelf entry, or `null` when the book is not on the shelf |
+| `PUT /api/shelf/:slug` | saves status, rating, note |
+| `DELETE /api/shelf/:slug` | removes the book from the shelf |
 
-Poza API: `/robots.txt`, `/sitemap.xml` (z `hreflang` dla obu języków), `/rss/premiery`
-(+ `/en/rss/premiery`) oraz formularze `POST /auth/logowanie`, `/auth/rejestracja`,
+Outside the API: `/robots.txt`, `/sitemap.xml` (with `hreflang` for both languages), `/rss/premiery`
+(+ `/en/rss/premiery`) and the forms `POST /auth/logowanie`, `/auth/rejestracja`,
 `/auth/wyloguj`, `/polka`, `/motyw`.
 
 ---
 
-## Konta, sesja i bezpieczeństwo
+## Accounts, sessions and security
 
-- Hasła hashowane **scryptem** z solą; tokeny sesji przechowywane w bazie **tylko jako hash**.
-- Ciasteczko `sid`: `HttpOnly`, `SameSite=Lax`, `Secure` za HTTPS (lub `COOKIE_SECURE=true`).
-- Zapisy (POST/PUT/DELETE) sprawdzają nagłówek **`Origin`**; JSON API przyjmuje tylko
-  `application/json` (inaczej 415) — zwykły formularz z obcej strony go nie wywoła.
-- Parametr powrotu `?next=` przechodzi przez `safeNext` (tylko ścieżki tej samej strony, żadnych `//evil.com`).
-- Limity prób: 10 logowań na 15 minut i `REGISTER_LIMIT_PER_HOUR` rejestracji na godzinę (w pamięci procesu).
-- Przy SSR `forwardSessionInterceptor` przekazuje do API **tylko** ciasteczko `sid` i **tylko** do
-  `/api/shelf` — dzięki temu serwer renderuje stan półki, a nic więcej nie wycieka.
-- Przeglądarka dostaje wyłącznie e-mail i imię; wewnętrzne `id` zostaje na serwerze
-  (`REQUEST_CONTEXT` → serwis `Session`).
-- HTML zalogowanej osoby ma `Cache-Control: private, no-store` i `Vary: Cookie` — żaden cache
-  pośredni nie pokaże go komuś innemu.
-
----
-
-## Wersje językowe
-
-- Polski to język źródłowy (ścieżka `/`), angielski to tłumaczenie (`/en/`). Build `--localize`
-  tworzy osobną aplikację per język; serwer wybiera ją po prefiksie ścieżki.
-- Teksty w szablonach mają stałe identyfikatory (`i18n="@@book.similarTitle"`), tłumaczenia są w
-  `src/locale/messages.en.json`. Po dodaniu tekstu: `npx ng extract-i18n` i uzupełnienie tłumaczenia.
-- Liczebniki („1 tom / 2 tomy / 5 tomów”) liczą pipe'y na `Intl.PluralRules` — wyrażenia ICU
-  w pętli `@for` psują hydrację i18n.
-- Dodanie kolejnego języka: wpis w `i18n.locales` w `angular.json`, plik tłumaczeń, wpis w
-  `LANGS`/`LANG_PREFIX` w `src/shared/models.ts` (stąd biorą się `hreflang`, sitemap i przełącznik).
+- Passwords are hashed with salted **scrypt**; session tokens are stored in the database **only as hashes**.
+- The `sid` cookie: `HttpOnly`, `SameSite=Lax`, `Secure` behind HTTPS (or with `COOKIE_SECURE=true`).
+- Writes (POST/PUT/DELETE) check the **`Origin`** header; the JSON API accepts only
+  `application/json` (otherwise 415) — a plain form on a foreign site cannot call it.
+- The `?next=` return parameter goes through `safeNext` (same-site paths only, no `//evil.com`).
+- Rate limits: 10 sign-in attempts per 15 minutes and `REGISTER_LIMIT_PER_HOUR` registrations per
+  hour (in process memory).
+- During SSR `forwardSessionInterceptor` forwards **only** the `sid` cookie and **only** to
+  `/api/shelf` — the server can render the shelf state and nothing else leaks.
+- The browser receives only the e-mail and name; the internal `id` stays on the server
+  (`REQUEST_CONTEXT` → `Session` service).
+- HTML for signed-in users has `Cache-Control: private, no-store` and `Vary: Cookie` — no shared
+  cache will ever show it to someone else.
 
 ---
 
-## SEO i cache
+## Languages
 
-- Serwis `Seo` ustawia w jednym miejscu: `<title>`, `description`, `robots`, `canonical`,
-  `hreflang` (pl, en, x-default), Open Graph, Twitter Card, kanał RSS i **JSON-LD**
-  (`WebSite` z `SearchAction`, `Book`, `BookSeries`, `Person`, `ItemList`). Wszystko powstaje już w HTML-u z serwera — roboty i podglądy
-  linków w komunikatorach nie wykonują JavaScriptu.
-- Prawdziwe kody HTTP z SSR: 404 dla nieistniejących książek i autorów, 301 ze starych slugów.
-- Wyszukiwarka ma kanoniczny adres niezależny od kolejności parametrów.
-- `Cache-Control`: API katalogu `public, max-age=300`; `/premiery` dla anonimów
-  `public, max-age=300, s-maxage=3600, stale-while-revalidate=600`; zalogowani `private, no-store`.
+- Polish is the source language (path `/`), English is a translation (`/en/`). The `--localize`
+  build produces a separate app per language; the server picks one by path prefix.
+- Template texts have stable IDs (`i18n="@@book.similarTitle"`); translations live in
+  `src/locale/messages.en.json`. After adding a text: `npx ng extract-i18n` and add the translation.
+- Plurals ("1 tom / 2 tomy / 5 tomów") are handled by pipes built on `Intl.PluralRules` — ICU
+  expressions inside `@for` break i18n hydration.
+- Adding another language: an entry in `i18n.locales` in `angular.json`, a translation file, and an
+  entry in `LANGS` / `LANG_PREFIX` in `src/shared/models.ts` (which drives `hreflang`, the sitemap
+  and the switcher).
 
 ---
 
-## Hydracja: pułapki i rozwiązania
+## SEO and caching
 
-Projekt celowo przechodzi przez typowe problemy SSR (SPEC §6):
+- The `Seo` service sets everything in one place: `<title>`, `description`, `robots`, `canonical`,
+  `hreflang` (pl, en, x-default), Open Graph, Twitter Card, the RSS feed link and **JSON-LD**
+  (`WebSite` with `SearchAction`, `Book`, `BookSeries`, `Person`, `ItemList`). It is all present in
+  the server HTML — crawlers and link previews in messengers do not run JavaScript.
+- Real HTTP status codes from SSR: 404 for missing books and authors, 301 from old slugs.
+- Search has a canonical URL independent of parameter order.
+- `Cache-Control`: catalogue API `public, max-age=300`; `/premiery` for anonymous visitors
+  `public, max-age=300, s-maxage=3600, stale-while-revalidate=600`; signed-in users `private, no-store`.
 
-| Problem | Rozwiązanie w kodzie |
+---
+
+## Hydration: pitfalls and solutions
+
+The project deliberately walks through typical SSR problems (SPEC §6):
+
+| Problem | Solution in the code |
 |---|---|
-| `Math.random()` / `new Date()` daje inny wynik na serwerze i w przeglądarce (NG0500) | „dzień renderu” w UTC zapisany w `TransferState` (`core/daily.ts`), losowanie deterministyczne z daty |
-| Mignięcie motywu (FOUC) | motyw z ciasteczka wstawiany do `<html data-theme>` przez SSR, a dla HTML-a z prerenderu — przez Express |
-| Kliknięcie przed hydracją | **event replay**; formularze półki i logowania to natywne `<form method="post">`, więc działają nawet bez JS; `isReplayed()` zapobiega podwójnemu zapisowi |
-| Podwójne żądania po hydracji | HTTP transfer cache (także dla prywatnych odpowiedzi półki). Stany „brak danych” to **200 z `null`**, nie 404 — transfer cache zapisuje tylko udane odpowiedzi |
-| Komponenty z i18n renderowane od nowa | `withI18nSupport()` w `provideClientHydration` |
-| Odliczanie zmieniające się co sekundę | `afterNextRender` — tykanie startuje dopiero w przeglądarce, po hydracji |
-| Ciężkie fragmenty poniżej zgięcia | **hydracja przyrostowa**: „Podobne ścieżki” w `@defer (on viewport; hydrate on viewport)` — HTML z serwera, kod dopiero po przewinięciu |
-| Statyczne fragmenty | stopka w `@defer (hydrate never)` — nigdy nie pobiera kodu |
+| `Math.random()` / `new Date()` give different results on server and browser (NG0500) | a UTC "render day" stored in `TransferState` (`core/daily.ts`), deterministic pick from the date |
+| Theme flash (FOUC) | the theme from the cookie goes into `<html data-theme>` during SSR, and Express does it for prerendered HTML |
+| Clicks before hydration | **event replay**; the shelf and sign-in forms are native `<form method="post">`, so they work even without JS; `isReplayed()` prevents a double save |
+| Duplicate requests after hydration | HTTP transfer cache (also for private shelf responses). "No data" states are **200 with `null`**, not 404 — the transfer cache stores only successful responses |
+| Components with i18n re-rendered from scratch | `withI18nSupport()` in `provideClientHydration` |
+| A countdown that changes every second | `afterNextRender` — ticking starts in the browser only, after hydration |
+| Heavy content below the fold | **incremental hydration**: "Kindred paths" in `@defer (on viewport; hydrate on viewport)` — HTML from the server, code only after scrolling |
+| Static content | the footer in `@defer (hydrate never)` — its code is never downloaded |
 
-Nawigacja korzysta z **View Transitions** (`withViewTransitions`): okładka płynnie „przelatuje”
-z karty na stronę książki dzięki wspólnej `view-transition-name`; przy `prefers-reduced-motion`
-animacje są wyłączone.
+Navigation uses **View Transitions** (`withViewTransitions`): the cover smoothly "flies" from the
+card to the book page thanks to a shared `view-transition-name`; with `prefers-reduced-motion`
+the animations are off.
 
 ---
 
-## Testy
+## Tests
 
 ```bash
-npm test                                   # Vitest: katalog, sesje, hasła, SEO, motyw, daily…
+npm test                                   # Vitest: catalogue, sessions, passwords, SEO, theme, daily…
 
 npm run build:i18n
-PORT=4123 node dist/luska-i-ciernie/server/server.mjs &
+PORT=4123 REGISTER_LIMIT_PER_HOUR=1000 node dist/luska-i-ciernie/server/server.mjs &
 npx cypress run --config baseUrl=http://localhost:4123
 ```
 
-Testy e2e (`cypress/e2e/`) sprawdzają to, czego nie widać w testach jednostkowych: kody HTTP,
-HTML z serwera (`cy.request`), brak drugiego żądania po hydracji (transfer cache), działanie bez
-JavaScriptu (`cy.disableJavaScript()`), kliknięcia przed hydracją, hydrację przyrostową (atrybut
-`ngb` przed i po przewinięciu), SEO, i18n i motyw. Rejestracja ma limit na godzinę — przy wielu
-przebiegach ustaw `REGISTER_LIMIT_PER_HOUR=1000`.
+The e2e tests (`cypress/e2e/`) check what unit tests cannot see: HTTP status codes, server HTML
+(`cy.request`), no second request after hydration (transfer cache), working without JavaScript
+(`cy.disableJavaScript()`), clicks before hydration, incremental hydration (the `ngb` attribute
+before and after scrolling), SEO, i18n and the theme. Registration is rate-limited per hour — for
+repeated runs set `REGISTER_LIMIT_PER_HOUR=1000`.
+
+Run `npm test` **before** the build: the unit-test builder rewrites `dist/`, which breaks a server
+already running from it.
 
 ---
 
-## Konfiguracja (zmienne środowiskowe)
+## Configuration (environment variables)
 
-| Zmienna | Domyślnie | Znaczenie |
+| Variable | Default | Meaning |
 |---|---|---|
-| `PORT` | `4000` | port serwera Node |
-| `DB_PATH` | `data/luska.db` | baza katalogu (tylko odczyt) |
-| `USERS_DB_PATH` | `data/users.db` | baza kont, sesji i półek |
-| `COVER_SOURCE` | `openlibrary` | `none` = tylko własne, generowane okładki |
-| `PUBLIC_ORIGIN` | adres z żądania | publiczny adres serwisu do sitemap i RSS |
-| `COOKIE_SECURE` | — | `true` wymusza `Secure` na ciasteczkach (np. za proxy z HTTPS) |
-| `REGISTER_LIMIT_PER_HOUR` | `5` | limit rejestracji z jednego adresu |
-| `API_DELAY_MS` | `0` | sztuczne opóźnienie API — do oglądania stanów ładowania |
+| `PORT` | `4000` | Node server port |
+| `DB_PATH` | `data/luska.db` | catalogue database (read-only) |
+| `USERS_DB_PATH` | `data/users.db` | accounts, sessions and shelves database |
+| `COVER_SOURCE` | `openlibrary` | `none` = generated covers only |
+| `PUBLIC_ORIGIN` | origin of the request | public site URL for the sitemap and RSS |
+| `COOKIE_SECURE` | — | `true` forces `Secure` on cookies (e.g. behind an HTTPS proxy) |
+| `REGISTER_LIMIT_PER_HOUR` | `5` | registrations per hour from one address |
+| `API_DELAY_MS` | `0` | artificial API delay — for watching loading states |
 
 ---
 
-## Struktura katalogów
+## Directory structure
 
 ```
-seed/                  dane katalogu (JSON) — źródło prawdy
-scripts/seed.ts        budowa data/luska.db
-data/                  bazy SQLite (poza gitem)
-docs/PRAWNE.md         przegląd prawny
-cypress/e2e/           testy e2e
+seed/                  catalogue data (JSON) — the source of truth
+scripts/seed.ts        builds data/luska.db
+data/                  SQLite databases (not in git)
+docs/PRAWNE.md         legal review (Polish)
+cypress/e2e/           e2e tests
 src/
-  server.ts            Express: kolejność middleware, SSR, nagłówki
-  server/              API, katalog, SEO (sitemap/robots/RSS), auth, półka, motyw, baza
-  shared/models.ts     typy wspólne dla serwera i przeglądarki
-  locale/              messages.json (pl, źródło) i messages.en.json
-  styles/              tokeny, mixiny formularzy
+  server.ts            Express: middleware order, SSR, headers
+  server/              API, catalogue, SEO (sitemap/robots/RSS), auth, shelf, theme, database
+  shared/models.ts     types shared by server and browser
+  locale/              messages.json (pl, source) and messages.en.json
+  styles/              tokens, form mixins
   app/
-    app.config.ts      providery: router, HttpClient, hydracja, transfer cache
-    app.routes.ts      trasy (leniwe komponenty)
-    app.routes.server.ts  tryby renderowania per trasa
-    core/              serwisy i interceptory
-    layout/            nagłówek, konto, przełącznik motywu, stopka
-    pages/             strony
-    ui/                komponenty wielokrotnego użytku
+    app.config.ts      providers: router, HttpClient, hydration, transfer cache
+    app.routes.ts      routes (lazy components)
+    app.routes.server.ts  rendering mode per route
+    core/              services and interceptors
+    layout/            header, account, theme toggle, footer
+    pages/             pages
+    ui/                reusable components
 ```
 
 ---
 
-## Konwencje
+## Conventions
 
-- Każdy komponent ma **własny folder** z osobnymi plikami `.ts`, `.html` i `.scss`.
-- Bez `window` / `localStorage` / `document` poza serwisami platformowymi i `afterNextRender` —
-  kod musi działać także na serwerze.
-- Daty jako dni kalendarzowe w UTC (`YYYY-MM-DD`), żeby serwer i przeglądarka liczyły tak samo.
-- Komentarze w kodzie wyjaśniają **dlaczego** (zwłaszcza decyzje SSR), nie co.
-- Teksty interfejsu w klimacie gatunku („Przekrocz próg”, „Skarbiec”, „Smok przeszukuje skarbiec…”),
-  zawsze z czytelnym znaczeniem obok lub w etykiecie dostępności.
+- Every component has **its own folder** with separate `.ts`, `.html` and `.scss` files.
+- No `window` / `localStorage` / `document` outside platform services and `afterNextRender` —
+  the code must also run on the server.
+- Dates are calendar days in UTC (`YYYY-MM-DD`), so server and browser count the same way.
+- Code comments explain **why** (especially SSR decisions), not what.
+- UI copy fits the genre ("Cross the threshold", "Treasury", "The dragon is searching the hoard…"),
+  always with a plain meaning next to it or in the accessible label.
 
 ---
 
-## Historia etapów
+## Stage history
 
-Każdy etap to jeden commit — `git log` prowadzi przez projekt jak kurs.
+Each stage is one commit — `git log` walks through the project like a course.
 
-| # | Etap | Najważniejszy koncept |
+| # | Stage | Key concept |
 |---|---|---|
-| 1 | Szkielet SSR, tokeny, layout | anatomia aplikacji SSR, `ng build` + serwer Node |
-| 2 | Mock API w Express | API i SSR w jednym procesie |
-| 3 | Strona książki | `httpResource`, HTTP transfer cache |
-| 4 | Autor, 404 i 301 | `RESPONSE_INIT`, prawdziwe kody HTTP |
-| 5 | Tropy | `RenderMode.Prerender`, `getPrerenderParams` |
-| 6 | Landing i Trop dnia | błąd hydracji NG0500 i `TransferState` |
-| 7 | Wyszukiwarka | formularz GET bez JS, canonical |
-| 8 | Polszczyzna i menu | `@angular/localize`, menu mobilne |
-| 9 | Rozbudowa katalogu | 91 książek, generowane okładki, przegląd prawny |
+| 1 | SSR skeleton, tokens, layout | anatomy of an SSR app, `ng build` + Node server |
+| 2 | Mock API in Express | API and SSR in one process |
+| 3 | Book page | `httpResource`, HTTP transfer cache |
+| 4 | Author, 404 and 301 | `RESPONSE_INIT`, real HTTP status codes |
+| 5 | Tropes | `RenderMode.Prerender`, `getPrerenderParams` |
+| 6 | Home and Trope of the day | NG0500 hydration error and `TransferState` |
+| 7 | Search | GET form without JS, canonical |
+| 8 | Polish UI and menu | `@angular/localize`, mobile menu |
+| 9 | Bigger catalogue | 91 books, generated covers, legal review |
 | 10 | SEO | meta, OG, hreflang, JSON-LD, sitemap, robots |
-| 11 | SQLite | `node:sqlite`, seed, warstwa danych bez zmian w Angularze |
-| 12 | Konta i sesja | `REQUEST_CONTEXT`, ciasteczka httpOnly, guard + 302 z serwera |
-| 13 | Skarbiec i motyw | `RenderMode.Client`, FOUC, event replay, prywatny transfer cache |
-| 14 | Premiery i RSS | `afterNextRender`, `Cache-Control: s-maxage` |
-| 15 | Hydracja przyrostowa | `@defer (hydrate …)`, View Transitions |
-| 16 | Wyrocznia | *(planowany)* quiz client-only |
-| 17 | Deploy | *(planowany)* Docker, trwały dysk, zmienne produkcyjne |
+| 11 | SQLite | `node:sqlite`, seed, data layer swapped without touching Angular |
+| 12 | Accounts and sessions | `REQUEST_CONTEXT`, httpOnly cookies, guard + 302 from the server |
+| 13 | Treasury and theme | `RenderMode.Client`, FOUC, event replay, private transfer cache |
+| 14 | Releases and RSS | `afterNextRender`, `Cache-Control: s-maxage` |
+| 15 | Incremental hydration | `@defer (hydrate …)`, View Transitions |
+| 16 | Oracle | client-only quiz, state in the URL |
+| 17 | Deployment | *(planned)* Docker, persistent disk, production variables |
 
 ---
 
-## Kwestie prawne
+## Legal notes
 
-Serwis pokazuje wyłącznie metadane książek i własne opisy — żadnych cytatów. Najważniejsze ryzyko
-to okładki (prawa autorskie wydawców): na produkcji zalecane jest `COVER_SOURCE=none`. Fonty są
-serwowane z własnej domeny, a jedyne ciasteczka (`sid`, `theme`) są funkcjonalne. Szczegóły:
-[`docs/PRAWNE.md`](docs/PRAWNE.md). To nie jest porada prawna.
+The site shows only book metadata and its own descriptions — no quotes. The main risk is covers
+(publishers' copyright): `COVER_SOURCE=none` is recommended in production. Fonts are self-hosted
+and the only cookies (`sid`, `theme`) are functional. Details:
+[`docs/PRAWNE.md`](docs/PRAWNE.md) (in Polish). This is not legal advice.

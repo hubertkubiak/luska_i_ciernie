@@ -1,7 +1,4 @@
-import authorsSeed from '../../seed/authors.json';
-import booksSeed from '../../seed/books.json';
-import seriesSeed from '../../seed/series.json';
-import tropesSeed from '../../seed/tropes.json';
+import type { DatabaseSync } from 'node:sqlite';
 import type {
   AuthorDetail,
   BookDetail,
@@ -9,65 +6,12 @@ import type {
   BookSummary,
   Lang,
   Realm,
-  SeriesFilter,
-  SeriesRef,
   SeriesStatus,
   Spice,
   Trope,
   TropeDetail,
 } from '../shared/models';
-
-/**
- * Lokalne warianty dla języków innych niż angielski (oryginał). Brak klucza = wydanie pod tytułem
- * oryginału albo brak wydania w tym języku.
- */
-type Localized<T> = Partial<Record<Exclude<Lang, 'en'>, T>>;
-
-// Kształt rekordów w seed/*.json. Relacje zapisane slugami, żeby plik dało się edytować ręcznie.
-interface SeedBook {
-  slug: string;
-  /** Dawne adresy (np. z czasów, gdy katalog używał polskich tytułów) — odpowiadają 301. */
-  oldSlugs?: string[];
-  /** Tytuł oryginału (wersja angielska serwisu). */
-  title: string;
-  /** Tytuły wydań lokalnych — dla pl z katalogu Biblioteki Narodowej (data.bn.org.pl). */
-  titles?: Localized<string>;
-  author: string;
-  series?: string;
-  seriesIndex?: number;
-  isbn: string;
-  year: number;
-  pages?: number;
-  /** Okładka wydania oryginalnego w Open Library… */
-  coverId: number;
-  /** …i wydań lokalnych, jeśli Open Library je ma. */
-  covers?: Localized<number>;
-  spice: number;
-  tropes: string[];
-  contentWarnings: string[];
-  description: string;
-}
-
-interface SeedSeries {
-  slug: string;
-  name: string;
-  names?: Localized<string>;
-  status: SeriesStatus;
-  plannedBooks?: number;
-}
-
-interface SeedTrope {
-  slug: string;
-  name: string;
-  realm: string;
-  description: string;
-}
-
-interface SeedAuthor {
-  slug: string;
-  name: string;
-  bio: string;
-}
+import { fold } from './db/database';
 
 export interface CatalogOptions {
   /**
@@ -77,177 +21,201 @@ export interface CatalogOptions {
   covers?: 'openlibrary' | 'none';
 }
 
+/** Wiersz zapytania summarySql() — kolumny nazwane tak, żeby mapowanie na BookSummary było oczywiste. */
+interface SummaryRow {
+  slug: string;
+  title: string;
+  original_title: string;
+  year: number;
+  spice: number;
+  cover_id: number;
+  realm: Realm;
+  author_slug: string;
+  author_name: string;
+  series_slug: string | null;
+  series_name: string | null;
+  series_status: SeriesStatus | null;
+  planned_books: number | null;
+  series_index: number | null;
+  /** JSON z json_group_array — SQLite składa listę tropów w jednym zapytaniu. */
+  tropes: string;
+}
+
 /**
- * Katalog w pamięci, zbudowany raz przy starcie procesu.
- * W etapie SQLite zastąpimy go bazą — API (src/server/api.ts) zostanie bez zmian,
- * bo zależy tylko od tej publicznej powierzchni.
+ * Wspólny SELECT kart książek. Tytuł, okładka i nazwa serii biorą wersję lokalną (LEFT JOIN
+ * po języku), a gdy jej brak — oryginał (COALESCE). Tropy i kraina przychodzą z podzapytań,
+ * więc lista 91 książek to jedno zapytanie, a nie 91 dodatkowych (problem N+1).
+ */
+const summarySql = (extraColumns = '') => `
+SELECT ${extraColumns}
+  b.slug,
+  COALESCE(bt.title, b.title)       AS title,
+  b.title                           AS original_title,
+  b.year,
+  b.spice,
+  COALESCE(bc.cover_id, b.cover_id) AS cover_id,
+  a.slug                            AS author_slug,
+  a.name                            AS author_name,
+  s.slug                            AS series_slug,
+  COALESCE(sn.name, s.name)         AS series_name,
+  s.status                          AS series_status,
+  s.planned_books,
+  b.series_index,
+  (SELECT t.realm FROM book_tropes x JOIN tropes t ON t.slug = x.trope
+    WHERE x.book = b.slug ORDER BY x.position LIMIT 1) AS realm,
+  (SELECT json_group_array(json_object('slug', slug, 'name', name)) FROM (
+     SELECT t.slug, t.name FROM book_tropes x JOIN tropes t ON t.slug = x.trope
+      WHERE x.book = b.slug ORDER BY x.position)) AS tropes
+FROM books b
+JOIN authors a          ON a.slug = b.author
+LEFT JOIN series s      ON s.slug = b.series
+LEFT JOIN book_titles bt  ON bt.book = b.slug AND bt.lang = :lang
+LEFT JOIN book_covers bc  ON bc.book = b.slug AND bc.lang = :lang
+LEFT JOIN series_names sn ON sn.series = s.slug AND sn.lang = :lang
+`;
+
+/**
+ * Katalog nad bazą SQLite. Publiczne metody są te same co w wersji „w pamięci” z etapów 2–10,
+ * więc api.ts, seo.ts i cała aplikacja Angular nie zauważyły zmiany.
  */
 export class Catalog {
-  private readonly books = new Map<string, SeedBook>();
-  private readonly tropes = new Map<string, SeedTrope>();
-  private readonly authors = new Map<string, SeedAuthor>();
-  private readonly series = new Map<string, SeedSeries>();
-  /** stary slug → aktualny slug */
-  private readonly redirects = new Map<string, string>();
   private readonly covers: NonNullable<CatalogOptions['covers']>;
 
   constructor(
-    books: SeedBook[] = booksSeed,
-    tropes: SeedTrope[] = tropesSeed,
-    authors: SeedAuthor[] = authorsSeed,
-    series: SeedSeries[] = seriesSeed as SeedSeries[],
+    private readonly db: DatabaseSync,
     options: CatalogOptions = {},
   ) {
-    for (const t of tropes) this.tropes.set(t.slug, t);
-    for (const a of authors) this.authors.set(a.slug, a);
-    for (const s of series) this.series.set(s.slug, s);
-    for (const b of books) {
-      this.books.set(b.slug, b);
-      for (const old of b.oldSlugs ?? []) this.redirects.set(old, b.slug);
-    }
     this.covers = options.covers ?? 'openlibrary';
-    this.validate();
   }
 
   /** Aktualny slug dla dawnego adresu książki albo undefined. */
   currentBookSlug(oldSlug: string): string | undefined {
-    return this.redirects.get(oldSlug);
+    const row = this.db.prepare('SELECT book FROM old_slugs WHERE old_slug = ?').get(oldSlug) as
+      | { book: string }
+      | undefined;
+    return row?.book;
   }
 
   /** Lista książek po filtrach, posortowana po tytule w danym języku — kolejność jest stabilna. */
   listBooks(query: BookQuery = {}, lang: Lang = 'pl'): BookSummary[] {
-    const needle = query.q ? fold(query.q) : '';
     const tropes = query.tropes ?? [];
-    const has = (b: SeedBook, t: string) => b.tropes.includes(t);
-
-    const found = [...this.books.values()]
-      .filter((b) => !query.slugs || query.slugs.includes(b.slug))
-      .filter((b) => !query.author || b.author === query.author)
-      .filter((b) =>
-        tropes.length === 0 || (query.match === 'any' ? tropes.some((t) => has(b, t)) : tropes.every((t) => has(b, t))),
+    const rows = this.db
+      .prepare(
+        `${summarySql()}
+        WHERE (:author IS NULL OR b.author = :author)
+          AND (:maxSpice IS NULL OR b.spice <= :maxSpice)
+          AND (:status IS NULL OR COALESCE(s.status, 'standalone') = :status)
+          AND (:needle IS NULL OR b.search_text LIKE '%' || :needle || '%' ESCAPE '\\')
+          AND (:slugs IS NULL OR b.slug IN (SELECT value FROM json_each(:slugs)))
+          -- AND: książka ma wszystkie wybrane tropy; OR (match=any): choć jeden.
+          AND (:tropeCount = 0 OR (
+            SELECT COUNT(*) FROM book_tropes x
+             WHERE x.book = b.slug AND x.trope IN (SELECT value FROM json_each(:tropes))
+          ) >= (CASE :match WHEN 'any' THEN 1 ELSE :tropeCount END))`,
       )
-      .filter((b) => query.maxSpice === undefined || b.spice <= query.maxSpice)
-      .filter((b) => !query.status || this.seriesFilterOf(b) === query.status)
-      .filter((b) => !needle || this.searchText(b).includes(needle))
-      .map((b) => this.toSummary(b, lang));
+      .all({
+        lang,
+        author: query.author ?? null,
+        maxSpice: query.maxSpice ?? null,
+        status: query.status ?? null,
+        needle: query.q ? escapeLike(fold(query.q)) : null,
+        slugs: query.slugs ? JSON.stringify(query.slugs) : null,
+        tropes: JSON.stringify(tropes),
+        tropeCount: tropes.length,
+        match: query.match ?? 'all',
+      }) as unknown as SummaryRow[];
 
+    const books = rows.map((r) => this.toSummary(r));
     if (query.slugs) {
       const order = query.slugs;
-      return found.sort((x, y) => order.indexOf(x.slug) - order.indexOf(y.slug));
+      return books.sort((x, y) => order.indexOf(x.slug) - order.indexOf(y.slug));
     }
-    return found.sort((x, y) => x.title.localeCompare(y.title, lang));
+    // Sortujemy w JS: SQLite bez rozszerzenia ICU nie zna polskiej kolejności (Ł po L, Ś po S).
+    return books.sort((x, y) => x.title.localeCompare(y.title, lang));
   }
 
   getBook(slug: string, lang: Lang = 'pl'): BookDetail | undefined {
-    const b = this.books.get(slug);
-    if (!b) return undefined;
+    const row = this.db
+      .prepare(
+        `${summarySql('b.isbn, b.pages, b.description,')} WHERE b.slug = :slug`,
+      )
+      .get({ lang, slug }) as (SummaryRow & { isbn: string; pages: number | null; description: string }) | undefined;
+    if (!row) return undefined;
 
-    const seriesBooks = b.series
-      ? [...this.books.values()]
-          .filter((other) => other.series === b.series)
-          .map((other) => ({ slug: other.slug, title: localTitle(other, lang), index: other.seriesIndex ?? 0 }))
-          .sort((x, y) => x.index - y.index)
+    const warnings = this.db
+      .prepare('SELECT text FROM content_warnings WHERE book = ? ORDER BY position')
+      .all(slug) as { text: string }[];
+    const seriesBooks = row.series_slug
+      ? (this.db
+          .prepare(
+            `SELECT b.slug, COALESCE(bt.title, b.title) AS title, b.series_index AS "index"
+               FROM books b LEFT JOIN book_titles bt ON bt.book = b.slug AND bt.lang = :lang
+              WHERE b.series = :series ORDER BY b.series_index`,
+          )
+          .all({ lang, series: row.series_slug }) as { slug: string; title: string; index: number }[])
       : [];
 
-    const summary = this.toSummary(b, lang);
     return {
-      ...summary,
-      ...(summary.title !== b.title && { originalTitle: b.title }),
-      isbn: b.isbn,
-      ...(b.pages && { pages: b.pages }),
-      description: b.description,
-      contentWarnings: b.contentWarnings,
-      seriesBooks,
+      ...this.toSummary(row),
+      ...(row.title !== row.original_title && { originalTitle: row.original_title }),
+      isbn: row.isbn,
+      ...(row.pages && { pages: row.pages }),
+      description: row.description,
+      contentWarnings: warnings.map((w) => w.text),
+      seriesBooks: seriesBooks.map((b) => ({ ...b })),
     };
   }
 
   getAuthor(slug: string, lang: Lang = 'pl'): AuthorDetail | undefined {
-    const a = this.authors.get(slug);
+    const a = this.db.prepare('SELECT slug, name, bio FROM authors WHERE slug = ?').get(slug) as
+      | { slug: string; name: string; bio: string }
+      | undefined;
     if (!a) return undefined;
     return { ...a, books: this.listBooks({ author: slug }, lang) };
   }
 
   listTropes(): Trope[] {
-    return [...this.tropes.values()].map((t) => this.toTrope(t));
+    return (
+      this.db
+        .prepare(
+          `SELECT t.slug, t.name, t.realm, t.description,
+                  (SELECT COUNT(*) FROM book_tropes x WHERE x.trope = t.slug) AS bookCount
+             FROM tropes t ORDER BY t.position`,
+        )
+        .all() as unknown as Trope[]
+    ).map((t) => ({ ...t }));
   }
 
   getTrope(slug: string, lang: Lang = 'pl'): TropeDetail | undefined {
-    const t = this.tropes.get(slug);
+    const t = this.listTropes().find((x) => x.slug === slug);
     if (!t) return undefined;
-    return { ...this.toTrope(t), books: this.listBooks({ tropes: [slug] }, lang) };
+    return { ...t, books: this.listBooks({ tropes: [slug] }, lang) };
   }
 
-  private seriesFilterOf(b: SeedBook): SeriesFilter {
-    return b.series ? this.series.get(b.series)!.status : 'standalone';
-  }
-
-  /** Szukamy po WSZYSTKICH wariantach tytułu: „Okrutny książę” i „The Cruel Prince” znajdą to samo. */
-  private searchText(b: SeedBook): string {
-    const s = b.series ? this.series.get(b.series)! : undefined;
-    const parts = [b.title, ...Object.values(b.titles ?? {}), this.authors.get(b.author)!.name];
-    if (s) parts.push(s.name, ...Object.values(s.names ?? {}));
-    return fold(parts.join(' '));
-  }
-
-  private toTrope(t: SeedTrope): Trope {
-    const bookCount = [...this.books.values()].filter((b) => b.tropes.includes(t.slug)).length;
-    return { ...t, realm: t.realm as Realm, bookCount };
-  }
-
-  private toSummary(b: SeedBook, lang: Lang): BookSummary {
-    const author = this.authors.get(b.author)!;
-    const series = b.series ? this.series.get(b.series)! : undefined;
+  private toSummary(r: SummaryRow): BookSummary {
     return {
-      slug: b.slug,
-      title: localTitle(b, lang),
-      year: b.year,
-      spice: b.spice as Spice,
-      coverUrl: this.coverUrl(b, lang),
-      // Kraina książki = kraina jej pierwszego (dominującego) tropu.
-      realm: this.tropes.get(b.tropes[0])!.realm as Realm,
-      author: { slug: author.slug, name: author.name },
-      tropes: b.tropes.map((slug) => {
-        const t = this.tropes.get(slug)!;
-        return { slug: t.slug, name: t.name };
-      }),
-      series: series && {
-        slug: series.slug,
-        name: (lang !== 'en' && series.names?.[lang]) || series.name,
-        status: series.status,
-        ...(series.plannedBooks && { plannedBooks: series.plannedBooks }),
-        index: b.seriesIndex ?? 1,
-      },
+      slug: r.slug,
+      title: r.title,
+      year: r.year,
+      spice: r.spice as Spice,
+      coverUrl: this.covers === 'none' ? null : `https://covers.openlibrary.org/b/id/${r.cover_id}-M.jpg`,
+      realm: r.realm,
+      author: { slug: r.author_slug, name: r.author_name },
+      tropes: JSON.parse(r.tropes),
+      series: r.series_slug
+        ? {
+            slug: r.series_slug,
+            name: r.series_name!,
+            status: r.series_status!,
+            ...(r.planned_books && { plannedBooks: r.planned_books }),
+            index: r.series_index ?? 1,
+          }
+        : undefined,
     };
   }
-
-  private coverUrl(b: SeedBook, lang: Lang): string | null {
-    if (this.covers === 'none') return null;
-    const id = (lang !== 'en' && b.covers?.[lang]) || b.coverId;
-    return `https://covers.openlibrary.org/b/id/${id}-M.jpg`;
-  }
-
-  /** Błąd w ręcznie edytowanym seedzie ma wywrócić start serwera, a nie wyprodukować `undefined` w HTML. */
-  private validate(): void {
-    for (const b of this.books.values()) {
-      if (!this.authors.has(b.author)) throw new Error(`[seed] ${b.slug}: nieznany autor "${b.author}"`);
-      if (b.series && !this.series.has(b.series)) throw new Error(`[seed] ${b.slug}: nieznana seria "${b.series}"`);
-      if (b.tropes.length === 0) throw new Error(`[seed] ${b.slug}: brak tropów`);
-      for (const t of b.tropes) {
-        if (!this.tropes.has(t)) throw new Error(`[seed] ${b.slug}: nieznany trop "${t}"`);
-      }
-      if (b.spice < 0 || b.spice > 5) throw new Error(`[seed] ${b.slug}: pikanteria poza zakresem 0–5`);
-    }
-    for (const [old, current] of this.redirects) {
-      if (this.books.has(old)) throw new Error(`[seed] stary slug "${old}" (→ ${current}) koliduje z istniejącą książką`);
-    }
-  }
 }
 
-function localTitle(b: SeedBook, lang: Lang): string {
-  return (lang !== 'en' && b.titles?.[lang]) || b.title;
-}
-
-/** "Łuska Ćmy" → "luska cmy": małe litery, bez ogonków (ł nie rozkłada się w NFD, stąd osobno). */
-function fold(text: string): string {
-  return text.toLowerCase().normalize('NFD').replace(/\p{M}/gu, '').replace(/ł/g, 'l').trim();
+/** % i _ to w LIKE symbole wieloznaczne — w tekście od użytkownika muszą znaczyć siebie. */
+function escapeLike(text: string): string {
+  return text.replace(/[\\%_]/g, (c) => `\\${c}`);
 }

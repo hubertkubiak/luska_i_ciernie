@@ -1,6 +1,6 @@
 import { Router, type Request } from 'express';
 import { LANGS, type Lang } from '../shared/models';
-import { Catalog } from './catalog';
+import type { Catalog } from './catalog';
 
 /** Prefiksy wersji językowych — te same co LANG_PREFIX w src/app/core/seo.ts i "subPath" w angular.json. */
 const LANG_PREFIX: Record<Lang, string> = { pl: '', en: '/en' };
@@ -10,7 +10,7 @@ const LANG_PREFIX: Record<Lang, string> = { pl: '', en: '/en' };
  * Sitemapa wymienia każdą indeksowalną stronę we wszystkich językach, z odnośnikami hreflang,
  * więc wyszukiwarka wie, że /ksiazka/x i /en/ksiazka/x to ta sama książka w dwóch wersjach.
  */
-export function seoRouter(catalog = new Catalog()): Router {
+export function seoRouter(catalog: Catalog): Router {
   const router = Router();
 
   router.get('/robots.txt', (req, res) => {

@@ -1,12 +1,12 @@
 import { Router, type Request } from 'express';
 import { LANGS, type ApiError, type BookQuery, type Lang, type SeriesFilter, type Spice } from '../shared/models';
-import { Catalog } from './catalog';
+import type { Catalog } from './catalog';
 
 /**
  * REST API katalogu. Montowane w server.ts pod /api, PRZED Angularem —
  * kolejność middleware w Express decyduje, kto pierwszy obsłuży żądanie.
  */
-export function apiRouter(catalog = new Catalog(undefined, undefined, undefined, undefined, { covers: coverSource() })): Router {
+export function apiRouter(catalog: Catalog): Router {
   const router = Router();
 
   // Log każdego żądania z informacją, kto pyta: przeglądarka czy SSR (fetch z Node ma
@@ -104,11 +104,6 @@ function bookQuery(query: Record<string, unknown>): BookQuery {
  */
 function lang(req: Request): Lang {
   return (req.acceptsLanguages(...LANGS) || 'pl') as Lang;
-}
-
-/** COVER_SOURCE=none wyłącza zewnętrzne okładki (np. na produkcji, dopóki nie ma licencji). */
-function coverSource(): 'openlibrary' | 'none' {
-  return process.env['COVER_SOURCE'] === 'none' ? 'none' : 'openlibrary';
 }
 
 function stringParam(value: unknown): string | undefined {

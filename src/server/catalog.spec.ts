@@ -1,7 +1,8 @@
 import { Catalog } from './catalog';
+import { memoryDatabase, repoSeed } from './db/testing';
 
 describe('Catalog', () => {
-  const catalog = new Catalog();
+  const catalog = new Catalog(memoryDatabase());
 
   it('loads the seed and resolves relations', () => {
     const book = catalog.getBook('fourth-wing');
@@ -75,7 +76,7 @@ describe('Catalog', () => {
   });
 
   it('can switch covers off (generated covers in the UI)', () => {
-    const noCovers = new Catalog(undefined, undefined, undefined, undefined, { covers: 'none' });
+    const noCovers = new Catalog(memoryDatabase(), { covers: 'none' });
     expect(noCovers.getBook('fourth-wing')?.coverUrl).toBeNull();
     expect(catalog.getBook('fourth-wing')?.coverUrl).toMatch(/^https:\/\/covers\.openlibrary\.org\//);
   });
@@ -96,22 +97,39 @@ describe('Catalog', () => {
     expect(catalog.currentBookSlug('the-cruel-prince')).toBeUndefined();
   });
 
-  it('rejects a seed with a dangling trope reference', () => {
-    const broken = [
-      {
-        slug: 'x',
-        title: 'X',
-        author: 'a',
-        isbn: '',
-        year: 2020,
-        pages: 1,
-        coverId: 1,
-        spice: 0,
-        tropes: ['brak'],
-        contentWarnings: [],
-        description: '',
-      },
-    ];
-    expect(() => new Catalog(broken, [], [{ slug: 'a', name: 'A', bio: '' }], [])).toThrow(/nieznany trop/);
+  it('finds phrases with LIKE wildcards literally', () => {
+    expect(catalog.listBooks({ q: '%' })).toEqual([]);
+    expect(catalog.listBooks({ q: '_' })).toEqual([]);
+  });
+
+});
+
+// Reguły, które dawniej sprawdzał ręcznie Catalog.validate(), pilnuje teraz schemat bazy.
+describe('database constraints', () => {
+  const broken = (mutate: (seed: ReturnType<typeof repoSeed>) => void) => {
+    const seed = repoSeed();
+    mutate(seed);
+    return () => memoryDatabase(seed);
+  };
+
+  it('rejects an unknown trope (foreign key)', () => {
+    expect(broken((s) => (s.books[0].tropes = ['brak']))).toThrow(/fourth-wing.*FOREIGN KEY/);
+  });
+
+  it('rejects an unknown author (foreign key)', () => {
+    expect(broken((s) => (s.books[0].author = 'nikt'))).toThrow(/FOREIGN KEY/);
+  });
+
+  it('rejects spice out of range (CHECK)', () => {
+    expect(broken((s) => (s.books[0].spice = 9))).toThrow(/CHECK constraint/);
+  });
+
+  it('rejects an old slug that is a current book (trigger)', () => {
+    expect(broken((s) => (s.books[0].oldSlugs = ['iron-flame']))).toThrow(/koliduje z istniejącą książką/);
+  });
+
+  it('rejects a book without tropes', () => {
+    expect(broken((s) => (s.books[0].tropes = []))).toThrow(/brak tropów/);
   });
 });
+

@@ -5,23 +5,43 @@ import {
   writeResponseToNodeResponse,
 } from '@angular/ssr/node';
 import express from 'express';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 import { apiRouter } from './server/api';
+import { Catalog } from './server/catalog';
+import { openDatabase } from './server/db/database';
 import { seoRouter } from './server/seo';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
+
+/**
+ * Katalog nad plikiem SQLite (npm run db:seed). Jedna instancja dla API i sitemapy. Ścieżka
+ * względem katalogu roboczego — także podczas `ng build`, gdy prerender woła nasze API.
+ */
+const catalog = loadCatalog();
+
+function loadCatalog(): Catalog {
+  try {
+    return new Catalog(openDatabase(resolve(process.env['DB_PATH'] ?? 'data/luska.db')), {
+      covers: process.env['COVER_SOURCE'] === 'none' ? 'none' : 'openlibrary',
+    });
+  } catch (e) {
+    // Bez tego Node wypisałby przed komunikatem całą zminifikowaną linię bundla.
+    console.error((e as Error).message);
+    process.exit(1);
+  }
+}
 const angularApp = new AngularNodeAppEngine();
 
 /**
  * Własne REST API katalogu (src/server/api.ts). Musi być przed Angularem,
  * inaczej `angularApp.handle()` próbowałby wyrenderować /api/... jako stronę.
  */
-app.use('/api', apiRouter());
+app.use('/api', apiRouter(catalog));
 
 /** /robots.txt i /sitemap.xml (src/server/seo.ts) — też przed Angularem i plikami statycznymi. */
-app.use(seoRouter());
+app.use(seoRouter(catalog));
 
 /**
  * Serve static files from /browser

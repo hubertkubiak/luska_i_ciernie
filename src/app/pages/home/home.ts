@@ -9,13 +9,4 @@ import { TropeOfTheDay } from './trope-of-the-day/trope-of-the-day';
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
-export class Home {
-  protected readonly starters = [
-    { slug: 'fourth-wing', title: 'Fourth Wing' },
-    { slug: 'a-court-of-thorns-and-roses', title: 'A Court of Thorns and Roses' },
-    { slug: 'the-cruel-prince', title: 'The Cruel Prince' },
-    { slug: 'one-dark-window', title: 'One Dark Window' },
-    { slug: 'nie-ma-takiej-ksiazki', title: $localize`:@@home.exercise404:(ćwiczenie: nieistniejąca księga → 404)` },
-    { slug: 'okrutny-ksiaze', title: $localize`:@@home.exercise301:(ćwiczenie: stary adres → 301)` },
-  ];
-}
+export class Home {}

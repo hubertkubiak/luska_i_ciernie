@@ -3,45 +3,69 @@
     "slug": "empyrean",
     "name": "The Empyrean",
     "status": "ongoing",
-    "plannedBooks": 5
+    "plannedBooks": 5,
+    "names": {
+      "pl": "Empireum"
+    }
   },
   {
     "slug": "a-court-of-thorns-and-roses",
     "name": "A Court of Thorns and Roses",
-    "status": "ongoing"
+    "status": "ongoing",
+    "names": {
+      "pl": "Dwór cierni i róż"
+    }
   },
   {
     "slug": "the-folk-of-the-air",
     "name": "The Folk of the Air",
     "status": "completed",
-    "plannedBooks": 3
+    "plannedBooks": 3,
+    "names": {
+      "pl": "Okrutny książę"
+    }
   },
   {
     "slug": "serpent-and-dove",
     "name": "Serpent & Dove",
     "status": "completed",
-    "plannedBooks": 3
+    "plannedBooks": 3,
+    "names": {
+      "pl": "Gołąb i wąż"
+    }
   },
   {
     "slug": "blood-and-ash",
     "name": "Blood and Ash",
-    "status": "ongoing"
+    "status": "ongoing",
+    "names": {
+      "pl": "Z krwi i popiołu"
+    }
   },
   {
     "slug": "kingdom-of-the-wicked",
     "name": "Kingdom of the Wicked",
     "status": "completed",
-    "plannedBooks": 3
+    "plannedBooks": 3,
+    "names": {
+      "pl": "Królestwo nikczemnych"
+    }
   },
   {
     "slug": "the-bridge-kingdom",
     "name": "The Bridge Kingdom",
-    "status": "completed"
+    "status": "completed",
+    "names": {
+      "pl": "Królestwo Mostu"
+    }
   },
   {
     "slug": "crowns-of-nyaxia",
     "name": "Crowns of Nyaxia",
-    "status": "ongoing"
+    "status": "ongoing",
+    "names": {
+      "pl": "Królestwa Nyaxii"
+    }
   },
   {
     "slug": "fae-and-alchemy",
@@ -64,12 +88,18 @@
     "slug": "throne-of-glass",
     "name": "Throne of Glass",
     "status": "completed",
-    "plannedBooks": 8
+    "plannedBooks": 8,
+    "names": {
+      "pl": "Szklany tron"
+    }
   },
   {
     "slug": "crescent-city",
     "name": "Crescent City",
-    "status": "ongoing"
+    "status": "ongoing",
+    "names": {
+      "pl": "Księżycowe Miasto"
+    }
   },
   {
     "slug": "the-shepherd-king",
@@ -92,7 +122,10 @@
     "slug": "the-hurricane-wars",
     "name": "The Hurricane Wars",
     "status": "ongoing",
-    "plannedBooks": 3
+    "plannedBooks": 3,
+    "names": {
+      "pl": "Wojny huraganowe"
+    }
   },
   {
     "slug": "the-crimson-moth",
@@ -116,5 +149,40 @@
     "name": "The Celestial Kingdom",
     "status": "completed",
     "plannedBooks": 2
+  },
+  {
+    "slug": "flesh-and-fire",
+    "name": "Flesh and Fire",
+    "status": "ongoing"
+  },
+  {
+    "slug": "caraval",
+    "name": "Caraval",
+    "status": "completed",
+    "plannedBooks": 3
+  },
+  {
+    "slug": "the-stolen-heir",
+    "name": "The Stolen Heir",
+    "status": "completed",
+    "plannedBooks": 2,
+    "names": {
+      "pl": "Opowieść z Elfhame"
+    }
+  },
+  {
+    "slug": "the-plated-prisoner",
+    "name": "The Plated Prisoner",
+    "status": "ongoing"
+  },
+  {
+    "slug": "split-or-swallow",
+    "name": "Split or Swallow",
+    "status": "ongoing"
+  },
+  {
+    "slug": "saga-of-the-unfated",
+    "name": "Saga of the Unfated",
+    "status": "ongoing"
   }
 ]

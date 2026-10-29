@@ -1,6 +1,14 @@
 // Kontrakt API — importowany zarówno przez serwer (src/server), jak i aplikację Angular (src/app).
 // Dzięki temu zmiana kształtu odpowiedzi wysypie się w kompilacji po obu stronach.
 
+/**
+ * Języki serwisu. Pierwszy = domyślny, gdy klient nie poda Accept-Language.
+ * Nowy język: wpis tutaj + locale w angular.json ("i18n") + src/locale/messages.<lang>.json
+ * + klucz <lang> w `titles` / `covers` / `names` w seed/*.json.
+ */
+export const LANGS = ['pl', 'en'] as const;
+export type Lang = (typeof LANGS)[number];
+
 /** Kraina z SPEC §2.2 — wyznacza akcent kolorystyczny. */
 export type Realm = 'turnie' | 'mgly' | 'skryptorium';
 
@@ -35,21 +43,27 @@ export interface SeriesRef {
 /** Wersja „na kartę” — wystarcza do list i wyników wyszukiwania. */
 export interface BookSummary {
   slug: string;
+  /** Tytuł w języku żądania (Accept-Language): tytuł lokalnego wydania albo oryginał. */
   title: string;
   year: number;
   spice: Spice;
-  coverUrl: string;
+  /** null = brak okładki, której wolno użyć → UI rysuje własną (patrz docs/PRAWNE.md). */
+  coverUrl: string | null;
+  /** Kraina dominującego tropu — kolor generowanej okładki i akcentów. */
+  realm: Realm;
   author: AuthorRef;
   tropes: TropeRef[];
   series?: SeriesRef & { index: number };
 }
 
 export interface BookDetail extends BookSummary {
+  /** Tytuł oryginału — tylko gdy różni się od `title`. */
+  originalTitle?: string;
   isbn: string;
-  pages: number;
+  /** Brak, gdy żadne źródło nie podaje liczby stron (nie zgadujemy). */
+  pages?: number;
   description: string;
   contentWarnings: string[];
-  realm: Realm;
   /** Pozostałe tomy serii (łącznie z bieżącym), w kolejności. */
   seriesBooks: { slug: string; title: string; index: number }[];
 }
@@ -76,6 +90,8 @@ export interface BookQuery {
   maxSpice?: Spice;
   status?: SeriesFilter;
   author?: string;
+  /** Konkretne książki (np. polecane na stronie głównej) — w kolejności podanej tutaj. */
+  slugs?: string[];
 }
 
 export interface ApiError {

@@ -1,12 +1,12 @@
-import { Router } from 'express';
-import type { ApiError, BookQuery, SeriesFilter, Spice } from '../shared/models';
+import { Router, type Request } from 'express';
+import { LANGS, type ApiError, type BookQuery, type Lang, type SeriesFilter, type Spice } from '../shared/models';
 import { Catalog } from './catalog';
 
 /**
  * REST API katalogu. Montowane w server.ts pod /api, PRZED Angularem —
  * kolejność middleware w Express decyduje, kto pierwszy obsłuży żądanie.
  */
-export function apiRouter(catalog = new Catalog()): Router {
+export function apiRouter(catalog = new Catalog(undefined, undefined, undefined, undefined, { covers: coverSource() })): Router {
   const router = Router();
 
   // Log każdego żądania z informacją, kto pyta: przeglądarka czy SSR (fetch z Node ma
@@ -21,6 +21,13 @@ export function apiRouter(catalog = new Catalog()): Router {
 
   // Sztuczne opóźnienie (np. API_DELAY_MS=1500) — przyda się, żeby zobaczyć stany ładowania
   // i porównać SSR z renderowaniem po stronie klienta.
+  // Odpowiedź zależy od języka → cache (przeglądarka, CDN) musi rozróżniać wersje po nagłówku.
+  router.use((req, res, next) => {
+    res.vary('Accept-Language');
+    res.set('Content-Language', lang(req));
+    next();
+  });
+
   const delay = Number(process.env['API_DELAY_MS'] ?? 0);
   if (delay > 0) {
     router.use((_req, _res, next) => void setTimeout(next, delay));
@@ -28,11 +35,11 @@ export function apiRouter(catalog = new Catalog()): Router {
 
   // GET /api/books?q=…&trope=a&trope=b&match=any&maxSpice=3&status=completed&author=…
   router.get('/books', (req, res) => {
-    res.json(catalog.listBooks(bookQuery(req.query)));
+    res.json(catalog.listBooks(bookQuery(req.query), lang(req)));
   });
 
   router.get('/books/:slug', (req, res) => {
-    const book = catalog.getBook(req.params.slug);
+    const book = catalog.getBook(req.params.slug, lang(req));
     if (book) {
       res.json(book);
       return;
@@ -45,7 +52,7 @@ export function apiRouter(catalog = new Catalog()): Router {
   });
 
   router.get('/authors/:slug', (req, res) => {
-    const author = catalog.getAuthor(req.params.slug);
+    const author = catalog.getAuthor(req.params.slug, lang(req));
     if (author) res.json(author);
     else notFound(res, 'Autor nie istnieje');
   });
@@ -55,7 +62,7 @@ export function apiRouter(catalog = new Catalog()): Router {
   });
 
   router.get('/tropes/:slug', (req, res) => {
-    const trope = catalog.getTrope(req.params.slug);
+    const trope = catalog.getTrope(req.params.slug, lang(req));
     if (trope) res.json(trope);
     else notFound(res, 'Trop nie istnieje');
   });
@@ -87,7 +94,21 @@ function bookQuery(query: Record<string, unknown>): BookQuery {
     maxSpice: Number.isInteger(spice) && spice >= 0 && spice <= 5 ? (spice as Spice) : undefined,
     status: status && SERIES_FILTERS.includes(status) ? status : undefined,
     author: stringParam(query['author']),
+    ...(query['slug'] !== undefined && { slugs: listParam(query['slug']) }),
   };
+}
+
+/**
+ * Język odpowiedzi z nagłówka Accept-Language. Aplikacja Angular wysyła tu swój LOCALE_ID
+ * (interceptor w src/app/core/api-language.ts), więc /en/ dostaje tytuły oryginalne, a / polskie.
+ */
+function lang(req: Request): Lang {
+  return (req.acceptsLanguages(...LANGS) || 'pl') as Lang;
+}
+
+/** COVER_SOURCE=none wyłącza zewnętrzne okładki (np. na produkcji, dopóki nie ma licencji). */
+function coverSource(): 'openlibrary' | 'none' {
+  return process.env['COVER_SOURCE'] === 'none' ? 'none' : 'openlibrary';
 }
 
 function stringParam(value: unknown): string | undefined {

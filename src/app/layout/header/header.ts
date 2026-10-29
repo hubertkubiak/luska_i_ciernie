@@ -4,6 +4,7 @@ import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { filter, map } from 'rxjs';
 import { Rune } from '../../ui/rune/rune';
+import { LoginLink } from '../login-link/login-link';
 
 interface NavItem {
   path: string;
@@ -15,7 +16,7 @@ interface NavItem {
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, RouterLinkActive, Rune],
+  imports: [RouterLink, RouterLinkActive, Rune, LoginLink],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })

@@ -1,9 +1,9 @@
-import { NgOptimizedImage } from '@angular/common';
 import { HttpErrorResponse, httpResource } from '@angular/common/http';
 import { Component, computed, effect, inject, input } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import type { BookDetail } from '../../../shared/models';
 import { ServerResponse } from '../../core/server-response';
+import { Cover } from '../../ui/cover/cover';
 import { Rune } from '../../ui/rune/rune';
 import { SpiceMeter } from '../../ui/spice-meter/spice-meter';
 import { NotFound } from '../not-found/not-found';
@@ -12,7 +12,7 @@ const ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
 
 @Component({
   selector: 'app-book-page',
-  imports: [RouterLink, NgOptimizedImage, SpiceMeter, NotFound, Rune],
+  imports: [RouterLink, Cover, SpiceMeter, NotFound, Rune],
   templateUrl: './book.html',
   styleUrl: './book.scss',
 })

@@ -113,5 +113,80 @@
     "slug": "saara-el-arifi",
     "name": "Saara El-Arifi",
     "bio": "Brytyjska autorka fantastyki, czerpiąca z mitologii i kultur Afryki Zachodniej i Bliskiego Wschodu."
+  },
+  {
+    "slug": "raven-kennedy",
+    "name": "Raven Kennedy",
+    "bio": "Amerykańska autorka, która zaczynała od self-publishingu. Cykl The Plated Prisoner, baśniowa wariacja na temat złotego dotyku, zdobył jej rzesze czytelniczek."
+  },
+  {
+    "slug": "lindsay-straube",
+    "name": "Lindsay Straube",
+    "bio": "Amerykańska autorka, której pikantna saga Split or Swallow rozeszła się viralowo w mediach społecznościowych, zanim trafiła do dużych wydawnictw."
+  },
+  {
+    "slug": "scarlett-st-clair",
+    "name": "Scarlett St. Clair",
+    "bio": "Amerykańska autorka mitologicznych romansów. Jej cykl o Hadesie i Persefonie przenosi greckie mity w nowoczesną, pikantną scenerię."
+  },
+  {
+    "slug": "caroline-peckham",
+    "name": "Caroline Peckham",
+    "bio": "Brytyjska autorka, która razem z Susanne Valenti stworzyła rozbudowaną serię Zodiac Academy o akademii magii rządzonej przez gwiazdozbiory."
+  },
+  {
+    "slug": "naomi-novik",
+    "name": "Naomi Novik",
+    "bio": "Amerykańska pisarka fantasy, laureatka Nebuli. W swoich powieściach na nowo opowiada baśnie z Europy Środkowej i Wschodniej."
+  },
+  {
+    "slug": "deborah-harkness",
+    "name": "Deborah Harkness",
+    "bio": "Amerykańska historyczka nauki, która w cyklu All Souls połączyła akademicką erudycję z romansem czarownicy i wampira."
+  },
+  {
+    "slug": "victoria-aveyard",
+    "name": "Victoria Aveyard",
+    "bio": "Amerykańska autorka młodzieżowej fantastyki. Jej debiut o świecie podzielonym kolorem krwi stał się międzynarodowym bestsellerem."
+  },
+  {
+    "slug": "mary-e-pearson",
+    "name": "Mary E. Pearson",
+    "bio": "Amerykańska autorka powieści młodzieżowych, znana z Kronik ocalałych, w których dworskie intrygi splatają się z zagadką tożsamości."
+  },
+  {
+    "slug": "margaret-rogerson",
+    "name": "Margaret Rogerson",
+    "bio": "Amerykańska autorka fantasy młodzieżowej, ceniona za gotycki klimat, magiczne biblioteki i bohaterki o ostrym języku."
+  },
+  {
+    "slug": "tracy-deonn",
+    "name": "Tracy Deonn",
+    "bio": "Amerykańska autorka, która w cyklu Legendborn przeniosła legendy arturiańskie na współczesny kampus i opowiedziała je z perspektywy czarnej bohaterki."
+  },
+  {
+    "slug": "chloe-gong",
+    "name": "Chloe Gong",
+    "bio": "Autorka urodzona w Szanghaju i wychowana w Nowej Zelandii. Zadebiutowała przeniesieniem „Romea i Julii” do Szanghaju lat dwudziestych."
+  },
+  {
+    "slug": "erin-a-craig",
+    "name": "Erin A. Craig",
+    "bio": "Amerykańska autorka gotyckiej fantastyki, która chętnie sięga po baśnie braci Grimm i przekuwa je w mroczne historie."
+  },
+  {
+    "slug": "ava-reid",
+    "name": "Ava Reid",
+    "bio": "Amerykańska autorka mrocznej fantasy inspirowanej folklorem i historią Europy Środkowo-Wschodniej."
+  },
+  {
+    "slug": "adalyn-grace",
+    "name": "Adalyn Grace",
+    "bio": "Amerykańska autorka gotyckiego romantasy. Jej cykl Belladonna to romans ze Śmiercią w wiktoriańskiej scenerii."
+  },
+  {
+    "slug": "heather-fawcett",
+    "name": "Heather Fawcett",
+    "bio": "Kanadyjska autorka, której przytulna fantasy o uczonej badającej faerie zdobyła czytelników na całym świecie."
   }
 ]

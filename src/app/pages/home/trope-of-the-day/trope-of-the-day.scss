@@ -4,7 +4,8 @@
 }
 
 .wrap {
-  max-width: 40rem;
+  // Szeroko: opis mieści się w dwóch liniach, więc karta jest niska i landing nie wymaga przewijania.
+  max-width: 48rem;
   margin: -2.5rem auto 0;
   padding: 0 1rem;
 }
@@ -12,8 +13,8 @@
   --accent: var(--gilt);
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 0.2rem 1rem;
-  padding: 1.25rem 1.5rem;
+  gap: 0.15rem 1rem;
+  padding: 1rem 1.5rem;
   border: 1px solid var(--velvet);
   border-radius: 0.5rem;
   background: var(--surface);

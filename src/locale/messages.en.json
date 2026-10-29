@@ -32,7 +32,6 @@
     "state.error": "Something has stirred in the dungeons. We are trying to calm it.",
     "state.loading": "The dragon is searching the hoard…",
     "book.coverAlt": "Cover: {$INTERPOLATION}",
-    "book.yearPages": "· {$INTERPOLATION} · {$ICU}",
     "3595812817025022238": "{VAR_PLURAL, plural, one {{INTERPOLATION} page} other {{INTERPOLATION} pages}}",
     "book.tropesLabel": "Tropes",
     "book.cwTitle": "Before you cross the threshold",
@@ -48,9 +47,6 @@
     "home.title": "Łuska i Ciernie",
     "home.tagline": " A romantasy archive read by trope — from fated bonds to dragon riders. ",
     "home.cta": "Search the archive",
-    "home.starters": "Where to begin",
-    "home.exercise404": "(exercise: a tome that does not exist → 404)",
-    "home.exercise301": "(exercise: an old address → 301)",
     "home.tropeOfTheDay": "Trope of the day · {$INTERPOLATION}",
     "home.popularTrope": "A well-trodden path",
     "notFound.title": "This path is overgrown with thorns.",
@@ -96,6 +92,8 @@
     "books.one": "{$count} tome",
     "books.few": "{$count} tomes",
     "books.many": "{$count} tomes",
-    "books.other": "{$count} tomes"
+    "books.other": "{$count} tomes",
+    "book.pages": "· {$ICU}",
+    "book.originalTitle": "Original title: {$START_ITALIC_TEXT}{$INTERPOLATION}{$CLOSE_ITALIC_TEXT}"
   }
 }

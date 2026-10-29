@@ -1,7 +1,16 @@
+// Karta wypełnia komórkę siatki rodzica (który ma grid-auto-rows: 1fr), więc wszystkie karty
+// w siatce mają tę samą wysokość. Wiersze: okładka, tytuł, rok/seria, a pikanteria zawsze na dole.
+:host {
+  display: block;
+  height: 100%;
+}
 .card {
   display: grid;
+  grid-template-rows: auto auto auto 1fr;
   justify-items: start;
   gap: 0.35rem;
+  box-sizing: border-box;
+  height: 100%;
   padding: 1rem;
   background: var(--surface);
   border: 1px solid var(--velvet);
@@ -15,11 +24,22 @@
   transform: translateY(-4px);
   box-shadow: 0 0 1.5rem color-mix(in srgb, var(--ember) 30%, transparent);
 }
-img {
+app-cover {
   width: 120px;
-  height: 180px;
-  object-fit: cover;
-  border: 1px solid var(--gilt);
+}
+// Długie tytuły (zwłaszcza polskie z podtytułem) i podpisy serii przycinamy do kilku linii,
+// żeby jedna karta nie rozpychała całego wiersza.
+.title,
+.label {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.title {
+  -webkit-line-clamp: 3;
+}
+.label {
+  -webkit-line-clamp: 2;
 }
 .title {
   font-family: var(--font-heading);
@@ -28,5 +48,6 @@ img {
   line-height: 1.2;
 }
 app-spice-meter {
+  align-self: end;
   font-size: 0.8rem;
 }

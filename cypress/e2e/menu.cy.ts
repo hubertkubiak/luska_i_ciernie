@@ -36,7 +36,7 @@ describe('Menu „Mapa” na wąskim ekranie', () => {
 
 describe('Menu na szerokim ekranie', () => {
   it('pokazuje pełną nawigację bez przycisku', () => {
-    cy.viewport(1280, 800);
+    cy.viewport(1366, 800);
     cy.visit('/');
     cy.contains('button', 'Mapa').should('not.be.visible');
     cy.contains('a', 'Nadchodzące przepowiednie').should('be.visible');

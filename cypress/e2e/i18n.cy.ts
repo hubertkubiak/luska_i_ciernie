@@ -1,5 +1,5 @@
 // Wymaga buildu z wersjami językowymi: npm run build:i18n. Przy zwykłym `npm run build`
-// /en/ i /de/ nie istnieją — wtedy test się pomija (zwykły build = tylko polski).
+// /en/ nie istnieje — wtedy test się pomija (zwykły build = tylko polski).
 describe('Wersje językowe (build --localize)', () => {
   before(function () {
     cy.request({ url: '/en/', failOnStatusCode: false }).then((res) => {
@@ -13,19 +13,24 @@ describe('Wersje językowe (build --localize)', () => {
       expect(res.body).to.contain('<base href="/en/">');
       expect(res.body).to.contain('Book of runes');
     });
-    cy.request('/de/tropy').its('body').should('match', /\d+ Bände/);
+    cy.request('/en/tropy').its('body').should('match', /\d+ tomes/);
   });
 
   it('linki, formularz i przekierowania zostają w obrębie języka', () => {
-    cy.request({ url: '/de/ksiazka/okrutny-ksiaze', followRedirect: false }).then((res) => {
+    cy.request({ url: '/en/ksiazka/okrutny-ksiaze', followRedirect: false }).then((res) => {
       expect(res.status).to.eq(301);
-      expect(res.redirectedToUrl).to.match(/\/de\/ksiazka\/the-cruel-prince$/);
+      expect(res.redirectedToUrl).to.match(/\/en\/ksiazka\/the-cruel-prince$/);
     });
     cy.request('/en/szukaj?trop=slow-burn').its('body').should('contain', 'action="szukaj"');
 
     cy.visit('/en/');
     cy.contains('a.cta', 'Search the archive').click();
     cy.location('pathname').should('eq', '/en/szukaj');
+  });
+
+  it('tytuły książek pochodzą z wydań w danym języku', () => {
+    cy.request('/ksiazka/the-cruel-prince').its('body').should('contain', 'Okrutny książę').and('contain', 'Tytuł oryginału');
+    cy.request('/en/ksiazka/the-cruel-prince').its('body').should('contain', 'The Cruel Prince').and('not.contain', 'Original title');
   });
 
   it('polska odmiana działa w wersji polskiej', () => {

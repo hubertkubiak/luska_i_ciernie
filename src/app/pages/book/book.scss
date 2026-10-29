@@ -28,18 +28,20 @@
 .cover {
   grid-area: cover;
 
-  img {
-    display: block;
+  app-cover {
     width: 180px;
-    height: 270px;
-    object-fit: cover;
-    border: 1px solid var(--gilt);
     box-shadow: 0 0 2rem color-mix(in srgb, var(--accent) 25%, transparent);
   }
 }
 
 .head {
   grid-area: head;
+
+  .original {
+    margin: -0.5rem 0 0.75rem;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
 
   h1 {
     margin: 0.25rem 0;
@@ -48,7 +50,13 @@
   }
 }
 
+// Autorka · rok · strony — osobne elementy (strony bywają nieznane), więc odstępy daje gap:
+// Angular usuwa białe znaki między elementami szablonu.
 .author {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0.4em;
   margin: 0 0 1rem;
 }
 

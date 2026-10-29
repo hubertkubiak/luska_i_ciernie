@@ -26,10 +26,9 @@ describe('Kody HTTP z SSR', () => {
     });
   });
 
-  it('stary slug przy nawigacji w przeglądarce też trafia na adres kanoniczny', () => {
-    cy.visit('/');
-    cy.contains('a', 'stary adres').click();
+  it('przeglądarka idzie za 301 i ląduje na adresie kanonicznym', () => {
+    cy.visit('/ksiazka/okrutny-ksiaze');
     cy.location('pathname').should('eq', '/ksiazka/the-cruel-prince');
-    cy.contains('h1', 'The Cruel Prince');
+    cy.contains('h1', 'Okrutny książę');
   });
 });

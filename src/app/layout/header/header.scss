@@ -1,6 +1,7 @@
 // Szerokość, poniżej której nawigacja chowa się pod przyciskiem „Mapa”. Dobrana tak, żeby
-// pięć pozycji z podpisami + „Przekrocz próg” mieściło się w jednej linii (sprawdzone przy 1280 px).
-$collapse: 78rem;
+// pięć pozycji z podpisami + przycisk logowania mieściło się w jednej linii (sprawdzone przy 1366 px;
+// przy 1280 px już się nie mieszczą i nagłówek urósłby do dwóch linii).
+$collapse: 82rem;
 
 .header {
   display: flex;
@@ -29,8 +30,7 @@ ul {
   list-style: none;
 }
 
-nav a,
-.login {
+nav a {
   display: flex;
   flex-direction: column;
   font-size: 0.95rem;
@@ -47,16 +47,6 @@ nav a,
 small {
   font-size: 0.7rem;
   color: var(--text-muted);
-}
-
-.login {
-  padding: 0.4rem 1rem;
-  border: 1px solid var(--gilt);
-  border-radius: 2px;
-
-  &:hover {
-    background: var(--velvet);
-  }
 }
 
 .skip {
@@ -194,7 +184,7 @@ small {
     }
   }
 
-  .login {
+  app-login-link {
     justify-self: start;
   }
 }

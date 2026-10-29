@@ -26,10 +26,6 @@
           "en": {
             "translation": "src/locale/messages.en.json",
             "subPath": "en"
-          },
-          "de": {
-            "translation": "src/locale/messages.de.json",
-            "subPath": "de"
           }
         }
       },
@@ -46,7 +42,25 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.scss"],
+            "styles": [
+              "node_modules/@fontsource/cinzel-decorative/latin-700.css",
+              "node_modules/@fontsource/cinzel-decorative/latin-ext-700.css",
+              "node_modules/@fontsource/cormorant-garamond/latin-600.css",
+              "node_modules/@fontsource/cormorant-garamond/latin-700.css",
+              "node_modules/@fontsource/cormorant-garamond/latin-ext-600.css",
+              "node_modules/@fontsource/cormorant-garamond/latin-ext-700.css",
+              "node_modules/@fontsource/eb-garamond/latin-400.css",
+              "node_modules/@fontsource/eb-garamond/latin-400-italic.css",
+              "node_modules/@fontsource/eb-garamond/latin-ext-400.css",
+              "node_modules/@fontsource/eb-garamond/latin-ext-400-italic.css",
+              "node_modules/@fontsource/inter/latin-400.css",
+              "node_modules/@fontsource/inter/latin-500.css",
+              "node_modules/@fontsource/inter/latin-600.css",
+              "node_modules/@fontsource/inter/latin-ext-400.css",
+              "node_modules/@fontsource/inter/latin-ext-500.css",
+              "node_modules/@fontsource/inter/latin-ext-600.css",
+              "src/styles.scss"
+            ],
             "server": "src/main.server.ts",
             "outputMode": "server",
             "security": {
@@ -80,9 +94,6 @@
             },
             "en": {
               "localize": ["en"]
-            },
-            "de": {
-              "localize": ["de"]
             }
           },
           "defaultConfiguration": "production"
@@ -98,9 +109,6 @@
             },
             "en": {
               "buildTarget": "luska-i-ciernie:build:development,en"
-            },
-            "de": {
-              "buildTarget": "luska-i-ciernie:build:development,de"
             }
           },
           "defaultConfiguration": "development"

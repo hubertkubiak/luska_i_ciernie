@@ -1,8 +1,10 @@
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { PRECONNECT_CHECK_BLOCKLIST } from '@angular/common';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideClientHydration, withI18nSupport } from '@angular/platform-browser';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { routes } from './app.routes';
+import { apiLanguageInterceptor } from './core/api-language';
 
 // LOCALE_ID nie jest tu ustawiany ręcznie: przy i18n CLI wkompilowuje locale w każdy build
 // (pl dla wersji źródłowej, en/de dla tłumaczeń — patrz "i18n" w angular.json) i sam dołącza
@@ -14,11 +16,15 @@ export const appConfig: ApplicationConfig = {
     // withComponentInputBinding: parametr :slug trafia prosto do input() komponentu strony.
     provideRouter(routes, withComponentInputBinding()),
     // withFetch: na serwerze HttpClient używa natywnego fetch z Node zamiast emulacji XHR.
-    provideHttpClient(withFetch()),
+    // apiLanguageInterceptor: API odpowiada w języku tej wersji aplikacji (tytuły pl/en/de).
+    provideHttpClient(withFetch(), withInterceptors([apiLanguageInterceptor])),
     // provideClientHydration domyślnie włącza też HTTP transfer cache: odpowiedzi GET
     // pobrane podczas SSR lądują w <script id="ng-state"> i klient nie pyta API drugi raz.
     // withI18nSupport: BEZ tego Angular pomija hydrację każdego komponentu z blokami i18n
     // i renderuje go od nowa (nowe węzły DOM, zgubione kliknięcia sprzed hydracji) — po cichu.
     provideClientHydration(withI18nSupport()),
+    // NgOptimizedImage w trybie dev ostrzega o braku <link rel="preconnect"> dla obrazów `priority`.
+    // Celowo go nie mamy (RODO, patrz index.html), więc wyłączamy to sprawdzenie dla Open Library.
+    { provide: PRECONNECT_CHECK_BLOCKLIST, useValue: 'https://covers.openlibrary.org' },
   ],
 };

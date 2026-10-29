@@ -1,7 +1,7 @@
 @let b = book();
 <a class="card" [routerLink]="['/ksiazka', b.slug]">
   <!-- bez priority: okładki na listach ładują się leniwie (loading="lazy") -->
-  <img [ngSrc]="b.coverUrl" width="120" height="180" [alt]="''" />
+  <app-cover [book]="b" [width]="120" [height]="180" />
   <span class="title">{{ b.title }}</span>
   <span class="label">
     {{ b.year }}

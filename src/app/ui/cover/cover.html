@@ -1,0 +1,19 @@
+@let b = book();
+@if (b.coverUrl) {
+  <img [ngSrc]="b.coverUrl" [width]="width()" [height]="height()" [priority]="priority()" [alt]="alt()" />
+} @else {
+  <div
+    class="generated"
+    [attr.data-realm]="b.realm"
+    [attr.role]="alt() ? 'img' : null"
+    [attr.aria-label]="alt() || null"
+    [attr.aria-hidden]="alt() ? null : 'true'"
+    [style.width.px]="width()"
+    [style.height.px]="height()"
+    [style.--cover-w]="width() + 'px'"
+  >
+    <app-rune [trope]="b.tropes[0].slug" />
+    <span class="title">{{ b.title }}</span>
+    <span class="author">{{ b.author.name }}</span>
+  </div>
+}

@@ -6,18 +6,18 @@
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Odkrywaj romantasy po tropach, pikanterii i statusie serii." />
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <!-- Favicon: SVG dla nowoczesnych przeglądarek, ICO (16/32/48 px) jako zapas, PNG dla iOS. -->
+    <link rel="icon" href="favicon.ico" sizes="48x48" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <meta name="theme-color" content="#0b0910" />
 
-    <!-- Fonty: preconnect skraca handshake; display=swap = tekst widoczny od razu fontem zastępczym.
-         Google Fonts dzieli pliki po unicode-range, więc podzbiór latin-ext (ą, ę, ł…) pobierze się sam. -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Okładki z Open Library — NgOptimizedImage ostrzega, gdy obraz `priority` nie ma preconnect. -->
-    <link rel="preconnect" href="https://covers.openlibrary.org" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cormorant+Garamond:wght@600;700&family=EB+Garamond:ital@0;1&family=Inter:wght@400;500;600&display=swap"
-    />
+    <!-- Fonty są serwowane z naszej domeny (pakiety @fontsource w angular.json → "styles"), a nie
+         z Google Fonts: wczytanie ich z serwerów Google przekazuje Google adres IP czytelniczki
+         bez jej zgody (RODO). Patrz docs/PRAWNE.md. -->
+    <!-- Bez preconnect do covers.openlibrary.org: otwierałby połączenie (i przekazywał IP) przy każdej
+         wizycie, także gdy okładki są wyłączone (COVER_SOURCE=none). Okładkę LCP i tak zapowiada
+         <link rel="preload">, który NgOptimizedImage dopisuje w SSR — patrz app.config.ts. -->
   </head>
   <body>
     <!-- Runy tropów (SPEC §2.5): sprite SVG wklejony w szablon dokumentu. Trafia do każdego

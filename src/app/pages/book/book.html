@@ -3,7 +3,7 @@
   <article class="book" [attr.data-realm]="b.realm">
     <div class="cover">
       <!-- priority: obraz LCP. Na serwerze Angular dopisze dla niego <link rel="preload"> w <head>. -->
-      <img [ngSrc]="b.coverUrl" width="180" height="270" priority i18n-alt="@@book.coverAlt" alt="Okładka: {{ b.title }}" />
+      <app-cover [book]="b" [width]="180" [height]="270" [priority]="true" i18n-alt="@@book.coverAlt" alt="Okładka: {{ b.title }}" />
     </div>
 
     <header class="head">
@@ -11,9 +11,15 @@
         <p class="label">{{ b.series!.name }} · {{ label }}</p>
       }
       <h1>{{ b.title }}</h1>
+      @if (b.originalTitle) {
+        <p class="original" i18n="@@book.originalTitle">Tytuł oryginału: <i>{{ b.originalTitle }}</i></p>
+      }
       <p class="author">
         <a [routerLink]="['/autor', b.author.slug]">{{ b.author.name }}</a>
-        <span class="label" i18n="@@book.yearPages">· {{ b.year }} · {b.pages, plural, one {{{ b.pages }} strona} few {{{ b.pages }} strony} many {{{ b.pages }} stron} other {{{ b.pages }} strony}}</span>
+        <span class="label">· {{ b.year }}</span>
+        @if (b.pages) {
+          <span class="label" i18n="@@book.pages">· {b.pages, plural, one {{{ b.pages }} strona} few {{{ b.pages }} strony} many {{{ b.pages }} stron} other {{{ b.pages }} strony}}</span>
+        }
       </p>
       <app-spice-meter [spice]="b.spice" />
       <ul class="tropes" i18n-aria-label="@@book.tropesLabel" aria-label="Tropy">

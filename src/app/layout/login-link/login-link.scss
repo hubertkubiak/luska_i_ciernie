@@ -1,0 +1,88 @@
+:host {
+  display: inline-flex;
+}
+
+// Przycisk logowania: łukowate drzwi ze złotą obwódką.
+// Obwódka z gradientu: dwa tła (wnętrze na padding-box, gradient na border-box) i przezroczysta ramka.
+.login {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.45rem 1.1rem 0.45rem 0.85rem;
+  border: 1px solid transparent;
+  border-radius: 1.4rem 1.4rem 0.35rem 0.35rem;
+  background:
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    linear-gradient(135deg, #f2d38b, var(--gilt) 45%, #8f6d2c) border-box;
+  color: var(--text);
+  text-decoration: none;
+  overflow: hidden;
+  transition:
+    box-shadow var(--dur) var(--ease),
+    color var(--dur) var(--ease);
+
+  // Błysk światła przebiegający po przycisku przy najechaniu.
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 35%, color-mix(in srgb, var(--gilt) 35%, transparent) 50%, transparent 65%);
+    transform: translateX(-120%);
+    transition: transform 700ms var(--ease);
+    pointer-events: none;
+  }
+
+  &:hover,
+  &:focus-visible,
+  &.active {
+    color: var(--ember);
+    box-shadow: 0 0 1.25rem color-mix(in srgb, var(--ember) 35%, transparent);
+
+    &::after {
+      transform: translateX(120%);
+    }
+
+    .leaf {
+      transform: perspective(40px) rotateY(-28deg);
+    }
+  }
+}
+
+.login-text {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.15;
+
+  small {
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    font-weight: 400;
+    color: var(--text-muted);
+  }
+}
+
+.door {
+  flex: none;
+  width: 1.6rem;
+  height: 1.6rem;
+  fill: none;
+  stroke: var(--gilt);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  .leaf {
+    fill: color-mix(in srgb, var(--ember) 25%, transparent);
+    transform-origin: 9px 21px;
+    transition: transform var(--dur) var(--ease);
+  }
+
+  .knob {
+    fill: var(--gilt);
+    stroke: none;
+  }
+}

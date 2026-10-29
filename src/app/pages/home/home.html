@@ -8,12 +8,3 @@
 </section>
 
 <app-trope-of-the-day />
-
-<section class="start">
-  <h2 i18n="@@home.starters">Na dobry początek</h2>
-  <ul>
-    @for (b of starters; track b.slug) {
-      <li><a [routerLink]="['/ksiazka', b.slug]">{{ b.title }}</a></li>
-    }
-  </ul>
-</section>

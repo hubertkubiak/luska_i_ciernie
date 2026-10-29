@@ -1,0 +1,71 @@
+:host {
+  display: block;
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border: 1px solid var(--gilt);
+}
+
+// Własna okładka: wszystko skaluje się od szerokości (--cover-w), więc ten sam komponent
+// działa na karcie (120 px) i na stronie książki (180 px).
+.generated {
+  --accent: var(--gilt);
+  --tint: var(--nightshade);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--cover-w) * 0.06);
+  padding: calc(var(--cover-w) * 0.1);
+  box-sizing: border-box;
+  border: 1px solid var(--gilt);
+  outline: 1px solid color-mix(in srgb, var(--gilt) 40%, transparent);
+  outline-offset: calc(var(--cover-w) * -0.05);
+  background: radial-gradient(ellipse at 50% 30%, var(--tint), var(--obsidian) 75%);
+  color: var(--moonsilver);
+  text-align: center;
+  overflow: hidden;
+
+  &[data-realm='turnie'] {
+    --accent: var(--ember);
+    --tint: #5a2416;
+  }
+  &[data-realm='mgly'] {
+    --accent: var(--fae);
+    --tint: var(--nightshade);
+  }
+  &[data-realm='skryptorium'] {
+    --accent: var(--gilt);
+    --tint: #3b2f1c;
+  }
+}
+
+app-rune {
+  font-size: calc(var(--cover-w) * 0.32);
+  color: var(--accent);
+  filter: drop-shadow(0 0 0.4rem color-mix(in srgb, var(--accent) 50%, transparent));
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-variant: small-caps;
+  font-weight: 700;
+  font-size: calc(var(--cover-w) * 0.12);
+  line-height: 1.1;
+  color: var(--gilt);
+  // Długie tytuły (np. polskie z podtytułem) zawijamy, ale nie pozwalamy im rozsadzić okładki.
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.author {
+  font-family: var(--font-ui);
+  font-size: calc(var(--cover-w) * 0.075);
+  color: var(--text-muted);
+}

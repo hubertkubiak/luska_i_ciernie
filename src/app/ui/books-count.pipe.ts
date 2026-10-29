@@ -6,7 +6,7 @@ import { LOCALE_ID, Pipe, PipeTransform, inject } from '@angular/core';
  * Normalnie użylibyśmy ICU ({n, plural, …}) w szablonie, ale w Angularze 22.2 hydracja i18n
  * wywraca się na ICU wewnątrz widoków @for (ASSERTION ERROR: expected matching nodeType 8 == 3).
  * W listach używamy więc tego pipe'a: Intl.PluralRules wybiera kategorię dla bieżącego locale
- * (pl: one/few/many/other, en/de: one/other), a każdy wariant to osobny komunikat do tłumaczenia.
+ * (pl: one/few/many/other, en: one/other), a każdy wariant to osobny komunikat do tłumaczenia.
  * Wynik to zwykły tekst — hydracja i18n go nie dotyczy, a Node i przeglądarka liczą to samo.
  */
 @Pipe({ name: 'booksCount' })

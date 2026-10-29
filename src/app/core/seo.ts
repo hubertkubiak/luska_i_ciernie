@@ -1,12 +1,10 @@
 import { DOCUMENT } from '@angular/common';
 import { Injectable, LOCALE_ID, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { LANGS, type Lang } from '../../shared/models';
+import { LANG_PREFIX, LANGS, type Lang } from '../../shared/models';
 
 export const SITE_NAME = 'Łuska i Ciernie';
 
-/** Prefiks ścieżki każdej wersji językowej — musi zgadzać się z "subPath" w angular.json. */
-export const LANG_PREFIX: Record<Lang, string> = { pl: '', en: '/en' };
 const OG_LOCALE: Record<Lang, string> = { pl: 'pl_PL', en: 'en_US' };
 
 export interface PageMeta {

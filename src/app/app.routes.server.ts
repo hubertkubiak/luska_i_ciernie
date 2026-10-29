@@ -26,6 +26,12 @@ export const serverRoutes: ServerRoute[] = [
   },
   // Wyniki zależą od query params → tylko render na żądanie (prerender zna wyłącznie ścieżkę).
   { path: 'szukaj', renderMode: RenderMode.Server },
+  // Formularze: render na żądanie (komunikat błędu i wypełnione pola zależą od query params).
+  { path: 'logowanie', renderMode: RenderMode.Server },
+  { path: 'rejestracja', renderMode: RenderMode.Server },
+  // Prywatne, bez SEO → tylko przeglądarka. 302 dla niezalogowanych robi wcześniej Express.
+  { path: 'moja-polka', renderMode: RenderMode.Client },
+  { path: 'moja-polka/**', renderMode: RenderMode.Client },
   // Tysiące pozycji i zmienne dane → render na żądanie. 404/301 ustawia sama strona
   // (RESPONSE_INIT), bo zależą od odpowiedzi API.
   { path: 'ksiazka/:slug', renderMode: RenderMode.Server },

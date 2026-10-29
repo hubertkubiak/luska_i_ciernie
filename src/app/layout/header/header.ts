@@ -3,8 +3,9 @@ import { Component, DestroyRef, ElementRef, afterNextRender, computed, inject, v
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { filter, map } from 'rxjs';
+import { Session } from '../../core/session';
 import { Rune } from '../../ui/rune/rune';
-import { LoginLink } from '../login-link/login-link';
+import { Account } from '../account/account';
 
 interface NavItem {
   path: string;
@@ -16,20 +17,30 @@ interface NavItem {
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, RouterLinkActive, Rune, LoginLink],
+  imports: [RouterLink, RouterLinkActive, Rune, Account],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
 export class Header {
   // $localize: teksty z kodu TS też trafiają do plików tłumaczeń (ng extract-i18n).
   // Część tras jeszcze nie istnieje — trafią na stronę „zarosła cierniami”.
-  protected readonly nav: NavItem[] = [
+  private readonly items: NavItem[] = [
     { path: '/szukaj', label: $localize`:@@nav.search:Przeszukaj archiwum`, meaning: $localize`:@@nav.searchMeaning:Szukaj książek` },
     { path: '/tropy', label: $localize`:@@nav.tropes:Tropy`, meaning: $localize`:@@nav.tropesMeaning:Katalog tropów` },
     { path: '/premiery', label: $localize`:@@nav.releases:Nadchodzące przepowiednie`, meaning: $localize`:@@nav.releasesMeaning:Kalendarz premier` },
     { path: '/wyrocznia', label: $localize`:@@nav.oracle:Wyrocznia`, meaning: $localize`:@@nav.oracleMeaning:Quiz rekomendacji` },
     { path: '/moja-polka', label: $localize`:@@nav.shelf:Skarbiec`, meaning: $localize`:@@nav.shelfMeaning:Twoje książki` },
   ];
+
+  private readonly session = inject(Session);
+
+  /**
+   * Po zalogowaniu „Skarbiec” znika z menu: imię w nagłówku (app-account) prowadzi tam samo,
+   * a dwa identyczne linki rozpychały nagłówek do dwóch linii na laptopie 1366 px.
+   */
+  protected readonly nav = computed(() =>
+    this.session.user() ? this.items.filter((i) => i.path !== '/moja-polka') : this.items,
+  );
 
   private readonly menu = viewChild.required<ElementRef<HTMLElement>>('menu');
   private readonly router = inject(Router);

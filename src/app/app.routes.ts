@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/auth.guard';
 
 // Bez `title` w trasach: tytuł (i resztę <head>) ustawia każda strona przez Seo.update().
 // Router ustawiałby swój tytuł PO stronie (przy NavigationEnd) i nadpisywał ten z Seo.
@@ -26,6 +27,21 @@ export const routes: Routes = [
   {
     path: 'tropy/:slug',
     loadComponent: () => import('./pages/trope/trope').then((m) => m.TropePage),
+  },
+  {
+    path: 'logowanie',
+    data: { mode: 'login' },
+    loadComponent: () => import('./pages/auth/auth').then((m) => m.AuthPage),
+  },
+  {
+    path: 'rejestracja',
+    data: { mode: 'register' },
+    loadComponent: () => import('./pages/auth/auth').then((m) => m.AuthPage),
+  },
+  {
+    path: 'moja-polka',
+    canActivate: [authGuard],
+    loadComponent: () => import('./pages/shelf/shelf').then((m) => m.ShelfPage),
   },
   {
     // Status 404 dla tej trasy ustawia app.routes.server.ts.

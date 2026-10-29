@@ -1,9 +1,6 @@
 import { Router, type Request } from 'express';
-import { LANGS, type Lang } from '../shared/models';
+import { LANG_PREFIX, LANGS, type Lang } from '../shared/models';
 import type { Catalog } from './catalog';
-
-/** Prefiksy wersji językowych — te same co LANG_PREFIX w src/app/core/seo.ts i "subPath" w angular.json. */
-const LANG_PREFIX: Record<Lang, string> = { pl: '', en: '/en' };
 
 /**
  * /robots.txt i /sitemap.xml — generowane przez Express, przed Angularem (server.ts).

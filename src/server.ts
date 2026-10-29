@@ -6,7 +6,18 @@ import {
 } from '@angular/ssr/node';
 import express from 'express';
 import { join, resolve } from 'node:path';
+import type { RequestContext } from './shared/models';
 import { apiRouter } from './server/api';
+import { openAccounts } from './server/auth/accounts';
+import {
+  authRouter,
+  currentUser,
+  localized,
+  meHandler,
+  redirectIfLoggedIn,
+  requireUser,
+  sessionMiddleware,
+} from './server/auth/auth-router';
 import { Catalog } from './server/catalog';
 import { openDatabase } from './server/db/database';
 import { seoRouter } from './server/seo';
@@ -32,7 +43,14 @@ function loadCatalog(): Catalog {
     process.exit(1);
   }
 }
+/** Konta i sesje — osobny, zapisywalny plik (katalog jest tylko do odczytu). */
+const accounts = openAccounts(resolve(process.env['USERS_DB_PATH'] ?? 'data/users.db'));
+const session = sessionMiddleware(accounts);
+
 const angularApp = new AngularNodeAppEngine();
+
+/** Kim jestem — przed routerem katalogu, bo ten odpowiada 404 na każdy nieznany adres /api/…. */
+app.get('/api/me', session, meHandler);
 
 /**
  * Własne REST API katalogu (src/server/api.ts). Musi być przed Angularem,
@@ -55,11 +73,32 @@ app.use(
 );
 
 /**
+ * Od tego miejsca znamy zalogowaną osobę (ciasteczko → sesja). Pliki statyczne są wyżej,
+ * więc pobranie obrazka czy skryptu nie odpytuje bazy sesji.
+ */
+app.use(session);
+
+/** Formularze logowania, rejestracji i wylogowania (POST, działają bez JS). */
+app.use(localized('/auth'), authRouter(accounts));
+
+/** Prywatne strony: 302 na logowanie, zanim Angular w ogóle zobaczy żądanie. */
+app.use(localized('/moja-polka'), requireUser('/moja-polka'));
+app.use(localized('/logowanie'), redirectIfLoggedIn('/logowanie'));
+app.use(localized('/rejestracja'), redirectIfLoggedIn('/rejestracja'));
+
+/**
  * Handle all other requests by rendering the Angular application.
  */
 app.use((req, res, next) => {
+  const user = currentUser(res);
+  // HTML z imieniem zalogowanej osoby nie może trafić do wspólnego cache (CDN, proxy) —
+  // inaczej kolejna osoba zobaczyłaby cudzy nagłówek. Strona zależy od ciasteczka: Vary.
+  res.vary('Cookie');
+  if (user) res.set('Cache-Control', 'private, no-store');
+
   angularApp
-    .handle(req)
+    // Drugi argument trafia do Angulara jako REQUEST_CONTEXT.
+    .handle(req, { user } satisfies RequestContext)
     .then((response) => (response ? writeResponseToNodeResponse(response, res) : next()))
     .catch(next);
 });

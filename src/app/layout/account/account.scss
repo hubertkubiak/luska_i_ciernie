@@ -2,7 +2,7 @@
   display: inline-flex;
 }
 
-// Przycisk logowania: łukowate drzwi ze złotą obwódką.
+// Przycisk konta: łukowate drzwi ze złotą obwódką.
 // Obwódka z gradientu: dwa tła (wnętrze na padding-box, gradient na border-box) i przezroczysta ramka.
 .login {
   position: relative;
@@ -86,3 +86,46 @@
     stroke: none;
   }
 }
+
+// Zalogowana osoba: drzwi otwarte na stałe, obok „Opuść dwór”.
+.account {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin: 0;
+}
+
+.door .leaf.open {
+  transform: perspective(40px) rotateY(-40deg);
+}
+
+.name {
+  max-width: 10rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.logout {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0.2rem 0;
+  border: 0;
+  background: none;
+  color: var(--text-muted);
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: color var(--dur) var(--ease);
+
+  small {
+    font-size: 0.7rem;
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: var(--ember);
+  }
+}
+

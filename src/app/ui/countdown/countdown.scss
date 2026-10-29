@@ -1,0 +1,21 @@
+:host {
+  display: inline-block;
+}
+
+.clock {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  font-variant-numeric: tabular-nums; // cyfry równej szerokości — zegar nie „skacze”
+
+  b {
+    font-family: var(--font-heading);
+    font-size: 1.4em;
+    color: var(--ember);
+  }
+
+  small {
+    margin-right: 0.35rem;
+    color: var(--text-muted);
+  }
+}

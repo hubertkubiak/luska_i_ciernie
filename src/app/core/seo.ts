@@ -20,6 +20,8 @@ export interface PageMeta {
   jsonLd?: object;
   /** Strony, których nie chcemy w wynikach wyszukiwania (np. 404). */
   noindex?: boolean;
+  /** Kanał RSS strony — czytniki kanałów wykrywają go po <link rel="alternate">. */
+  feed?: { title: string; path: string };
 }
 
 /**
@@ -65,6 +67,11 @@ export class Seo {
     }
     // Okładki są pionowe → mała karta; domyślny obraz jest panoramiczny (1200×630) → duża.
     this.setMeta('name', 'twitter:card', page.image ? 'summary' : 'summary_large_image');
+
+    this.removeLinks('link[rel="alternate"][type="application/rss+xml"]');
+    if (page.feed) {
+      this.addLink({ rel: 'alternate', type: 'application/rss+xml', title: page.feed.title, href: this.link(page.feed.path) });
+    }
 
     this.setJsonLd(page.jsonLd);
   }

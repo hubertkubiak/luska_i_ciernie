@@ -29,6 +29,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/trope/trope').then((m) => m.TropePage),
   },
   {
+    path: 'premiery',
+    loadComponent: () => import('./pages/releases/releases').then((m) => m.ReleasesPage),
+  },
+  {
     path: 'logowanie',
     data: { mode: 'login' },
     loadComponent: () => import('./pages/auth/auth').then((m) => m.AuthPage),

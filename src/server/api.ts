@@ -28,6 +28,13 @@ export function apiRouter(catalog: Catalog): Router {
     next();
   });
 
+  // Katalog jest publiczny i zmienia się rzadko → przeglądarki i CDN mogą go trzymać 5 minut.
+  // (Półka i /api/me mają własne routery z Cache-Control: private, no-store.)
+  router.use((req, res, next) => {
+    if (req.method === 'GET') res.set('Cache-Control', 'public, max-age=300');
+    next();
+  });
+
   const delay = Number(process.env['API_DELAY_MS'] ?? 0);
   if (delay > 0) {
     router.use((_req, _res, next) => void setTimeout(next, delay));
@@ -57,6 +64,11 @@ export function apiRouter(catalog: Catalog): Router {
     else notFound(res, 'Autor nie istnieje');
   });
 
+  // Premiery od 30 dni wstecz (ostatnie „już w księgarniach”) do najdalszej zapowiedzi.
+  router.get('/releases', (_req, res) => {
+    res.json(catalog.listReleases(releasesFrom()));
+  });
+
   router.get('/tropes', (_req, res) => {
     res.json(catalog.listTropes());
   });
@@ -72,6 +84,10 @@ export function apiRouter(catalog: Catalog): Router {
   router.use((_req, res) => notFound(res, 'Nieznany endpoint API'));
 
   return router;
+}
+
+export function releasesFrom(now = new Date()): string {
+  return new Date(now.getTime() - 30 * 86_400_000).toISOString().slice(0, 10);
 }
 
 function notFound(res: import('express').Response, message: string): void {

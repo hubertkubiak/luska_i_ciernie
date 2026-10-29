@@ -26,6 +26,8 @@ export const serverRoutes: ServerRoute[] = [
   },
   // Wyniki zależą od query params → tylko render na żądanie (prerender zna wyłącznie ścieżkę).
   { path: 'szukaj', renderMode: RenderMode.Server },
+  // Odliczanie w dniach → HTML ważny przez dobę. Render na żądanie, ale cache'owany (s-maxage w server.ts).
+  { path: 'premiery', renderMode: RenderMode.Server },
   // Formularze: render na żądanie (komunikat błędu i wypełnione pola zależą od query params).
   { path: 'logowanie', renderMode: RenderMode.Server },
   { path: 'rejestracja', renderMode: RenderMode.Server },

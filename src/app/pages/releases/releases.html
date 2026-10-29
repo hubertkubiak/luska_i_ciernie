@@ -1,0 +1,38 @@
+<section class="releases">
+  <p class="label" i18n="@@nav.releasesMeaning">Kalendarz premier</p>
+  <h1 i18n="@@releases.title">Nadchodzące przepowiednie</h1>
+  <p class="notice" i18n="@@releases.sample">Dane przykładowe: tytuły i autorki są fikcyjne — tak będzie wyglądał kalendarz prawdziwych zapowiedzi.</p>
+
+  @if (next(); as n) {
+    <article class="featured">
+      <p class="label" i18n="@@releases.nextKicker">Najbliższa przepowiednia</p>
+      <h2>{{ n.title }}</h2>
+      <p class="author">{{ n.author }} · {{ n.date | date: 'd MMMM yyyy' }}</p>
+      <!-- Zegar tylko, gdy premiera jest blisko; dalej wystarczy liczba dni (stała przez dobę). -->
+      @if (n.days <= 1) {
+        <app-countdown class="when" [date]="n.date" [label]="n.days | daysLeft" />
+      } @else {
+        <p class="when">{{ n.days | daysLeft }}</p>
+      }
+    </article>
+  }
+
+  <ol class="timeline">
+    @for (r of items(); track r.slug) {
+      <li [id]="r.slug" [class.out]="r.days < 0">
+        <time [attr.datetime]="r.date">{{ r.date | date: 'd MMM yyyy' }}</time>
+        <div>
+          <h3>{{ r.title }}</h3>
+          <p class="author">{{ r.author }}@if (r.note) { · {{ r.note }} }</p>
+        </div>
+        <span class="badge">{{ r.days | daysLeft }}</span>
+      </li>
+    } @empty {
+      @if (loading()) {
+        <li class="state" role="status" i18n="@@state.loading">Smok przeszukuje skarbiec…</li>
+      }
+    }
+  </ol>
+
+  <p class="rss"><a href="rss/premiery" i18n="@@releases.feedLink">Kanał RSS z premierami</a></p>
+</section>

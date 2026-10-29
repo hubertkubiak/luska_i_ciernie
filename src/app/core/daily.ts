@@ -11,6 +11,11 @@ export function utcDay(date: Date): string {
   return date.toISOString().slice(0, 10);
 }
 
+/** Pełne dni między dwoma dniami RRRR-MM-DD (UTC). Ujemne = data już minęła. */
+export function daysBetween(from: string, to: string): number {
+  return Math.round((Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) / 86_400_000);
+}
+
 /** Deterministyczny wybór: ten sam dzień → ten sam indeks, na każdej maszynie. */
 export function pickForDay(day: string, count: number): number {
   // FNV-1a — prosty hash; zwykła suma kodów znaków dawałaby sąsiednim dniom sąsiednie indeksy.

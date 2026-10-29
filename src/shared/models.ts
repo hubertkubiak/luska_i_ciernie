@@ -115,6 +115,16 @@ export interface RequestContext {
   user: SessionUser | null;
 }
 
+/** Zapowiedź premiery (GET /api/releases). */
+export interface Release {
+  slug: string;
+  title: string;
+  author: string;
+  /** Dzień premiery, RRRR-MM-DD. */
+  date: string;
+  note: string | null;
+}
+
 /** Motyw: noc (domyślny) albo pergamin. Zapisany w ciasteczku `theme`. */
 export const THEMES = ['night', 'parchment'] as const;
 export type Theme = (typeof THEMES)[number];

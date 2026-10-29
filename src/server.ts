@@ -92,6 +92,17 @@ app.use(localized('/motyw'), themeRouter());
 /** Prywatne strony: 302 na logowanie, zanim Angular w ogóle zobaczy żądanie. */
 app.use(localized('/moja-polka'), requireUser('/moja-polka'));
 app.use(localized('/logowanie'), redirectIfLoggedIn('/logowanie'));
+
+/**
+ * Nagłówki cache per trasa. /premiery jest publiczna i zmienia się raz na dobę (odliczanie w dniach),
+ * więc CDN może ją trzymać godzinę (s-maxage), a przez kolejne 10 minut podawać starą wersję,
+ * odświeżając ją w tle (stale-while-revalidate). Przeglądarka — 5 minut (max-age).
+ * Zalogowana osoba dostaje private, no-store niżej (nagłówek z jej imieniem).
+ */
+app.use(localized('/premiery'), (_req, res, next) => {
+  if (!currentUser(res)) res.set('Cache-Control', 'public, max-age=300, s-maxage=3600, stale-while-revalidate=600');
+  next();
+});
 app.use(localized('/rejestracja'), redirectIfLoggedIn('/rejestracja'));
 
 /**

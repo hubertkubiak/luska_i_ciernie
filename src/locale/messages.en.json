@@ -139,6 +139,20 @@
     "shelf.statusLabel": "Status",
     "shelf.tbr": "To read",
     "theme.toNight": "Switch to the dark theme: night",
-    "theme.toParchment": "Switch to the light theme: parchment"
+    "theme.toParchment": "Switch to the light theme: parchment",
+    "releases.out": "already in bookshops",
+    "releases.today": "out today",
+    "releases.tomorrow": "tomorrow",
+    "releases.inDays": "in {$count} days",
+    "releases.title": "Prophecies to come",
+    "releases.description": "A calendar of romantasy releases with a countdown to every announcement.",
+    "releases.feed": "Releases — RSS feed",
+    "releases.feedLink": "RSS feed of releases",
+    "releases.sample": "Sample data: the titles and authors are fictional — this is how the calendar of real announcements will look.",
+    "releases.nextKicker": "The nearest prophecy",
+    "countdown.in": "in",
+    "countdown.h": "h",
+    "countdown.m": "min",
+    "countdown.s": "s"
   }
 }

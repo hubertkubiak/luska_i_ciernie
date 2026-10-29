@@ -6,6 +6,7 @@ import type {
   BookSummary,
   Lang,
   Realm,
+  Release,
   SeriesStatus,
   Spice,
   Trope,
@@ -190,6 +191,15 @@ export class Catalog {
     const t = this.listTropes().find((x) => x.slug === slug);
     if (!t) return undefined;
     return { ...t, books: this.listBooks({ tropes: [slug] }, lang) };
+  }
+
+  /** Premiery od podanego dnia (włącznie), od najbliższej. */
+  listReleases(fromDay: string): Release[] {
+    return (
+      this.db
+        .prepare('SELECT slug, title, author, date, note FROM releases WHERE date >= ? ORDER BY date, title')
+        .all(fromDay) as unknown as Release[]
+    ).map((r) => ({ ...r }));
   }
 
   private toSummary(r: SummaryRow): BookSummary {

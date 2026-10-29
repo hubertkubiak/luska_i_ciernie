@@ -1,0 +1,11 @@
+@if (remaining(); as r) {
+  <!-- aria-live="off": czytnik ekranu nie odczytuje każdej sekundy; aktualny stan jest w tekście. -->
+  <span class="clock" aria-live="off">
+    <ng-container i18n="@@countdown.in">za</ng-container>
+    <b>{{ r.h }}</b><small i18n="@@countdown.h">godz.</small>
+    <b>{{ r.m < 10 ? '0' + r.m : r.m }}</b><small i18n="@@countdown.m">min</small>
+    <b>{{ r.s < 10 ? '0' + r.s : r.s }}</b><small i18n="@@countdown.s">s</small>
+  </span>
+} @else {
+  <span>{{ label() }}</span>
+}

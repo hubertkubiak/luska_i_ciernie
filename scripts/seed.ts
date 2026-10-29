@@ -1,6 +1,6 @@
 // Buduje bazę SQLite z plików seed/*.json:  npm run db:seed
 // Uruchamiane wprost przez Node 24 (wycina typy z .ts) — bez kompilacji i bez dodatkowych narzędzi.
-import { readFileSync, rmSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { createDatabase, type SeedData } from '../src/server/db/database.ts';
 
@@ -12,10 +12,10 @@ const data: SeedData = {
   tropes: read('tropes'),
   authors: read('authors'),
   series: read('series'),
+  releases: read('releases'),
 };
 
-// Zawsze od zera: seed jest źródłem prawdy, a baza tylko jego „skompilowaną” wersją.
-rmSync(target, { force: true });
+// Zawsze od zera (w miejscu, jedną transakcją): seed jest źródłem prawdy, a baza tylko jego „skompilowaną” wersją.
 const db = createDatabase(target, data);
 const count = (table: string) => (db.prepare(`SELECT COUNT(*) AS n FROM ${table}`).get() as { n: number }).n;
 console.log(

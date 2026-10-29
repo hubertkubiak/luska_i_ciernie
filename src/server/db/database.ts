@@ -15,6 +15,8 @@ export interface SeedData {
   tropes: { slug: string; name: string; realm: string; description: string }[];
   authors: { slug: string; name: string; bio: string }[];
   series: { slug: string; name: string; names?: Record<string, string>; status: string; plannedBooks?: number }[];
+  /** Zapowiedzi premier — w seedzie dane PRZYKŁADOWE (fikcyjne tytuły i autorki). */
+  releases?: { slug: string; title: string; author: string; date: string; note?: string }[];
 }
 
 export interface SeedBook {
@@ -121,6 +123,15 @@ CREATE TABLE content_warnings (
   PRIMARY KEY (book, position)
 );
 
+-- Data jako tekst ISO (RRRR-MM-DD): sortuje się poprawnie i porównuje zwykłym < / >.
+CREATE TABLE releases (
+  slug   TEXT PRIMARY KEY,
+  title  TEXT NOT NULL,
+  author TEXT NOT NULL,
+  date   TEXT NOT NULL CHECK (date GLOB '[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]'),
+  note   TEXT
+);
+
 CREATE TABLE old_slugs (
   old_slug TEXT PRIMARY KEY,
   book     TEXT NOT NULL REFERENCES books (slug)
@@ -147,22 +158,59 @@ export function openDatabase(path: string): DatabaseSync {
 }
 
 /** Tworzy nowy plik bazy (albo bazę w pamięci dla testów) ze schematem i danymi z seeda. */
+/**
+ * Tworzy bazę albo przebudowuje istniejącą W MIEJSCU — w jednej transakcji: usunięcie starych
+ * tabel, nowy schemat i dane. Nie kasujemy pliku, bo na Windowsie nie da się usunąć pliku, który
+ * trzyma otwarty działający serwer. Serwer do chwili COMMIT czyta stare dane, potem od razu nowe;
+ * błąd w seedzie wycofuje całość (ROLLBACK) i baza zostaje taka, jaka była.
+ */
 export function createDatabase(path: string, data: SeedData): DatabaseSync {
   if (path !== ':memory:') mkdirSync(dirname(path), { recursive: true });
   const db = new DatabaseSync(path);
+  // Klucze obce wyłączone na czas przebudowy (DROP TABLE w dowolnej kolejności); PRAGMA nie
+  // działa wewnątrz transakcji, dlatego przed BEGIN. Spójność sprawdza foreign_key_check niżej.
+  db.exec('PRAGMA foreign_keys = OFF;');
+  db.exec('BEGIN');
+  try {
+    const objects = db
+      .prepare("SELECT type, name FROM sqlite_master WHERE type IN ('table', 'trigger') AND name NOT LIKE 'sqlite_%'")
+      .all() as { type: string; name: string }[];
+    for (const o of objects) db.exec(`DROP ${o.type.toUpperCase()} IF EXISTS "${o.name}"`);
+    db.exec(SCHEMA);
+    insertSeed(db, data);
+    // Klucze obce sprawdzamy na końcu, hurtem: pierwszy błąd pokazujemy razem z treścią wiersza.
+    const broken = db.prepare('PRAGMA foreign_key_check').all() as { table: string; rowid: number; parent: string }[];
+    if (broken.length) {
+      const { table, rowid, parent } = broken[0];
+      const row = db.prepare(`SELECT * FROM "${table}" WHERE rowid = ?`).get(rowid);
+      throw new Error(`[seed] ${table} ${JSON.stringify({ ...row })}: odwołanie do nieistniejącego wpisu w „${parent}”`);
+    }
+    db.exec('COMMIT');
+  } catch (e) {
+    db.exec('ROLLBACK');
+    db.close();
+    throw e;
+  }
   db.exec('PRAGMA foreign_keys = ON;');
-  db.exec(SCHEMA);
-  seedDatabase(db, data);
   return db;
 }
 
 /** Wstawia dane w jednej transakcji: albo cały seed jest poprawny, albo baza zostaje pusta. */
 export function seedDatabase(db: DatabaseSync, data: SeedData): void {
-  const seriesById = new Map(data.series.map((s) => [s.slug, s]));
-  const authorById = new Map(data.authors.map((a) => [a.slug, a]));
-
   db.exec('BEGIN');
   try {
+    insertSeed(db, data);
+    db.exec('COMMIT');
+  } catch (e) {
+    db.exec('ROLLBACK');
+    throw e;
+  }
+}
+
+function insertSeed(db: DatabaseSync, data: SeedData): void {
+  const seriesById = new Map(data.series.map((s) => [s.slug, s]));
+  const authorById = new Map(data.authors.map((a) => [a.slug, a]));
+  {
     const author = db.prepare('INSERT INTO authors (slug, name, bio) VALUES (?, ?, ?)');
     for (const a of data.authors) author.run(a.slug, a.name, a.bio);
 
@@ -224,10 +272,8 @@ export function seedDatabase(db: DatabaseSync, data: SeedData): void {
         }
       }
     }
-    db.exec('COMMIT');
-  } catch (e) {
-    db.exec('ROLLBACK');
-    throw e;
+    const release = db.prepare('INSERT INTO releases (slug, title, author, date, note) VALUES (?, ?, ?, ?, ?)');
+    for (const r of data.releases ?? []) release.run(r.slug, r.title, r.author, r.date, r.note ?? null);
   }
 }
 

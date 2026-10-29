@@ -113,11 +113,11 @@ describe('database constraints', () => {
   };
 
   it('rejects an unknown trope (foreign key)', () => {
-    expect(broken((s) => (s.books[0].tropes = ['brak']))).toThrow(/fourth-wing.*FOREIGN KEY/);
+    expect(broken((s) => (s.books[0].tropes = ['brak']))).toThrow(/book_tropes.*fourth-wing.*„tropes”/);
   });
 
   it('rejects an unknown author (foreign key)', () => {
-    expect(broken((s) => (s.books[0].author = 'nikt'))).toThrow(/FOREIGN KEY/);
+    expect(broken((s) => (s.books[0].author = 'nikt'))).toThrow(/books.*"nikt".*„authors”/);
   });
 
   it('rejects spice out of range (CHECK)', () => {

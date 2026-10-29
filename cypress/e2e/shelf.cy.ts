@@ -47,6 +47,20 @@ describe('Skarbiec', () => {
     cy.get('@shelfGet.all').should('have.length', 0); // transfer cache
   });
 
+  it('książka spoza półki: 200 z null zamiast 404, więc też bez drugiego żądania', () => {
+    signUp();
+    cy.request('/api/shelf/onyx-storm').then((res) => {
+      expect(res.status).to.eq(200);
+      expect(res.body).to.eq(null);
+    });
+
+    cy.intercept('GET', '/api/shelf/**').as('shelfGet');
+    cy.visit('/ksiazka/onyx-storm');
+    cy.contains('app-shelf-control button', 'Do przeczytania').should('have.attr', 'aria-pressed', 'false');
+    cy.wait(800);
+    cy.get('@shelfGet.all').should('have.length', 0);
+  });
+
   it('bez JavaScriptu: zwykły formularz — Express zapisuje i odsyła na stronę książki', () => {
     signUp();
     cy.disableJavaScript();

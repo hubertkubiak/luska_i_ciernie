@@ -36,19 +36,25 @@ h2 {
 .items {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-  gap: 1rem;
+  gap: 1.5rem 1rem;
   padding: 0;
   list-style: none;
 }
 
+// Każda pozycja zajmuje DWA wiersze siatki rodzica (karta, kontrolki) i dzieli je z sąsiadami
+// przez subgrid. Wiersz kart ma więc wysokość najwyższej karty w rzędzie — karty są równe,
+// a kontrolki zaczynają się na tej samej wysokości. (grid-auto-rows: 1fr jak na innych
+// listach tu nie wystarczy: pod kartą są kontrolki, różne dla „Przeczytane” i reszty.)
 .item {
   display: grid;
-  gap: 0.6rem;
-  align-content: start;
+  grid-row: span 2;
+  grid-template-rows: subgrid;
+  row-gap: 0.6rem;
 }
 
 .controls {
   display: grid;
+  align-content: start;
   gap: 0.6rem;
 }
 

@@ -43,8 +43,10 @@ export function shelfApiRouter(shelf: ShelfStore, catalog: Catalog): Router {
   router.get('/:slug', (req, res) => {
     const item = shelf.get(userId(res), req.params['slug'] as string);
     const [full] = item ? withBooks([item], catalog, req) : [];
-    if (full) res.json(full);
-    else res.status(404).json({ error: 'Tej książki nie ma na półce' });
+    // „Nie ma na półce” to zwykły stan, nie błąd → 200 z null, nie 404. Ma to znaczenie dla SSR:
+    // HTTP transfer cache zapisuje tylko udane odpowiedzi, więc 404 z serwera nie trafiało do
+    // HTML-a i przeglądarka po hydracji pytała drugi raz (i dostawała w konsoli czerwone 404).
+    res.json(full ?? null);
   });
 
   router.put('/:slug', (req, res) => {

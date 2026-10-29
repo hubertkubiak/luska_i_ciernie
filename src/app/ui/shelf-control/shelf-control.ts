@@ -31,8 +31,8 @@ export class ShelfControl {
   protected readonly statuses = SHELF_STATUSES;
   protected readonly labels = STATUS_LABELS;
 
-  /** Pozycja z API; 404 = książki nie ma na półce. Anonim: nie pytamy wcale. */
-  private readonly remote = httpResource<ShelfItem>(() => (this.user() ? `/api/shelf/${this.slug()}` : undefined));
+  /** Pozycja z API; null = książki nie ma na półce. Anonim: nie pytamy wcale. */
+  private readonly remote = httpResource<ShelfItem | null>(() => (this.user() ? `/api/shelf/${this.slug()}` : undefined));
 
   /** Lokalny stan: startuje z odpowiedzi API, potem zmieniają go kliknięcia. */
   protected readonly item = linkedSignal<ShelfItem | null>(() => (this.remote.hasValue() ? this.remote.value() : null));

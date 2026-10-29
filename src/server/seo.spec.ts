@@ -1,8 +1,9 @@
 import { Catalog } from './catalog';
+import { memoryDatabase } from './db/testing';
 import { sitemapPaths, sitemapXml } from './seo';
 
 describe('sitemap', () => {
-  const catalog = new Catalog();
+  const catalog = new Catalog(memoryDatabase());
 
   it('lists every book, author and trope once', () => {
     const paths = sitemapPaths(catalog);

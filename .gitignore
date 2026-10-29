@@ -2,6 +2,8 @@
 
 # Compiled output
 /dist
+# Baza SQLite budowana z seed/*.json (npm run db:seed)
+/data
 /dev-dist
 /tmp
 /out-tsc

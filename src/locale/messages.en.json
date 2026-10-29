@@ -94,6 +94,9 @@
     "books.many": "{$count} tomes",
     "books.other": "{$count} tomes",
     "book.pages": "· {$ICU}",
-    "book.originalTitle": "Original title: {$START_ITALIC_TEXT}{$INTERPOLATION}{$CLOSE_ITALIC_TEXT}"
+    "book.originalTitle": "Original title: {$START_ITALIC_TEXT}{$INTERPOLATION}{$CLOSE_ITALIC_TEXT}",
+    "seo.homeDescription": "A romantasy archive read by trope: from enemies to lovers to dragon riders. Find books by trope, spice level and series status.",
+    "seo.tropesDescription": "A catalogue of romantasy tropes — from fated bonds to fae courts. Every rune leads to the tomes that follow it.",
+    "seo.searchDescription": "Search romantasy by trope, spice level and series status — even without JavaScript."
   }
 }

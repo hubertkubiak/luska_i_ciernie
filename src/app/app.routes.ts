@@ -1,9 +1,10 @@
 import { Routes } from '@angular/router';
 
+// Bez `title` w trasach: tytuł (i resztę <head>) ustawia każda strona przez Seo.update().
+// Router ustawiałby swój tytuł PO stronie (przy NavigationEnd) i nadpisywał ten z Seo.
 export const routes: Routes = [
   {
     path: '',
-    title: $localize`:@@title.home:Łuska i Ciernie — romantasy po tropach`,
     loadComponent: () => import('./pages/home/home').then((m) => m.Home),
   },
   {
@@ -16,12 +17,10 @@ export const routes: Routes = [
   },
   {
     path: 'szukaj',
-    title: $localize`:@@title.search:Przeszukaj archiwum — Łuska i Ciernie`,
     loadComponent: () => import('./pages/search/search').then((m) => m.SearchPage),
   },
   {
     path: 'tropy',
-    title: $localize`:@@title.tropes:Tropy — Łuska i Ciernie`,
     loadComponent: () => import('./pages/tropes/tropes').then((m) => m.TropesPage),
   },
   {
@@ -31,7 +30,6 @@ export const routes: Routes = [
   {
     // Status 404 dla tej trasy ustawia app.routes.server.ts.
     path: '**',
-    title: $localize`:@@title.notFound:Ścieżka zarosła cierniami`,
     loadComponent: () => import('./pages/not-found/not-found').then((m) => m.NotFound),
   },
 ];

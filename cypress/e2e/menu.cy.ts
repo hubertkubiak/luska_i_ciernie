@@ -30,6 +30,19 @@ describe('Menu „Mapa” na wąskim ekranie', () => {
     cy.get('#mapa-krain').should('not.match', ':popover-open');
   });
 
+  it('panel otwarty przed hydracją nie zwija się sam, gdy aplikacja ożyje', () => {
+    cy.visit('/', {
+      onBeforeLoad(win) {
+        // Klik w chwili, gdy jest już HTML z serwera, a aplikacja jeszcze nie wystartowała.
+        win.document.addEventListener('DOMContentLoaded', () => {
+          win.document.querySelector<HTMLButtonElement>('button[popovertarget="mapa-krain"]')!.click();
+        });
+      },
+    });
+    cy.get('.spark').should('exist'); // iskry = aplikacja już po hydracji
+    cy.get('#mapa-krain').should('match', ':popover-open');
+  });
+
   // Esc i klik obok („light dismiss”) to natywne zachowanie popovera, ale reaguje tylko na
   // prawdziwe zdarzenia (isTrusted). Syntetyczne zdarzenia Cypressa go nie uruchomią — sprawdź ręcznie.
 });

@@ -2,6 +2,7 @@ import { HttpErrorResponse, httpResource } from '@angular/common/http';
 import { Component, computed, effect, inject, input } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import type { BookDetail } from '../../../shared/models';
+import { Seo, summary } from '../../core/seo';
 import { ServerResponse } from '../../core/server-response';
 import { Cover } from '../../ui/cover/cover';
 import { Rune } from '../../ui/rune/rune';
@@ -71,6 +72,39 @@ export class BookPage {
         this.response.setStatus(301);
         void this.router.navigate(['/ksiazka', canonical], { replaceUrl: true });
       }
+    });
+
+    // Meta i JSON-LD Book. Przy starym slugu nie ustawiamy nic — za chwilę i tak będzie 301.
+    const seo = inject(Seo);
+    effect(() => {
+      if (!this.book.hasValue() || this.book.value().slug !== this.slug()) return;
+      const b = this.book.value();
+      const url = seo.link(`/ksiazka/${b.slug}`);
+      seo.update({
+        title: `${b.title} – ${b.author.name}`,
+        description: summary(b.description),
+        path: `/ksiazka/${b.slug}`,
+        image: b.coverUrl,
+        type: 'book',
+        jsonLd: {
+          '@type': 'Book',
+          name: b.title,
+          ...(b.originalTitle && { alternateName: b.originalTitle }),
+          url,
+          author: { '@type': 'Person', name: b.author.name, url: seo.link(`/autor/${b.author.slug}`) },
+          isbn: b.isbn,
+          ...(b.pages && { numberOfPages: b.pages }),
+          datePublished: String(b.year),
+          genre: 'Romantasy',
+          keywords: b.tropes.map((t) => t.name).join(', '),
+          description: b.description,
+          ...(b.coverUrl && { image: b.coverUrl }),
+          ...(b.series && {
+            isPartOf: { '@type': 'BookSeries', name: b.series.name },
+            position: b.series.index,
+          }),
+        },
+      });
     });
   }
 }

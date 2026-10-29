@@ -55,7 +55,9 @@ export class Header {
     afterNextRender(() => {
       this.router.events
         .pipe(
-          filter((e) => e instanceof NavigationEnd),
+          // id > 1: pomijamy POCZĄTKOWĄ nawigację. Kończy się ona już po hydracji, więc panel
+          // otwarty wcześniej (wolne łącze, menu działa bez JS) zwinąłby się czytelniczce sam.
+          filter((e) => e instanceof NavigationEnd && e.id > 1),
           takeUntilDestroyed(destroyRef),
         )
         .subscribe(() => {

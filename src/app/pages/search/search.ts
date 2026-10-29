@@ -1,7 +1,6 @@
 import { httpResource } from '@angular/common/http';
 import {
   Component,
-  DestroyRef,
   ElementRef,
   afterRenderEffect,
   computed,
@@ -13,7 +12,7 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import type { BookSummary, Trope } from '../../../shared/models';
-import { Canonical } from '../../core/canonical';
+import { Seo } from '../../core/seo';
 import { BookCard } from '../../ui/book-card/book-card';
 import { Rune } from '../../ui/rune/rune';
 import { parseCriteria, toApiUrl, toQueryParams, toQueryString } from './search-criteria';
@@ -34,7 +33,7 @@ import { parseCriteria, toApiUrl, toQueryParams, toQueryString } from './search-
 })
 export class SearchPage {
   private readonly router = inject(Router);
-  private readonly canonical = inject(Canonical);
+  private readonly seo = inject(Seo);
 
   private readonly queryParams = toSignal(inject(ActivatedRoute).queryParamMap, { requireSync: true });
 
@@ -62,9 +61,14 @@ export class SearchPage {
   constructor() {
     effect(() => {
       const qs = toQueryString(this.criteria());
-      this.canonical.set(qs ? `/szukaj?${qs}` : '/szukaj');
+      // Ta sama lista wyników pod różnymi adresami (kolejność parametrów, wartości domyślne)
+      // ma JEDEN adres kanoniczny — znormalizowany przez toQueryString().
+      this.seo.update({
+        title: $localize`:@@title.search:Przeszukaj archiwum — Łuska i Ciernie`,
+        description: $localize`:@@seo.searchDescription:Szukaj romantasy po tropach, pikanterii i statusie serii — także bez JavaScriptu.`,
+        path: qs ? `/szukaj?${qs}` : '/szukaj',
+      });
     });
-    inject(DestroyRef).onDestroy(() => this.canonical.clear());
 
     // Pola formularza mają stan tylko w atrybutach (wartościach domyślnych). Gdy kryteria zmienią
     // się z innego źródła niż sam formularz — „Wyczyść filtry”, Wstecz w przeglądarce — reset()

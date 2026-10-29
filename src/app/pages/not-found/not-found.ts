@@ -1,5 +1,6 @@
-import { Component, input } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject, input } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { Seo } from '../../core/seo';
 
 /**
  * Widok „zarosła cierniami”. Sam NIE ustawia statusu HTTP — robią to:
@@ -14,4 +15,15 @@ import { RouterLink } from '@angular/router';
 })
 export class NotFound {
   readonly message = input($localize`:@@notFound.default:Nikt nie chodził tędy od stuleci.`);
+
+  constructor() {
+    // noindex: strona błędu nie powinna trafić do wyników wyszukiwania (status 404 to jedno,
+    // ale meta robots chroni też przed indeksowaniem, gdyby status kiedyś się zgubił).
+    inject(Seo).update({
+      title: $localize`:@@title.notFound:Ścieżka zarosła cierniami`,
+      description: $localize`:@@notFound.default:Nikt nie chodził tędy od stuleci.`,
+      path: inject(Router).url,
+      noindex: true,
+    });
+  }
 }

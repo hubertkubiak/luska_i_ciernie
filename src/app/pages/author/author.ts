@@ -1,6 +1,7 @@
 import { HttpErrorResponse, httpResource } from '@angular/common/http';
 import { Component, computed, effect, inject, input } from '@angular/core';
 import type { AuthorDetail } from '../../../shared/models';
+import { Seo, summary } from '../../core/seo';
 import { ServerResponse } from '../../core/server-response';
 import { BookCard } from '../../ui/book-card/book-card';
 import { NotFound } from '../not-found/not-found';
@@ -26,6 +27,19 @@ export class AuthorPage {
   constructor() {
     effect(() => {
       if (this.notFound()) this.response.setStatus(404);
+    });
+
+    const seo = inject(Seo);
+    effect(() => {
+      if (!this.author.hasValue()) return;
+      const a = this.author.value();
+      seo.update({
+        title: a.name,
+        description: summary(a.bio),
+        path: `/autor/${a.slug}`,
+        type: 'profile',
+        jsonLd: { '@type': 'Person', name: a.name, description: a.bio, url: seo.link(`/autor/${a.slug}`) },
+      });
     });
   }
 }

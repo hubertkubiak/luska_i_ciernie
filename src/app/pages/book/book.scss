@@ -5,7 +5,8 @@
   grid-template-columns: 180px 1fr;
   grid-template-areas:
     'cover head'
-    'body body';
+    'body body'
+    'similar similar';
   gap: 2rem 2.5rem;
   max-width: 60rem;
   margin: 0 auto;
@@ -20,7 +21,7 @@
 
   @media (max-width: 40rem) {
     grid-template-columns: 1fr;
-    grid-template-areas: 'cover' 'head' 'body';
+    grid-template-areas: 'cover' 'head' 'body' 'similar';
     justify-items: center;
   }
 }
@@ -133,6 +134,17 @@
     color: var(--accent);
     font-weight: 600;
   }
+}
+
+// Host komponentu z @defer i jego placeholder zajmują to samo miejsce w siatce.
+.similar-slot {
+  grid-area: similar;
+  display: block;
+  justify-self: stretch;
+}
+// Rezerwuje mniej więcej wysokość rzędu kart, żeby doładowanie nie przesuwało stopki (CLS).
+.placeholder {
+  min-height: 22rem;
 }
 
 .state {

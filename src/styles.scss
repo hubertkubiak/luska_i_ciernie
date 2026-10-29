@@ -52,11 +52,24 @@ a {
   white-space: nowrap;
 }
 
+// View Transitions (withViewTransitions w app.config.ts): przenikanie stron i lot okładki.
+::view-transition-group(*) {
+  animation-duration: var(--dur);
+  animation-timing-function: var(--ease);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+  // Pseudoelementy przejścia nie pasują do selektora *, więc wyłączamy je osobno:
+  // strona podmienia się od razu, bez lotu okładki i bez przenikania.
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }

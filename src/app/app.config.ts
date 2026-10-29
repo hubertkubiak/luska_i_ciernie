@@ -2,7 +2,7 @@ import { PRECONNECT_CHECK_BLOCKLIST } from '@angular/common';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideClientHydration, withHttpTransferCacheOptions, withI18nSupport } from '@angular/platform-browser';
-import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { provideRouter, withComponentInputBinding, withViewTransitions } from '@angular/router';
 import { routes } from './app.routes';
 import { apiLanguageInterceptor } from './core/api-language';
 import { forwardSessionInterceptor } from './core/forward-session';
@@ -15,7 +15,12 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     // withComponentInputBinding: parametr :slug trafia prosto do input() komponentu strony.
-    provideRouter(routes, withComponentInputBinding()),
+    // withViewTransitions: każda nawigacja idzie przez document.startViewTransition() — stara
+    // i nowa strona przenikają się, a elementy o tej samej view-transition-name (okładka na
+    // karcie i na stronie książki, patrz Cover) płynnie „przelatują” na nowe miejsce.
+    // skipInitialTransition: pierwsza nawigacja to hydracja HTML-a z serwera — nie ma czego animować.
+    // Przeglądarki bez View Transitions API po prostu nawigują jak dotąd.
+    provideRouter(routes, withComponentInputBinding(), withViewTransitions({ skipInitialTransition: true })),
     // withFetch: na serwerze HttpClient używa natywnego fetch z Node zamiast emulacji XHR.
     // apiLanguageInterceptor: API odpowiada w języku tej wersji aplikacji (tytuły pl/en).
     // forwardSessionInterceptor: przy SSR przekazuje sesję do /api/shelf (w przeglądarce nic nie robi).

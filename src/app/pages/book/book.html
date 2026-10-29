@@ -60,6 +60,22 @@
         </nav>
       }
     </div>
+
+    <!--
+      Incremental hydration: serwer renderuje treść bloku (karty są w HTML-u, widzą je roboty
+      i czytelniczka bez JS), ale przeglądarka NIE pobiera jego kodu ani go nie hydratuje,
+      dopóki blok nie wjedzie w ekran (hydrate on viewport). Kliknięcie w kartę wcześniej też
+      wyzwoli hydrację, a event replay odtworzy to kliknięcie.
+      Przy nawigacji w przeglądarce (bez SSR) działa zwykły wyzwalacz: najpierw placeholder,
+      komponent dociąga się, gdy placeholder pojawi się w widoku (on viewport).
+    -->
+    @if (b.similar.length) {
+      @defer (on viewport; hydrate on viewport) {
+        <app-similar-books class="similar-slot" [books]="b.similar" />
+      } @placeholder {
+        <div class="similar-slot placeholder" aria-hidden="true"></div>
+      }
+    }
   </article>
 } @else if (notFound()) {
   <app-not-found i18n-message="@@book.notFound" message="W archiwum nie ma takiej księgi." />

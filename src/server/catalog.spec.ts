@@ -13,6 +13,21 @@ describe('Catalog', () => {
     expect(catalog.getBook('a-court-of-silver-flames')?.series?.index).toBe(5);
   });
 
+  it('suggests similar books by shared tropes, outside the same series', () => {
+    const book = catalog.getBook('fourth-wing')!;
+    const own = book.tropes.map((t) => t.slug);
+    const shared = (b: { tropes: { slug: string }[] }) => b.tropes.filter((t) => own.includes(t.slug)).length;
+
+    expect(book.similar.length).toBeGreaterThan(0);
+    expect(book.similar.length).toBeLessThanOrEqual(4);
+    expect(book.similar.map((b) => b.slug)).not.toContain('fourth-wing');
+    expect(book.similar.every((b) => b.series?.slug !== book.series?.slug)).toBe(true);
+    // Od najbardziej podobnej: liczba wspólnych tropów nie rośnie w dół listy.
+    const counts = book.similar.map(shared);
+    expect(counts).toEqual([...counts].sort((a, b) => b - a));
+    expect(counts.every((n) => n > 0)).toBe(true);
+  });
+
   it('returns undefined for unknown slugs', () => {
     expect(catalog.getBook('nie-ma-takiej')).toBeUndefined();
     expect(catalog.getAuthor('nie-ma-takiego')).toBeUndefined();

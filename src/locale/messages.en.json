@@ -125,6 +125,20 @@
     "header.logoutMeaning": "Sign out",
     "header.yourShelf": "Your treasury",
     "shelf.empty": "Your treasury is empty. Even a dragon has to start somewhere.",
-    "shelf.greeting": "Welcome to your treasury, {$INTERPOLATION}."
+    "shelf.greeting": "Welcome to your treasury, {$INTERPOLATION}.",
+    "shelf.controlTitle": "In your treasury",
+    "shelf.itemError": "Could not save the changes: {$INTERPOLATION}. Please try again.",
+    "shelf.loginToAdd": "{$START_LINK}Cross the threshold{$CLOSE_LINK} to add this tome to your treasury.",
+    "shelf.noRating": "no rating",
+    "shelf.noteLabel": "Note",
+    "shelf.ratingLabel": "Rating",
+    "shelf.read": "Read",
+    "shelf.reading": "Reading",
+    "shelf.remove": "Take off the shelf",
+    "shelf.saveError": "Could not save. Please try again.",
+    "shelf.statusLabel": "Status",
+    "shelf.tbr": "To read",
+    "theme.toNight": "Switch to the dark theme: night",
+    "theme.toParchment": "Switch to the light theme: parchment"
   }
 }

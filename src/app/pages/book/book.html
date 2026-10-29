@@ -27,6 +27,7 @@
           <li><a [routerLink]="['/tropy', t.slug]"><app-rune [trope]="t.slug" />{{ t.name }}</a></li>
         }
       </ul>
+      <app-shelf-control [slug]="b.slug" />
     </header>
 
     <div class="body">

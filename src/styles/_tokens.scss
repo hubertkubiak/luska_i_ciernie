@@ -40,13 +40,22 @@
 
 // Tryb „pergamin”. Atrybut ustawi w etapie 11 serwer na podstawie cookie.
 :root[data-theme='parchment'] {
-  --ember: #a8661a;
+  // Akcenty ciemniejsze niż w nocy — na jasnym pergaminie muszą mieć kontrast (WCAG AA dla tekstu).
+  --ember: #9a5a12;
   --blood: #7d1426;
+  --gilt: #7f5f1f;
+  --fae: #1f6b57;
+  --velvet: #dccda9;
+  --nightshade: #c9b48a;
+  --moonsilver: #3a3346;
+  --mist: #6d6478;
   --bg: #efe5cf;
   --surface: #f7f0df;
   --text: var(--ink);
   --text-muted: #5a5068;
   --grad-nebula: radial-gradient(ellipse at top, #e2d3b0, #efe5cf 70%);
+  --grad-ember: linear-gradient(135deg, #e9b65c, #c98a2c 45%, #9a5a12);
+  --grad-gilt: linear-gradient(90deg, transparent, #9c7a35, transparent);
 
   color-scheme: light;
 }

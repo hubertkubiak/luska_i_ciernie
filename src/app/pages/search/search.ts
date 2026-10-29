@@ -12,6 +12,7 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import type { BookSummary, Trope } from '../../../shared/models';
+import { isReplayed } from '../../core/event-replay';
 import { Seo } from '../../core/seo';
 import { BookCard } from '../../ui/book-card/book-card';
 import { Rune } from '../../ui/rune/rune';
@@ -85,6 +86,7 @@ export class SearchPage {
 
   /** Enter w polu tekstowym albo przycisk „Szukaj”. */
   protected onSubmit(event: SubmitEvent): void {
+    if (isReplayed(event)) return; // wysłany przed hydracją: przeglądarka już przechodzi na wyniki (GET)
     event.preventDefault();
     this.apply(event.target as HTMLFormElement);
   }

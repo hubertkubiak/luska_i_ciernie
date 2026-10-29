@@ -1,6 +1,6 @@
 import express, { Router, type Request, type RequestHandler, type Response } from 'express';
 import { LANG_PREFIX, LANGS, type SessionUser } from '../../shared/models';
-import { LIMITS, SESSION_TTL_MS, normalizeEmail, type Accounts } from './accounts';
+import { LIMITS, SESSION_TTL_MS, normalizeEmail, type Account, type Accounts } from './accounts';
 import { RateLimiter, SESSION_COOKIE, clearSessionCookie, isSameOrigin, readCookie, safeNext, setSessionCookie } from './http';
 
 /** Ścieżki z prefiksem każdej wersji językowej: '/logowanie' → ['/logowanie', '/en/logowanie']. */
@@ -9,8 +9,12 @@ export const localized = (path: string) => LANGS.map((l) => LANG_PREFIX[l] + pat
 /** Prefiks języka z adresu, pod którym zamontowano router: '/en/auth' → '/en', '/auth' → ''. */
 const langPrefix = (req: Request, mount: string) => req.baseUrl.slice(0, req.baseUrl.length - mount.length);
 
-/** Zalogowana osoba bieżącego żądania (ustawia sessionMiddleware). */
-export const currentUser = (res: Response): SessionUser | null => res.locals['user'] ?? null;
+/** Zalogowana osoba bieżącego żądania (ustawia sessionMiddleware) — z wewnętrznym id. */
+export const currentUser = (res: Response): Account | null => res.locals['user'] ?? null;
+
+/** To, co wolno pokazać przeglądarce: bez wewnętrznego id. */
+export const publicUser = (account: Account | null): SessionUser | null =>
+  account && { email: account.email, displayName: account.displayName };
 
 /** Czyta ciasteczko sesji i odkłada osobę do res.locals — dla Angulara, strażników i /api/me. */
 export function sessionMiddleware(accounts: Accounts): RequestHandler {
@@ -102,7 +106,7 @@ export function authRouter(accounts: Accounts): Router {
 /** GET /api/me — kim jestem. Potrzebne tam, gdzie HTML nie zna sesji (prerender, tryb Client). */
 export const meHandler: RequestHandler = (_req, res) => {
   res.set('Cache-Control', 'private, no-store');
-  const user = currentUser(res);
+  const user = publicUser(currentUser(res));
   if (user) res.json(user);
   else res.status(401).json({ error: 'Nie jesteś zalogowana' });
 };

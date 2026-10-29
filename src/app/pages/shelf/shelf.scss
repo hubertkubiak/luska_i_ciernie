@@ -1,30 +1,112 @@
+@use '../../../styles/forms';
+
 .shelf {
-  display: grid;
-  justify-items: center;
-  gap: 0.75rem;
-  max-width: 40rem;
+  max-width: 64rem;
   margin: 0 auto;
-  padding: clamp(2rem, 8vh, 5rem) 1rem;
-  text-align: center;
+  padding: clamp(2rem, 6vh, 4rem) clamp(1rem, 4vw, 3rem);
+}
+
+.intro {
+  margin-bottom: 1.5rem;
 }
 
 h1 {
-  margin: 0;
+  margin: 0.25rem 0 0.5rem;
   font-size: clamp(2rem, 5vw, 3rem);
   color: var(--gilt);
 }
 
 .greeting {
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 1.15rem;
 }
 
+h2 {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin: 2rem 0 1rem;
+
+  .count {
+    @include forms.field-label;
+    font-size: 0.9rem;
+  }
+}
+
+.items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: grid;
+  gap: 0.6rem;
+  align-content: start;
+}
+
+.controls {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.2rem;
+
+  span {
+    @include forms.field-label;
+  }
+
+  select,
+  textarea {
+    @include forms.ink-field;
+    resize: vertical;
+  }
+
+  option {
+    background: var(--surface);
+  }
+}
+
+.remove {
+  justify-self: start;
+  padding: 0.2rem 0;
+  border: 0;
+  background: none;
+  color: var(--text-muted);
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  text-decoration: underline dotted;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--blood);
+  }
+}
+
+.error {
+  padding: 0.6rem 0.9rem;
+  border-left: 3px solid var(--blood);
+  background: color-mix(in srgb, var(--blood) 18%, transparent);
+}
+
+.state,
 .empty {
+  padding: 4rem 1rem;
+  text-align: center;
+}
+
+.empty p {
   color: var(--text-muted);
   font-style: italic;
 }
 
 .cta {
+  display: inline-block;
   padding: 0.6rem 1.8rem;
   border-radius: 2px;
   background: var(--grad-ember);

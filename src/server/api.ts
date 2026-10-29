@@ -102,7 +102,7 @@ function bookQuery(query: Record<string, unknown>): BookQuery {
  * Język odpowiedzi z nagłówka Accept-Language. Aplikacja Angular wysyła tu swój LOCALE_ID
  * (interceptor w src/app/core/api-language.ts), więc /en/ dostaje tytuły oryginalne, a / polskie.
  */
-function lang(req: Request): Lang {
+export function lang(req: Request): Lang {
   return (req.acceptsLanguages(...LANGS) || 'pl') as Lang;
 }
 

@@ -16,7 +16,7 @@ czytelniczek w Polsce, więc punktem odniesienia jest prawo polskie i unijne.
 | Połączenia do covers.openlibrary.org | średnie (RODO) | usunięty `preconnect`; przy `COVER_SOURCE=none` brak połączeń | — |
 | Opisy, biogramy, ostrzeżenia | niskie | własne teksty, bez cytatów (SPEC §1) | utrzymać zasadę przy nowych danych |
 | Tytuły, nazwy serii | niskie | użycie opisowe (oznaczenie książki) | nie robić z tytułów nazw własnych usług |
-| Cookies | niskie | jedno ciasteczko sesji `sid`, tylko po zalogowaniu (niezbędne) | opisać w polityce prywatności; motyw i analityka — §3 |
+| Cookies | niskie | `sid` (sesja, po zalogowaniu) i `theme` (motyw, po kliknięciu przełącznika) — oba funkcjonalne | opisać w polityce prywatności; analityka wymagałaby zgody (§3) |
 | Konta użytkowników | średnie | są: e‑mail, imię, hash hasła (scrypt), sesje (§2) | polityka prywatności, regulamin, usuwanie konta (§2, §4) |
 | Dane usługodawcy, regulamin | średnie po dodaniu kont | brak | dodać przed publikacją (§4) |
 
@@ -86,7 +86,7 @@ inni uprawnieni. Okładki ma kilkanaście książek, tam gdzie Open Library zna 
   Czego brakuje przed publikacją:
   - obowiązek informacyjny (art. 13 RODO) w polityce prywatności, z podstawą z art. 6 ust. 1 lit. b (umowa: konto i półka);
   - **usuwanie konta** (prawo do usunięcia danych, art. 17);
-  - eksport danych (art. 20), gdy półka będzie gotowa;
+  - eksport danych (art. 20): półka już jest (status, ocena, notatka), więc warto dodać „pobierz moje dane” (JSON);
   - umowy powierzenia z dostawcami (hosting, ewentualnie wysyłka maili).
 - **Komunikat „pod tym adresem pakt jest już zawarty”** przy rejestracji zdradza, że dany e‑mail ma konto. To świadomy kompromis wygody (większość serwisów tak robi). Alternatywa to zawsze ten sam komunikat plus potwierdzenie mailem, ale to wymaga wysyłki maili.
 
@@ -98,10 +98,12 @@ wyjątkami: niezbędne do transmisji albo do usługi, której użytkownik wyraź
 
 W praktyce dla nas:
 - ciasteczko sesji `sid` (`HttpOnly`, `SameSite=Lax`, `Secure` po HTTPS) powstaje dopiero po zalogowaniu i jest niezbędne do usługi, której osoba wyraźnie żąda. To wyjątek: tylko informacja w polityce prywatności, bez banera zgody;
-- cookie z wybranym motywem (etap motywu) to preferencja ustawiona na wyraźne żądanie, raczej też wyjątek, ale warto o nim napisać;
+- ciasteczko `theme` (etap 13) powstaje dopiero po kliknięciu przełącznika motywu. To preferencja ustawiona na wyraźne żądanie, raczej też wyjątek, ale opisujemy je w polityce prywatności. Nie jest `HttpOnly`, bo zapisuje je także skrypt strony, i nie zawiera żadnych danych osobowych;
 - analityka, piksele reklamowe i osadzone media zewnętrzne **wymagają zgody** (baner z równorzędnym „odrzuć”).
 
-Poza ciasteczkiem sesji serwis nie zapisuje żadnych cookies ani `localStorage`. Osoba niezalogowana nie dostaje żadnego.
+Poza tymi dwoma ciasteczkami serwis nie zapisuje żadnych cookies ani `localStorage`. Osoba, która się nie loguje i nie zmienia motywu, nie dostaje żadnego.
+
+**Półka** (etap 13) to dane osobowe powiązane z kontem: statusy, oceny i notatki. Leżą w `data/users.db` i kasują się razem z kontem (`ON DELETE CASCADE`). Notatki mogą zawierać cokolwiek, co osoba wpisze, więc przy usuwaniu konta i eksporcie danych traktujemy je jak resztę konta.
 
 ## 4. Obowiązki informacyjne usługodawcy
 

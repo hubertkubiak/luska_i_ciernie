@@ -40,6 +40,9 @@ export const LIMITS = {
 
 export type RegisterError = 'email' | 'haslo' | 'imie' | 'zajety';
 
+/** Osoba po stronie serwera — z wewnętrznym id (do półki). Na zewnątrz wychodzi tylko SessionUser. */
+export type Account = SessionUser & { id: number };
+
 export function openAccounts(path: string): Accounts {
   if (path !== ':memory:' && !existsSync(dirname(path))) mkdirSync(dirname(path), { recursive: true });
   const db = new DatabaseSync(path);
@@ -51,11 +54,12 @@ export function openAccounts(path: string): Accounts {
 }
 
 export class Accounts {
-  constructor(private readonly db: DatabaseSync) {}
+  /** Ta sama baza służy też półce (src/server/shelf/shelf-store.ts). */
+  constructor(readonly db: DatabaseSync) {}
 
   async register(
     input: { email: string; password: string; displayName: string },
-  ): Promise<{ user: SessionUser & { id: number } } | { error: RegisterError }> {
+  ): Promise<{ user: Account } | { error: RegisterError }> {
     const email = normalizeEmail(input.email);
     const displayName = input.displayName.trim();
     if (!isEmail(email)) return { error: 'email' };
@@ -79,7 +83,7 @@ export class Accounts {
   }
 
   /** Zwraca osobę albo null. Ten sam błąd i (prawie) ten sam czas dla złego e-maila i złego hasła. */
-  async login(emailInput: string, password: string): Promise<(SessionUser & { id: number }) | null> {
+  async login(emailInput: string, password: string): Promise<Account | null> {
     const row = this.db
       .prepare('SELECT id, email, display_name, password_hash FROM users WHERE email = ?')
       .get(normalizeEmail(emailInput)) as
@@ -98,13 +102,13 @@ export class Accounts {
     return token;
   }
 
-  userForSession(token: string, now = Date.now()): SessionUser | null {
+  userForSession(token: string, now = Date.now()): Account | null {
     const row = this.db
       .prepare(
-        `SELECT u.email, u.display_name, s.expires_at FROM sessions s JOIN users u ON u.id = s.user_id
+        `SELECT u.id, u.email, u.display_name, s.expires_at FROM sessions s JOIN users u ON u.id = s.user_id
           WHERE s.token_hash = ?`,
       )
-      .get(hashToken(token)) as { email: string; display_name: string; expires_at: number } | undefined;
+      .get(hashToken(token)) as { id: number; email: string; display_name: string; expires_at: number } | undefined;
     if (!row) return null;
     if (row.expires_at <= now) {
       this.destroySession(token);
@@ -114,7 +118,7 @@ export class Accounts {
     if (row.expires_at - now < SESSION_TTL_MS - 24 * 60 * 60 * 1000) {
       this.db.prepare('UPDATE sessions SET expires_at = ? WHERE token_hash = ?').run(now + SESSION_TTL_MS, hashToken(token));
     }
-    return { email: row.email, displayName: row.display_name };
+    return { id: row.id, email: row.email, displayName: row.display_name };
   }
 
   destroySession(token: string): void {

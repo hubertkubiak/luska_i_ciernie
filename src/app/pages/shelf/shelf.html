@@ -1,9 +1,67 @@
 <section class="shelf">
-  <p class="label" i18n="@@nav.shelfMeaning">Twoje książki</p>
-  <h1 i18n="@@nav.shelf">Skarbiec</h1>
-  @if (user(); as u) {
-    <p class="greeting" i18n="@@shelf.greeting">Witaj w skarbcu, {{ u.displayName }}.</p>
+  <header class="intro">
+    <p class="label" i18n="@@nav.shelfMeaning">Twoje książki</p>
+    <h1 i18n="@@nav.shelf">Skarbiec</h1>
+    @if (user(); as u) {
+      <p class="greeting" i18n="@@shelf.greeting">Witaj w skarbcu, {{ u.displayName }}.</p>
+    }
+  </header>
+
+  @if (failed(); as title) {
+    <p class="error" role="alert" i18n="@@shelf.itemError">Nie udało się zapisać zmian: {{ title }}. Spróbuj jeszcze raz.</p>
   }
-  <p class="empty" i18n="@@shelf.empty">Twój skarbiec jest pusty. Nawet smok musi od czegoś zacząć.</p>
-  <a class="cta" routerLink="/szukaj" i18n="@@home.cta">Przeszukaj archiwum</a>
+
+  @if (loading() && items().length === 0) {
+    <p class="state" role="status" i18n="@@state.loading">Smok przeszukuje skarbiec…</p>
+  } @else {
+    @for (section of sections(); track section.status) {
+      <section class="status" [attr.data-status]="section.status">
+        <h2>{{ labels[section.status] }} <span class="count">{{ section.items.length }}</span></h2>
+        <ul class="items">
+          @for (item of section.items; track item.slug) {
+            <li class="item">
+              <app-book-card [book]="item.book" />
+              <div class="controls">
+                <label class="field">
+                  <span i18n="@@shelf.statusLabel">Status</span>
+                  <select (change)="setStatus(item, $any($event.target).value)">
+                    @for (s of statuses; track s) {
+                      <option [value]="s" [selected]="s === item.status">{{ labels[s] }}</option>
+                    }
+                  </select>
+                </label>
+                @if (item.status === 'read') {
+                  <label class="field">
+                    <span i18n="@@shelf.ratingLabel">Ocena</span>
+                    <select (change)="setRating(item, $any($event.target).value)">
+                      <option value="" [selected]="!item.rating" i18n="@@shelf.noRating">bez oceny</option>
+                      @for (r of ratings; track r) {
+                        <option [value]="r" [selected]="r === item.rating">{{ r }}/5</option>
+                      }
+                    </select>
+                  </label>
+                }
+                <label class="field">
+                  <span i18n="@@shelf.noteLabel">Notatka</span>
+                  <!-- Zapis przy opuszczeniu pola (blur) — bez osobnego przycisku. -->
+                  <textarea
+                    rows="2"
+                    maxlength="2000"
+                    [value]="item.note ?? ''"
+                    (blur)="setNote(item, $any($event.target).value)"
+                  ></textarea>
+                </label>
+                <button class="remove" type="button" (click)="remove(item)" i18n="@@shelf.remove">Zabierz z półki</button>
+              </div>
+            </li>
+          }
+        </ul>
+      </section>
+    } @empty {
+      <div class="empty">
+        <p i18n="@@shelf.empty">Twój skarbiec jest pusty. Nawet smok musi od czegoś zacząć.</p>
+        <a class="cta" routerLink="/szukaj" i18n="@@home.cta">Przeszukaj archiwum</a>
+      </div>
+    }
+  }
 </section>

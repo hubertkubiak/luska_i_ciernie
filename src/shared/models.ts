@@ -114,3 +114,25 @@ export interface SessionUser {
 export interface RequestContext {
   user: SessionUser | null;
 }
+
+/** Motyw: noc (domyślny) albo pergamin. Zapisany w ciasteczku `theme`. */
+export const THEMES = ['night', 'parchment'] as const;
+export type Theme = (typeof THEMES)[number];
+
+/** Półka: do przeczytania / czytam / przeczytane. */
+export const SHELF_STATUSES = ['tbr', 'reading', 'read'] as const;
+export type ShelfStatus = (typeof SHELF_STATUSES)[number];
+
+/** Co czytelniczka może zapisać o książce (PUT /api/shelf/:slug). */
+export interface ShelfEntry {
+  status: ShelfStatus;
+  /** 1–5, tylko dla przeczytanych. */
+  rating?: number | null;
+  note?: string | null;
+}
+
+export interface ShelfItem extends ShelfEntry {
+  slug: string;
+  updatedAt: string;
+  book: BookSummary;
+}

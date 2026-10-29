@@ -28,7 +28,7 @@ describe('accounts', () => {
     const now = Date.now();
     const token = accounts.createSession(user.id, now);
 
-    expect(accounts.userForSession(token, now)).toEqual({ email: 'violet@example.com', displayName: 'Violet' });
+    expect(accounts.userForSession(token, now)).toEqual({ id: user.id, email: 'violet@example.com', displayName: 'Violet' });
     expect(accounts.userForSession('wymyslony-token', now)).toBeNull();
     expect(accounts.userForSession(token, now + SESSION_TTL_MS + 1)).toBeNull(); // wygasła i została usunięta
     expect(accounts.userForSession(token, now)).toBeNull();

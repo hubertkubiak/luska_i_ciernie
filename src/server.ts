@@ -12,6 +12,7 @@ import { openAccounts } from './server/auth/accounts';
 import {
   authRouter,
   currentUser,
+  publicUser,
   localized,
   meHandler,
   redirectIfLoggedIn,
@@ -21,6 +22,9 @@ import {
 import { Catalog } from './server/catalog';
 import { openDatabase } from './server/db/database';
 import { seoRouter } from './server/seo';
+import { themeFromRequest, themeRouter, withTheme } from './server/theme';
+import { ShelfStore } from './server/shelf/shelf-store';
+import { shelfApiRouter, shelfFormRouter } from './server/shelf/shelf-router';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -46,11 +50,13 @@ function loadCatalog(): Catalog {
 /** Konta i sesje — osobny, zapisywalny plik (katalog jest tylko do odczytu). */
 const accounts = openAccounts(resolve(process.env['USERS_DB_PATH'] ?? 'data/users.db'));
 const session = sessionMiddleware(accounts);
+const shelf = new ShelfStore(accounts.db);
 
 const angularApp = new AngularNodeAppEngine();
 
-/** Kim jestem — przed routerem katalogu, bo ten odpowiada 404 na każdy nieznany adres /api/…. */
+/** Kim jestem i półka — przed routerem katalogu, bo ten odpowiada 404 na każdy nieznany adres /api/…. */
 app.get('/api/me', session, meHandler);
+app.use('/api/shelf', session, shelfApiRouter(shelf, catalog));
 
 /**
  * Własne REST API katalogu (src/server/api.ts). Musi być przed Angularem,
@@ -80,6 +86,8 @@ app.use(session);
 
 /** Formularze logowania, rejestracji i wylogowania (POST, działają bez JS). */
 app.use(localized('/auth'), authRouter(accounts));
+app.use(localized('/polka'), shelfFormRouter(shelf, catalog));
+app.use(localized('/motyw'), themeRouter());
 
 /** Prywatne strony: 302 na logowanie, zanim Angular w ogóle zobaczy żądanie. */
 app.use(localized('/moja-polka'), requireUser('/moja-polka'));
@@ -98,7 +106,9 @@ app.use((req, res, next) => {
 
   angularApp
     // Drugi argument trafia do Angulara jako REQUEST_CONTEXT.
-    .handle(req, { user } satisfies RequestContext)
+    .handle(req, { user: publicUser(user) } satisfies RequestContext)
+    // Motyw z ciasteczka także w HTML-u z prerenderu i trybu Client (src/server/theme.ts).
+    .then((response) => (response ? withTheme(response, themeFromRequest(req)) : null))
     .then((response) => (response ? writeResponseToNodeResponse(response, res) : next()))
     .catch(next);
 });

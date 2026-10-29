@@ -5,6 +5,7 @@ import type { BookDetail } from '../../../shared/models';
 import { Seo, summary } from '../../core/seo';
 import { ServerResponse } from '../../core/server-response';
 import { Cover } from '../../ui/cover/cover';
+import { ShelfControl } from '../../ui/shelf-control/shelf-control';
 import { Rune } from '../../ui/rune/rune';
 import { SpiceMeter } from '../../ui/spice-meter/spice-meter';
 import { NotFound } from '../not-found/not-found';
@@ -13,7 +14,7 @@ const ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
 
 @Component({
   selector: 'app-book-page',
-  imports: [RouterLink, Cover, SpiceMeter, NotFound, Rune],
+  imports: [RouterLink, Cover, SpiceMeter, NotFound, Rune, ShelfControl],
   templateUrl: './book.html',
   styleUrl: './book.scss',
 })

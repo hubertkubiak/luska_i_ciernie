@@ -9,12 +9,14 @@ import { ShelfControl } from '../../ui/shelf-control/shelf-control';
 import { Rune } from '../../ui/rune/rune';
 import { SpiceMeter } from '../../ui/spice-meter/spice-meter';
 import { NotFound } from '../not-found/not-found';
+import { SimilarBooks } from './similar-books/similar-books';
 
 const ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
 
 @Component({
   selector: 'app-book-page',
-  imports: [RouterLink, Cover, SpiceMeter, NotFound, Rune, ShelfControl],
+  // SimilarBooks jest użyty tylko w @defer, więc kompilator wydzieli go do osobnego chunka.
+  imports: [RouterLink, Cover, SpiceMeter, NotFound, Rune, ShelfControl, SimilarBooks],
   templateUrl: './book.html',
   styleUrl: './book.scss',
 })

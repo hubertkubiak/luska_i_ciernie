@@ -44,6 +44,8 @@
     "book.volume": "Book {$volume}",
     "book.seriesCompleted": "series completed",
     "book.seriesOngoing": "series ongoing",
+    "book.similarTitle": "Kindred paths",
+    "book.similarLead": "Tomes that share the most tropes with this one.",
     "home.title": "Łuska i Ciernie",
     "home.tagline": " A romantasy archive read by trope — from fated bonds to dragon riders. ",
     "home.cta": "Search the archive",

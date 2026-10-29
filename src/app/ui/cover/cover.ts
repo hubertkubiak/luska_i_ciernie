@@ -14,6 +14,10 @@ import { Rune } from '../rune/rune';
   imports: [NgOptimizedImage, Rune],
   templateUrl: './cover.html',
   styleUrl: './cover.scss',
+  // Ta sama nazwa na karcie i na stronie książki → View Transition „przenosi” okładkę między nimi.
+  // Nazwa musi być unikalna na stronie; każda książka występuje na liście co najwyżej raz,
+  // a „Podobne” nie zawierają bieżącej. (Prefiks, bo nazwa to identyfikator CSS.)
+  host: { '[style.view-transition-name]': "'cover-' + book().slug" },
 })
 export class Cover {
   readonly book = input.required<BookSummary>();

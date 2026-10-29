@@ -73,6 +73,8 @@
     "book.volume": "Tom {$volume}",
     "book.seriesCompleted": "seria zakończona",
     "book.seriesOngoing": "seria w trakcie",
+    "book.similarTitle": "Podobne ścieżki",
+    "book.similarLead": "Księgi, które dzielą z tą najwięcej tropów.",
     "home.title": "Łuska i Ciernie",
     "home.tagline": " Archiwum romantasy czytane po tropach — od więzi przeznaczenia po jeźdźców smoków. ",
     "home.cta": "Przeszukaj archiwum",

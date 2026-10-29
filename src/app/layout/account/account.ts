@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, afterNextRender, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
@@ -24,12 +25,16 @@ export class Account {
 
   protected readonly user = this.session.user;
 
+  // Wartość startowa z Location, nie z router.url: zanim skończy się PIERWSZA nawigacja,
+  // router.url to jeszcze „/”. Od etapu 15 (withViewTransitions) ta nawigacja kończy się
+  // tick później, a kliknięcie odtworzone przez event replay trafiało w link bez ?next=.
+  // Location zna adres od razu — w przeglądarce z paska adresu, na serwerze z żądania.
   private readonly url = toSignal(
     this.router.events.pipe(
       filter((e) => e instanceof NavigationEnd),
       map((e) => e.urlAfterRedirects),
     ),
-    { initialValue: this.router.url },
+    { initialValue: inject(Location).path() || '/' },
   );
 
   protected readonly loginParams = computed(() => {

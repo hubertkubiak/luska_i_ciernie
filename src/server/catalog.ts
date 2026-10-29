@@ -164,7 +164,27 @@ export class Catalog {
       description: row.description,
       contentWarnings: warnings.map((w) => w.text),
       seriesBooks: seriesBooks.map((b) => ({ ...b })),
+      similar: this.similarBooks(slug, row.series_slug, row.spice, lang),
     };
+  }
+
+  /**
+   * „Podobne książki”: najwięcej wspólnych tropów, przy remisie bliższa pikanteria.
+   * Pomijamy tomy tej samej serii — te strona książki pokazuje osobno.
+   */
+  private similarBooks(slug: string, series: string | null, spice: number, lang: Lang, limit = 4): BookSummary[] {
+    const rows = this.db
+      .prepare(
+        `SELECT x.book AS slug FROM book_tropes x JOIN books b ON b.slug = x.book
+          WHERE x.trope IN (SELECT trope FROM book_tropes WHERE book = :slug)
+            AND x.book <> :slug
+            AND (:series IS NULL OR b.series IS NOT :series)
+          GROUP BY x.book
+          ORDER BY COUNT(*) DESC, ABS(b.spice - :spice), x.book
+          LIMIT :limit`,
+      )
+      .all({ slug, series, spice, limit }) as { slug: string }[];
+    return rows.length ? this.listBooks({ slugs: rows.map((r) => r.slug) }, lang) : [];
   }
 
   getAuthor(slug: string, lang: Lang = 'pl'): AuthorDetail | undefined {

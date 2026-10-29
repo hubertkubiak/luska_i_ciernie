@@ -69,6 +69,8 @@ export interface BookDetail extends BookSummary {
   contentWarnings: string[];
   /** Pozostałe tomy serii (łącznie z bieżącym), w kolejności. */
   seriesBooks: { slug: string; title: string; index: number }[];
+  /** Do 4 książek spoza serii z największą liczbą wspólnych tropów, od najbardziej podobnej. */
+  similar: BookSummary[];
 }
 
 export interface AuthorDetail extends AuthorRef {

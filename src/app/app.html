@@ -2,4 +2,12 @@
 <main id="tresc">
   <router-outlet />
 </main>
-<app-footer />
+<!--
+  hydrate never: stopka to sam tekst, bez zdarzeń i zmiennych danych. Serwer ją renderuje,
+  a przeglądarka zostawia ten HTML w spokoju — nie pobiera kodu komponentu i nie hydratuje go
+  nigdy. Strony renderowane tylko w przeglądarce (RenderMode.Client) nie mają HTML-a z serwera,
+  więc tam działa domyślny wyzwalacz @defer: on idle.
+-->
+@defer (hydrate never) {
+  <app-footer />
+}

@@ -1,0 +1,9 @@
+<section class="similar" aria-labelledby="similar-title">
+  <h2 id="similar-title" i18n="@@book.similarTitle">Podobne ścieżki</h2>
+  <p class="lead" i18n="@@book.similarLead">Księgi, które dzielą z tą najwięcej tropów.</p>
+  <ul class="books">
+    @for (b of books(); track b.slug) {
+      <li><app-book-card [book]="b" /></li>
+    }
+  </ul>
+</section>

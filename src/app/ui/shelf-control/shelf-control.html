@@ -1,0 +1,25 @@
+@if (user()) {
+  @let current = item()?.status;
+  <form class="shelf" method="post" action="polka" (submit)="submit($event)" [attr.aria-busy]="saving()">
+    <input type="hidden" name="slug" [attr.value]="slug()" />
+    <input type="hidden" name="next" [attr.value]="here()" />
+    <p class="label" id="shelf-title" i18n="@@shelf.controlTitle">W twoim skarbcu</p>
+    <div class="options" role="group" aria-labelledby="shelf-title">
+      @for (s of statuses; track s) {
+        <!-- aria-pressed: przycisk-przełącznik — czytnik ekranu mówi, który status jest wybrany. -->
+        <button type="submit" name="status" [value]="s" [attr.aria-pressed]="current === s" [disabled]="saving()">
+          {{ labels[s] }}
+        </button>
+      }
+      @if (current) {
+        <button class="remove" type="submit" name="remove" value="1" [disabled]="saving()" i18n="@@shelf.remove">Zabierz z półki</button>
+      }
+    </div>
+    @if (failed()) {
+      <p class="error" role="alert" i18n="@@shelf.saveError">Nie udało się zapisać. Spróbuj jeszcze raz.</p>
+    }
+  </form>
+} @else if (user() === null) {
+  <!-- Link w środku komunikatu: tłumacz może przestawić szyk zdania, a link zostaje linkiem. -->
+  <p class="anon" i18n="@@shelf.loginToAdd"><a routerLink="/logowanie" [queryParams]="{ next: here() }">Przekrocz próg</a>, by dodać księgę do skarbca.</p>
+}

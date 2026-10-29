@@ -1,0 +1,62 @@
+:host {
+  display: block;
+  margin-top: 1.25rem;
+}
+
+.label {
+  margin: 0 0 0.4rem;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+button {
+  padding: 0.35rem 0.9rem;
+  border: 1px solid var(--velvet);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition:
+    border-color var(--dur) var(--ease),
+    background var(--dur) var(--ease),
+    color var(--dur) var(--ease);
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--gilt);
+  }
+
+  // Wybrany status: złota pieczęć.
+  // --surface zamiast stałego koloru: ciemny w nocy, jasny w pergaminie — kontrast w obu motywach.
+  &[aria-pressed='true'] {
+    border-color: var(--gilt);
+    background: var(--gilt);
+    color: var(--surface);
+    font-weight: 600;
+  }
+
+  &:disabled {
+    cursor: progress;
+    opacity: 0.6;
+  }
+}
+
+.remove {
+  border-style: dashed;
+  color: var(--text-muted);
+}
+
+.error {
+  margin: 0.5rem 0 0;
+  color: var(--blood);
+}
+
+.anon {
+  color: var(--text-muted);
+}

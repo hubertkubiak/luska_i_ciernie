@@ -1,0 +1,20 @@
+<form method="post" action="motyw" (submit)="toggle($event)">
+  <input type="hidden" name="next" [attr.value]="here()" />
+  <input type="hidden" name="theme" [attr.value]="next()" />
+  @if (theme() === 'night') {
+    <button type="submit" i18n-aria-label="@@theme.toParchment" aria-label="Włącz jasny motyw: pergamin" i18n-title="@@theme.toParchment" title="Włącz jasny motyw: pergamin">
+      <!-- zwój pergaminu -->
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M7 4h10a2 2 0 0 1 2 2v11M7 4a2 2 0 0 0-2 2v1h4M7 4a2 2 0 0 1 2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1H11" />
+        <path d="M12 9h4M12 12h4" />
+      </svg>
+    </button>
+  } @else {
+    <button type="submit" i18n-aria-label="@@theme.toNight" aria-label="Włącz ciemny motyw: noc" i18n-title="@@theme.toNight" title="Włącz ciemny motyw: noc">
+      <!-- sierp księżyca -->
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" />
+      </svg>
+    </button>
+  }
+</form>

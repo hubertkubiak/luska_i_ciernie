@@ -1,0 +1,39 @@
+:host {
+  display: inline-flex;
+}
+
+form {
+  display: contents;
+}
+
+button {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 1px solid var(--velvet);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--gilt);
+  cursor: pointer;
+  transition:
+    border-color var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease);
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--gilt);
+    box-shadow: 0 0 0.9rem color-mix(in srgb, var(--gilt) 35%, transparent);
+  }
+}
+
+svg {
+  width: 1.35rem;
+  height: 1.35rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

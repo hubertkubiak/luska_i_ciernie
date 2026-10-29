@@ -1,0 +1,97 @@
+@use '../../../styles/forms';
+
+.auth {
+  display: grid;
+  justify-items: center;
+  max-width: 26rem;
+  margin: 0 auto;
+  padding: clamp(2rem, 6vh, 4rem) 1rem;
+  text-align: center;
+}
+
+.door {
+  width: 3.5rem;
+  height: 3.5rem;
+  fill: none;
+  stroke: var(--gilt);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 0.75rem color-mix(in srgb, var(--ember) 40%, transparent));
+
+  .leaf {
+    fill: color-mix(in srgb, var(--ember) 30%, transparent);
+  }
+}
+
+h1 {
+  margin: 0.25rem 0 0.5rem;
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  color: var(--gilt);
+}
+
+.lead {
+  margin: 0 0 1.5rem;
+  color: var(--text-muted);
+}
+
+.error {
+  width: 100%;
+  margin: 0 0 1rem;
+  padding: 0.6rem 0.9rem;
+  border-left: 3px solid var(--blood);
+  background: color-mix(in srgb, var(--blood) 18%, transparent);
+  text-align: left;
+}
+
+form {
+  display: grid;
+  gap: 1.1rem;
+  width: 100%;
+  text-align: left;
+}
+
+.field {
+  display: grid;
+  gap: 0.3rem;
+
+  label {
+    @include forms.field-label;
+  }
+
+  input {
+    @include forms.ink-field;
+  }
+
+  small {
+    @include forms.field-label;
+    font-size: 0.75rem;
+  }
+}
+
+// Przycisk główny (SPEC §2.7): gradient „Żar”, Cormorant small-caps.
+.cta {
+  justify-self: center;
+  margin-top: 0.5rem;
+  padding: 0.6rem 2rem;
+  border: 0;
+  border-radius: 2px;
+  background: var(--grad-ember);
+  color: var(--obsidian);
+  font-family: var(--font-heading);
+  font-variant: small-caps;
+  font-weight: 700;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+// Tekst i link to osobne węzły, a Angular usuwa białe znaki między nimi — odstęp daje gap.
+.switch {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35em;
+  margin-top: 1.75rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}

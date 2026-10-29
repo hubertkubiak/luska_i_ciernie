@@ -1,0 +1,26 @@
+// Pola formularzy (SPEC §2.7): tylko dolna linia jak atrament na pergaminie; przy focusie
+// złota linia rozlewa się od środka. Używane w komponentach: @use '../../../styles/forms';
+@mixin ink-field {
+  padding: 0.45rem 0.1rem;
+  border: 0;
+  border-bottom: 1px solid var(--velvet);
+  background:
+    linear-gradient(var(--gilt), var(--gilt)) center bottom / 0 1px no-repeat,
+    transparent;
+  color: var(--text);
+  font: inherit;
+  transition: background-size var(--dur) var(--ease);
+
+  &:focus {
+    outline: none;
+    background-size:
+      100% 1px,
+      auto;
+  }
+}
+
+@mixin field-label {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}

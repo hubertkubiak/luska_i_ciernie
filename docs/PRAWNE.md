@@ -16,8 +16,8 @@ czytelniczek w Polsce, więc punktem odniesienia jest prawo polskie i unijne.
 | Połączenia do covers.openlibrary.org | średnie (RODO) | usunięty `preconnect`; przy `COVER_SOURCE=none` brak połączeń | — |
 | Opisy, biogramy, ostrzeżenia | niskie | własne teksty, bez cytatów (SPEC §1) | utrzymać zasadę przy nowych danych |
 | Tytuły, nazwy serii | niskie | użycie opisowe (oznaczenie książki) | nie robić z tytułów nazw własnych usług |
-| Cookies | brak (obecnie żadnych) | — | przy logowaniu (etap Auth) i motywie: informacja, ew. zgoda (§3) |
-| Konta użytkowników | — (jeszcze nie ma) | — | polityka prywatności, regulamin (§2, §4) |
+| Cookies | niskie | jedno ciasteczko sesji `sid`, tylko po zalogowaniu (niezbędne) | opisać w polityce prywatności; motyw i analityka — §3 |
+| Konta użytkowników | średnie | są: e‑mail, imię, hash hasła (scrypt), sesje (§2) | polityka prywatności, regulamin, usuwanie konta (§2, §4) |
 | Dane usługodawcy, regulamin | średnie po dodaniu kont | brak | dodać przed publikacją (§4) |
 
 ---
@@ -75,7 +75,20 @@ inni uprawnieni. Okładki ma kilkanaście książek, tam gdzie Open Library zna 
 - **Fonty — naprawione.** Wczytywanie Google Fonts z serwerów Google przekazuje Google adres IP odwiedzającego, a adres IP jest daną osobową. Bez zgody trudno to uzasadnić, skoro fonty można po prostu hostować u siebie. Fonty są teraz w buildzie (`@fontsource`, licencja OFL) i serwowane z naszej domeny.
 - **Okładki z Open Library.** Analogicznie: przeglądarka łączy się z serwerem Internet Archive (USA) i przekazuje IP. Przy `COVER_SOURCE=none` to znika. Usunięto też `<link rel="preconnect">`, który łączył się z Open Library przy każdej wizycie, nawet bez okładek. Alternatywa „proxy okładek przez nasz serwer” rozwiązałaby kwestię IP, ale wtedy **sami** zwielokrotniamy i udostępniamy utwór, co jest gorsze pod kątem prawa autorskiego.
 - **Logi serwera** (`[api] …` w konsoli) nie zapisują IP. Jeśli kiedyś będą (bezpieczeństwo), podstawą jest prawnie uzasadniony interes (art. 6 ust. 1 lit. f), z krótką retencją i wzmianką w polityce prywatności.
-- **Konta (etap Auth):** obowiązek informacyjny (art. 13 RODO) w polityce prywatności, podstawa art. 6 ust. 1 lit. b (umowa: konto i półka), minimalizacja danych (e‑mail i hasło), hasła haszowane (argon2/bcrypt), możliwość usunięcia konta, umowy powierzenia z dostawcami (hosting, wysyłka maili).
+- **Konta — wdrożone (etap 12).** Co jest:
+  - zbieramy minimum: e‑mail, imię lub pseudonim i hash hasła (`data/users.db`);
+  - hasła haszuje `scrypt` z losową solą; samego hasła nie zapisujemy nigdzie, także w logach ani w adresach;
+  - w bazie sesji trzymamy tylko SHA‑256 tokenu, więc wyciek pliku nie daje dostępu do kont;
+  - sesja wygasa po 30 dniach bez aktywności, a wylogowanie ją usuwa;
+  - limit prób logowania i rejestracji;
+  - ten sam komunikat przy złym e‑mailu i złym haśle.
+
+  Czego brakuje przed publikacją:
+  - obowiązek informacyjny (art. 13 RODO) w polityce prywatności, z podstawą z art. 6 ust. 1 lit. b (umowa: konto i półka);
+  - **usuwanie konta** (prawo do usunięcia danych, art. 17);
+  - eksport danych (art. 20), gdy półka będzie gotowa;
+  - umowy powierzenia z dostawcami (hosting, ewentualnie wysyłka maili).
+- **Komunikat „pod tym adresem pakt jest już zawarty”** przy rejestracji zdradza, że dany e‑mail ma konto. To świadomy kompromis wygody (większość serwisów tak robi). Alternatywa to zawsze ten sam komunikat plus potwierdzenie mailem, ale to wymaga wysyłki maili.
 
 ## 3. Cookies i podobne technologie
 
@@ -84,11 +97,11 @@ telekomunikacyjnego). Zapis informacji na urządzeniu wymaga uprzedniej informac
 wyjątkami: niezbędne do transmisji albo do usługi, której użytkownik wyraźnie żąda.
 
 W praktyce dla nas:
-- cookie sesji po zalogowaniu (etap Auth) to wyjątek „niezbędne”: tylko informacja w polityce prywatności, bez banera zgody;
+- ciasteczko sesji `sid` (`HttpOnly`, `SameSite=Lax`, `Secure` po HTTPS) powstaje dopiero po zalogowaniu i jest niezbędne do usługi, której osoba wyraźnie żąda. To wyjątek: tylko informacja w polityce prywatności, bez banera zgody;
 - cookie z wybranym motywem (etap motywu) to preferencja ustawiona na wyraźne żądanie, raczej też wyjątek, ale warto o nim napisać;
 - analityka, piksele reklamowe i osadzone media zewnętrzne **wymagają zgody** (baner z równorzędnym „odrzuć”).
 
-Obecnie serwis nie zapisuje **żadnych** cookies ani `localStorage`.
+Poza ciasteczkiem sesji serwis nie zapisuje żadnych cookies ani `localStorage`. Osoba niezalogowana nie dostaje żadnego.
 
 ## 4. Obowiązki informacyjne usługodawcy
 

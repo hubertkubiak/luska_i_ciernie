@@ -1,0 +1,9 @@
+<section class="shelf">
+  <p class="label" i18n="@@nav.shelfMeaning">Twoje książki</p>
+  <h1 i18n="@@nav.shelf">Skarbiec</h1>
+  @if (user(); as u) {
+    <p class="greeting" i18n="@@shelf.greeting">Witaj w skarbcu, {{ u.displayName }}.</p>
+  }
+  <p class="empty" i18n="@@shelf.empty">Twój skarbiec jest pusty. Nawet smok musi od czegoś zacząć.</p>
+  <a class="cta" routerLink="/szukaj" i18n="@@home.cta">Przeszukaj archiwum</a>
+</section>

@@ -9,6 +9,9 @@
 export const LANGS = ['pl', 'en'] as const;
 export type Lang = (typeof LANGS)[number];
 
+/** Prefiks ścieżki każdej wersji językowej — musi zgadzać się z "subPath" w angular.json. */
+export const LANG_PREFIX: Record<Lang, string> = { pl: '', en: '/en' };
+
 /** Kraina z SPEC §2.2 — wyznacza akcent kolorystyczny. */
 export type Realm = 'turnie' | 'mgly' | 'skryptorium';
 
@@ -96,4 +99,18 @@ export interface BookQuery {
 
 export interface ApiError {
   error: string;
+}
+
+/** Zalogowana osoba — tylko to, czego potrzebuje interfejs (bez hasła, bez identyfikatora sesji). */
+export interface SessionUser {
+  email: string;
+  displayName: string;
+}
+
+/**
+ * Dane, które Express przekazuje Angularowi przy renderze (angularApp.handle(req, context)),
+ * a Angular czyta przez inject(REQUEST_CONTEXT). Podczas prerenderu w `ng build` kontekstu nie ma.
+ */
+export interface RequestContext {
+  user: SessionUser | null;
 }

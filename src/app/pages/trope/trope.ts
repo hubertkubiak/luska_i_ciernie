@@ -2,6 +2,7 @@ import { HttpErrorResponse, httpResource } from '@angular/common/http';
 import { Component, computed, effect, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import type { TropeDetail } from '../../../shared/models';
+import { Seo, summary } from '../../core/seo';
 import { ServerResponse } from '../../core/server-response';
 import { BookCard } from '../../ui/book-card/book-card';
 import { realmName } from '../../ui/realm';
@@ -36,6 +37,28 @@ export class TropePage {
   constructor() {
     effect(() => {
       if (this.notFound()) this.response.setStatus(404);
+    });
+
+    const seo = inject(Seo);
+    effect(() => {
+      if (!this.trope.hasValue()) return;
+      const t = this.trope.value();
+      seo.update({
+        title: t.name,
+        description: summary(t.description),
+        path: `/tropy/${t.slug}`,
+        jsonLd: {
+          '@type': 'ItemList',
+          name: t.name,
+          description: t.description,
+          itemListElement: t.books.map((b, i) => ({
+            '@type': 'ListItem',
+            position: i + 1,
+            url: seo.link(`/ksiazka/${b.slug}`),
+            name: b.title,
+          })),
+        },
+      });
     });
   }
 }

@@ -1,6 +1,7 @@
 import { httpResource } from '@angular/common/http';
-import { Component, computed } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import type { Trope } from '../../../shared/models';
+import { Seo } from '../../core/seo';
 import { REALMS } from '../../ui/realm';
 import { TropeTile } from './trope-tile/trope-tile';
 
@@ -24,4 +25,12 @@ export class TropesPage {
       tropes: this.tropes.value().filter((t) => t.realm === realm.id),
     })).filter((g) => g.tropes.length > 0),
   );
+
+  constructor() {
+    inject(Seo).update({
+      title: $localize`:@@title.tropes:Tropy — Łuska i Ciernie`,
+      description: $localize`:@@seo.tropesDescription:Katalog tropów romantasy — od więzi przeznaczenia po dwory fae. Każda runa prowadzi do ksiąg, które nią podążają.`,
+      path: '/tropy',
+    });
+  }
 }

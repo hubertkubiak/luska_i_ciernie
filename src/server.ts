@@ -7,6 +7,7 @@ import {
 import express from 'express';
 import { join } from 'node:path';
 import { apiRouter } from './server/api';
+import { seoRouter } from './server/seo';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -18,6 +19,9 @@ const angularApp = new AngularNodeAppEngine();
  * inaczej `angularApp.handle()` próbowałby wyrenderować /api/... jako stronę.
  */
 app.use('/api', apiRouter());
+
+/** /robots.txt i /sitemap.xml (src/server/seo.ts) — też przed Angularem i plikami statycznymi. */
+app.use(seoRouter());
 
 /**
  * Serve static files from /browser

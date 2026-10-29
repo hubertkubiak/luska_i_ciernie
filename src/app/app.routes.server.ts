@@ -34,6 +34,9 @@ export const serverRoutes: ServerRoute[] = [
   // Prywatne, bez SEO → tylko przeglądarka. 302 dla niezalogowanych robi wcześniej Express.
   { path: 'moja-polka', renderMode: RenderMode.Client },
   { path: 'moja-polka/**', renderMode: RenderMode.Client },
+  // Quiz: sama interakcja, nic do zaindeksowania → pusta skorupa HTML, wszystko rysuje przeglądarka.
+  // Serwer nie uruchamia Angulara, więc odpowiada od razu i nie ma czego hydratować.
+  { path: 'wyrocznia', renderMode: RenderMode.Client },
   // Tysiące pozycji i zmienne dane → render na żądanie. 404/301 ustawia sama strona
   // (RESPONSE_INIT), bo zależą od odpowiedzi API.
   { path: 'ksiazka/:slug', renderMode: RenderMode.Server },

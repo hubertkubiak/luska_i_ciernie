@@ -33,6 +33,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/releases/releases').then((m) => m.ReleasesPage),
   },
   {
+    path: 'wyrocznia',
+    loadComponent: () => import('./pages/oracle/oracle').then((m) => m.OraclePage),
+  },
+  {
     path: 'logowanie',
     data: { mode: 'login' },
     loadComponent: () => import('./pages/auth/auth').then((m) => m.AuthPage),

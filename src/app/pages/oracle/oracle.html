@@ -1,0 +1,62 @@
+<section class="oracle">
+  <header class="intro">
+    <p class="label" i18n="@@nav.oracle">Wyrocznia</p>
+    <h1 i18n="@@oracle.title">Jaki trop jest dla Ciebie?</h1>
+  </header>
+
+  @if (wynik()) {
+    @if (trope.hasValue()) {
+      @let t = trope.value();
+      <article class="result" [attr.data-realm]="t.realm">
+        <p class="label" i18n="@@oracle.spoken">Wyrocznia przemówiła</p>
+        <div class="verdict">
+          <app-rune [trope]="t.slug" />
+          <h2>{{ t.name }}</h2>
+        </div>
+        <p class="description">{{ t.description }}</p>
+
+        <h3 i18n="@@oracle.booksTitle">Księgi na tę ścieżkę</h3>
+        @if (!fits()) {
+          <p class="note" i18n="@@oracle.tooHot">Żadna księga na tej ścieżce nie jest aż tak łagodna — oto najbliższe.</p>
+        }
+        <ul class="books">
+          @for (b of books(); track b.slug) {
+            <li><app-book-card [book]="b" /></li>
+          }
+        </ul>
+
+        <p class="actions">
+          <a class="cta" [routerLink]="['/tropy', t.slug]" i18n="@@oracle.allBooks">Wszystkie księgi tym tropem</a>
+          <a class="again" routerLink="/wyrocznia" i18n="@@oracle.again">Zapytaj Wyrocznię jeszcze raz</a>
+        </p>
+      </article>
+    } @else if (trope.error()) {
+      <div class="card">
+        <p i18n="@@oracle.unknown">Wyrocznia nie zna takiej ścieżki.</p>
+        <a class="again" routerLink="/wyrocznia" i18n="@@oracle.again">Zapytaj Wyrocznię jeszcze raz</a>
+      </div>
+    } @else {
+      <p class="state" role="status" i18n="@@oracle.loading">Wyrocznia wpatruje się w mgłę…</p>
+    }
+  } @else {
+    @let q = current();
+    <div class="card">
+      <p class="label progress" i18n="@@oracle.progress">Pytanie {{ step() + 1 }} z {{ total }}</p>
+      <progress [value]="step()" [max]="total" aria-hidden="true"></progress>
+      <!-- @for po kluczu kroku: nowe pytanie to nowy element, więc animacja wejścia gra za każdym razem. -->
+      @for (s of [step()]; track s) {
+        <div class="question">
+          <h2 #question tabindex="-1">{{ q.title }}</h2>
+          <ul class="answers">
+            @for (label of q.labels; track $index) {
+              <li><button type="button" (click)="choose($index)">{{ label }}</button></li>
+            }
+          </ul>
+        </div>
+      }
+      @if (step() > 0) {
+        <button type="button" class="back" (click)="back()" i18n="@@oracle.back">← Poprzednie pytanie</button>
+      }
+    </div>
+  }
+</section>

@@ -1,7 +1,7 @@
-// Tokeny projektu (SPEC §2.3). Jedyne źródło kolorów — komponenty używają tylko var(--…).
+// Project tokens (SPEC §2.3). The only source of colours — components use only var(--…).
 
 :root {
-  // Baza — tryb nocny (domyślny)
+  // Base — night mode (default)
   --obsidian: #0b0910;
   --midnight: #161226;
   --velvet: #2a1f3d;
@@ -14,33 +14,33 @@
   --mist: #8a84a3;
   --ink: #1f1a2b;
 
-  // Role semantyczne — komponenty odwołują się do nich, nie do kolorów bazowych
+  // Semantic roles — components refer to these, not to the base colours
   --bg: var(--obsidian);
   --surface: var(--midnight);
   --text: var(--moonsilver);
   --text-muted: var(--mist);
 
-  // Gradienty sygnaturowe
+  // Signature gradients
   --grad-nebula: radial-gradient(ellipse at top, var(--nightshade), var(--obsidian) 70%);
   --grad-ember: linear-gradient(135deg, #f2c26b, var(--ember) 45%, #b4541f);
   --grad-gilt: linear-gradient(90deg, transparent, var(--gilt), transparent);
 
-  // Typografia (SPEC §2.4)
+  // Typography (SPEC §2.4)
   --font-display: 'Cinzel Decorative', serif;
   --font-heading: 'Cormorant Garamond', serif;
   --font-body: 'EB Garamond', serif;
   --font-ui: 'Inter', system-ui, sans-serif;
 
-  // Ruch (SPEC §2.8): powoli i miękko
+  // Motion (SPEC §2.8): slow and soft
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --dur: 400ms;
 
   color-scheme: dark;
 }
 
-// Tryb „pergamin”. Atrybut ustawi w etapie 11 serwer na podstawie cookie.
+// The "parchment" mode. The server sets the attribute from the theme cookie.
 :root[data-theme='parchment'] {
-  // Akcenty ciemniejsze niż w nocy — na jasnym pergaminie muszą mieć kontrast (WCAG AA dla tekstu).
+  // Accents darker than at night — on light parchment they need contrast (WCAG AA for text).
   --ember: #9a5a12;
   --blood: #7d1426;
   --gilt: #7f5f1f;

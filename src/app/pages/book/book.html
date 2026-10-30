@@ -2,7 +2,7 @@
   @let b = book.value();
   <article class="book" [attr.data-realm]="b.realm">
     <div class="cover">
-      <!-- priority: obraz LCP. Na serwerze Angular dopisze dla niego <link rel="preload"> w <head>. -->
+      <!-- priority: the LCP image. On the server Angular adds a <link rel="preload"> for it to <head>. -->
       <app-cover [book]="b" [width]="180" [height]="270" [priority]="true" i18n-alt="@@book.coverAlt" alt="Okładka: {{ b.title }}" />
     </div>
 
@@ -62,12 +62,12 @@
     </div>
 
     <!--
-      Incremental hydration: serwer renderuje treść bloku (karty są w HTML-u, widzą je roboty
-      i czytelniczka bez JS), ale przeglądarka NIE pobiera jego kodu ani go nie hydratuje,
-      dopóki blok nie wjedzie w ekran (hydrate on viewport). Kliknięcie w kartę wcześniej też
-      wyzwoli hydrację, a event replay odtworzy to kliknięcie.
-      Przy nawigacji w przeglądarce (bez SSR) działa zwykły wyzwalacz: najpierw placeholder,
-      komponent dociąga się, gdy placeholder pojawi się w widoku (on viewport).
+      Incremental hydration: the server renders the block's content (the cards are in the HTML, crawlers
+      and readers without JS see them), but the browser does NOT download its code or hydrate it
+      until the block scrolls into view (hydrate on viewport). Clicking a card earlier also
+      triggers hydration, and event replay replays that click.
+      On navigation in the browser (no SSR) the ordinary trigger applies: first the placeholder,
+      then the component loads when the placeholder comes into view (on viewport).
     -->
     @if (b.similar.length) {
       @defer (on viewport; hydrate on viewport) {

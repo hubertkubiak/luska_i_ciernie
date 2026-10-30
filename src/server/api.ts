@@ -3,15 +3,15 @@ import { LANGS, type ApiError, type BookQuery, type Lang, type SeriesFilter, typ
 import type { Catalog } from './catalog';
 
 /**
- * REST API katalogu. Montowane w server.ts pod /api, PRZED Angularem —
- * kolejność middleware w Express decyduje, kto pierwszy obsłuży żądanie.
+ * The catalogue REST API. Mounted in server.ts under /api, BEFORE Angular —
+ * the order of Express middleware decides who handles a request first.
  */
 export function apiRouter(catalog: Catalog): Router {
   const router = Router();
 
-  // Log każdego żądania z informacją, kto pyta: przeglądarka czy SSR (fetch z Node ma
-  // User-Agent "node"). Pozwala sprawdzić w terminalu, czy transfer cache działa —
-  // po wejściu na stronę książki powinien pojawić się tylko wpis od SSR.
+  // Logs every request with who is asking: the browser or SSR (fetch from Node has the
+  // User-Agent "node"). Lets you check in the terminal whether the transfer cache works —
+  // after opening a book page there should be only the SSR entry.
   router.use((req, _res, next) => {
     const ua = req.get('user-agent') ?? '';
     const who = ua === 'node' || ua.startsWith('undici') ? 'SSR' : 'przeglądarka';
@@ -19,17 +19,17 @@ export function apiRouter(catalog: Catalog): Router {
     next();
   });
 
-  // Sztuczne opóźnienie (np. API_DELAY_MS=1500) — przyda się, żeby zobaczyć stany ładowania
-  // i porównać SSR z renderowaniem po stronie klienta.
-  // Odpowiedź zależy od języka → cache (przeglądarka, CDN) musi rozróżniać wersje po nagłówku.
+  // An artificial delay (e.g. API_DELAY_MS=1500) — handy for seeing loading states
+  // and comparing SSR with client-side rendering.
+  // The response depends on the language → caches (browser, CDN) must tell versions apart by header.
   router.use((req, res, next) => {
     res.vary('Accept-Language');
     res.set('Content-Language', lang(req));
     next();
   });
 
-  // Katalog jest publiczny i zmienia się rzadko → przeglądarki i CDN mogą go trzymać 5 minut.
-  // (Półka i /api/me mają własne routery z Cache-Control: private, no-store.)
+  // The catalogue is public and rarely changes → browsers and CDNs may keep it for 5 minutes.
+  // (The shelf and /api/me have their own routers with Cache-Control: private, no-store.)
   router.use((req, res, next) => {
     if (req.method === 'GET') res.set('Cache-Control', 'public, max-age=300');
     next();
@@ -51,8 +51,8 @@ export function apiRouter(catalog: Catalog): Router {
       res.json(book);
       return;
     }
-    // Stary adres → 301 na aktualny zasób API. fetch (także ten w SSR) podąża za
-    // przekierowaniem sam, więc Angular dostanie dane książki pod nowym slugiem.
+    // An old address → 301 to the current API resource. fetch (also the one in SSR) follows
+    // the redirect by itself, so Angular gets the book's data under the new slug.
     const current = catalog.currentBookSlug(req.params.slug);
     if (current) res.redirect(301, `${req.baseUrl}/books/${current}`);
     else notFound(res, 'Książka nie istnieje');
@@ -64,7 +64,7 @@ export function apiRouter(catalog: Catalog): Router {
     else notFound(res, 'Autor nie istnieje');
   });
 
-  // Premiery od 30 dni wstecz (ostatnie „już w księgarniach”) do najdalszej zapowiedzi.
+  // Releases from 30 days back (the latest "already in bookshops") to the furthest announcement.
   router.get('/releases', (_req, res) => {
     res.json(catalog.listReleases(releasesFrom()));
   });
@@ -79,8 +79,8 @@ export function apiRouter(catalog: Catalog): Router {
     else notFound(res, 'Trop nie istnieje');
   });
 
-  // Bez tego nieznane /api/... „przeciekłoby” dalej do Angulara i dostało stronę HTML
-  // ze statusem 200 — klient HTTP spodziewający się JSON-a dostałby śmieci.
+  // Without this an unknown /api/... would "leak" through to Angular and get an HTML page
+  // with status 200 — an HTTP client expecting JSON would get garbage.
   router.use((_req, res) => notFound(res, 'Nieznany endpoint API'));
 
   return router;
@@ -97,8 +97,8 @@ function notFound(res: import('express').Response, message: string): void {
 const SERIES_FILTERS: SeriesFilter[] = ['ongoing', 'completed', 'standalone'];
 
 /**
- * Query string → BookQuery. Nieznane lub błędne wartości pomijamy (zamiast 400) — to filtr,
- * a nie formularz z walidacją; lepiej pokazać szersze wyniki niż stronę błędu.
+ * Query string → BookQuery. Unknown or invalid values are skipped (instead of 400) — it is a filter,
+ * not a validated form; better to show broader results than an error page.
  */
 function bookQuery(query: Record<string, unknown>): BookQuery {
   const spice = Number(stringParam(query['maxSpice']));
@@ -115,8 +115,8 @@ function bookQuery(query: Record<string, unknown>): BookQuery {
 }
 
 /**
- * Język odpowiedzi z nagłówka Accept-Language. Aplikacja Angular wysyła tu swój LOCALE_ID
- * (interceptor w src/app/core/api-language.ts), więc /en/ dostaje tytuły oryginalne, a / polskie.
+ * Response language from the Accept-Language header. The Angular app sends its LOCALE_ID here
+ * (interceptor in src/app/core/api-language.ts), so /en/ gets the original titles and / the Polish ones.
  */
 export function lang(req: Request): Lang {
   return (req.acceptsLanguages(...LANGS) || 'pl') as Lang;
@@ -126,7 +126,7 @@ function stringParam(value: unknown): string | undefined {
   return typeof value === 'string' && value.trim().length > 0 ? value.trim() : undefined;
 }
 
-/** ?trope=a&trope=b → Express daje tablicę, ?trope=a → string. Normalizujemy do tablicy. */
+/** ?trope=a&trope=b → Express gives an array, ?trope=a → a string. Normalised to an array. */
 function listParam(value: unknown): string[] {
   const values = Array.isArray(value) ? value : [value];
   return values.map(stringParam).filter((v): v is string => v !== undefined);

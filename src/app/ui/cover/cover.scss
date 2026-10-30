@@ -10,8 +10,8 @@ img {
   border: 1px solid var(--gilt);
 }
 
-// Własna okładka: wszystko skaluje się od szerokości (--cover-w), więc ten sam komponent
-// działa na karcie (120 px) i na stronie książki (180 px).
+// Generated cover: everything scales from the width (--cover-w), so the same component
+// works on the card (120 px) and on the book page (180 px).
 .generated {
   --accent: var(--gilt);
   --tint: var(--nightshade);
@@ -57,7 +57,7 @@ app-rune {
   font-size: calc(var(--cover-w) * 0.12);
   line-height: 1.1;
   color: var(--gilt);
-  // Długie tytuły (np. polskie z podtytułem) zawijamy, ale nie pozwalamy im rozsadzić okładki.
+  // Long titles (e.g. Polish ones with a subtitle) wrap, but may not burst the cover.
   display: -webkit-box;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;

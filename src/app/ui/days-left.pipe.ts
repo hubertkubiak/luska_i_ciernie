@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 /**
- * „za 3 dni” / „jutro” / „dziś premiera” / „już w księgarniach”. Bez ICU (ICU w @for wywraca
- * hydrację i18n w Angularze 22.2) — i bez odmiany: od 2 dni wzwyż polski i angielski mają jedną
- * formę („dni” / „days”), a 1 dzień to „jutro”.
+ * "in 3 days" / "tomorrow" / "out today" / "already in bookshops". No ICU (ICU inside @for breaks
+ * i18n hydration in Angular 22.2) — and no plural forms: from 2 days up Polish and English have one
+ * form ("dni" / "days"), and 1 day is "tomorrow".
  */
 @Pipe({ name: 'daysLeft' })
 export class DaysLeftPipe implements PipeTransform {

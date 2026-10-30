@@ -8,17 +8,17 @@ import { Countdown } from '../../ui/countdown/countdown';
 import { DaysLeftPipe } from '../../ui/days-left.pipe';
 
 /**
- * /premiery — RenderMode.Server z Cache-Control: s-maxage=3600 (server.ts): HTML zależy tylko
- * od DNIA, więc CDN może go trzymać godzinę dla wszystkich anonimowych osób.
+ * /premiery — RenderMode.Server with Cache-Control: s-maxage=3600 (server.ts): the HTML depends only
+ * on the DAY, so a CDN may keep it for an hour for all anonymous visitors.
  *
- * Dwie pułapki czasu (SPEC §6):
- * - #2 „teraz”: liczba dni liczona z dnia renderu z TransferState (injectRenderDay), więc serwer
- *   i przeglądarka mówią to samo; sekundy tykają tylko w przeglądarce (app-countdown),
- * - #5 strefa czasowa: daty przekazujemy jako „RRRR-MM-DD”, BEZ godziny i bez strefy w DatePipe.
- *   Angular traktuje taki napis jako lokalną datę kalendarzową, więc 14 listopada to 14 listopada
- *   na serwerze w UTC, w Warszawie i w Nowym Jorku. (Uwaga: zwykłe new Date('2026-11-14') w JS
- *   to północ UTC — w Nowym Jorku byłby już 13. A wymuszenie strefy 'UTC' w DatePipe przy dacie
- *   bez godziny przesuwa ją o dzień w drugą stronę — sprawdzone, tak było w pierwszej wersji.)
+ * Two time pitfalls (SPEC §6):
+ * - #2 "now": the day count is computed from the render day in TransferState (injectRenderDay), so server
+ *   and browser say the same; seconds tick only in the browser (app-countdown),
+ * - #5 time zone: dates are passed as "YYYY-MM-DD", WITHOUT a time and without a zone in DatePipe.
+ *   Angular treats such a string as a local calendar date, so 14 November is 14 November
+ *   on a UTC server, in Warsaw and in New York. (Note: a plain new Date('2026-11-14') in JS
+ *   is midnight UTC — in New York it would already be the 13th. And forcing the 'UTC' zone in DatePipe
+ *   for a date without a time shifts it a day the other way — verified, the first version did that.)
  */
 @Component({
   selector: 'app-releases-page',
@@ -33,7 +33,7 @@ export class ReleasesPage {
   protected readonly items = computed(() =>
     this.releases.value().map((r) => ({ ...r, days: daysBetween(this.day, r.date) })),
   );
-  /** Najbliższa premiera (dziś lub później) — wyróżniona na górze. */
+  /** The nearest release (today or later) — highlighted at the top. */
   protected readonly next = computed(() => this.items().find((r) => r.days >= 0));
   protected readonly loading = this.releases.isLoading;
 

@@ -6,9 +6,9 @@ import { REALMS } from '../../ui/realm';
 import { TropeTile } from './trope-tile/trope-tile';
 
 /**
- * /tropy — prerenderowana w `ng build` (app.routes.server.ts). Skąd dane, skoro nikt nie
- * uruchomił serwera? Build sam ładuje `reqHandler` eksportowany z src/server.ts, stawia go na
- * losowym porcie i kieruje tam względne żądania — więc /api/tropes trafia do naszego Expressa.
+ * /tropy — prerendered in `ng build` (app.routes.server.ts). Where does the data come from if nobody
+ * started the server? The build loads the `reqHandler` exported from src/server.ts, runs it on a
+ * random port and sends relative requests there — so /api/tropes reaches our Express.
  */
 @Component({
   selector: 'app-tropes-page',

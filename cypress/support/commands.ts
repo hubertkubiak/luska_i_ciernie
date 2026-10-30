@@ -3,12 +3,12 @@ declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Symuluje przeglądarkę z WYŁĄCZONYM JavaScriptem: z każdego dokumentu HTML wycina
-       * wszystkie <script> — także wbudowany skrypt event replay (ng-event-dispatch-contract).
+       * Simulates a browser with JavaScript DISABLED: strips every <script> from each HTML
+       * document — including the inline event replay script (ng-event-dispatch-contract).
        *
-       * Samo blokowanie plików .js to inny scenariusz („JS się nie załadował”): wtedy wbudowany
-       * skrypt nadal przechwytuje kliknięcia linków routera (preventDefault do czasu hydracji,
-       * która nigdy nie nastąpi) i linki są martwe.
+       * Merely blocking .js files is a different scenario ("the JS failed to load"): the inline
+       * script still intercepts router link clicks (preventDefault until hydration, which never
+       * happens) and the links are dead.
        */
       disableJavaScript(): Chainable<null>;
     }

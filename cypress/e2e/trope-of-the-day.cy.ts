@@ -1,6 +1,6 @@
-// Pułapka hydracji #1 (SPEC §6). Angular 22 NIE zgłasza błędu, gdy tekst z serwera różni się
-// od tego z klienta — po cichu go podmienia. Dlatego test sam porównuje to, co przyszło w HTML,
-// z tym, co jest po hydracji, i sprawdza, że to te same węzły DOM.
+// Hydration pitfall #1 (SPEC §6). Angular 22 does NOT report an error when the server text differs
+// from the client's — it silently replaces it. So the test itself compares what came in the HTML
+// with what is there after hydration, and checks they are the same DOM nodes.
 describe('Trop dnia i hydracja landingu', () => {
   it('po hydracji pokazuje ten sam trop co HTML z serwera, w tych samych węzłach', () => {
     const fromServer: { card?: Element | null; name?: string | null; sparks?: number } = {};
@@ -8,7 +8,7 @@ describe('Trop dnia i hydracja landingu', () => {
     cy.visit('/', {
       onBeforeLoad(win) {
         cy.spy(win.console, 'error').as('consoleError');
-        // „interactive” = HTML sparsowany, skrypty aplikacji jeszcze nie ruszyły → czysty wynik SSR.
+        // "interactive" = HTML parsed, app scripts not started yet → the pure SSR result.
         win.document.addEventListener('readystatechange', () => {
           if (win.document.readyState !== 'interactive') return;
           fromServer.card = win.document.querySelector('app-trope-of-the-day a');
@@ -18,7 +18,7 @@ describe('Trop dnia i hydracja landingu', () => {
       },
     });
 
-    // Iskry pojawiają się dopiero w afterNextRender — znak, że aplikacja już ożyła.
+    // Sparks appear only in afterNextRender — a sign the app has come alive.
     cy.get('.spark').should('have.length.greaterThan', 0);
     cy.get('app-trope-of-the-day a').then(($card) => {
       expect(fromServer.name, 'trop w HTML z serwera').to.be.a('string').and.not.be.empty;

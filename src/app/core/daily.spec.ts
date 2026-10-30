@@ -4,7 +4,7 @@ import { NOW, daysBetween, injectRenderDay, pickForDay, utcDay } from './daily';
 
 describe('daily', () => {
   it('utcDay liczy dzień w UTC, niezależnie od strefy', () => {
-    // 23:30 w Warszawie (UTC+1) to jeszcze ten sam dzień w UTC, 00:30 następnego dnia — już nie.
+    // 23:30 in Warsaw (UTC+1) is still the same day in UTC, 00:30 the next day — no longer.
     expect(utcDay(new Date('2026-01-15T23:30:00+01:00'))).toBe('2026-01-15');
     expect(utcDay(new Date('2026-01-16T00:30:00+01:00'))).toBe('2026-01-15');
   });
@@ -22,7 +22,7 @@ describe('daily', () => {
     TestBed.configureTestingModule({
       providers: [{ provide: NOW, useValue: () => new Date('2026-10-29T00:00:01Z') }],
     });
-    // Tak wygląda przeglądarka po SSR: serwer zdążył zapisać „wczoraj”.
+    // This is what the browser looks like after SSR: the server managed to store "yesterday".
     TestBed.inject(TransferState).set(makeStateKey<string>('dzien-renderu'), '2026-10-28');
 
     expect(TestBed.runInInjectionContext(() => injectRenderDay())).toBe('2026-10-28');
@@ -42,7 +42,7 @@ describe('daysBetween', () => {
     expect(daysBetween('2026-10-29', '2026-10-30')).toBe(1);
     expect(daysBetween('2026-10-29', '2026-10-29')).toBe(0);
     expect(daysBetween('2026-10-29', '2026-10-20')).toBe(-9);
-    // Zmiana czasu (25.10.2026 w Europie) nie zmienia wyniku — liczymy w UTC.
+    // A DST change (25.10.2026 in Europe) does not change the result — we count in UTC.
     expect(daysBetween('2026-10-24', '2026-10-26')).toBe(2);
   });
 });

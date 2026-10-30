@@ -1,6 +1,6 @@
 import type { Spice } from '../../../shared/models';
 
-/** Jedna odpowiedź: punkty dla tropów (slugi z seed/tropes.json). */
+/** One answer: points for tropes (slugs from seed/tropes.json). */
 export interface Answer {
   label: string;
   weights: Record<string, number>;
@@ -12,8 +12,8 @@ export interface Question {
 }
 
 /**
- * Pytania o tropy. Każda odpowiedź dokłada punkty kilku tropom; wygrywa ten z największą sumą.
- * Ostatnie pytanie (o pikanterię) nie punktuje tropów — wybiera tylko górną granicę ognia.
+ * Trope questions. Every answer adds points to a few tropes; the one with the highest sum wins.
+ * The last question (spice) scores no tropes — it only picks the upper spice limit.
  */
 export const QUESTIONS: Question[] = [
   {
@@ -54,7 +54,7 @@ export const QUESTIONS: Question[] = [
   },
 ];
 
-/** Pytanie o pikanterię: odpowiedź = górna granica ognia (0–5). */
+/** The spice question: the answer = the upper spice limit (0–5). */
 export const SPICE_QUESTION = {
   title: $localize`:@@oracle.spice:Jak gorący ma być smoczy ogień?`,
   answers: [
@@ -65,9 +65,9 @@ export const SPICE_QUESTION = {
 };
 
 /**
- * Trop z największą sumą punktów. `answers[i]` = indeks odpowiedzi na pytanie i.
- * Remis rozstrzyga kolejność pierwszego pojawienia się tropu w pytaniach — wynik jest
- * deterministyczny (te same odpowiedzi → ten sam trop, także po przeładowaniu strony).
+ * The trope with the highest score. `answers[i]` = the index of the answer to question i.
+ * Ties go to the trope that appeared first in the questions — the result is
+ * deterministic (the same answers → the same trope, also after a page reload).
  */
 export function pickTrope(answers: readonly number[], questions: readonly Question[] = QUESTIONS): string {
   const scores = new Map<string, number>();
@@ -80,7 +80,7 @@ export function pickTrope(answers: readonly number[], questions: readonly Questi
   });
   let best = '';
   let bestScore = -1;
-  // Map zachowuje kolejność wstawiania → przy remisie zostaje trop dodany wcześniej.
+  // Map keeps insertion order → on a tie the trope added earlier stays.
   for (const [trope, score] of scores) {
     if (score > bestScore) [best, bestScore] = [trope, score];
   }

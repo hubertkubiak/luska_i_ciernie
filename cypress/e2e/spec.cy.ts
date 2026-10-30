@@ -12,8 +12,8 @@ describe('Strona główna', () => {
     cy.get('h1').should('not.be.empty');
   });
 
-  // Typowe rozmiary okna przeglądarki (po odjęciu paska zadań Windows i interfejsu Chrome):
-  // laptop 15" Full HD przy domyślnej skali 125%, starszy laptop 1366×768, monitor Full HD.
+  // Typical browser window sizes (minus the Windows taskbar and Chrome's UI):
+  // a 15" Full HD laptop at the default 125% scale, an older 1366×768 laptop, a Full HD monitor.
   for (const [w, h] of [
     [1536, 730],
     [1366, 625],

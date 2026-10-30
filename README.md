@@ -30,9 +30,9 @@
 <br />
 <br />
 
-📚 **91 books** &nbsp;·&nbsp; ✒️ **38 authors** &nbsp;·&nbsp; 🔮 **17 tropes** &nbsp;·&nbsp; 🗺️ **16 stages**
+📚 **91 books** &nbsp;·&nbsp; ✒️ **38 authors** &nbsp;·&nbsp; 🔮 **17 tropes** &nbsp;·&nbsp; 🗺️ **17 stages**
 
-[✨ Features](#-features) &nbsp;·&nbsp; [🚀 Quick start](#-quick-start) &nbsp;·&nbsp; [🏰 Architecture](#-architecture) &nbsp;·&nbsp; [🧭 Stage history](#-stage-history)
+[✨ Features](#-features) &nbsp;·&nbsp; [🚀 Quick start](#-quick-start) &nbsp;·&nbsp; [🏰 Architecture](#-architecture) &nbsp;·&nbsp; [🚢 Deployment](#-deployment) &nbsp;·&nbsp; [🧭 Stage history](#-stage-history)
 
 </div>
 
@@ -66,11 +66,12 @@ built around exactly those questions.
 10. [🔎 SEO and caching](#-seo-and-caching)
 11. [💧 Hydration: pitfalls and solutions](#-hydration-pitfalls-and-solutions)
 12. [🧪 Tests](#-tests)
-13. [🔧 Configuration](#-configuration)
-14. [📁 Directory structure](#-directory-structure)
-15. [📐 Conventions](#-conventions)
-16. [🧭 Stage history](#-stage-history)
-17. [📜 Legal notes](#-legal-notes)
+13. [🚢 Deployment](#-deployment)
+14. [🔧 Configuration](#-configuration)
+15. [📁 Directory structure](#-directory-structure)
+16. [📐 Conventions](#-conventions)
+17. [🧭 Stage history](#-stage-history)
+18. [📜 Legal notes](#-legal-notes)
 
 </details>
 
@@ -270,6 +271,12 @@ Outside the API: `/robots.txt`, `/sitemap.xml` (with `hreflang` for both languag
   (`REQUEST_CONTEXT` → `Session` service).
 - 🔒 HTML for signed-in users has `Cache-Control: private, no-store` and `Vary: Cookie` — no shared
   cache will ever show it to someone else.
+- 🪖 Security headers on every response (`src/server/production.ts`, no extra dependencies): HSTS
+  over HTTPS, `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options` and a partial CSP
+  (`frame-ancestors`, `base-uri`, `form-action`, `object-src`). A full `script-src` would need nonces
+  for Angular's inline scripts.
+- 🏷️ Angular SSR renders only for allowed hosts (`allowedHosts`) — a forged `Host` header gets 400
+  instead of a page with someone else's links (SSRF / cache poisoning).
 
 ---
 
@@ -343,6 +350,54 @@ before and after scrolling), SEO, i18n and the theme.
 
 ---
 
+## 🚢 Deployment
+
+The app ships as one **Docker** image (`Dockerfile`, multi-stage): the build stage runs
+`npm ci` and `npm run build:i18n` (which also seeds `data/luska.db`), the runtime stage holds only
+`dist/` and the catalogue database — no `node_modules` at all, because the server bundle imports
+nothing but Node built-ins. It runs as the unprivileged `node` user and has a `HEALTHCHECK` on `/healthz`.
+
+### 🎪 Render (free demo)
+
+`render.yaml` is a Render **Blueprint**: a free Docker web service in Frankfurt.
+
+1. Push the repo to GitHub.
+2. Sign in at [render.com](https://render.com) with GitHub (no card needed).
+3. **New → Blueprint** → pick the repository → **Apply**. The first build takes a few minutes.
+4. Done — the site is at `https://<service>.onrender.com`. Every push to `main` redeploys it.
+
+Nothing to fill in by hand: the server picks up the Render hostname for `allowedHosts` and the
+public URL for the sitemap and RSS from `RENDER_EXTERNAL_HOSTNAME` / `RENDER_EXTERNAL_URL`.
+
+> [!WARNING]
+> The free plan has **no persistent disk** and **sleeps after 15 idle minutes** (the first request
+> then takes ~30–60 s). The catalogue is baked into the image, so it always works, but
+> **accounts, sessions and shelves are wiped on every restart or deploy** — `DEMO_MODE=true` says so
+> on the sign-in pages.
+
+### 🧳 Moving to persistent storage
+
+Any host with a volume works without code changes (e.g. Fly.io, a VPS with Docker): mount the volume
+and point `USERS_DB_PATH` at it (e.g. `/data/users.db`), set `DEMO_MODE=false`, keep one instance
+(SQLite is a single file), and give the container `SIGTERM` time to close the database cleanly.
+
+### 🧭 What production needs behind a proxy
+
+| Problem behind a TLS-terminating proxy | Fix |
+|---|---|
+| Every visitor has the proxy's IP → one shared rate limit for everyone | `TRUST_PROXY=1` (Express `trust proxy`) |
+| `req.protocol` is `http` → every form fails the `Origin` check, cookies are not `Secure` | the same `TRUST_PROXY=1` |
+| Canonical / hreflang / `og:url` say `http://` | `NG_TRUST_PROXY_HEADERS=x-forwarded-proto` |
+| SSR would call its own API through the public URL (DNS, TLS, proxy) | `InternalApiBackend` sends SSR API calls to `http://127.0.0.1:PORT`, keeping transfer-cache keys relative |
+| Prerendered pages contain the build server's address | `Seo` writes `https://prerender.invalid`, Express swaps in the public origin |
+
+### ⚙️ CI
+
+`.github/workflows/ci.yml` runs the unit tests and the production build on every push and pull
+request, so a broken build is caught before Render picks it up.
+
+---
+
 ## 🔧 Configuration
 
 <details>
@@ -354,10 +409,14 @@ before and after scrolling), SEO, i18n and the theme.
 | `DB_PATH` | `data/luska.db` | catalogue database (read-only) |
 | `USERS_DB_PATH` | `data/users.db` | accounts, sessions and shelves database |
 | `COVER_SOURCE` | `openlibrary` | `none` = generated covers only |
-| `PUBLIC_ORIGIN` | origin of the request | public site URL for the sitemap and RSS |
+| `PUBLIC_ORIGIN` | `RENDER_EXTERNAL_URL`, locally the request | public site URL for the sitemap and RSS |
 | `COOKIE_SECURE` | — | `true` forces `Secure` on cookies (e.g. behind an HTTPS proxy) |
 | `REGISTER_LIMIT_PER_HOUR` | `5` | registrations per hour from one address |
 | `API_DELAY_MS` | `0` | artificial API delay — for watching loading states |
+| `TRUST_PROXY` | — | number of proxies in front of the app (Render: `1`) |
+| `NG_TRUST_PROXY_HEADERS` | — | proxy headers Angular SSR may trust (Render: `x-forwarded-proto,x-forwarded-for`) |
+| `NG_ALLOWED_HOSTS` | `localhost` | extra hosts Angular SSR may render for (the Render hostname is added automatically) |
+| `DEMO_MODE` | — | `true` = warn on sign-in pages that accounts are wiped on restart |
 
 </details>
 
@@ -369,6 +428,9 @@ before and after scrolling), SEO, i18n and the theme.
 <summary><b>Show the tree</b></summary>
 
 ```
+Dockerfile             🐳 production image (build + slim runtime)
+render.yaml            🎪 Render Blueprint (free demo)
+.github/workflows/     ⚙️ CI: unit tests + build
 seed/                  🌱 catalogue data (JSON) — the source of truth
 scripts/seed.ts        🔨 builds data/luska.db
 data/                  🗄️ SQLite databases (not in git)
@@ -428,7 +490,7 @@ Each stage is one commit — `git log` walks through the project like a course.
 | ✅ | 14 | Releases and RSS | `afterNextRender`, `Cache-Control: s-maxage` |
 | ✅ | 15 | Incremental hydration | `@defer (hydrate …)`, View Transitions |
 | ✅ | 16 | Oracle | client-only quiz, state in the URL |
-| 🚧 | 17 | Deployment | Docker, persistent disk, production variables |
+| ✅ | 17 | Deployment | Docker, Render Blueprint, proxies and allowed hosts, security headers, CI |
 
 ---
 

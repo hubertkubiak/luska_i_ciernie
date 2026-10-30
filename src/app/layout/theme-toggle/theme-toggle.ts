@@ -6,8 +6,8 @@ import { isReplayed } from '../../core/event-replay';
 import { ThemeService } from '../../core/theme';
 
 /**
- * Przełącznik noc ⇄ pergamin. Zwykły formularz POST /motyw — bez JS serwer ustawia ciasteczko
- * i odsyła z powrotem na tę samą stronę. Z JS przechwytujemy wysłanie i zmieniamy motyw w miejscu.
+ * Night ⇄ parchment toggle. A plain POST /motyw form — without JS the server sets the cookie
+ * and sends you back to the same page. With JS we intercept the submit and switch the theme in place.
  */
 @Component({
   selector: 'app-theme-toggle',
@@ -21,7 +21,7 @@ export class ThemeToggle {
   protected readonly theme = this.themes.theme;
   protected readonly next = computed(() => (this.theme() === 'night' ? 'parchment' : 'night'));
 
-  /** Dokąd wrócić po przełączeniu bez JS. */
+  /** Where to return after switching without JS. */
   protected readonly here = toSignal(
     this.router.events.pipe(
       filter((e) => e instanceof NavigationEnd),
@@ -31,7 +31,7 @@ export class ThemeToggle {
   );
 
   protected toggle(event: SubmitEvent): void {
-    if (isReplayed(event)) return; // formularz sprzed hydracji poszedł już natywnie
+    if (isReplayed(event)) return; // a form from before hydration has already gone natively
     event.preventDefault();
     this.themes.set(this.next());
   }

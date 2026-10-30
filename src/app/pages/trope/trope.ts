@@ -10,9 +10,9 @@ import { Rune } from '../../ui/rune/rune';
 import { NotFound } from '../not-found/not-found';
 
 /**
- * /tropy/:slug — każdy znany trop ma własny plik HTML z `ng build` (getPrerenderParams).
- * Nieznany slug nie ma pliku, więc trafia do renderu na żądanie (PrerenderFallback.Server)
- * i dostaje 404 tym samym mechanizmem co książki i autorzy.
+ * /tropy/:slug — every known trope has its own HTML file from `ng build` (getPrerenderParams).
+ * An unknown slug has no file, so it goes to on-demand rendering (PrerenderFallback.Server)
+ * and gets a 404 by the same mechanism as books and authors.
  */
 @Component({
   selector: 'app-trope-page',

@@ -3,41 +3,41 @@ import { LANG_PREFIX, LANGS, type SessionUser } from '../../shared/models';
 import { LIMITS, SESSION_TTL_MS, normalizeEmail, type Account, type Accounts } from './accounts';
 import { RateLimiter, SESSION_COOKIE, clearSessionCookie, isSameOrigin, readCookie, safeNext, setSessionCookie } from './http';
 
-/** Ścieżki z prefiksem każdej wersji językowej: '/logowanie' → ['/logowanie', '/en/logowanie']. */
+/** Paths with every language prefix: '/logowanie' → ['/logowanie', '/en/logowanie']. */
 export const localized = (path: string) => LANGS.map((l) => LANG_PREFIX[l] + path);
 
-/** Prefiks języka z adresu, pod którym zamontowano router: '/en/auth' → '/en', '/auth' → ''. */
+/** Language prefix of the mount path: '/en/auth' → '/en', '/auth' → ''. */
 const langPrefix = (req: Request, mount: string) => req.baseUrl.slice(0, req.baseUrl.length - mount.length);
 
-/** Zalogowana osoba bieżącego żądania (ustawia sessionMiddleware) — z wewnętrznym id. */
+/** The signed-in person of the current request (set by sessionMiddleware) — with the internal id. */
 export const currentUser = (res: Response): Account | null => res.locals['user'] ?? null;
 
-/** To, co wolno pokazać przeglądarce: bez wewnętrznego id. */
+/** What the browser may see: without the internal id. */
 export const publicUser = (account: Account | null): SessionUser | null =>
   account && { email: account.email, displayName: account.displayName };
 
-/** Czyta ciasteczko sesji i odkłada osobę do res.locals — dla Angulara, strażników i /api/me. */
+/** Reads the session cookie and stores the person in res.locals — for Angular, guards and /api/me. */
 export function sessionMiddleware(accounts: Accounts): RequestHandler {
   return (req, res, next) => {
     const token = readCookie(req, SESSION_COOKIE);
     res.locals['user'] = token ? accounts.userForSession(token) : null;
-    // Ciasteczko, któremu nie odpowiada już żadna sesja (wygasła, wylogowano na innym urządzeniu)
-    // od razu sprzątamy, żeby przeglądarka nie wysyłała go bez końca.
+    // A cookie that no longer matches any session (expired, signed out on another device)
+    // is cleared right away, so the browser stops sending it forever.
     if (token && !res.locals['user']) clearSessionCookie(req, res);
     next();
   };
 }
 
 /**
- * POST /auth/logowanie, /auth/rejestracja, /auth/wyloguj (+ /en/auth/…). Formularze działają
- * bez JavaScriptu: przeglądarka wysyła POST, a my odpowiadamy przekierowaniem 303 na stronę
- * (wzorzec Post/Redirect/Get — odświeżenie strony nie wyśle formularza drugi raz).
+ * POST /auth/logowanie, /auth/rejestracja, /auth/wyloguj (+ /en/auth/…). The forms work
+ * without JavaScript: the browser sends a POST and we answer with a 303 redirect to a page
+ * (the Post/Redirect/Get pattern — reloading the page does not resubmit the form).
  */
 export function authRouter(accounts: Accounts): Router {
   const router = Router();
   const loginLimit = new RateLimiter(10, 15 * 60 * 1000);
-  // Domyślnie 5 kont na godzinę z jednego IP. Serwer do testów e2e może to podnieść
-  // (REGISTER_LIMIT_PER_HOUR=1000), bo zestaw testów zakłada kolejne konta przy każdym przebiegu.
+  // By default 5 accounts per hour from one IP. The e2e test server may raise it
+  // (REGISTER_LIMIT_PER_HOUR=1000), because the test suite creates new accounts on every run.
   const registerLimit = new RateLimiter(Number(process.env['REGISTER_LIMIT_PER_HOUR'] ?? 5), 60 * 60 * 1000);
 
   router.use(express.urlencoded({ extended: false, limit: '4kb' }));
@@ -56,8 +56,8 @@ export function authRouter(accounts: Accounts): Router {
     const back = (blad: string) =>
       res.redirect(303, `${prefix}/logowanie?${params({ blad, email, next: next === '/moja-polka' ? '' : next })}`);
 
-    // Limit na parę IP + e-mail: zgadywanie hasła jednego konta jest wolne, a jedna osoba
-    // z wielu kont (współdzielone IP) nie blokuje innych.
+    // The limit is per IP + e-mail pair: guessing one account's password is slow, and one person
+    // behind a shared IP does not block everyone else.
     const key = `${req.ip}|${normalizeEmail(email)}`;
     if (!loginLimit.take(key)) return back('limit');
 
@@ -84,7 +84,7 @@ export function authRouter(accounts: Accounts): Router {
     const result = await accounts.register({
       email,
       displayName,
-      // Bez przycinania długości: za długie hasło ma dać błąd, a nie zostać po cichu obcięte.
+      // No trimming of length: a too-long password must fail, not be silently cut.
       password: typeof req.body?.password === 'string' ? req.body.password : '',
     });
     if ('error' in result) return back(result.error);
@@ -103,7 +103,7 @@ export function authRouter(accounts: Accounts): Router {
   return router;
 }
 
-/** GET /api/me — kim jestem. Potrzebne tam, gdzie HTML nie zna sesji (prerender, tryb Client). */
+/** GET /api/me — who am I. Needed where the HTML does not know the session (prerender, Client mode). */
 export const meHandler: RequestHandler = (_req, res) => {
   res.set('Cache-Control', 'private, no-store');
   const user = publicUser(currentUser(res));
@@ -112,9 +112,9 @@ export const meHandler: RequestHandler = (_req, res) => {
 };
 
 /**
- * Strażnik prywatnych stron (np. /moja-polka/**). Te strony mają RenderMode.Client — Angular
- * nie renderuje ich na serwerze, więc jego guard zadziałałby dopiero w przeglądarce, po pobraniu
- * JS (mignięcie pustej strony). Express odpowiada 302 od razu, zanim cokolwiek trafi do Angulara.
+ * Guard for private pages (e.g. /moja-polka/**). These pages use RenderMode.Client — Angular
+ * does not render them on the server, so its guard would only run in the browser after the JS
+ * loads (a flash of an empty page). Express answers 302 at once, before anything reaches Angular.
  */
 export function requireUser(mount: string): RequestHandler {
   return (req, res, next) => {
@@ -126,7 +126,7 @@ export function requireUser(mount: string): RequestHandler {
   };
 }
 
-/** Zalogowana osoba na /logowanie albo /rejestracja nie ma tam czego szukać. */
+/** A signed-in person has nothing to do on /logowanie or /rejestracja. */
 export function redirectIfLoggedIn(page: string): RequestHandler {
   return (req, res, next) => {
     if (req.method !== 'GET' || !currentUser(res)) return next();
@@ -135,19 +135,19 @@ export function redirectIfLoggedIn(page: string): RequestHandler {
 }
 
 function startSession(req: Request, res: Response, accounts: Accounts, userId: number): void {
-  // Stara sesja z tej przeglądarki (jeśli była) przestaje istnieć — nowa dostaje nowy token.
+  // The old session of this browser (if any) ends — the new one gets a fresh token.
   const old = readCookie(req, SESSION_COOKIE);
   if (old) accounts.destroySession(old);
   setSessionCookie(req, res, accounts.createSession(userId), SESSION_TTL_MS);
 }
 
-/** Pole formularza jako tekst o ograniczonej długości (body od klienta może być czymkolwiek). */
+/** A form field as text of limited length (a body from the client can be anything). */
 function field(req: Request, name: string, max: number): string {
   const value = req.body?.[name];
   return typeof value === 'string' ? value.slice(0, max) : '';
 }
 
-/** Query string bez pustych wartości. Hasła nigdy tu nie trafiają. */
+/** Query string without empty values. Passwords never end up here. */
 function params(values: Record<string, string>): string {
   return new URLSearchParams(Object.entries(values).filter(([, v]) => v)).toString();
 }

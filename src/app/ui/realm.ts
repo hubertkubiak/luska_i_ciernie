@@ -1,6 +1,6 @@
 import type { Realm } from '../../shared/models';
 
-/** Nazwy krain z SPEC §2.2, w kolejności, w jakiej pokazujemy je na listach. */
+/** Realm names from SPEC §2.2, in the order we show them on lists. */
 export const REALMS: { id: Realm; name: string }[] = [
   { id: 'turnie', name: $localize`:@@realm.turnie:Smocze Turnie` },
   { id: 'mgly', name: $localize`:@@realm.mgly:Dwór Mgieł` },

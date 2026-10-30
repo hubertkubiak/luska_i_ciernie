@@ -1,0 +1,27 @@
+# Unit tests and the production build on every push and pull request.
+# Render deploys main on its own; this keeps a broken build from ever reaching it unnoticed.
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    env:
+      # e2e tests are not run here — no need for the Cypress binary.
+      CYPRESS_INSTALL_BINARY: 0
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      # Before the build: the unit-test builder rewrites dist/.
+      - run: npm test -- --watch=false
+      - run: npm run build:i18n

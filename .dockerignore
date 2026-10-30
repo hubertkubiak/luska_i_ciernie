@@ -1,0 +1,14 @@
+# Everything the image builds itself or must never contain.
+node_modules
+dist
+data
+.angular
+.git
+.github
+.vscode
+.idea
+coverage
+cypress/screenshots
+cypress/videos
+*.log
+.env*

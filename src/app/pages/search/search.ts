@@ -19,12 +19,12 @@ import { Rune } from '../../ui/rune/rune';
 import { parseCriteria, toApiUrl, toQueryParams, toQueryString } from './search-criteria';
 
 /**
- * /szukaj — wyniki zależą tylko od adresu URL, więc serwer renderuje je od razu
- * (link do wyników da się wysłać, a wyszukiwarka może je zaindeksować).
+ * /szukaj — results depend only on the URL, so the server renders them right away
+ * (a link to results can be shared, and search engines can index it).
  *
- * Formularz to zwykły <form method="get">: bez JS przeglądarka sama wyśle GET /szukaj?…
- * i dostanie nowy HTML z serwera. Z JS przechwytujemy submit/change i nawigujemy routerem —
- * ten sam adres, tylko bez przeładowania strony.
+ * The form is a plain <form method="get">: without JS the browser sends GET /szukaj?… itself
+ * and gets new HTML from the server. With JS we intercept submit/change and navigate with the router —
+ * the same URL, just without reloading the page.
  */
 @Component({
   selector: 'app-search-page',
@@ -45,8 +45,8 @@ export class SearchPage {
   private readonly results = httpResource<BookSummary[]>(() => toApiUrl(this.criteria()));
 
   /**
-   * Przy zmianie filtrów httpResource na chwilę traci wartość (nowe żądanie = stan „loading”).
-   * linkedSignal trzyma poprzednie wyniki, dopóki nie przyjdą nowe — lista nie mruga.
+   * When filters change, httpResource briefly loses its value (new request = "loading" state).
+   * linkedSignal keeps the previous results until the new ones arrive — the list does not flicker.
    */
   protected readonly shown = linkedSignal<BookSummary[] | undefined, BookSummary[] | undefined>({
     source: () => (this.results.hasValue() ? this.results.value() : undefined),
@@ -62,8 +62,8 @@ export class SearchPage {
   constructor() {
     effect(() => {
       const qs = toQueryString(this.criteria());
-      // Ta sama lista wyników pod różnymi adresami (kolejność parametrów, wartości domyślne)
-      // ma JEDEN adres kanoniczny — znormalizowany przez toQueryString().
+      // The same results under different URLs (parameter order, default values)
+      // have ONE canonical URL — normalised by toQueryString().
       this.seo.update({
         title: $localize`:@@title.search:Przeszukaj archiwum — Łuska i Ciernie`,
         description: $localize`:@@seo.searchDescription:Szukaj romantasy po tropach, pikanterii i statusie serii — także bez JavaScriptu.`,
@@ -71,11 +71,11 @@ export class SearchPage {
       });
     });
 
-    // Pola formularza mają stan tylko w atrybutach (wartościach domyślnych). Gdy kryteria zmienią
-    // się z innego źródła niż sam formularz — „Wyczyść filtry”, Wstecz w przeglądarce — reset()
-    // przywraca pola do nowych wartości domyślnych. afterRenderEffect: po renderze (atrybuty już
-    // zaktualizowane) i tylko w przeglądarce. Pierwszy przebieg (hydracja) pomijamy celowo:
-    // zachowujemy to, co czytelniczka zdążyła kliknąć, zanim aplikacja ożyła.
+    // Form fields keep state only in attributes (default values). When the criteria change
+    // from somewhere other than the form itself — "Clear filters", the browser's Back — reset()
+    // restores the fields to the new defaults. afterRenderEffect: after rendering (attributes already
+    // updated) and only in the browser. The first run (hydration) is skipped on purpose:
+    // we keep whatever the reader managed to click before the app came alive.
     let hydrated = false;
     afterRenderEffect(() => {
       this.criteria();
@@ -84,16 +84,16 @@ export class SearchPage {
     });
   }
 
-  /** Enter w polu tekstowym albo przycisk „Szukaj”. */
+  /** Enter in the text field or the "Search" button. */
   protected onSubmit(event: SubmitEvent): void {
-    if (isReplayed(event)) return; // wysłany przed hydracją: przeglądarka już przechodzi na wyniki (GET)
+    if (isReplayed(event)) return; // sent before hydration: the browser is already loading the results (GET)
     event.preventDefault();
     this.apply(event.target as HTMLFormElement);
   }
 
-  /** Zmiana checkboxa / selecta — z JS wyniki odświeżają się od razu. */
+  /** A checkbox / select change — with JS the results refresh right away. */
   protected onChange(event: Event): void {
-    // Pole tekstowe odpala „change” dopiero przy wyjściu z niego — wtedy też szukamy.
+    // A text field fires "change" only when you leave it — then we search too.
     this.apply((event.target as HTMLInputElement).form!);
   }
 

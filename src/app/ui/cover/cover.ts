@@ -4,27 +4,27 @@ import type { BookSummary } from '../../../shared/models';
 import { Rune } from '../rune/rune';
 
 /**
- * Okładka książki. Prawdziwa (NgOptimizedImage), gdy API podało coverUrl, albo własna,
- * generowana (SPEC §2.9): tło krainy, runa głównego tropu, tytuł i autorka. Generowana nie
- * narusza niczyich praw i nie wysyła adresu IP czytelniczki do zewnętrznego serwera
- * (COVER_SOURCE=none, patrz docs/PRAWNE.md).
+ * A book cover. The real one (NgOptimizedImage) when the API gave a coverUrl, or our own,
+ * generated one (SPEC §2.9): realm background, the main trope's rune, title and author. The generated
+ * one infringes nobody's rights and does not send the reader's IP address to a third-party server
+ * (COVER_SOURCE=none, see docs/PRAWNE.md).
  */
 @Component({
   selector: 'app-cover',
   imports: [NgOptimizedImage, Rune],
   templateUrl: './cover.html',
   styleUrl: './cover.scss',
-  // Ta sama nazwa na karcie i na stronie książki → View Transition „przenosi” okładkę między nimi.
-  // Nazwa musi być unikalna na stronie; każda książka występuje na liście co najwyżej raz,
-  // a „Podobne” nie zawierają bieżącej. (Prefiks, bo nazwa to identyfikator CSS.)
+  // The same name on the card and on the book page → the View Transition "carries" the cover between them.
+  // The name must be unique on a page; every book appears on a list at most once,
+  // and "Kindred paths" never include the current one. (A prefix, because the name is a CSS identifier.)
   host: { '[style.view-transition-name]': "'cover-' + book().slug" },
 })
 export class Cover {
   readonly book = input.required<BookSummary>();
   readonly width = input.required<number>();
   readonly height = input.required<number>();
-  /** Obraz LCP strony — Angular dopisze <link rel="preload"> w <head> już na serwerze. */
+  /** The page's LCP image — Angular adds <link rel="preload"> to <head> already on the server. */
   readonly priority = input(false);
-  /** Pusty = dekoracja (tytuł stoi obok, czytnik ekranu nie musi go czytać drugi raz). */
+  /** Empty = decoration (the title is right next to it, a screen reader need not read it twice). */
   readonly alt = input('');
 }

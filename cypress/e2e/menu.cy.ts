@@ -17,7 +17,7 @@ describe('Menu „Mapa” na wąskim ekranie', () => {
     cy.visit('/');
     cy.contains('button', 'Mapa').click();
     cy.contains('a', 'Tropy').should('be.visible').click();
-    // Bez JS to zwykły link — pełne przeładowanie, nowa strona z serwera.
+    // Without JS it is a plain link — a full reload, a new page from the server.
     cy.location('pathname').should('eq', '/tropy');
     cy.contains('h1', 'Tropy');
   });
@@ -33,18 +33,18 @@ describe('Menu „Mapa” na wąskim ekranie', () => {
   it('panel otwarty przed hydracją nie zwija się sam, gdy aplikacja ożyje', () => {
     cy.visit('/', {
       onBeforeLoad(win) {
-        // Klik w chwili, gdy jest już HTML z serwera, a aplikacja jeszcze nie wystartowała.
+        // A click when the server HTML is there but the app has not started yet.
         win.document.addEventListener('DOMContentLoaded', () => {
           win.document.querySelector<HTMLButtonElement>('button[popovertarget="mapa-krain"]')!.click();
         });
       },
     });
-    cy.get('.spark').should('exist'); // iskry = aplikacja już po hydracji
+    cy.get('.spark').should('exist'); // sparks = the app has hydrated
     cy.get('#mapa-krain').should('match', ':popover-open');
   });
 
-  // Esc i klik obok („light dismiss”) to natywne zachowanie popovera, ale reaguje tylko na
-  // prawdziwe zdarzenia (isTrusted). Syntetyczne zdarzenia Cypressa go nie uruchomią — sprawdź ręcznie.
+  // Esc and clicking outside ("light dismiss") are native popover behaviour, but they react only to
+  // real events (isTrusted). Cypress's synthetic events will not trigger them — check by hand.
 });
 
 describe('Menu na szerokim ekranie', () => {

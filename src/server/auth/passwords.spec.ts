@@ -14,8 +14,8 @@ describe('passwords', () => {
   });
 
   it('treats differently composed Unicode as the same password (NFC)', async () => {
-    const composed = 'żar'; // ż jako jeden znak
-    const decomposed = 'żar'; // z + kropka nad
+    const composed = 'żar'; // ż as a single code point
+    const decomposed = 'żar'; // z + combining dot above
     expect(await verifyPassword(decomposed, await hashPassword(composed))).toBe(true);
   });
 

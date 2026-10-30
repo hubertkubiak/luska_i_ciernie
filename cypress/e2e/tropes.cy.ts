@@ -2,7 +2,7 @@ describe('Tropy (prerender)', () => {
   it('/tropy to plik z buildu: kontekst „ssg” i gotowa lista w HTML', () => {
     cy.request('/tropy').then((res) => {
       expect(res.status).to.eq(200);
-      // ng-server-context mówi, jak powstał HTML: ssg = prerender w buildzie, ssr = na żądanie.
+      // ng-server-context tells how the HTML was made: ssg = prerendered in the build, ssr = on demand.
       expect(res.body).to.contain('ng-server-context="ssg"');
       expect(res.body).to.contain('Od wrogów do kochanków');
     });
@@ -21,7 +21,7 @@ describe('Tropy (prerender)', () => {
     cy.visit('/tropy/fated-mates');
     cy.contains('h1', 'Przeznaczeni sobie');
     cy.get('#rune-fated-mates').should('exist');
-    // „article”: pierwsza runa na stronie siedzi w przycisku „Zwiń mapę” w nagłówku.
+    // "article": the first rune on the page sits in the header's "Roll up the map" button.
     cy.get('article app-rune use').first().should('have.attr', 'href', '#rune-fated-mates');
   });
 

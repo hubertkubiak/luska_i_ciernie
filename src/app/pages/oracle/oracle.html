@@ -43,7 +43,7 @@
     <div class="card">
       <p class="label progress" i18n="@@oracle.progress">Pytanie {{ step() + 1 }} z {{ total }}</p>
       <progress [value]="step()" [max]="total" aria-hidden="true"></progress>
-      <!-- @for po kluczu kroku: nowe pytanie to nowy element, więc animacja wejścia gra za każdym razem. -->
+      <!-- @for keyed by the step: a new question is a new element, so the entry animation plays every time. -->
       @for (s of [step()]; track s) {
         <div class="question">
           <h2 #question tabindex="-1">{{ q.title }}</h2>

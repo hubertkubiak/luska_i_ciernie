@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- Łuska i Ciernie: głowa smoka z profilu, złoto na obsydianie (kolory z src/styles/_tokens.scss) -->
+  <!-- Łuska i Ciernie: a dragon's head in profile, gold on obsidian (colours from src/styles/_tokens.scss) -->
   <defs>
     <linearGradient id="gilt" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#f2d38b" />
@@ -16,21 +16,21 @@
     </linearGradient>
   </defs>
   <rect width="64" height="64" rx="14" fill="url(#night)" />
-  <!-- płomień z paszczy -->
+  <!-- flame from the jaws -->
   <path d="M51 41 C56 38 60 40 63 37 C62 42 59 45 63 48 C58 49 55 46 51 46 Z" fill="url(#ember)" />
-  <!-- rogi zagięte do tyłu -->
+  <!-- horns curving backwards -->
   <path d="M31 22 C26 14 19 9 8 7 C16 12 21 19 23 27 Z" fill="#8f6d2c" />
   <path d="M37 21 C35 14 31 10 24 8 C28 13 30 18 30 24 Z" fill="url(#gilt)" />
-  <!-- kolce na karku -->
+  <!-- spikes on the nape -->
   <path d="M22 31 L11 29 L19 37 Z M18 41 L7 41 L16 47 Z M16 51 L5 53 L15 57 Z" fill="#8f6d2c" />
-  <!-- głowa i szyja: kark, potylica, łuk brwiowy, pysk, górna i dolna szczęka, gardło -->
+  <!-- head and neck: nape, occiput, brow ridge, snout, upper and lower jaw, throat -->
   <path
     fill="url(#gilt)"
     d="M15 64 C15 50 17 38 24 29 C27 25 31 23 35 23 L39 21 L43 24 C47 25 52 27 57 30 C59 31 59 34 57 35 L50 37 L44 37 L52 42 C50 45 45 46 41 45 C37 49 35 55 35 64 Z"
   />
-  <!-- zęby -->
+  <!-- teeth -->
   <path d="M47 37 l1.5 2.4 l1.5 -2.4 Z M52 36.5 l1.3 2.2 l1.3 -2.2 Z" fill="#f7f0df" />
-  <!-- oko (szparka w kolorze żaru) i nozdrze -->
+  <!-- eye (a slit in ember colour) and nostril -->
   <path d="M38 27.5 L45 26.5 L41.5 30.5 Z" fill="#e8a33d" />
   <circle cx="55" cy="31.5" r="1.1" fill="#0b0910" />
 </svg>

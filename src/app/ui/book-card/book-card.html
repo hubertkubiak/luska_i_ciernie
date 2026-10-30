@@ -1,6 +1,6 @@
 @let b = book();
 <a class="card" [routerLink]="['/ksiazka', b.slug]">
-  <!-- bez priority: okładki na listach ładują się leniwie (loading="lazy") -->
+  <!-- no priority: covers on lists load lazily (loading="lazy") -->
   <app-cover [book]="b" [width]="120" [height]="180" />
   <span class="title">{{ b.title }}</span>
   <span class="label">

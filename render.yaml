@@ -1,0 +1,36 @@
+# Render Blueprint — free public demo (Dashboard → New → Blueprint → pick this repo).
+#
+# The free plan has NO persistent disk: the catalogue (data/luska.db) is rebuilt inside the image on
+# every build, so it always works; accounts, sessions and shelves (users.db) are wiped on every
+# restart or deploy — hence DEMO_MODE, which tells visitors so on the sign-in pages.
+# The instance also sleeps after 15 idle minutes; the first request wakes it in ~30–60 s.
+services:
+  - type: web
+    name: luska-i-ciernie
+    runtime: docker
+    plan: free
+    region: frankfurt # closest to Poland
+    branch: main
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /healthz
+    envVars:
+      # Render terminates HTTPS in a proxy in front of us: trust exactly one hop, so req.ip,
+      # req.protocol and Secure cookies are right (see src/server/production.ts).
+      - key: TRUST_PROXY
+        value: '1'
+      # Angular SSR builds the page URL (canonical, hreflang, og:url) from the request; let it believe
+      # the proxy's scheme, otherwise links would say http://. The host is taken from Render's
+      # RENDER_EXTERNAL_HOSTNAME automatically (allowedHosts in src/server/production.ts).
+      # x-forwarded-for only silences Angular's per-request warning; it does not use the value.
+      - key: NG_TRUST_PROXY_HEADERS
+        value: x-forwarded-proto,x-forwarded-for
+      - key: COOKIE_SECURE
+        value: 'true'
+      # Our own generated covers instead of Open Library (docs/PRAWNE.md).
+      - key: COVER_SOURCE
+        value: none
+      - key: DEMO_MODE
+        value: 'true'
+      # Optional: a custom domain. Without it the sitemap and RSS use RENDER_EXTERNAL_URL.
+      - key: PUBLIC_ORIGIN
+        sync: false

@@ -1,6 +1,6 @@
-// --accent dziedziczy się z sekcji krainy w tropes.scss (custom properties przechodzą przez granice komponentów).
-// Każda kraina to osobna siatka, więc grid-auto-rows wyrównuje kafelki tylko w jej obrębie.
-// Stała minimalna wysokość (mieści nazwę w dwóch liniach) wyrównuje je na całej stronie.
+// --accent is inherited from the realm section in tropes.scss (custom properties cross component boundaries).
+// Every realm is a separate grid, so grid-auto-rows aligns tiles only within it.
+// A fixed minimum height (fits a two-line name) aligns them across the whole page.
 :host {
   display: block;
   height: 100%;

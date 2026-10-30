@@ -35,6 +35,16 @@ h1 {
   color: var(--text-muted);
 }
 
+.demo {
+  width: 100%;
+  margin: 0 0 1rem;
+  padding: 0.6rem 0.9rem;
+  border-left: 3px solid var(--gilt);
+  background: color-mix(in srgb, var(--gilt) 12%, transparent);
+  font-size: 0.95rem;
+  text-align: left;
+}
+
 .error {
   width: 100%;
   margin: 0 0 1rem;
@@ -69,7 +79,7 @@ form {
   }
 }
 
-// Przycisk główny (SPEC §2.7): gradient „Żar”, Cormorant small-caps.
+// Main button (SPEC §2.7): the "Ember" gradient, Cormorant small-caps.
 .cta {
   justify-self: center;
   margin-top: 0.5rem;
@@ -85,7 +95,7 @@ form {
   cursor: pointer;
 }
 
-// Tekst i link to osobne węzły, a Angular usuwa białe znaki między nimi — odstęp daje gap.
+// Text and link are separate nodes, and Angular removes whitespace between them — gap provides the spacing.
 .switch {
   display: flex;
   flex-wrap: wrap;

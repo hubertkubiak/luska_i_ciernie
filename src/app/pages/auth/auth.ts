@@ -1,16 +1,17 @@
 import { Component, computed, effect, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { injectDemoMode } from '../../core/demo';
 import { Seo } from '../../core/seo';
 
 export type AuthMode = 'login' | 'register';
 
 /**
- * /logowanie i /rejestracja — jeden komponent, tryb z `data` trasy (app.routes.ts).
+ * /logowanie and /rejestracja — one component, the mode comes from the route's `data` (app.routes.ts).
  *
- * Formularz to zwykły <form method="post">: działa bez JavaScriptu i z nim tak samo. Express
- * (src/server/auth/auth-router.ts) przyjmuje POST, ustawia ciasteczko sesji i odpowiada
- * przekierowaniem 303. Przy błędzie wraca tu z ?blad=…, a pola wypełniamy z adresu — oprócz
- * hasła, które nigdy nie trafia do URL-a.
+ * The form is a plain <form method="post">: it works the same with and without JavaScript. Express
+ * (src/server/auth/auth-router.ts) accepts the POST, sets the session cookie and answers with
+ * a 303 redirect. On error it comes back here with ?blad=…, and the fields are refilled from the URL —
+ * except the password, which never goes into a URL.
  */
 @Component({
   selector: 'app-auth-page',
@@ -19,9 +20,9 @@ export type AuthMode = 'login' | 'register';
   styleUrl: './auth.scss',
 })
 export class AuthPage {
-  /** Z `data` trasy. */
+  /** From the route's `data`. */
   readonly mode = input.required<AuthMode>();
-  /** Z query params (withComponentInputBinding). */
+  /** From query params (withComponentInputBinding). */
   readonly blad = input<string>();
   readonly email = input<string>();
   readonly displayName = input<string>();
@@ -30,7 +31,7 @@ export class AuthPage {
   protected readonly error = computed(() => {
     switch (this.blad()) {
       case 'dane':
-        // Celowo jeden komunikat dla złego e-maila i złego hasła — nie zdradzamy, które konta istnieją.
+        // One message for a wrong e-mail and a wrong password on purpose — we do not reveal which accounts exist.
         return $localize`:@@auth.errorCredentials:Nieprawidłowy e-mail lub hasło.`;
       case 'limit':
         return $localize`:@@auth.errorLimit:Zbyt wiele prób. Odpocznij chwilę i spróbuj ponownie za kilkanaście minut.`;
@@ -47,13 +48,16 @@ export class AuthPage {
     }
   });
 
-  /** Ten sam `next` w linku „Zawrzyj pakt / Przekrocz próg”, żeby nie zgubić celu przy zmianie formularza. */
+  /** Demo hosting without a persistent disk: say honestly that accounts will not last. */
+  protected readonly demo = injectDemoMode();
+
+  /** The same `next` in the "Seal the pact / Cross the threshold" link, so the target survives switching forms. */
   protected readonly nextParams = computed(() => (this.next() ? { next: this.next() } : {}));
 
   constructor() {
     const seo = inject(Seo);
-    // effect, nie kod w konstruktorze: input mode() jest ustawiany dopiero po utworzeniu komponentu.
-    // Strony formularzy nie mają czego szukać w wynikach wyszukiwania → noindex.
+    // effect, not constructor code: the mode() input is set only after the component is created.
+    // Form pages have no business in search results → noindex.
     effect(() =>
       seo.update({
         title:

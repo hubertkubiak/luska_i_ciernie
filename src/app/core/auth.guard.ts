@@ -3,12 +3,12 @@ import { Router, type CanActivateFn } from '@angular/router';
 import { Session } from './session';
 
 /**
- * Guard dla nawigacji W PRZEGLĄDARCE (kliknięcie linku „Skarbiec”). Wejście z paska adresu
- * obsługuje wcześniej Express (requireUser w server.ts): odpowiada 302, zanim cokolwiek się
- * wyrenderuje. Ten guard domyka przypadek, którego serwer nie widzi — nawigację routerem.
+ * Guard for navigation IN THE BROWSER (clicking the "Treasury" link). Opening it from the address bar
+ * is handled earlier by Express (requireUser in server.ts): it answers 302 before anything is
+ * rendered. This guard covers the case the server never sees — navigation by the router.
  */
 export const authGuard: CanActivateFn = async (_route, state) => {
-  // inject() tylko przed pierwszym await — potem kontekst wstrzykiwania już nie istnieje.
+  // inject() only before the first await — after it the injection context no longer exists.
   const session = inject(Session);
   const router = inject(Router);
   const user = await session.load();

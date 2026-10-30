@@ -1,10 +1,10 @@
-// Etap 16: Wyrocznia — RenderMode.Client, stan quizu w sygnałach, wynik w adresie.
+// Stage 16: the Oracle — RenderMode.Client, quiz state in signals, the result in the URL.
 describe('Wyrocznia (RenderMode.Client)', () => {
   it('serwer odsyła pustą skorupę — treść quizu powstaje dopiero w przeglądarce', () => {
     cy.request('/wyrocznia').then((res) => {
       expect(res.status).to.eq(200);
       expect(res.body).not.to.contain('Którędy wchodzisz');
-      // Brak znacznika SSR: ten HTML nie powstał w Angularze na serwerze.
+      // No SSR marker: this HTML was not produced by Angular on the server.
       expect(res.body).not.to.contain('ng-server-context');
     });
     cy.visit('/wyrocznia');
@@ -16,7 +16,7 @@ describe('Wyrocznia (RenderMode.Client)', () => {
     cy.contains('Pytanie 1 z 5');
     cy.contains('button', 'Nocą, przez okno').click();
     cy.contains('Pytanie 2 z 5');
-    // Fokus przechodzi na nowe pytanie (czytnik ekranu je odczyta).
+    // Focus moves to the new question (a screen reader will read it).
     cy.focused().should('have.prop', 'tagName', 'H2');
     cy.contains('button', 'Kimś mrocznym').click();
     cy.contains('button', 'Klątwę').click();

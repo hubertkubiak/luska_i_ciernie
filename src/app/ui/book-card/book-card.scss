@@ -1,5 +1,5 @@
-// Karta wypełnia komórkę siatki rodzica (który ma grid-auto-rows: 1fr), więc wszystkie karty
-// w siatce mają tę samą wysokość. Wiersze: okładka, tytuł, rok/seria, a pikanteria zawsze na dole.
+// The card fills its cell in the parent grid (which has grid-auto-rows: 1fr), so all cards
+// in the grid have the same height. Rows: cover, title, year/series, and spice always at the bottom.
 :host {
   display: block;
   height: 100%;
@@ -27,8 +27,8 @@
 app-cover {
   width: 120px;
 }
-// Długie tytuły (zwłaszcza polskie z podtytułem) i podpisy serii przycinamy do kilku linii,
-// żeby jedna karta nie rozpychała całego wiersza.
+// Long titles (especially Polish ones with a subtitle) and series captions are clamped to a few lines,
+// so one card cannot stretch the whole row.
 .title,
 .label {
   display: -webkit-box;

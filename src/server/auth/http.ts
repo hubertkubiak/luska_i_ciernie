@@ -2,7 +2,7 @@ import type { Request, Response } from 'express';
 
 export const SESSION_COOKIE = 'sid';
 
-/** Prosty parser nagłówka Cookie — wystarcza nam, nie trzeba pakietu cookie-parser. */
+/** A simple Cookie header parser — enough for us, no need for the cookie-parser package. */
 export function readCookie(req: Request, name: string): string | undefined {
   for (const part of (req.headers.cookie ?? '').split(';')) {
     const eq = part.indexOf('=');
@@ -12,10 +12,10 @@ export function readCookie(req: Request, name: string): string | undefined {
 }
 
 /**
- * Ciasteczko sesji:
- * - HttpOnly — JavaScript strony go nie widzi, więc nawet udany atak XSS nie wykradnie sesji,
- * - SameSite=Lax — przeglądarka nie dołączy go do POST-a wysłanego z cudzej strony (CSRF),
- * - Secure — tylko po HTTPS (lokalnie po HTTP go nie ustawiamy, bo nie dałoby się zalogować).
+ * The session cookie:
+ * - HttpOnly — the page's JavaScript cannot see it, so even a successful XSS cannot steal the session,
+ * - SameSite=Lax — the browser will not attach it to a POST sent from a foreign site (CSRF),
+ * - Secure — HTTPS only (not set locally over HTTP, otherwise signing in would be impossible).
  */
 export function setSessionCookie(req: Request, res: Response, token: string, maxAgeMs: number): void {
   res.cookie(SESSION_COOKIE, token, {
@@ -31,15 +31,15 @@ export function clearSessionCookie(req: Request, res: Response): void {
   res.clearCookie(SESSION_COOKIE, { httpOnly: true, sameSite: 'lax', secure: isHttps(req), path: '/' });
 }
 
-/** Za proxy (np. na hostingu) ustaw w Expressie `trust proxy`, żeby req.secure widziało HTTPS. */
+/** Behind a proxy (e.g. on a host) set Express `trust proxy` (TRUST_PROXY), so req.secure sees HTTPS. */
 function isHttps(req: Request): boolean {
   return req.secure || process.env['COOKIE_SECURE'] === 'true';
 }
 
 /**
- * Obrona przed CSRF numer dwa (obok SameSite): POST, który przyszedł z innej strony, ma w nagłówku
- * Origin cudzy adres. Brak nagłówka przepuszczamy — wysyłają go wszystkie współczesne przeglądarki,
- * a stare i tak chroni SameSite.
+ * CSRF defence number two (next to SameSite): a POST that came from another site carries a foreign
+ * address in its Origin header. A missing header is let through — all modern browsers send it,
+ * and old ones are protected by SameSite anyway.
  */
 export function isSameOrigin(req: Request): boolean {
   const origin = req.get('origin');
@@ -47,10 +47,10 @@ export function isSameOrigin(req: Request): boolean {
 }
 
 /**
- * Dokąd wrócić po zalogowaniu. Przyjmujemy tylko ścieżkę w obrębie serwisu — inaczej
- * /logowanie?next=https://zla-strona.example byłoby „otwartym przekierowaniem”, idealnym do phishingu
- * (link wygląda na nasz, a po zalogowaniu ląduje się u oszusta). "//x" i "/\x" to dla przeglądarki
- * też adresy innych domen.
+ * Where to return after signing in. Only a path within the site is accepted — otherwise
+ * /logowanie?next=https://evil.example would be an "open redirect", perfect for phishing
+ * (the link looks like ours, and after signing in you end up at the scammer's). "//x" and "/\x" are
+ * other domains to a browser too.
  */
 export function safeNext(next: unknown, fallback = '/moja-polka'): string {
   if (typeof next !== 'string' || !next.startsWith('/') || next.startsWith('//') || next.includes('\\')) {
@@ -59,7 +59,7 @@ export function safeNext(next: unknown, fallback = '/moja-polka'): string {
   return next;
 }
 
-/** Limit prób w oknie czasowym, trzymany w pamięci procesu. Na kilka serwerów — Redis lub baza. */
+/** Attempt limit per time window, kept in process memory. For several servers — Redis or a database. */
 export class RateLimiter {
   private readonly hits = new Map<string, { count: number; resetAt: number }>();
 
@@ -68,7 +68,7 @@ export class RateLimiter {
     private readonly windowMs: number,
   ) {}
 
-  /** true = wolno; false = limit wyczerpany. */
+  /** true = allowed; false = limit used up. */
   take(key: string, now = Date.now()): boolean {
     const entry = this.hits.get(key);
     if (!entry || entry.resetAt <= now) {

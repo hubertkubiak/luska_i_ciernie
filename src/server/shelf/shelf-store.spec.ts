@@ -31,7 +31,7 @@ describe('ShelfStore', () => {
     const insert = accounts.db.prepare('INSERT INTO shelf_items (user_id, book_slug, status, rating) VALUES (?, ?, ?, ?)');
     expect(() => insert.run(userId, 'a', 'zgubiona', null)).toThrow(/CHECK/);
     expect(() => insert.run(userId, 'b', 'read', 7)).toThrow(/CHECK/);
-    expect(() => insert.run(userId, 'c', 'tbr', 3)).toThrow(/CHECK/); // ocena tylko dla przeczytanych
+    expect(() => insert.run(userId, 'c', 'tbr', 3)).toThrow(/CHECK/); // a rating only for books already read
   });
 
   it("items belong to their owner and disappear with the account", async () => {

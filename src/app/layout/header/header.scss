@@ -1,6 +1,6 @@
-// Szerokość, poniżej której nawigacja chowa się pod przyciskiem „Mapa”. Dobrana tak, żeby
-// pięć pozycji z podpisami + przełącznik motywu + konto mieściło się w jednej linii — zmierzone:
-// przy 1366 px się mieszczą, przy 1320 px nagłówek łamał się na dwie linie.
+// Width below which the navigation hides behind the "Map" button. Chosen so that
+// five items with captions + the theme toggle + the account fit on one line — measured:
+// at 1366 px they fit, at 1320 px the header broke onto two lines.
 $collapse: 85rem;
 
 .header {
@@ -15,7 +15,7 @@ $collapse: 85rem;
 
 .logo {
   font-family: var(--font-display);
-  font-size: 2rem; // Cinzel Decorative tylko ≥ 32 px (SPEC §2.4)
+  font-size: 2rem; // Cinzel Decorative only at ≥ 32 px (SPEC §2.4)
   color: var(--gilt);
   text-decoration: none;
   white-space: nowrap;
@@ -59,7 +59,7 @@ small {
   }
 }
 
-// --- Przycisk „Mapa” (tylko wąskie ekrany) ---
+// --- The "Map" button (narrow screens only) ---
 
 .toggle,
 .close {
@@ -119,9 +119,9 @@ small {
   }
 }
 
-// --- Panel menu ---
+// --- Menu panel ---
 
-// Wąsko: popover w top layer, rozwijany z góry jak zwój.
+// Narrow: a popover in the top layer, unrolling from the top like a scroll.
 @media (width < $collapse) {
   .menu {
     inset: 0 0 auto;
@@ -134,13 +134,13 @@ small {
     background: var(--surface);
     color: var(--text);
     box-shadow: 0 1.5rem 3rem rgb(0 0 0 / 0.5);
-    // Złocone krawędzie „zwoju”
+    // The scroll's gilded edges
     background-image: var(--grad-gilt), var(--grad-gilt);
     background-size: 100% 1px;
     background-position: top, bottom 0.5rem center;
     background-repeat: no-repeat;
-    // Rozwijanie: clip-path od góry do dołu. @starting-style daje stan początkowy przy wejściu,
-    // allow-discrete pozwala animować display/overlay (popover znika z top layer dopiero po animacji).
+    // Unrolling: clip-path from top to bottom. @starting-style gives the initial state on entry,
+    // allow-discrete lets display/overlay animate (the popover leaves the top layer only after the animation).
     clip-path: inset(0 0 100% 0);
     transition:
       clip-path var(--dur) var(--ease),
@@ -190,8 +190,8 @@ small {
   }
 }
 
-// Szeroko: ten sam element to zwykły pasek nawigacji. Style autora wygrywają ze stylami
-// przeglądarki (inne źródło kaskady), więc display nadpisuje UA-owe „ukryj zamknięty popover”.
+// Wide: the same element is an ordinary navigation bar. Author styles beat browser styles
+// (a different cascade origin), so display overrides the UA's "hide a closed popover".
 @media (width >= $collapse) {
   .toggle,
   .close {

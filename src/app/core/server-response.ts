@@ -1,15 +1,15 @@
 import { Injectable, RESPONSE_INIT, inject } from '@angular/core';
 
 /**
- * Jedyne miejsce w aplikacji, które dotyka RESPONSE_INIT.
+ * The only place in the app that touches RESPONSE_INIT.
  *
- * RESPONSE_INIT to zwykły obiekt `ResponseInit` (status + nagłówki), który AngularNodeAppEngine
- * zamienia w odpowiedź HTTP po zakończeniu renderu. Istnieje tylko w trybie RenderMode.Server —
- * w przeglądarce (i przy prerenderze) wstrzykniemy null, więc metody są wtedy no-opami.
+ * RESPONSE_INIT is a plain `ResponseInit` object (status + headers) that AngularNodeAppEngine
+ * turns into the HTTP response after rendering. It exists only in RenderMode.Server —
+ * in the browser (and while prerendering) we inject null, so the methods are no-ops there.
  *
- * Kiedy status „zdąży”? Silnik czeka na `ApplicationRef.whenStable()` — czyli także na
- * zakończone requesty HTTP i efekty — zanim zbuduje Response. Status ustawiony w efekcie
- * po odpowiedzi API jest więc jeszcze brany pod uwagę.
+ * When is the status set "in time"? The engine waits for `ApplicationRef.whenStable()` — i.e. also for
+ * finished HTTP requests and effects — before building the Response. A status set in an effect
+ * after the API response is therefore still taken into account.
  */
 @Injectable({ providedIn: 'root' })
 export class ServerResponse {

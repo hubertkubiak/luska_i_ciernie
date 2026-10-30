@@ -51,8 +51,8 @@
   }
 }
 
-// Autorka · rok · strony — osobne elementy (strony bywają nieznane), więc odstępy daje gap:
-// Angular usuwa białe znaki między elementami szablonu.
+// Author · year · pages — separate elements (pages are sometimes unknown), so spacing comes from gap:
+// Angular removes whitespace between template elements.
 .author {
   display: flex;
   flex-wrap: wrap;
@@ -88,7 +88,7 @@
   max-width: 42rem;
 }
 
-// Inicjał (SPEC §2.4)
+// Drop cap (SPEC §2.4)
 .description::first-letter {
   float: left;
   margin: 0.1em 0.12em 0 0;
@@ -136,13 +136,13 @@
   }
 }
 
-// Host komponentu z @defer i jego placeholder zajmują to samo miejsce w siatce.
+// The @defer component's host and its placeholder take the same place in the grid.
 .similar-slot {
   grid-area: similar;
   display: block;
   justify-self: stretch;
 }
-// Rezerwuje mniej więcej wysokość rzędu kart, żeby doładowanie nie przesuwało stopki (CLS).
+// Reserves roughly the height of a row of cards, so loading it does not push the footer (CLS).
 .placeholder {
   min-height: 22rem;
 }

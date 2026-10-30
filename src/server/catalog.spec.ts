@@ -22,7 +22,7 @@ describe('Catalog', () => {
     expect(book.similar.length).toBeLessThanOrEqual(4);
     expect(book.similar.map((b) => b.slug)).not.toContain('fourth-wing');
     expect(book.similar.every((b) => b.series?.slug !== book.series?.slug)).toBe(true);
-    // Od najbardziej podobnej: liczba wspólnych tropów nie rośnie w dół listy.
+    // Most similar first: the number of shared tropes does not grow down the list.
     const counts = book.similar.map(shared);
     expect(counts).toEqual([...counts].sort((a, b) => b - a));
     expect(counts.every((n) => n > 0)).toBe(true);
@@ -74,7 +74,7 @@ describe('Catalog', () => {
     expect(catalog.getBook('the-cruel-prince', 'en')?.title).toBe('The Cruel Prince');
     expect(catalog.getBook('the-cruel-prince', 'pl')?.originalTitle).toBe('The Cruel Prince');
     expect(catalog.getBook('the-cruel-prince', 'en')?.originalTitle).toBeUndefined();
-    // Brak lokalnego tytułu = wydanie pod oryginalnym (albo brak wydania) → oryginał.
+    // No local title = published under the original (or not published) → the original.
     expect(catalog.getBook('lightlark', 'pl')?.title).toBe('Lightlark');
   });
 
@@ -119,7 +119,7 @@ describe('Catalog', () => {
 
 });
 
-// Reguły, które dawniej sprawdzał ręcznie Catalog.validate(), pilnuje teraz schemat bazy.
+// Rules that Catalog.validate() used to check by hand are now enforced by the database schema.
 describe('database constraints', () => {
   const broken = (mutate: (seed: ReturnType<typeof repoSeed>) => void) => {
     const seed = repoSeed();

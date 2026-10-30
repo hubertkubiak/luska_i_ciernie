@@ -10,9 +10,9 @@ import { ThemeToggle } from '../theme-toggle/theme-toggle';
 
 interface NavItem {
   path: string;
-  /** Klimatyczna nazwa (SPEC §2.6)… */
+  /** The atmospheric name (SPEC §2.6)… */
   label: string;
-  /** …zawsze w parze z jasnym znaczeniem. */
+  /** …always paired with a plain meaning. */
   meaning: string;
 }
 
@@ -23,8 +23,8 @@ interface NavItem {
   styleUrl: './header.scss',
 })
 export class Header {
-  // $localize: teksty z kodu TS też trafiają do plików tłumaczeń (ng extract-i18n).
-  // Część tras jeszcze nie istnieje — trafią na stronę „zarosła cierniami”.
+  // $localize: texts in TS code also go into the translation files (ng extract-i18n).
+  // Routes that do not exist yet end up on the "overgrown with thorns" page.
   private readonly items: NavItem[] = [
     { path: '/szukaj', label: $localize`:@@nav.search:Przeszukaj archiwum`, meaning: $localize`:@@nav.searchMeaning:Szukaj książek` },
     { path: '/tropy', label: $localize`:@@nav.tropes:Tropy`, meaning: $localize`:@@nav.tropesMeaning:Katalog tropów` },
@@ -36,8 +36,8 @@ export class Header {
   private readonly session = inject(Session);
 
   /**
-   * Po zalogowaniu „Skarbiec” znika z menu: imię w nagłówku (app-account) prowadzi tam samo,
-   * a dwa identyczne linki rozpychały nagłówek do dwóch linii na laptopie 1366 px.
+   * When signed in, "Treasury" disappears from the menu: the name in the header (app-account) leads
+   * there anyway, and two identical links pushed the header onto two lines on a 1366 px laptop.
    */
   protected readonly nav = computed(() =>
     this.session.user() ? this.items.filter((i) => i.path !== '/moja-polka') : this.items,
@@ -55,20 +55,20 @@ export class Header {
     { initialValue: this.router.url },
   );
 
-  /** Link „Przejdź do treści” na bieżącej stronie, z base href (np. /en/tropy#tresc). */
+  /** The "Skip to content" link on the current page, with the base href (e.g. /en/tropy#tresc). */
   protected readonly skipHref = computed(() => this.location.prepareExternalUrl(this.url().split('#')[0]) + '#tresc');
 
   constructor() {
     const destroyRef = inject(DestroyRef);
 
-    // Bez JS kliknięcie linku przeładowuje stronę, więc panel znika sam. Z JS router zmienia
-    // widok bez przeładowania — panel trzeba zwinąć ręcznie. afterNextRender: tylko przeglądarka
-    // (DOM serwera nie zna Popover API, a nawigacji „po kliknięciu” na serwerze i tak nie ma).
+    // Without JS a link click reloads the page, so the panel disappears by itself. With JS the router
+    // changes the view without a reload — the panel must be closed by hand. afterNextRender: browser only
+    // (the server DOM has no Popover API, and there is no "navigation by click" on the server anyway).
     afterNextRender(() => {
       this.router.events
         .pipe(
-          // id > 1: pomijamy POCZĄTKOWĄ nawigację. Kończy się ona już po hydracji, więc panel
-          // otwarty wcześniej (wolne łącze, menu działa bez JS) zwinąłby się czytelniczce sam.
+          // id > 1: skip the INITIAL navigation. It finishes only after hydration, so a panel
+          // opened earlier (slow connection, the menu works without JS) would close on the reader by itself.
           filter((e) => e instanceof NavigationEnd && e.id > 1),
           takeUntilDestroyed(destroyRef),
         )

@@ -30,7 +30,7 @@ describe('accounts', () => {
 
     expect(accounts.userForSession(token, now)).toEqual({ id: user.id, email: 'violet@example.com', displayName: 'Violet' });
     expect(accounts.userForSession('wymyslony-token', now)).toBeNull();
-    expect(accounts.userForSession(token, now + SESSION_TTL_MS + 1)).toBeNull(); // wygasła i została usunięta
+    expect(accounts.userForSession(token, now + SESSION_TTL_MS + 1)).toBeNull(); // expired and deleted
     expect(accounts.userForSession(token, now)).toBeNull();
 
     const second = accounts.createSession(user.id, now);
@@ -43,7 +43,7 @@ describe('accounts', () => {
     const { user } = (await accounts.register(violet)) as { user: { id: number } };
     const start = Date.now();
     const token = accounts.createSession(user.id, start);
-    // Aktywność po 20 dniach przedłuża sesję o kolejne 30 — więc po 40 dniach nadal żyje.
+    // Activity after 20 days extends the session by another 30 — so after 40 days it is still alive.
     expect(accounts.userForSession(token, start + 20 * 86_400_000)).not.toBeNull();
     expect(accounts.userForSession(token, start + 40 * 86_400_000)).not.toBeNull();
   });

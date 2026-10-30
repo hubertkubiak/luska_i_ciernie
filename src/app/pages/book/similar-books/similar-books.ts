@@ -3,9 +3,9 @@ import type { BookSummary } from '../../../../shared/models';
 import { BookCard } from '../../../ui/book-card/book-card';
 
 /**
- * „Podobne ścieżki” pod opisem książki. Strona książki wstawia ten komponent w @defer, więc jego
- * kod (i BookCard) trafia do osobnego chunka JS. Dane przychodzą inputem z odpowiedzi
- * /api/books/:slug — komponent niczego nie pobiera sam, dzięki czemu SSR wyrenderuje go od razu.
+ * "Kindred paths" below the book description. The book page puts this component in @defer, so its
+ * code (and BookCard) goes into a separate JS chunk. The data comes as an input from the
+ * /api/books/:slug response — the component fetches nothing itself, so SSR renders it right away.
  */
 @Component({
   selector: 'app-similar-books',

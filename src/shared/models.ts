@@ -1,23 +1,23 @@
-// Kontrakt API — importowany zarówno przez serwer (src/server), jak i aplikację Angular (src/app).
-// Dzięki temu zmiana kształtu odpowiedzi wysypie się w kompilacji po obu stronach.
+// The API contract — imported by both the server (src/server) and the Angular app (src/app).
+// A change to a response shape therefore breaks the compilation on both sides.
 
 /**
- * Języki serwisu. Pierwszy = domyślny, gdy klient nie poda Accept-Language.
- * Nowy język: wpis tutaj + locale w angular.json ("i18n") + src/locale/messages.<lang>.json
- * + klucz <lang> w `titles` / `covers` / `names` w seed/*.json.
+ * Site languages. The first one is the default when the client sends no Accept-Language.
+ * New language: an entry here + a locale in angular.json ("i18n") + src/locale/messages.<lang>.json
+ * + a <lang> key in `titles` / `covers` / `names` in seed/*.json.
  */
 export const LANGS = ['pl', 'en'] as const;
 export type Lang = (typeof LANGS)[number];
 
-/** Prefiks ścieżki każdej wersji językowej — musi zgadzać się z "subPath" w angular.json. */
+/** Path prefix of each language version — must match "subPath" in angular.json. */
 export const LANG_PREFIX: Record<Lang, string> = { pl: '', en: '/en' };
 
-/** Kraina z SPEC §2.2 — wyznacza akcent kolorystyczny. */
+/** Realm from SPEC §2.2 — sets the colour accent. */
 export type Realm = 'turnie' | 'mgly' | 'skryptorium';
 
 export type SeriesStatus = 'ongoing' | 'completed';
 
-/** 0 — Niewinny pocałunek … 5 — Smoczy ogień */
+/** 0 — Innocent kiss … 5 — Dragonfire */
 export type Spice = 0 | 1 | 2 | 3 | 4 | 5;
 
 export interface TropeRef {
@@ -43,16 +43,16 @@ export interface SeriesRef {
   plannedBooks?: number;
 }
 
-/** Wersja „na kartę” — wystarcza do list i wyników wyszukiwania. */
+/** The "card" version — enough for lists and search results. */
 export interface BookSummary {
   slug: string;
-  /** Tytuł w języku żądania (Accept-Language): tytuł lokalnego wydania albo oryginał. */
+  /** Title in the request language (Accept-Language): the local edition's title or the original. */
   title: string;
   year: number;
   spice: Spice;
-  /** null = brak okładki, której wolno użyć → UI rysuje własną (patrz docs/PRAWNE.md). */
+  /** null = no cover we may use → the UI draws its own (see docs/PRAWNE.md). */
   coverUrl: string | null;
-  /** Kraina dominującego tropu — kolor generowanej okładki i akcentów. */
+  /** Realm of the dominant trope — colour of the generated cover and accents. */
   realm: Realm;
   author: AuthorRef;
   tropes: TropeRef[];
@@ -60,16 +60,16 @@ export interface BookSummary {
 }
 
 export interface BookDetail extends BookSummary {
-  /** Tytuł oryginału — tylko gdy różni się od `title`. */
+  /** Original title — only when it differs from `title`. */
   originalTitle?: string;
   isbn: string;
-  /** Brak, gdy żadne źródło nie podaje liczby stron (nie zgadujemy). */
+  /** Missing when no source gives the page count (we do not guess). */
   pages?: number;
   description: string;
   contentWarnings: string[];
-  /** Pozostałe tomy serii (łącznie z bieżącym), w kolejności. */
+  /** The other volumes of the series (including this one), in order. */
   seriesBooks: { slug: string; title: string; index: number }[];
-  /** Do 4 książek spoza serii z największą liczbą wspólnych tropów, od najbardziej podobnej. */
+  /** Up to 4 books outside the series with the most shared tropes, most similar first. */
   similar: BookSummary[];
 }
 
@@ -82,20 +82,20 @@ export interface TropeDetail extends Trope {
   books: BookSummary[];
 }
 
-/** Status serii z perspektywy wyszukiwania — „standalone” = książka spoza serii. */
+/** Series status from the search's point of view — "standalone" = a book outside any series. */
 export type SeriesFilter = SeriesStatus | 'standalone';
 
-/** Filtry GET /api/books. Wszystkie opcjonalne; brak = bez ograniczenia. */
+/** GET /api/books filters. All optional; missing = no restriction. */
 export interface BookQuery {
-  /** Fraza szukana w tytule, autorze i nazwie serii (bez względu na wielkość liter i ogonki). */
+  /** Phrase searched in title, author and series name (case- and diacritics-insensitive). */
   q?: string;
   tropes?: string[];
-  /** all = książka ma wszystkie tropy (AND), any = choć jeden (OR). Domyślnie all. */
+  /** all = the book has every trope (AND), any = at least one (OR). Default: all. */
   match?: 'all' | 'any';
   maxSpice?: Spice;
   status?: SeriesFilter;
   author?: string;
-  /** Konkretne książki (np. polecane na stronie głównej) — w kolejności podanej tutaj. */
+  /** Specific books (e.g. featured on the home page) — in the order given here. */
   slugs?: string[];
 }
 
@@ -103,42 +103,53 @@ export interface ApiError {
   error: string;
 }
 
-/** Zalogowana osoba — tylko to, czego potrzebuje interfejs (bez hasła, bez identyfikatora sesji). */
+/** The signed-in person — only what the UI needs (no password, no session id). */
 export interface SessionUser {
   email: string;
   displayName: string;
 }
 
 /**
- * Dane, które Express przekazuje Angularowi przy renderze (angularApp.handle(req, context)),
- * a Angular czyta przez inject(REQUEST_CONTEXT). Podczas prerenderu w `ng build` kontekstu nie ma.
+ * Origin written into prerendered HTML (canonical, hreflang, og:url, JSON-LD). At `ng build` time the
+ * public address is unknown — the build serves pages from a random localhost port — so Seo writes this
+ * reserved, never-resolving origin (.invalid, RFC 2606) and Express swaps it for the real one on the way out.
+ */
+export const PRERENDER_ORIGIN = 'https://prerender.invalid';
+
+/**
+ * Data Express passes to Angular when rendering (angularApp.handle(req, context)),
+ * read by Angular via inject(REQUEST_CONTEXT). There is no context while prerendering in `ng build`.
  */
 export interface RequestContext {
   user: SessionUser | null;
+  /** Public demo with ephemeral storage (DEMO_MODE=true) — auth pages warn about it. */
+  demo?: boolean;
+  /** Where SSR should call our own API directly (http://127.0.0.1:PORT) — see core/internal-api.ts. */
+  apiOrigin?: string;
 }
 
-/** Zapowiedź premiery (GET /api/releases). */
+/** A release announcement (GET /api/releases). */
 export interface Release {
   slug: string;
   title: string;
   author: string;
-  /** Dzień premiery, RRRR-MM-DD. */
+  /** Release day, YYYY-MM-DD. */
   date: string;
   note: string | null;
 }
 
-/** Motyw: noc (domyślny) albo pergamin. Zapisany w ciasteczku `theme`. */
+/** Theme: night (default) or parchment. Stored in the `theme` cookie. */
 export const THEMES = ['night', 'parchment'] as const;
 export type Theme = (typeof THEMES)[number];
 
-/** Półka: do przeczytania / czytam / przeczytane. */
+/** Shelf: to read / reading / read. */
 export const SHELF_STATUSES = ['tbr', 'reading', 'read'] as const;
 export type ShelfStatus = (typeof SHELF_STATUSES)[number];
 
-/** Co czytelniczka może zapisać o książce (PUT /api/shelf/:slug). */
+/** What a reader may save about a book (PUT /api/shelf/:slug). */
 export interface ShelfEntry {
   status: ShelfStatus;
-  /** 1–5, tylko dla przeczytanych. */
+  /** 1–5, only for books already read. */
   rating?: number | null;
   note?: string | null;
 }

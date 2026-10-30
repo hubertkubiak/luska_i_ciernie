@@ -32,8 +32,8 @@ button {
     border-color: var(--gilt);
   }
 
-  // Wybrany status: złota pieczęć.
-  // --surface zamiast stałego koloru: ciemny w nocy, jasny w pergaminie — kontrast w obu motywach.
+  // The chosen status: a golden seal.
+  // --surface instead of a fixed colour: dark at night, light on parchment — contrast in both themes.
   &[aria-pressed='true'] {
     border-color: var(--gilt);
     background: var(--gilt);

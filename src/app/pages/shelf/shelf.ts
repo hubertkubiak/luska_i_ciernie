@@ -7,14 +7,14 @@ import { Session } from '../../core/session';
 import { STATUS_LABELS, ShelfService } from '../../core/shelf';
 import { BookCard } from '../../ui/book-card/book-card';
 
-/** Kolejność sekcji: najpierw to, co czytam teraz. */
+/** Section order: what I am reading now comes first. */
 const SECTIONS: ShelfStatus[] = ['reading', 'tbr', 'read'];
 
 /**
- * /moja-polka — RenderMode.Client: serwer oddaje pustą „skorupę” aplikacji, a treść powstaje
- * dopiero w przeglądarce. Prywatna strona i tak nie ma wartości dla SEO, a nie musimy renderować
- * na serwerze niczego, co zależy od zalogowanej osoby. Dostęp pilnują dwie warstwy:
- * Express (302 przy wejściu z adresu) i authGuard (nawigacja routerem).
+ * /moja-polka — RenderMode.Client: the server returns an empty app "shell" and the content is made
+ * only in the browser. A private page has no SEO value anyway, and we need not render anything
+ * that depends on the signed-in person on the server. Access is guarded in two layers:
+ * Express (302 when opened by URL) and authGuard (router navigation).
  */
 @Component({
   selector: 'app-shelf-page',
@@ -30,10 +30,10 @@ export class ShelfPage {
   protected readonly ratings = [1, 2, 3, 4, 5];
 
   private readonly remote = httpResource<ShelfItem[]>(() => '/api/shelf');
-  /** Lokalna kopia listy — zmiany widać od razu, bez ponownego pobierania całej półki. */
+  /** A local copy of the list — changes show at once, without refetching the whole shelf. */
   protected readonly items = linkedSignal<ShelfItem[]>(() => (this.remote.hasValue() ? this.remote.value() : []));
   protected readonly loading = this.remote.isLoading;
-  /** Tytuł książki, której zmiany nie udało się zapisać. */
+  /** Title of the book whose change could not be saved. */
   protected readonly failed = signal<string | null>(null);
 
   protected readonly sections = computed(() =>
@@ -73,7 +73,7 @@ export class ShelfPage {
   private save(item: ShelfItem, change: Partial<ShelfItem>): Promise<void> {
     return this.run(item, async () => {
       const next = { ...item, ...change };
-      // Zmiana statusu z „przeczytane” kasuje ocenę — tak samo pilnuje serwer (CHECK w bazie).
+      // Changing the status away from "read" clears the rating — the server enforces the same (CHECK in the database).
       const saved = await this.shelf.save(item.slug, {
         status: next.status,
         rating: next.status === 'read' ? next.rating : null,

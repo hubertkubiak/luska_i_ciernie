@@ -1,10 +1,10 @@
 import { Component, DestroyRef, afterNextRender, computed, inject, input, signal } from '@angular/core';
 
 /**
- * Tykający zegar do premiery (SPEC §6, pułapka #2). „Teraz” na serwerze i w przeglądarce to
- * różne chwile, więc sekundy policzone w SSR nigdy nie zgadzałyby się z tymi po hydracji.
- * Serwer renderuje więc tylko tekst zależny od DNIA (wspólnego dzięki TransferState),
- * a sekundy zaczynają tykać dopiero w przeglądarce — afterNextRender nie działa na serwerze.
+ * A ticking clock to a release (SPEC §6, pitfall #2). "Now" on the server and in the browser are
+ * different moments, so seconds computed during SSR would never match those after hydration.
+ * The server therefore renders only text that depends on the DAY (shared thanks to TransferState),
+ * and the seconds start ticking only in the browser — afterNextRender does not run on the server.
  */
 @Component({
   selector: 'app-countdown',
@@ -12,9 +12,9 @@ import { Component, DestroyRef, afterNextRender, computed, inject, input, signal
   styleUrl: './countdown.scss',
 })
 export class Countdown {
-  /** Dzień premiery RRRR-MM-DD — liczymy do północy UTC. */
+  /** Release day YYYY-MM-DD — we count to midnight UTC. */
   readonly date = input.required<string>();
-  /** Tekst z SSR (np. „jutro”) — widoczny, zanim ruszy zegar, i bez JavaScriptu. */
+  /** Text from SSR (e.g. "tomorrow") — visible before the clock starts, and without JavaScript. */
   readonly label = input.required<string>();
 
   private readonly now = signal<number | null>(null);

@@ -25,6 +25,9 @@
       "sceny erotyczne"
     ],
     "description": "Krucha dziewczyna, która miała zostać skrybą, trafia do akademii jeźdźców smoków, gdzie odpadnięcie oznacza śmierć. Każdy dzień to walka o przetrwanie — a najgroźniejszy kadet ma powody, by jej nienawidzić.",
+    "descriptions": {
+      "en": "A fragile girl who was meant to become a scribe ends up at a dragon riders' academy where washing out means death. Every day is a fight to survive — and the most dangerous cadet has his reasons to hate her."
+    },
     "titles": {
       "pl": "Fourth Wing. Czwarte skrzydło"
     }
@@ -52,6 +55,9 @@
       "sceny erotyczne"
     ],
     "description": "Drugi rok w akademii przynosi nowe próby i prawdę, której nie da się już odwidzieć. Zaufanie staje się najrzadszą walutą.",
+    "descriptions": {
+      "en": "The second year at the academy brings new trials and a truth that cannot be unseen. Trust becomes the rarest currency."
+    },
     "titles": {
       "pl": "Iron Flame. Żelazny płomień"
     }
@@ -78,6 +84,9 @@
       "sceny erotyczne"
     ],
     "description": "Wojna wychodzi poza mury akademii. Wyprawa za granice znanego świata wystawia na próbę więzi — zarówno te ze smokami, jak i te między ludźmi.",
+    "descriptions": {
+      "en": "The war spills beyond the academy walls. An expedition past the edges of the known world tests every bond — those with dragons and those between people."
+    },
     "titles": {
       "pl": "Onyx Storm. Onyksowa burza"
     }
@@ -108,6 +117,9 @@
       "sceny erotyczne"
     ],
     "description": "Myśliwa z ubogiej wioski zabija w lesie istotę, której nie powinna była tknąć. Zapłatą jest życie po drugiej stronie muru, na dworze fae.",
+    "descriptions": {
+      "en": "A huntress from a poor village kills a creature in the woods she should never have touched. The price is a life on the other side of the wall, at a fae court."
+    },
     "titles": {
       "pl": "Dwór cierni i róż"
     },
@@ -139,6 +151,9 @@
       "sceny erotyczne"
     ],
     "description": "Po zwycięstwie przychodzi pustka. Dawny targ wzywa bohaterkę na inny dwór, gdzie zamiast więzienia znajduje przestrzeń, by na nowo nauczyć się oddychać.",
+    "descriptions": {
+      "en": "Victory is followed by emptiness. An old bargain summons the heroine to another court, where instead of a prison she finds room to learn to breathe again."
+    },
     "titles": {
       "pl": "Dwór mgieł i furii"
     },
@@ -168,6 +183,9 @@
       "sceny erotyczne"
     ],
     "description": "Gra pozorów na wrogim dworze i sojusze zawierane w ostatniej chwili. Nadciąga wojna, która nie oszczędzi żadnego z dworów.",
+    "descriptions": {
+      "en": "A game of pretence at a hostile court and alliances struck at the last moment. A war is coming that will spare none of the courts."
+    },
     "titles": {
       "pl": "Dwór skrzydeł i zguby"
     },
@@ -200,6 +218,9 @@
       "nękanie"
     ],
     "description": "Śmiertelna dziewczyna wychowana na dworze fae nie chce być ofiarą. Skoro nie może być silniejsza, stanie się sprytniejsza — i bardziej bezwzględna.",
+    "descriptions": {
+      "en": "A mortal girl raised at the fae court refuses to be a victim. If she cannot be stronger, she will be cleverer — and more ruthless."
+    },
     "titles": {
       "pl": "Okrutny książę"
     }
@@ -226,6 +247,9 @@
       "manipulacja"
     ],
     "description": "Władza zdobyta podstępem musi być utrzymana jeszcze większym podstępem. Każda przysługa ma swój termin ważności.",
+    "descriptions": {
+      "en": "Power seized by trickery must be held by even greater trickery. Every favour has an expiry date."
+    },
     "titles": {
       "pl": "Zły król"
     }
@@ -250,6 +274,9 @@
       "przemoc"
     ],
     "description": "Wygnanie w świecie śmiertelnych nie trwa długo. Powrót do Elfhame oznacza ostatnią rozgrywkę o koronę i o to, kim naprawdę jest.",
+    "descriptions": {
+      "en": "Exile in the mortal world does not last long. Returning to Elfhame means a final game for the crown and for who she really is."
+    },
     "titles": {
       "pl": "Królowa niczego"
     }
@@ -279,6 +306,9 @@
       "sceny erotyczne"
     ],
     "description": "Czarownica ukrywająca się w mieście, które pali czarownice, zostaje zmuszona do ślubu z łowcą czarownic. Przysięga nie przewiduje rozwodu.",
+    "descriptions": {
+      "en": "A witch hiding in a city that burns witches is forced to marry a witch hunter. The vow makes no provision for divorce."
+    },
     "titles": {
       "pl": "Gołąb & wąż"
     }
@@ -305,6 +335,9 @@
       "sceny erotyczne"
     ],
     "description": "Wybrana przez bogów dziewczyna żyje za zasłoną, bez prawa do dotyku i własnych decyzji. Nowy strażnik pokazuje jej, jak smakuje wolność — i ma własne sekrety.",
+    "descriptions": {
+      "en": "A girl chosen by the gods lives behind a veil, with no right to touch or to her own choices. A new guard shows her what freedom tastes like — and has secrets of his own."
+    },
     "titles": {
       "pl": "Krew i popiół"
     }
@@ -330,6 +363,9 @@
       "przemoc"
     ],
     "description": "Na Sycylii czarownica szuka zabójcy swojej siostry bliźniaczki. Żeby go znaleźć, wiąże się paktem z jednym z książąt piekieł.",
+    "descriptions": {
+      "en": "In Sicily a witch hunts for her twin sister's killer. To find him, she binds herself by a pact to one of the princes of hell."
+    },
     "titles": {
       "pl": "Królestwo nikczemnych"
     }
@@ -355,6 +391,9 @@
       "sceny erotyczne"
     ],
     "description": "Księżniczka szkolona na szpiega zostaje żoną władcy wrogiego królestwa. Jej misja: znaleźć słabość mostu, który daje mu władzę. Problem: zaczyna jej na nim zależeć.",
+    "descriptions": {
+      "en": "A princess trained as a spy becomes the wife of an enemy kingdom's ruler. Her mission: find the weakness of the bridge that gives him power. The problem: she starts to care for him."
+    },
     "titles": {
       "pl": "Królestwo Mostu"
     }
@@ -382,6 +421,9 @@
       "sceny erotyczne"
     ],
     "description": "Ludzka córka wampirzego króla staje do turnieju, w którym stawką jest łaska bogini śmierci. Jedyny sojusznik, jakiego może znaleźć, jest jej wrogiem.",
+    "descriptions": {
+      "en": "The human daughter of a vampire king enters a tournament whose prize is the favour of the goddess of death. The only ally she can find is her enemy."
+    },
     "titles": {
       "pl": "Żmija i skrzydła nocy"
     }
@@ -407,7 +449,10 @@
       "sceny erotyczne",
       "wulgaryzmy"
     ],
-    "description": "Złodziejka z mroźnego miasta zostaje wciągnięta przez portal do krainy fae. Drogę powrotną zna tylko ten, kogo najbardziej chciałaby uniknąć."
+    "description": "Złodziejka z mroźnego miasta zostaje wciągnięta przez portal do krainy fae. Drogę powrotną zna tylko ten, kogo najbardziej chciałaby uniknąć.",
+    "descriptions": {
+      "en": "A thief from a frozen city is pulled through a portal into the land of the fae. The only one who knows the way back is the one she would most like to avoid."
+    }
   },
   {
     "slug": "powerless",
@@ -430,6 +475,9 @@
       "śmierć"
     ],
     "description": "W królestwie, gdzie brak mocy jest zbrodnią, dziewczyna bez daru trafia na królewskie próby. Musi przetrwać, udając kogoś, kim nie jest — obok księcia, który poluje na takich jak ona.",
+    "descriptions": {
+      "en": "In a kingdom where having no power is a crime, a girl without a gift ends up in the royal trials. She must survive pretending to be someone she is not — beside a prince who hunts people like her."
+    },
     "titles": {
       "pl": "Bezsilna"
     }
@@ -452,7 +500,10 @@
       "choroba",
       "żałoba"
     ],
-    "description": "Zielarka z wioski na skraju świata zostaje wybrana na żonę króla elfów. Zamiast bajki czeka ją umowa, zamek pełen tajemnic i powoli topniejący chłód."
+    "description": "Zielarka z wioski na skraju świata zostaje wybrana na żonę króla elfów. Zamiast bajki czeka ją umowa, zamek pełen tajemnic i powoli topniejący chłód.",
+    "descriptions": {
+      "en": "A herbalist from a village at the edge of the world is chosen as the elf king's bride. Instead of a fairy tale she gets a contract, a castle full of secrets and a slowly thawing chill."
+    }
   },
   {
     "slug": "divine-rivals",
@@ -475,6 +526,9 @@
       "uzależnienie w rodzinie"
     ],
     "description": "Dwoje młodych dziennikarzy rywalizuje o tę samą posadę, gdy bogowie znów prowadzą wojnę. Ona pisze listy wsuwane pod drzwi szafy — nie wiedząc, kto je czyta.",
+    "descriptions": {
+      "en": "Two young journalists compete for the same job while the gods are at war again. She writes letters slipped under her wardrobe door — not knowing who reads them."
+    },
     "titles": {
       "pl": "Divine Rivals. Pojedynek bogów"
     }
@@ -500,6 +554,9 @@
       "żałoba"
     ],
     "description": "Rozdzieleni przez front, dawni rywale walczą po dwóch stronach tej samej wojny. Listy wciąż docierają, ale nie wszystko da się w nich powiedzieć.",
+    "descriptions": {
+      "en": "Separated by the front line, the former rivals fight on opposite sides of the same war. The letters still arrive, but not everything can be said in them."
+    },
     "titles": {
       "pl": "Ruthless Vows. Rozdzieleni przez wojnę"
     }
@@ -524,6 +581,9 @@
       "morderstwo"
     ],
     "description": "Najsłynniejsza zabójczyni królestwa dostaje szansę na wolność: wygrać turniej i zostać mieczem króla, którego nienawidzi.",
+    "descriptions": {
+      "en": "The kingdom's most notorious assassin gets a chance at freedom: win a tournament and become the sword of the king she hates."
+    },
     "titles": {
       "pl": "Szklany tron"
     },
@@ -554,6 +614,9 @@
       "sceny erotyczne"
     ],
     "description": "Po wojnie najbardziej zbuntowana z sióstr zostaje zmuszona do treningu u boku wojownika, który nie odpuszcza. Opowieść o gniewie, żałobie i powolnym wychodzeniu z ciemności.",
+    "descriptions": {
+      "en": "After the war the most rebellious of the sisters is forced to train with a warrior who never lets up. A story of anger, grief and slowly climbing out of the dark."
+    },
     "titles": {
       "pl": "Dwór srebrnych płomieni"
     }
@@ -581,6 +644,9 @@
       "sceny erotyczne"
     ],
     "description": "Półkrwi fae z nowoczesnego, magicznego miasta prowadzi śledztwo w sprawie serii morderstw. Partnerem jest upadły anioł związany przysięgą służby.",
+    "descriptions": {
+      "en": "A half-fae woman in a modern magical city investigates a series of murders. Her partner is a fallen angel bound by an oath of service."
+    },
     "titles": {
       "pl": "Dom Ziemi i Krwi"
     },
@@ -610,6 +676,9 @@
       "sceny erotyczne"
     ],
     "description": "Bohaterowie chcieliby po prostu żyć, ale rodzący się bunt nie pozwala im pozostać z boku. Tajemnice sięgają dalej, niż ktokolwiek przypuszczał.",
+    "descriptions": {
+      "en": "The heroes would like simply to live, but a rising rebellion will not let them stay on the sidelines. The secrets reach further than anyone suspected."
+    },
     "titles": {
       "pl": "Dom Nieba i Oddechu"
     }
@@ -635,6 +704,9 @@
       "żałoba"
     ],
     "description": "Królewska zabójczyni wykonuje rozkazy władcy — przynajmniej oficjalnie. Każde sfingowane zlecenie przybliża ją do ujawnienia, a zamek skrywa starszą magię.",
+    "descriptions": {
+      "en": "The king's assassin carries out her ruler's orders — officially, at least. Every faked job brings her closer to exposure, and the castle hides an older magic."
+    },
     "titles": {
       "pl": "Korona w mroku"
     },
@@ -664,6 +736,9 @@
       "sceny erotyczne"
     ],
     "description": "Prawda wyszła na jaw, a sojusz z dawnym wrogiem staje się koniecznością. Podróż przez nieznane ziemie zmienia wszystko, co bohaterka wiedziała o sobie.",
+    "descriptions": {
+      "en": "The truth is out, and an alliance with a former enemy becomes a necessity. A journey through unknown lands changes everything the heroine knew about herself."
+    },
     "titles": {
       "pl": "Królestwo ciała i ognia"
     }
@@ -689,6 +764,9 @@
       "sceny erotyczne"
     ],
     "description": "Czarownica schodzi do piekielnych kręgów, by na dworach książąt szukać odpowiedzi. Każdy dwór ma swoje gry, a każdy książę — swój grzech.",
+    "descriptions": {
+      "en": "A witch descends into the circles of hell to look for answers at the princes' courts. Every court has its games, and every prince — his sin."
+    },
     "titles": {
       "pl": "Królestwo przeklętych"
     }
@@ -714,6 +792,9 @@
       "sceny erotyczne"
     ],
     "description": "Ścigani zarówno przez Kościół, jak i przez czarownice, małżonkowie z rozsądku szukają sojuszników. Magia ma swoją cenę, a ta zaczyna rosnąć.",
+    "descriptions": {
+      "en": "Hunted by both the Church and the witches, the spouses of convenience look for allies. Magic has its price, and the price is starting to rise."
+    },
     "titles": {
       "pl": "Krew & miód"
     }
@@ -739,6 +820,9 @@
       "sceny erotyczne"
     ],
     "description": "Wygnana królowa wraca, by ratować królestwo, które sama naraziła. Odkupienie wymaga więcej niż przeprosin.",
+    "descriptions": {
+      "en": "The exiled queen returns to save the kingdom she herself put at risk. Redemption takes more than an apology."
+    },
     "titles": {
       "pl": "Zdradziecka królowa"
     }
@@ -766,6 +850,9 @@
       "sceny erotyczne"
     ],
     "description": "Po turnieju świat bohaterki leży w gruzach. Żeby odzyskać to, co jej odebrano, musi zawrzeć sojusz z kimś, komu nie potrafi już ufać.",
+    "descriptions": {
+      "en": "After the tournament the heroine's world lies in ruins. To win back what was taken from her, she must ally with someone she can no longer trust."
+    },
     "titles": {
       "pl": "Popioły i przeklęty król"
     }
@@ -791,6 +878,9 @@
       "żałoba"
     ],
     "description": "Po próbach bohaterka jest zbiegiem, a pościg prowadzi ten, któremu najmniej chciałaby się poddać. Długa droga przez pustkowia i jeszcze dłuższe milczenie.",
+    "descriptions": {
+      "en": "After the trials the heroine is a fugitive, and the pursuit is led by the one she would least like to surrender to. A long road through the wastelands and an even longer silence."
+    },
     "titles": {
       "pl": "Beztroska"
     }
@@ -817,6 +907,9 @@
       "sceny erotyczne"
     ],
     "description": "Władająca światłem żołnierka i książę imperium cieni walczą po przeciwnych stronach wojny. Gdy nad światem zbierają się większe burze, muszą połączyć moce.",
+    "descriptions": {
+      "en": "A soldier who wields light and a prince of the empire of shadows fight on opposite sides of a war. When greater storms gather over the world, they must join their powers."
+    },
     "titles": {
       "pl": "Wojny huraganowe"
     }
@@ -842,6 +935,9 @@
       "egzekucje"
     ],
     "description": "Bywalczyni salonów nocą ratuje czarownice przed egzekucją. Łowca czarownic zaczyna się do niej zalecać — i oboje udają, że chodzi o coś innego.",
+    "descriptions": {
+      "en": "A society girl rescues witches from execution by night. A witch hunter begins to court her — and both pretend it is about something else."
+    },
     "titles": {
       "pl": "Szkarłatna ćma"
     }
@@ -867,6 +963,9 @@
       "żałoba"
     ],
     "description": "Dziewczyna ze złamanym sercem zawiera układ z nieśmiertelnym, którego pocałunek bywa śmiertelny. Trzy przysługi, żadnych wyjaśnień.",
+    "descriptions": {
+      "en": "A girl with a broken heart strikes a deal with an immortal whose kiss can be deadly. Three favours, no explanations."
+    },
     "titles": {
       "pl": "Baśń o złamanym sercu"
     }
@@ -890,7 +989,10 @@
       "przemoc",
       "śmierć"
     ],
-    "description": "Co sto lat wyspa wynurza się z mgły, a władcy przeklętych królestw stają do śmiertelnej gry o złamanie klątw. Tym razem gra ma nową uczestniczkę."
+    "description": "Co sto lat wyspa wynurza się z mgły, a władcy przeklętych królestw stają do śmiertelnej gry o złamanie klątw. Tym razem gra ma nową uczestniczkę.",
+    "descriptions": {
+      "en": "Every hundred years an island rises out of the mist, and the rulers of cursed realms enter a deadly game to break their curses. This time the game has a new player."
+    }
   },
   {
     "slug": "the-shadows-between-us",
@@ -910,6 +1012,9 @@
       "przemoc"
     ],
     "description": "Ambitna arystokratka ma plan: uwieść Króla Cieni, poślubić go i zabić. Tyle że król okazuje się kimś, kogo nie da się tak łatwo rozgrywać.",
+    "descriptions": {
+      "en": "An ambitious aristocrat has a plan: seduce the Shadow King, marry him and kill him. Except the king turns out to be someone who is not so easily played."
+    },
     "titles": {
       "pl": "Cienie między nami"
     }
@@ -934,6 +1039,9 @@
       "wojna"
     ],
     "description": "Córka uwięzionej na księżycu bogini ukrywa swoje pochodzenie w Niebiańskim Królestwie. Łuk w jej dłoniach może zmienić los matki — i całego dworu.",
+    "descriptions": {
+      "en": "The daughter of a goddess imprisoned on the moon hides her origins in the Celestial Kingdom. The bow in her hands could change her mother's fate — and that of the whole court."
+    },
     "titles": {
       "pl": "Córka Bogini Księżyca"
     }
@@ -957,7 +1065,10 @@
       "przemoc",
       "sceny erotyczne"
     ],
-    "description": "Wampirzyca zostaje żoną przywódcy wilkołaków w ramach kruchego rozejmu. Mieszkanie w sercu wrogiego stada nie było częścią jej planów."
+    "description": "Wampirzyca zostaje żoną przywódcy wilkołaków w ramach kruchego rozejmu. Mieszkanie w sercu wrogiego stada nie było częścią jej planów.",
+    "descriptions": {
+      "en": "A vampire becomes the wife of the werewolves' leader as part of a fragile truce. Living in the heart of an enemy pack was not part of her plans."
+    }
   },
   {
     "slug": "phantasma",
@@ -978,7 +1089,10 @@
       "zdrowie psychiczne",
       "sceny erotyczne"
     ],
-    "description": "Nekromantka wkracza do nawiedzonego dworu, gdzie toczy się śmiertelna gra. Przewodnikiem jest demon, a jego pomoc ma swoją cenę."
+    "description": "Nekromantka wkracza do nawiedzonego dworu, gdzie toczy się śmiertelna gra. Przewodnikiem jest demon, a jego pomoc ma swoją cenę.",
+    "descriptions": {
+      "en": "A necromancer enters a haunted manor where a deadly game is under way. Her guide is a demon, and his help comes at a price."
+    }
   },
   {
     "slug": "assistant-to-the-villain",
@@ -1000,6 +1114,9 @@
       "przemoc (z przymrużeniem oka)"
     ],
     "description": "Potrzebowała pracy, a ogłoszenie dał Złoczyńca królestwa. Biurowa komedia w świecie lochów, gdzie przełożony jest groźny, a współpracownicy — dziwni.",
+    "descriptions": {
+      "en": "She needed a job, and the ad was placed by the kingdom's Villain. An office comedy in a world of dungeons, where the boss is menacing and the co-workers are strange."
+    },
     "titles": {
       "pl": "Asystentka złoczyńcy"
     }
@@ -1025,6 +1142,9 @@
       "przemoc"
     ],
     "description": "W głowie bohaterki mieszka obca, starożytna istota. Żeby ocalić królestwo spowite trującą mgłą, musi zebrać zakazane magiczne karty — razem z kapitanem straży.",
+    "descriptions": {
+      "en": "An ancient, alien creature lives in the heroine's head. To save a kingdom shrouded in poisonous mist, she must gather forbidden magic cards — together with the captain of the guard."
+    },
     "titles": {
       "pl": "Okno skąpane w mroku"
     }
@@ -1051,6 +1171,9 @@
       "sceny erotyczne"
     ],
     "description": "Wygnana żołnierka trafia do krainy fae, które uważano za wymarłe. Między ich dworem a wojną, którą zostawiła, wybór nie będzie prosty.",
+    "descriptions": {
+      "en": "An exiled soldier stumbles into the land of the fae, long believed extinct. Choosing between their court and the war she left behind will not be simple."
+    },
     "titles": {
       "pl": "Faebound. Więzy magii"
     }
@@ -1076,6 +1199,9 @@
       "sceny erotyczne"
     ],
     "description": "Zimowy przystanek po wojnie: Dwór Nocy szykuje się do święta przesilenia, a bohaterowie uczą się żyć z bliznami. Kameralna opowieść o odbudowie, przyjaźni i cichych gestach czułości.",
+    "descriptions": {
+      "en": "A winter pause after the war: the Night Court prepares for the solstice, and the heroes learn to live with their scars. An intimate story of rebuilding, friendship and quiet gestures of tenderness."
+    },
     "titles": {
       "pl": "Dwór szronu i blasku gwiazd"
     },
@@ -1105,6 +1231,9 @@
       "trauma"
     ],
     "description": "Zabójczyni ucieka za morze, by stawić czoła dziedzictwu, przed którym uciekała całe życie. Pod okiem surowego nauczyciela uczy się ognia, który może ją spopielić albo uczynić królową.",
+    "descriptions": {
+      "en": "The assassin flees across the sea to face the legacy she has been running from all her life. Under a stern teacher she learns a fire that could burn her to ash or make her a queen."
+    },
     "titles": {
       "pl": "Dziedzictwo ognia"
     },
@@ -1134,6 +1263,9 @@
       "tortury"
     ],
     "description": "Wraca do miasta, w którym ją złamano, tym razem jako ktoś zupełnie inny. Dawne długi, nowi sojusznicy i rachunek krzywd, który trzeba wyrównać ostrzem.",
+    "descriptions": {
+      "en": "She returns to the city where she was broken, this time as someone else entirely. Old debts, new allies and a reckoning of wrongs to be settled with a blade."
+    },
     "titles": {
       "pl": "Królowa cieni"
     },
@@ -1164,6 +1296,9 @@
       "sceny erotyczne"
     ],
     "description": "Kontynent staje w ogniu, a królowa bez armii musi zjednać sobie dawnych wrogów. Burze na morzu są mniej groźne niż cena, jaką przyjdzie zapłacić za sojusze.",
+    "descriptions": {
+      "en": "The continent goes up in flames, and a queen without an army must win over old enemies. The storms at sea are less dangerous than the price of those alliances."
+    },
     "titles": {
       "pl": "Imperium burz"
     },
@@ -1191,6 +1326,9 @@
       "trauma"
     ],
     "description": "Ranny kapitan wyrusza na odległy kontynent, gdzie uzdrowicielki z legendarnej wieży mogą przywrócić mu władzę w nogach. Opowieść toczy się równolegle do wielkiej wojny — o powolnym leczeniu ciała i dumy.",
+    "descriptions": {
+      "en": "A wounded captain sets out for a distant continent where the healers of a legendary tower may restore the use of his legs. The story runs alongside the great war — a tale of slowly healing body and pride."
+    },
     "titles": {
       "pl": "Wieża świtu"
     },
@@ -1221,6 +1359,9 @@
       "sceny erotyczne"
     ],
     "description": "Wielki finał: wszystkie nici splatają się w ostatniej wojnie o świat. Długa, bolesna droga przez popioły do miejsca, w którym można wreszcie odpocząć.",
+    "descriptions": {
+      "en": "The grand finale: all the threads come together in the last war for the world. A long, painful road through the ashes to a place where one can finally rest."
+    },
     "titles": {
       "pl": "Królestwo popiołów"
     }
@@ -1248,6 +1389,9 @@
       "sceny erotyczne"
     ],
     "description": "Bohaterka trafia do świata, o którym dotąd słyszała tylko w legendach, a jej przyjaciele zostają po drugiej stronie, w niewoli. Wątki kilku cykli autorki zaczynają się tu splatać w jedną opowieść.",
+    "descriptions": {
+      "en": "The heroine lands in a world she has only heard of in legends, while her friends are left behind on the other side, in captivity. Threads from several of the author's series begin to weave into one story."
+    },
     "titles": {
       "pl": "Dom Płomienia i Cienia"
     }
@@ -1275,6 +1419,9 @@
       "sceny erotyczne"
     ],
     "description": "Dziewczyna wychowana na święte naczynie odkrywa, że jej krew może obalać królestwa. Musi zdecydować, czy chce korony, którą wszyscy próbują jej wręczyć.",
+    "descriptions": {
+      "en": "A girl raised as a sacred vessel discovers that her blood can topple kingdoms. She must decide whether she wants the crown everyone is trying to hand her."
+    },
     "titles": {
       "pl": "Korona ze złoconych kości"
     }
@@ -1302,6 +1449,9 @@
       "sceny erotyczne"
     ],
     "description": "Ukochany trafia w ręce królowej, która zna każdą jej słabość. Odbicie go wymaga wojny i zmierzenia się z prawdą o własnym pochodzeniu.",
+    "descriptions": {
+      "en": "Her beloved falls into the hands of a queen who knows every one of her weaknesses. Getting him back takes a war and facing the truth about her own origins."
+    },
     "titles": {
       "pl": "Wojna dwóch królowych"
     }
@@ -1326,6 +1476,9 @@
       "sceny erotyczne"
     ],
     "description": "Gdy ona tkwi w magicznym uśpieniu, on opowiada jej ich historię od nowa — ze swojej strony. Powrót do znanych scen z perspektywy, która zmienia ich wymowę.",
+    "descriptions": {
+      "en": "While she lies in a magical sleep, he tells her their story anew — from his side. A return to familiar scenes from a perspective that changes their meaning."
+    },
     "titles": {
       "pl": "Dusza krwi i popiołu"
     }
@@ -1351,6 +1504,9 @@
       "sceny erotyczne"
     ],
     "description": "Na długo przed wydarzeniami głównej serii śmiertelna dziewczyna zostaje obiecana bogowi jako narzeczona. Gdy on ją odrzuca, postanawia zdobyć go podstępem — i zabić.",
+    "descriptions": {
+      "en": "Long before the events of the main series, a mortal girl is promised to a god as his bride. When he rejects her, she decides to win him by guile — and kill him."
+    },
     "titles": {
       "pl": "Cień w żarze"
     }
@@ -1377,6 +1533,9 @@
       "śmierć"
     ],
     "description": "Śmiertelniczka, która raz już przeżyła własną śmierć, zawiera układ z wampirem przeklętym przez boginię. Razem przemierzają krainę umarłych, a każde ukrywa, co naprawdę chce zyskać.",
+    "descriptions": {
+      "en": "A mortal who has already survived her own death once strikes a deal with a vampire cursed by a goddess. Together they cross the land of the dead, each hiding what they really hope to gain."
+    },
     "titles": {
       "pl": "Słowik i serce z kamienia"
     }
@@ -1401,6 +1560,9 @@
       "sceny erotyczne"
     ],
     "description": "Czarownica i książę piekieł są już po ślubie, ale ich związek dopiero teraz przejdzie prawdziwą próbę. Zagadka zaginionej siostry i stara klątwa zbliżają się do rozwiązania.",
+    "descriptions": {
+      "en": "The witch and the prince of hell are married now, but only now will their bond face its real test. The mystery of a lost sister and an old curse draw close to their resolution."
+    },
     "titles": {
       "pl": "Królestwo złowrogich"
     }
@@ -1424,6 +1586,9 @@
       "przemoc"
     ],
     "description": "Książę Zazdrości i utalentowana malarka, która skrywa magiczny sekret, ruszają na wyścig po zaginiony artefakt. Wspólne zadanie z każdym rozdziałem robi się coraz bardziej gorące.",
+    "descriptions": {
+      "en": "The Prince of Envy and a talented painter hiding a magical secret race for a lost artefact. Their shared task grows hotter with every chapter."
+    },
     "titles": {
       "pl": "Tron upadłych"
     }
@@ -1448,6 +1613,9 @@
       "manipulacja"
     ],
     "description": "Dziewczyna, która już raz zaufała nieśmiertelnemu łotrowi, wraca na Północ po klucz do zakazanej magii. Towarzyszy jej mężczyzna, którego nie powinna kochać i który nie może powiedzieć jej prawdy.",
+    "descriptions": {
+      "en": "A girl who once trusted an immortal rogue returns to the North for the key to a forbidden magic. With her is a man she should not love and who cannot tell her the truth."
+    },
     "titles": {
       "pl": "Ballada o nieszczęśliwej miłości"
     }
@@ -1472,6 +1640,9 @@
       "utrata pamięci"
     ],
     "description": "Budzi się jako żona księcia i nie pamięta, jak do tego doszło. Rozplątanie zaklęcia może zwrócić jej wspomnienia — albo odebrać coś cenniejszego.",
+    "descriptions": {
+      "en": "She wakes up as a prince's wife with no memory of how it happened. Untangling the spell could give her back her memories — or take something more precious."
+    },
     "titles": {
       "pl": "Klątwa prawdziwej miłości"
     }
@@ -1495,7 +1666,10 @@
       "przemoc",
       "manipulacja"
     ],
-    "description": "Siostry uciekają przed okrutnym ojcem na tajemniczą grę, w której zwycięzca dostaje życzenie. W Caravalu nic nie jest tym, czym się wydaje — najmniej przystojny marynarz, który pomógł im w ucieczce."
+    "description": "Siostry uciekają przed okrutnym ojcem na tajemniczą grę, w której zwycięzca dostaje życzenie. W Caravalu nic nie jest tym, czym się wydaje — najmniej przystojny marynarz, który pomógł im w ucieczce.",
+    "descriptions": {
+      "en": "Two sisters flee a cruel father for a mysterious game whose winner is granted a wish. At Caraval nothing is what it seems — least of all the handsome sailor who helped them escape."
+    }
   },
   {
     "slug": "legendary",
@@ -1516,6 +1690,9 @@
       "manipulacja"
     ],
     "description": "Młodsza siostra zawiera układ, by poznać prawdziwe imię legendarnego mistrza gry. Nagrodą jest wolność, karą — utrata wszystkiego, co kocha.",
+    "descriptions": {
+      "en": "The younger sister strikes a deal to learn the true name of the legendary game master. The reward is freedom; the penalty, losing everything she loves."
+    },
     "titles": {
       "pl": "Legenda"
     }
@@ -1540,6 +1717,9 @@
       "śmierć"
     ],
     "description": "Imperium wpadło w ręce mrocznych istot z talii kart, a gra przestała być zabawą. Siostry muszą wygrać ostatnią partię, w której stawką jest cały kraj.",
+    "descriptions": {
+      "en": "The empire has fallen to dark beings from a deck of cards, and the game has stopped being fun. The sisters must win a final round in which the whole country is at stake."
+    },
     "titles": {
       "pl": "Finał"
     }
@@ -1564,6 +1744,9 @@
       "śmierć"
     ],
     "description": "Finał trylogii o dziewczynie bez mocy w świecie, w którym słabość karze się śmiercią. Rebelia, korona i chłopak, który miał ją zabić — wszystko rozstrzyga się teraz.",
+    "descriptions": {
+      "en": "The finale of the trilogy about a girl without power in a world where weakness is punished by death. Rebellion, a crown and the boy who was meant to kill her — everything is decided now."
+    },
     "titles": {
       "pl": "Bezwzględna"
     }
@@ -1590,6 +1773,9 @@
       "trauma"
     ],
     "description": "Wojna czarownic z łowcami dochodzi do punktu, w którym nikt nie zostanie niewinny. Para, która połączyła się wbrew wszystkiemu, musi zdecydować, ile jest w stanie poświęcić.",
+    "descriptions": {
+      "en": "The war between witches and hunters reaches the point where no one stays innocent. A couple who came together against all odds must decide how much they are willing to sacrifice."
+    },
     "titles": {
       "pl": "Bogowie & potwory"
     }
@@ -1616,6 +1802,9 @@
       "sceny erotyczne"
     ],
     "description": "Kobieta uwięziona w złym małżeństwie odkrywa w sobie krew bogów, a ambitny jarl chce ją wykorzystać do zjednoczenia królestwa. Nordycka saga o przepowiedni, tarczowniczkach i niebezpiecznym układzie.",
+    "descriptions": {
+      "en": "A woman trapped in a bad marriage discovers the blood of gods in her veins, and an ambitious jarl wants to use her to unite the kingdom. A Norse saga of prophecy, shieldmaidens and a dangerous bargain."
+    },
     "titles": {
       "pl": "Los zapisany krwią"
     }
@@ -1639,6 +1828,9 @@
       "przemoc"
     ],
     "description": "Córka bogini księżyca wraca do domu, ale spokój nie trwa długo. W Niebiańskim Królestwie narasta niepokój, a ona staje między dwiema lojalnościami.",
+    "descriptions": {
+      "en": "The moon goddess's daughter returns home, but the peace does not last. Unrest grows in the Celestial Kingdom, and she finds herself between two loyalties."
+    },
     "titles": {
       "pl": "Serce Wojownika Słońca"
     }
@@ -1664,6 +1856,9 @@
       "trauma"
     ],
     "description": "Dziewczyna z potworem w głowie i kapitan straży szukają ostatnich kart potrzebnych do zdjęcia klątwy z królestwa. Mgła gęstnieje, a cena ocalenia okazuje się bardzo osobista.",
+    "descriptions": {
+      "en": "A girl with a monster in her head and the captain of the guard hunt for the last cards needed to lift the curse on the kingdom. The mist thickens, and the price of salvation turns out to be very personal."
+    },
     "titles": {
       "pl": "Dwie splecione korony"
     }
@@ -1687,7 +1882,10 @@
       "przemoc",
       "śmierć"
     ],
-    "description": "Po wydarzeniach na wyspie bohaterka zostaje z mocą, której nie rozumie, i sercem rozdartym między dwóch władców. Każdy z nich ma powody, by nie mówić jej całej prawdy."
+    "description": "Po wydarzeniach na wyspie bohaterka zostaje z mocą, której nie rozumie, i sercem rozdartym między dwóch władców. Każdy z nich ma powody, by nie mówić jej całej prawdy.",
+    "descriptions": {
+      "en": "After the events on the island, the heroine is left with a power she does not understand and a heart torn between two rulers. Each of them has reasons not to tell her the whole truth."
+    }
   },
   {
     "slug": "skyshade",
@@ -1708,7 +1906,10 @@
       "wojna",
       "przemoc"
     ],
-    "description": "Wojna, przed którą ostrzegały przepowiednie, w końcu nadchodzi. Bohaterka musi zdecydować, komu zaufać, gdy każde z królestw żąda od niej czegoś innego."
+    "description": "Wojna, przed którą ostrzegały przepowiednie, w końcu nadchodzi. Bohaterka musi zdecydować, komu zaufać, gdy każde z królestw żąda od niej czegoś innego.",
+    "descriptions": {
+      "en": "The war the prophecies warned of finally arrives. The heroine must decide whom to trust when every kingdom demands something different of her."
+    }
   },
   {
     "slug": "apprentice-to-the-villain",
@@ -1730,6 +1931,9 @@
       "przemoc (z przymrużeniem oka)"
     ],
     "description": "Asystentka najgroźniejszego złoczyńcy królestwa awansuje — i wpada w jeszcze większe kłopoty. Biurowa komedia z ciętym humorem, w której szefowi coraz trudniej ukryć, co do niej czuje.",
+    "descriptions": {
+      "en": "The assistant to the kingdom's most dangerous villain gets a promotion — and lands in even bigger trouble. An office comedy with sharp humour, in which the boss finds it ever harder to hide what he feels for her."
+    },
     "titles": {
       "pl": "Adeptka złoczyńcy"
     }
@@ -1755,6 +1959,9 @@
       "sceny erotyczne"
     ],
     "description": "Wróg, z którym łączy ją niechciana więź, zasiadł na tronie. Bohaterka prowadzi przeciw niemu rebelię, choć ich magia wciąż przyciąga ich do siebie.",
+    "descriptions": {
+      "en": "The enemy she is bound to by an unwanted bond has taken the throne. The heroine leads a rebellion against him, though their magic still draws them together."
+    },
     "titles": {
       "pl": "Zryw monsunowy"
     }
@@ -1780,7 +1987,10 @@
       "śmierć",
       "sceny erotyczne"
     ],
-    "description": "Alchemiczka musi zmierzyć się z konsekwencjami tego, co odkryła w królestwie fae. Sojusze się sypią, a mężczyzna, któremu zaczęła ufać, wciąż ma przed nią tajemnice."
+    "description": "Alchemiczka musi zmierzyć się z konsekwencjami tego, co odkryła w królestwie fae. Sojusze się sypią, a mężczyzna, któremu zaczęła ufać, wciąż ma przed nią tajemnice.",
+    "descriptions": {
+      "en": "An alchemist must face the consequences of what she discovered in the fae kingdom. Alliances crumble, and the man she has begun to trust still keeps secrets from her."
+    }
   },
   {
     "slug": "the-stolen-heir",
@@ -1803,6 +2013,9 @@
       "trauma"
     ],
     "description": "Zbiegła następczyni dzikiego dworu elfów od lat ukrywa się w świecie ludzi, aż odnajduje ją książę z krainy, z której uciekła. Razem ruszają na misję, podczas której oboje kłamią.",
+    "descriptions": {
+      "en": "The runaway heir of a wild elven court has hidden in the human world for years, until a prince from the land she fled finds her. Together they set out on a quest during which both of them lie."
+    },
     "titles": {
       "pl": "Następca tronu"
     }
@@ -1828,6 +2041,9 @@
       "manipulacja"
     ],
     "description": "Ta sama historia z drugiej strony: książę uwięziony we własnej grze o władzę. Dworskie intrygi Elfhame wracają, a z nimi bohaterowie dawnego cyklu.",
+    "descriptions": {
+      "en": "The same story from the other side: a prince imprisoned in his own game for power. The court intrigues of Elfhame return, and with them the heroes of the earlier series."
+    },
     "titles": {
       "pl": "Więzień bez tronu"
     }
@@ -1853,7 +2069,10 @@
       "przemoc psychiczna",
       "sceny erotyczne"
     ],
-    "description": "Kobieta o złotym dotyku żyje w klatce, choć wszyscy nazywają ją pałacem. W podróży do królewskiego narzeczonego zaczyna rozumieć, że złoto, które ją zdobi, jest też łańcuchem."
+    "description": "Kobieta o złotym dotyku żyje w klatce, choć wszyscy nazywają ją pałacem. W podróży do królewskiego narzeczonego zaczyna rozumieć, że złoto, które ją zdobi, jest też łańcuchem.",
+    "descriptions": {
+      "en": "A woman with a golden touch lives in a cage, though everyone calls it a palace. On the journey to her royal betrothed she begins to understand that the gold that adorns her is also a chain."
+    }
   },
   {
     "slug": "glint",
@@ -1876,7 +2095,10 @@
       "przemoc psychiczna",
       "sceny erotyczne"
     ],
-    "description": "Porwana przez wrogie wojsko bohaterka odkrywa, że strażnicy niekoniecznie są potworami, a jej dawne życie — niekoniecznie bajką. Kolczasty dowódca wydaje się szczerszy niż jej dotychczasowy pan."
+    "description": "Porwana przez wrogie wojsko bohaterka odkrywa, że strażnicy niekoniecznie są potworami, a jej dawne życie — niekoniecznie bajką. Kolczasty dowódca wydaje się szczerszy niż jej dotychczasowy pan.",
+    "descriptions": {
+      "en": "Captured by an enemy army, the heroine discovers that her guards are not necessarily monsters, and her old life not necessarily a fairy tale. The thorny commander seems more honest than her former master."
+    }
   },
   {
     "slug": "kiss-of-the-basilisk",
@@ -1899,6 +2121,9 @@
       "przemoc"
     ],
     "description": "Dziewczyna zgłasza się do królewskiego turnieju swatów, w którym kandydatki szkolą się z bazyliszkami. Przydzielony jej wąż okazuje się kimś znacznie potężniejszym — a dwór ma wobec niej własne plany.",
+    "descriptions": {
+      "en": "A girl signs up for a royal matchmaking tournament in which the candidates train with basilisks. The serpent assigned to her turns out to be someone far more powerful — and the court has its own plans for her."
+    },
     "titles": {
       "pl": "Pocałunek bazyliszka"
     }
@@ -1923,6 +2148,9 @@
       "śmierć"
     ],
     "description": "Czarownica i łowca czarownic rozstali się, gdy prawda wyszła na jaw. Teraz stoją po przeciwnych stronach rewolucji i oboje udają, że już ich to nie obchodzi.",
+    "descriptions": {
+      "en": "The witch and the witch hunter parted when the truth came out. Now they stand on opposite sides of a revolution, and both pretend they no longer care."
+    },
     "titles": {
       "pl": "Krwawe dziedzictwo"
     }
@@ -1945,6 +2173,9 @@
       "śmierć"
     ],
     "description": "Co dziesięć lat czarnoksiężnik zabiera z doliny jedną dziewczynę, a tym razem wybiera tę, której nikt się nie spodziewał. Las za wioską jest żywy, głodny i cierpliwy — i powstrzymać go może tylko magia, której nikt jej nie uczył.",
+    "descriptions": {
+      "en": "Every ten years a wizard takes one girl from the valley, and this time he chooses the one nobody expected. The forest beyond the village is alive, hungry and patient — and only a magic no one taught her can hold it back."
+    },
     "titles": {
       "pl": "Wybrana"
     }
@@ -1968,6 +2199,9 @@
       "antysemityzm"
     ],
     "description": "Córka lichwiarza chwali się, że potrafi zamienić srebro w złoto — i słyszy ją król lodowych istot. Wariacja na temat baśni o Rumpelsztyku opowiedziana głosami kilku kobiet.",
+    "descriptions": {
+      "en": "A moneylender's daughter boasts that she can turn silver into gold — and the king of the winter creatures hears her. A variation on the Rumpelstiltskin tale told in the voices of several women."
+    },
     "titles": {
       "pl": "Moc srebra"
     }
@@ -1989,6 +2223,9 @@
       "przemoc"
     ],
     "description": "Historyczka, która nie chce używać swojej magii, przypadkiem otwiera zaczarowany manuskrypt w oksfordzkiej bibliotece. Budzi tym zainteresowanie czarownic, demonów i bardzo starego, bardzo cierpliwego wampira.",
+    "descriptions": {
+      "en": "A historian who refuses to use her magic accidentally opens an enchanted manuscript in an Oxford library. It draws the attention of witches, demons and a very old, very patient vampire."
+    },
     "titles": {
       "pl": "Księga czarownic"
     }
@@ -2011,6 +2248,9 @@
       "śmierć"
     ],
     "description": "W świecie podzielonym kolorem krwi dziewczyna z gminu odkrywa w sobie moc zarezerwowaną dla srebrnokrwistych. Dwór ukrywa ją pod fałszywym imieniem i zaręcza z księciem — dla własnych celów.",
+    "descriptions": {
+      "en": "In a world divided by the colour of blood, a common girl discovers in herself a power reserved for the Silver-blooded. The court hides her under a false name and engages her to a prince — for its own ends."
+    },
     "titles": {
       "pl": "Czerwona Królowa"
     },
@@ -2035,6 +2275,9 @@
       "przemoc"
     ],
     "description": "Księżniczka ucieka sprzed ołtarza i ukrywa się w nadmorskiej wiosce. Wkrótce zjawia się tam dwóch nieznajomych: odrzucony narzeczony i zabójca nasłany, by ją uciszyć — a ona nie wie, który jest który.",
+    "descriptions": {
+      "en": "A princess flees the altar and hides in a seaside village. Soon two strangers arrive: the jilted prince and an assassin sent to silence her — and she does not know which is which."
+    },
     "titles": {
       "pl": "Fałszywy pocałunek"
     }
@@ -2055,7 +2298,10 @@
     "contentWarnings": [
       "przemoc"
     ],
-    "description": "Malarka portretuje fae, którzy sami nie potrafią niczego stworzyć. Gdy na płótnie zdradza smutek w oczach jesiennego księcia, ściąga na oboje łańcuch zakazanych konsekwencji."
+    "description": "Malarka portretuje fae, którzy sami nie potrafią niczego stworzyć. Gdy na płótnie zdradza smutek w oczach jesiennego księcia, ściąga na oboje łańcuch zakazanych konsekwencji.",
+    "descriptions": {
+      "en": "A painter makes portraits of fae who cannot create anything themselves. When her canvas reveals the sorrow in the autumn prince's eyes, she brings a chain of forbidden consequences down on them both."
+    }
   },
   {
     "slug": "sorcery-of-thorns",
@@ -2075,6 +2321,9 @@
       "śmierć"
     ],
     "description": "Wychowanka biblioteki, w której grimuary potrafią zamienić się w potwory, zostaje oskarżona o zbrodnię. Jedynym, kto może jej pomóc, jest czarnoksiężnik — a uczono ją, że takim nie wolno ufać.",
+    "descriptions": {
+      "en": "An orphan raised in a library whose grimoires can turn into monsters is accused of a crime. The only one who can help her is a sorcerer — and she was taught never to trust one."
+    },
     "titles": {
       "pl": "Magia cierni"
     }
@@ -2098,6 +2347,9 @@
       "przemoc"
     ],
     "description": "Po śmierci matki studentka wpada na trop tajnego stowarzyszenia potomków rycerzy Okrągłego Stołu. Żeby poznać prawdę, musi przejść jego próby i zbliżyć się do chłopaka, który jest ich dziedzicem.",
+    "descriptions": {
+      "en": "After her mother's death a student stumbles upon a secret society of the descendants of the Knights of the Round Table. To learn the truth, she must pass its trials and get close to the boy who is their heir."
+    },
     "titles": {
       "pl": "Zrodzeni z legendy"
     }
@@ -2121,6 +2373,9 @@
       "samookaleczenie"
     ],
     "description": "Szanghaj, rok 1926: dziedziczka gangu i jej dawny ukochany z wrogiej rodziny muszą współpracować, gdy miasto ogarnia zaraza szaleństwa. Nowa odsłona „Romea i Julii” z potworem w rzece.",
+    "descriptions": {
+      "en": "Shanghai, 1926: the heiress of a gang and her former love from a rival family must work together when a plague of madness grips the city. A new take on Romeo and Juliet with a monster in the river."
+    },
     "titles": {
       "pl": "These Violent Delights. Gwałtowne pasje"
     }
@@ -2143,6 +2398,9 @@
       "żałoba"
     ],
     "description": "W nadmorskim domu siostry umierają jedna po drugiej, a ludzie szepczą o klątwie. Pozostałe wymykają się nocą na bale, z których nie każda wraca — mroczna wersja baśni o tańczących królewnach.",
+    "descriptions": {
+      "en": "In a house by the sea, sisters die one after another, and people whisper of a curse. Those who remain slip out at night to balls from which not all of them return — a dark version of the tale of the dancing princesses."
+    },
     "titles": {
       "pl": "Dom soli i łez"
     }
@@ -2166,6 +2424,9 @@
       "antysemityzm"
     ],
     "description": "Dziewczyna bez daru z pogańskiej wioski zostaje zabrana przez zakonnych wojowników do stolicy. W drodze przez las ona i ich kapitan muszą sobie zaufać, choć wychowano ich, by się nienawidzili.",
+    "descriptions": {
+      "en": "A girl without a gift from a pagan village is taken to the capital by warriors of a holy order. On the way through the forest she and their captain must learn to trust each other, though they were raised to hate."
+    },
     "titles": {
       "pl": "Wilczarka i drwal"
     }
@@ -2187,7 +2448,10 @@
       "śmierć",
       "żałoba"
     ],
-    "description": "Sierota, która wielokrotnie powinna była umrzeć, widzi samą Śmierć — przystojną, cierpliwą i zaskakująco ironiczną. Razem tropią truciciela w wiktoriańskim domu jej krewnych."
+    "description": "Sierota, która wielokrotnie powinna była umrzeć, widzi samą Śmierć — przystojną, cierpliwą i zaskakująco ironiczną. Razem tropią truciciela w wiktoriańskim domu jej krewnych.",
+    "descriptions": {
+      "en": "An orphan who should have died many times over can see Death himself — handsome, patient and surprisingly wry. Together they track a poisoner in the Victorian house of her relatives."
+    }
   },
   {
     "slug": "emily-wildes-encyclopaedia-of-faeries",
@@ -2207,6 +2471,9 @@
       "przemoc"
     ],
     "description": "Zgryźliwa uczona wyjeżdża na mroźną wyspę, by spisać pierwszą encyklopedię faerie. Wkrótce zjawia się tam jej czarujący akademicki rywal — i wydaje się wiedzieć o faerie podejrzanie dużo.",
+    "descriptions": {
+      "en": "A curmudgeonly scholar travels to a frozen island to compile the first encyclopaedia of faeries. Soon her charming academic rival turns up — and seems to know suspiciously much about faeries."
+    },
     "titles": {
       "pl": "Emily Wilde. Encyklopedia wróżek i elfów"
     }
@@ -2230,7 +2497,10 @@
       "przemoc psychiczna",
       "sceny erotyczne"
     ],
-    "description": "Bliźniaczki wychowane w biedzie dowiadują się, że są zaginionymi dziedziczkami tronu krainy magii. Akademia Zodiaku wita je wrogo, a czterech następców obecnej władzy chce je wypędzić."
+    "description": "Bliźniaczki wychowane w biedzie dowiadują się, że są zaginionymi dziedziczkami tronu krainy magii. Akademia Zodiaku wita je wrogo, a czterech następców obecnej władzy chce je wypędzić.",
+    "descriptions": {
+      "en": "Twins raised in poverty learn they are the lost heirs to the throne of a magical realm. Zodiac Academy greets them with hostility, and four heirs of the current rulers want to drive them out."
+    }
   },
   {
     "slug": "a-touch-of-darkness",
@@ -2249,6 +2519,9 @@
       "sceny erotyczne",
       "przemoc"
     ],
-    "description": "Bogini wiosny, która nie potrafi wyhodować nawet kwiatka, zawiera nierozważny zakład z władcą podziemi. Musi stworzyć życie w jego krainie — albo zostać tam na zawsze."
+    "description": "Bogini wiosny, która nie potrafi wyhodować nawet kwiatka, zawiera nierozważny zakład z władcą podziemi. Musi stworzyć życie w jego krainie — albo zostać tam na zawsze.",
+    "descriptions": {
+      "en": "The goddess of spring, who cannot grow even a single flower, makes a reckless bet with the lord of the underworld. She must create life in his realm — or stay there forever."
+    }
   }
 ]

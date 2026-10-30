@@ -2,191 +2,305 @@
   {
     "slug": "rebecca-yarros",
     "name": "Rebecca Yarros",
-    "bio": "Amerykańska autorka, która przed romantasy pisała romanse współczesne. Seria Empyrean uczyniła z niej jedną z najgłośniejszych autorek gatunku."
+    "bio": "Amerykańska autorka, która przed romantasy pisała romanse współczesne. Seria Empyrean uczyniła z niej jedną z najgłośniejszych autorek gatunku.",
+    "bios": {
+      "en": "An American author who wrote contemporary romance before romantasy. The Empyrean series made her one of the genre's best-known names."
+    }
   },
   {
     "slug": "sarah-j-maas",
     "name": "Sarah J. Maas",
-    "bio": "Amerykańska autorka, której pierwsze teksty powstawały jako opowiadania publikowane w sieci. Jej cykle o dworach fae i zabójczyni ze szklanego tronu ukształtowały współczesne romantasy."
+    "bio": "Amerykańska autorka, której pierwsze teksty powstawały jako opowiadania publikowane w sieci. Jej cykle o dworach fae i zabójczyni ze szklanego tronu ukształtowały współczesne romantasy.",
+    "bios": {
+      "en": "An American author whose first writing appeared as stories posted online. Her series about fae courts and the assassin of the glass throne shaped modern romantasy."
+    }
   },
   {
     "slug": "holly-black",
     "name": "Holly Black",
-    "bio": "Amerykańska autorka fantastyki, współtwórczyni „Kronik Spiderwick”. Specjalistka od okrutnych, kapryśnych fae."
+    "bio": "Amerykańska autorka fantastyki, współtwórczyni „Kronik Spiderwick”. Specjalistka od okrutnych, kapryśnych fae.",
+    "bios": {
+      "en": "An American fantasy author and co-creator of The Spiderwick Chronicles. A specialist in cruel, capricious fae."
+    }
   },
   {
     "slug": "shelby-mahurin",
     "name": "Shelby Mahurin",
-    "bio": "Amerykańska autorka, która zadebiutowała trylogią o czarownicy i łowcy czarownic."
+    "bio": "Amerykańska autorka, która zadebiutowała trylogią o czarownicy i łowcy czarownic.",
+    "bios": {
+      "en": "An American author who debuted with a trilogy about a witch and a witch hunter."
+    }
   },
   {
     "slug": "jennifer-l-armentrout",
     "name": "Jennifer L. Armentrout",
-    "bio": "Amerykańska autorka niezwykle płodna w wielu gatunkach — od young adult po paranormal romance. Publikuje także jako J. Lynn."
+    "bio": "Amerykańska autorka niezwykle płodna w wielu gatunkach — od young adult po paranormal romance. Publikuje także jako J. Lynn.",
+    "bios": {
+      "en": "A remarkably prolific American author across many genres, from young adult to paranormal romance. She also publishes as J. Lynn."
+    }
   },
   {
     "slug": "kerri-maniscalco",
     "name": "Kerri Maniscalco",
-    "bio": "Amerykańska autorka znana wcześniej z gotyckich kryminałów młodzieżowych; w romantasy przeniosła się do świata książąt piekieł."
+    "bio": "Amerykańska autorka znana wcześniej z gotyckich kryminałów młodzieżowych; w romantasy przeniosła się do świata książąt piekieł.",
+    "bios": {
+      "en": "An American author first known for gothic young adult mysteries; in romantasy she moved to the world of the princes of hell."
+    }
   },
   {
     "slug": "danielle-l-jensen",
     "name": "Danielle L. Jensen",
-    "bio": "Kanadyjska autorka fantastyki, ceniona za polityczne intrygi i romanse rozgrywane między wrogimi królestwami."
+    "bio": "Kanadyjska autorka fantastyki, ceniona za polityczne intrygi i romanse rozgrywane między wrogimi królestwami.",
+    "bios": {
+      "en": "A Canadian fantasy author, admired for political intrigue and romances played out between enemy kingdoms."
+    }
   },
   {
     "slug": "carissa-broadbent",
     "name": "Carissa Broadbent",
-    "bio": "Autorka, która wydawała swoje cykle niezależnie, zanim trafiły do dużych wydawnictw. Pisze mroczne, gęste od bogów i wampirów światy."
+    "bio": "Autorka, która wydawała swoje cykle niezależnie, zanim trafiły do dużych wydawnictw. Pisze mroczne, gęste od bogów i wampirów światy.",
+    "bios": {
+      "en": "An author who self-published her series before they were picked up by major publishers. She writes dark worlds dense with gods and vampires."
+    }
   },
   {
     "slug": "callie-hart",
     "name": "Callie Hart",
-    "bio": "Autorka znana z mrocznych romansów, która w romantasy wkroczyła cyklem o fae i alchemii — szeroko komentowanym w mediach społecznościowych."
+    "bio": "Autorka znana z mrocznych romansów, która w romantasy wkroczyła cyklem o fae i alchemii — szeroko komentowanym w mediach społecznościowych.",
+    "bios": {
+      "en": "An author known for dark romance who entered romantasy with a series about fae and alchemy — widely discussed on social media."
+    }
   },
   {
     "slug": "lauren-roberts",
     "name": "Lauren Roberts",
-    "bio": "Amerykańska autorka, której debiutancka trylogia zdobyła popularność dzięki czytelniczkom w mediach społecznościowych."
+    "bio": "Amerykańska autorka, której debiutancka trylogia zdobyła popularność dzięki czytelniczkom w mediach społecznościowych.",
+    "bios": {
+      "en": "An American author whose debut trilogy became popular thanks to readers on social media."
+    }
   },
   {
     "slug": "elise-kova",
     "name": "Elise Kova",
-    "bio": "Amerykańska autorka wydająca niezależnie, twórczyni kilku cykli łączących magię z romansem."
+    "bio": "Amerykańska autorka wydająca niezależnie, twórczyni kilku cykli łączących magię z romansem.",
+    "bios": {
+      "en": "An American self-published author, creator of several series that blend magic with romance."
+    }
   },
   {
     "slug": "rebecca-ross",
     "name": "Rebecca Ross",
-    "bio": "Amerykańska autorka fantastyki, która w duologii o listach i bogach połączyła romans z melancholią wojennej opowieści."
+    "bio": "Amerykańska autorka fantastyki, która w duologii o listach i bogach połączyła romans z melancholią wojennej opowieści.",
+    "bios": {
+      "en": "An American fantasy author who, in a duology about letters and gods, combined romance with the melancholy of a war story."
+    }
   },
   {
     "slug": "thea-guanzon",
     "name": "Thea Guanzon",
-    "bio": "Filipińska autorka, której debiutancka trylogia o władcach burz i cieni stała się jednym z głośniejszych debiutów romantasy."
+    "bio": "Filipińska autorka, której debiutancka trylogia o władcach burz i cieni stała się jednym z głośniejszych debiutów romantasy.",
+    "bios": {
+      "en": "A Filipino author whose debut trilogy about wielders of storms and shadows became one of romantasy's most talked-about debuts."
+    }
   },
   {
     "slug": "kristen-ciccarelli",
     "name": "Kristen Ciccarelli",
-    "bio": "Kanadyjska autorka fantastyki, znana wcześniej z cyklu o smoczej zabójczyni z Iskari."
+    "bio": "Kanadyjska autorka fantastyki, znana wcześniej z cyklu o smoczej zabójczyni z Iskari.",
+    "bios": {
+      "en": "A Canadian fantasy author, first known for her series about the dragon slayer of Iskari."
+    }
   },
   {
     "slug": "stephanie-garber",
     "name": "Stephanie Garber",
-    "bio": "Amerykańska autorka, twórczyni magicznego karnawału z cyklu „Caraval”. Pisze baśnie, w których każde życzenie ma swoją cenę."
+    "bio": "Amerykańska autorka, twórczyni magicznego karnawału z cyklu „Caraval”. Pisze baśnie, w których każde życzenie ma swoją cenę.",
+    "bios": {
+      "en": "An American author, creator of the magical game of the Caraval series. She writes fairy tales in which every wish has its price."
+    }
   },
   {
     "slug": "alex-aster",
     "name": "Alex Aster",
-    "bio": "Amerykańska autorka, której zapowiedź powieści o przeklętej wyspie rozeszła się w mediach społecznościowych, zanim książka trafiła do druku."
+    "bio": "Amerykańska autorka, której zapowiedź powieści o przeklętej wyspie rozeszła się w mediach społecznościowych, zanim książka trafiła do druku.",
+    "bios": {
+      "en": "An American author whose pitch for a novel about a cursed island spread across social media before the book was even printed."
+    }
   },
   {
     "slug": "tricia-levenseller",
     "name": "Tricia Levenseller",
-    "bio": "Amerykańska autorka młodzieżowej fantastyki, znana z powieści o piratkach i niebezpiecznych bohaterkach."
+    "bio": "Amerykańska autorka młodzieżowej fantastyki, znana z powieści o piratkach i niebezpiecznych bohaterkach.",
+    "bios": {
+      "en": "An American young adult fantasy author, known for novels about pirate girls and dangerous heroines."
+    }
   },
   {
     "slug": "sue-lynn-tan",
     "name": "Sue Lynn Tan",
-    "bio": "Autorka urodzona w Malezji, inspirująca się chińską mitologią i legendami o bogini księżyca."
+    "bio": "Autorka urodzona w Malezji, inspirująca się chińską mitologią i legendami o bogini księżyca.",
+    "bios": {
+      "en": "A Malaysian-born author inspired by Chinese mythology and the legends of the moon goddess."
+    }
   },
   {
     "slug": "ali-hazelwood",
     "name": "Ali Hazelwood",
-    "bio": "Autorka i naukowczyni, znana z komedii romantycznych osadzonych w świecie nauki; w romantasy sięgnęła po wampiry i wilkołaki."
+    "bio": "Autorka i naukowczyni, znana z komedii romantycznych osadzonych w świecie nauki; w romantasy sięgnęła po wampiry i wilkołaki.",
+    "bios": {
+      "en": "An author and scientist, known for romantic comedies set in the world of science; in romantasy she turned to vampires and werewolves."
+    }
   },
   {
     "slug": "kaylie-smith",
     "name": "Kaylie Smith",
-    "bio": "Amerykańska autorka, która zadebiutowała gotycką powieścią o śmiertelnej grze w nawiedzonym dworze."
+    "bio": "Amerykańska autorka, która zadebiutowała gotycką powieścią o śmiertelnej grze w nawiedzonym dworze.",
+    "bios": {
+      "en": "An American author who debuted with a gothic novel about a deadly game in a haunted manor."
+    }
   },
   {
     "slug": "hannah-nicole-maehrer",
     "name": "Hannah Nicole Maehrer",
-    "bio": "Autorka, która zyskała popularność krótkimi komediowymi scenkami w sieci, a potem rozwinęła je w powieść."
+    "bio": "Autorka, która zyskała popularność krótkimi komediowymi scenkami w sieci, a potem rozwinęła je w powieść.",
+    "bios": {
+      "en": "An author who became popular with short comedic sketches online and later expanded them into a novel."
+    }
   },
   {
     "slug": "rachel-gillig",
     "name": "Rachel Gillig",
-    "bio": "Amerykańska autorka gotyckiej fantastyki, mistrzyni mglistego, niepokojącego klimatu."
+    "bio": "Amerykańska autorka gotyckiej fantastyki, mistrzyni mglistego, niepokojącego klimatu.",
+    "bios": {
+      "en": "An American author of gothic fantasy, a master of misty, unsettling atmosphere."
+    }
   },
   {
     "slug": "saara-el-arifi",
     "name": "Saara El-Arifi",
-    "bio": "Brytyjska autorka fantastyki, czerpiąca z mitologii i kultur Afryki Zachodniej i Bliskiego Wschodu."
+    "bio": "Brytyjska autorka fantastyki, czerpiąca z mitologii i kultur Afryki Zachodniej i Bliskiego Wschodu.",
+    "bios": {
+      "en": "A British fantasy author drawing on the mythologies and cultures of West Africa and the Middle East."
+    }
   },
   {
     "slug": "raven-kennedy",
     "name": "Raven Kennedy",
-    "bio": "Amerykańska autorka, która zaczynała od self-publishingu. Cykl The Plated Prisoner, baśniowa wariacja na temat złotego dotyku, zdobył jej rzesze czytelniczek."
+    "bio": "Amerykańska autorka, która zaczynała od self-publishingu. Cykl The Plated Prisoner, baśniowa wariacja na temat złotego dotyku, zdobył jej rzesze czytelniczek.",
+    "bios": {
+      "en": "An American author who started out self-publishing. The Plated Prisoner series, a fairy-tale variation on the golden touch, won her legions of readers."
+    }
   },
   {
     "slug": "lindsay-straube",
     "name": "Lindsay Straube",
-    "bio": "Amerykańska autorka, której pikantna saga Split or Swallow rozeszła się viralowo w mediach społecznościowych, zanim trafiła do dużych wydawnictw."
+    "bio": "Amerykańska autorka, której pikantna saga Split or Swallow rozeszła się viralowo w mediach społecznościowych, zanim trafiła do dużych wydawnictw.",
+    "bios": {
+      "en": "An American author whose spicy Split or Swallow saga went viral on social media before it reached major publishers."
+    }
   },
   {
     "slug": "scarlett-st-clair",
     "name": "Scarlett St. Clair",
-    "bio": "Amerykańska autorka mitologicznych romansów. Jej cykl o Hadesie i Persefonie przenosi greckie mity w nowoczesną, pikantną scenerię."
+    "bio": "Amerykańska autorka mitologicznych romansów. Jej cykl o Hadesie i Persefonie przenosi greckie mity w nowoczesną, pikantną scenerię.",
+    "bios": {
+      "en": "An American author of mythological romance. Her series about Hades and Persephone moves the Greek myths into a modern, spicy setting."
+    }
   },
   {
     "slug": "caroline-peckham",
     "name": "Caroline Peckham",
-    "bio": "Brytyjska autorka, która razem z Susanne Valenti stworzyła rozbudowaną serię Zodiac Academy o akademii magii rządzonej przez gwiazdozbiory."
+    "bio": "Brytyjska autorka, która razem z Susanne Valenti stworzyła rozbudowaną serię Zodiac Academy o akademii magii rządzonej przez gwiazdozbiory.",
+    "bios": {
+      "en": "A British author who, together with Susanne Valenti, created the sprawling Zodiac Academy series about a magic academy ruled by the constellations."
+    }
   },
   {
     "slug": "naomi-novik",
     "name": "Naomi Novik",
-    "bio": "Amerykańska pisarka fantasy, laureatka Nebuli. W swoich powieściach na nowo opowiada baśnie z Europy Środkowej i Wschodniej."
+    "bio": "Amerykańska pisarka fantasy, laureatka Nebuli. W swoich powieściach na nowo opowiada baśnie z Europy Środkowej i Wschodniej.",
+    "bios": {
+      "en": "An American fantasy writer and Nebula winner. Her novels retell fairy tales from Central and Eastern Europe."
+    }
   },
   {
     "slug": "deborah-harkness",
     "name": "Deborah Harkness",
-    "bio": "Amerykańska historyczka nauki, która w cyklu All Souls połączyła akademicką erudycję z romansem czarownicy i wampira."
+    "bio": "Amerykańska historyczka nauki, która w cyklu All Souls połączyła akademicką erudycję z romansem czarownicy i wampira.",
+    "bios": {
+      "en": "An American historian of science who, in the All Souls series, combined academic erudition with the romance of a witch and a vampire."
+    }
   },
   {
     "slug": "victoria-aveyard",
     "name": "Victoria Aveyard",
-    "bio": "Amerykańska autorka młodzieżowej fantastyki. Jej debiut o świecie podzielonym kolorem krwi stał się międzynarodowym bestsellerem."
+    "bio": "Amerykańska autorka młodzieżowej fantastyki. Jej debiut o świecie podzielonym kolorem krwi stał się międzynarodowym bestsellerem.",
+    "bios": {
+      "en": "An American young adult fantasy author. Her debut about a world divided by the colour of blood became an international bestseller."
+    }
   },
   {
     "slug": "mary-e-pearson",
     "name": "Mary E. Pearson",
-    "bio": "Amerykańska autorka powieści młodzieżowych, znana z Kronik ocalałych, w których dworskie intrygi splatają się z zagadką tożsamości."
+    "bio": "Amerykańska autorka powieści młodzieżowych, znana z Kronik ocalałych, w których dworskie intrygi splatają się z zagadką tożsamości.",
+    "bios": {
+      "en": "An American young adult author, known for The Remnant Chronicles, in which court intrigue is entwined with a mystery of identity."
+    }
   },
   {
     "slug": "margaret-rogerson",
     "name": "Margaret Rogerson",
-    "bio": "Amerykańska autorka fantasy młodzieżowej, ceniona za gotycki klimat, magiczne biblioteki i bohaterki o ostrym języku."
+    "bio": "Amerykańska autorka fantasy młodzieżowej, ceniona za gotycki klimat, magiczne biblioteki i bohaterki o ostrym języku.",
+    "bios": {
+      "en": "An American young adult fantasy author, admired for gothic atmosphere, magical libraries and sharp-tongued heroines."
+    }
   },
   {
     "slug": "tracy-deonn",
     "name": "Tracy Deonn",
-    "bio": "Amerykańska autorka, która w cyklu Legendborn przeniosła legendy arturiańskie na współczesny kampus i opowiedziała je z perspektywy czarnej bohaterki."
+    "bio": "Amerykańska autorka, która w cyklu Legendborn przeniosła legendy arturiańskie na współczesny kampus i opowiedziała je z perspektywy czarnej bohaterki.",
+    "bios": {
+      "en": "An American author who, in the Legendborn series, moved the Arthurian legends to a modern campus and told them from the perspective of a Black heroine."
+    }
   },
   {
     "slug": "chloe-gong",
     "name": "Chloe Gong",
-    "bio": "Autorka urodzona w Szanghaju i wychowana w Nowej Zelandii. Zadebiutowała przeniesieniem „Romea i Julii” do Szanghaju lat dwudziestych."
+    "bio": "Autorka urodzona w Szanghaju i wychowana w Nowej Zelandii. Zadebiutowała przeniesieniem „Romea i Julii” do Szanghaju lat dwudziestych.",
+    "bios": {
+      "en": "An author born in Shanghai and raised in New Zealand. She debuted by moving Romeo and Juliet to 1920s Shanghai."
+    }
   },
   {
     "slug": "erin-a-craig",
     "name": "Erin A. Craig",
-    "bio": "Amerykańska autorka gotyckiej fantastyki, która chętnie sięga po baśnie braci Grimm i przekuwa je w mroczne historie."
+    "bio": "Amerykańska autorka gotyckiej fantastyki, która chętnie sięga po baśnie braci Grimm i przekuwa je w mroczne historie.",
+    "bios": {
+      "en": "An American gothic fantasy author who likes to take the Brothers Grimm's fairy tales and forge them into dark stories."
+    }
   },
   {
     "slug": "ava-reid",
     "name": "Ava Reid",
-    "bio": "Amerykańska autorka mrocznej fantasy inspirowanej folklorem i historią Europy Środkowo-Wschodniej."
+    "bio": "Amerykańska autorka mrocznej fantasy inspirowanej folklorem i historią Europy Środkowo-Wschodniej.",
+    "bios": {
+      "en": "An American author of dark fantasy inspired by the folklore and history of Central and Eastern Europe."
+    }
   },
   {
     "slug": "adalyn-grace",
     "name": "Adalyn Grace",
-    "bio": "Amerykańska autorka gotyckiego romantasy. Jej cykl Belladonna to romans ze Śmiercią w wiktoriańskiej scenerii."
+    "bio": "Amerykańska autorka gotyckiego romantasy. Jej cykl Belladonna to romans ze Śmiercią w wiktoriańskiej scenerii.",
+    "bios": {
+      "en": "An American author of gothic romantasy. Her Belladonna series is a romance with Death in a Victorian setting."
+    }
   },
   {
     "slug": "heather-fawcett",
     "name": "Heather Fawcett",
-    "bio": "Kanadyjska autorka, której przytulna fantasy o uczonej badającej faerie zdobyła czytelników na całym świecie."
+    "bio": "Kanadyjska autorka, której przytulna fantasy o uczonej badającej faerie zdobyła czytelników na całym świecie.",
+    "bios": {
+      "en": "A Canadian author whose cosy fantasy about a scholar studying faeries won readers all over the world."
+    }
   }
 ]

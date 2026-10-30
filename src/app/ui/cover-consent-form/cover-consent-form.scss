@@ -1,0 +1,28 @@
+// Deliberately quiet: small print under the cover, not a banner.
+form {
+  display: grid;
+  justify-items: start;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--gilt);
+  font: inherit;
+  font-family: var(--font-ui);
+  text-decoration: underline dotted;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration-style: solid;
+  }
+}
+
+a {
+  color: inherit;
+}

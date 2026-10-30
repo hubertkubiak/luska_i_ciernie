@@ -23,7 +23,7 @@ export function seoRouter(catalog: Catalog): Router {
   router.get(LANGS.map((l) => `${LANG_PREFIX[l]}/rss/premiery`), (req, res) => {
     const lang = LANGS.find((l) => LANG_PREFIX[l] && req.path.startsWith(LANG_PREFIX[l])) ?? LANGS[0];
     res.set('Cache-Control', 'public, max-age=3600');
-    res.type('application/rss+xml').send(rssXml(catalog.listReleases(releasesFrom()), origin(req), lang));
+    res.type('application/rss+xml').send(rssXml(catalog.listReleases(releasesFrom(), lang), origin(req), lang));
   });
 
   router.get('/sitemap.xml', (req, res) => {
@@ -90,9 +90,10 @@ export function rssXml(releases: Release[], origin: string, lang: Lang): string 
       `      <title>${escapeXml(`${r.title} — ${r.author}`)}</title>`,
       `      <link>${escapeXml(`${page}#${r.slug}`)}</link>`,
       `      <guid isPermaLink="false">premiera-${escapeXml(r.slug)}</guid>`,
-      // pubDate = the release day (RFC 822, as RSS 2.0 requires).
+      // pubDate = the release day (RFC 822, as RSS 2.0 requires). For a month or quarter it is the
+      // period's last day, so the description says the date is approximate.
       `      <pubDate>${new Date(`${r.date}T00:00:00Z`).toUTCString()}</pubDate>`,
-      ...(r.note ? [`      <description>${escapeXml(r.note)}</description>`] : []),
+      ...(description(r, lang) ? [`      <description>${escapeXml(description(r, lang))}</description>`] : []),
       '    </item>',
     ].join('\n'),
   );
@@ -109,6 +110,17 @@ export function rssXml(releases: Release[], origin: string, lang: Lang): string 
     '</rss>',
     '',
   ].join('\n');
+}
+
+function description(r: Release, lang: Lang): string {
+  if (r.precision === 'day') return r.note ?? '';
+  const year = r.date.slice(0, 4);
+  const when =
+    r.precision === 'month'
+      ? new Intl.DateTimeFormat(lang, { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${r.date}T00:00:00Z`))
+      : `${lang === 'pl' ? ['I', 'II', 'III', 'IV'][Math.ceil(+r.date.slice(5, 7) / 3) - 1] + ' kw.' : 'Q' + Math.ceil(+r.date.slice(5, 7) / 3)} ${year}`;
+  const label = lang === 'pl' ? `Termin przybliżony: ${when}` : `Approximate date: ${when}`;
+  return r.note ? `${label} · ${r.note}` : label;
 }
 
 function escapeXml(text: string): string {

@@ -26,7 +26,8 @@ services:
         value: x-forwarded-proto,x-forwarded-for
       - key: COOKIE_SECURE
         value: 'true'
-      # Our own generated covers instead of Open Library (docs/PRAWNE.md).
+      # Real covers from Open Library, shown only after the reader's consent (docs/PRAWNE.md).
+      # `none` = generated covers only, no consent form at all.
       - key: COVER_SOURCE
         value: none
       - key: DEMO_MODE

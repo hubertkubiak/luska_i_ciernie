@@ -43,7 +43,7 @@ interface SummaryRow {
 }
 
 /**
- * The shared SELECT for book cards. Title, cover and series name take the local version (LEFT JOIN
+ * The shared SELECT for book cards. Title, cover, series and trope names take the local version (JOIN
  * by language) and fall back to the original (COALESCE). Tropes and realm come from subqueries,
  * so a list of 91 books is one query, not 91 extra ones (the N+1 problem).
  */
@@ -65,7 +65,8 @@ SELECT ${extraColumns}
   (SELECT t.realm FROM book_tropes x JOIN tropes t ON t.slug = x.trope
     WHERE x.book = b.slug ORDER BY x.position LIMIT 1) AS realm,
   (SELECT json_group_array(json_object('slug', slug, 'name', name)) FROM (
-     SELECT t.slug, t.name FROM book_tropes x JOIN tropes t ON t.slug = x.trope
+     SELECT t.slug, COALESCE(tt.name, t.name) AS name FROM book_tropes x JOIN tropes t ON t.slug = x.trope
+       LEFT JOIN trope_texts tt ON tt.trope = t.slug AND tt.lang = :lang
       WHERE x.book = b.slug ORDER BY x.position)) AS tropes
 FROM books b
 JOIN authors a          ON a.slug = b.author
@@ -138,14 +139,20 @@ export class Catalog {
   getBook(slug: string, lang: Lang = 'pl'): BookDetail | undefined {
     const row = this.db
       .prepare(
-        `${summarySql('b.isbn, b.pages, b.description,')} WHERE b.slug = :slug`,
+        `${summarySql(`b.isbn, b.pages,
+          COALESCE((SELECT description FROM book_descriptions WHERE book = b.slug AND lang = :lang), b.description)
+            AS description,`)} WHERE b.slug = :slug`,
       )
       .get({ lang, slug }) as (SummaryRow & { isbn: string; pages: number | null; description: string }) | undefined;
     if (!row) return undefined;
 
     const warnings = this.db
-      .prepare('SELECT text FROM content_warnings WHERE book = ? ORDER BY position')
-      .all(slug) as { text: string }[];
+      .prepare(
+        `SELECT COALESCE(wt.translation, cw.text) AS text FROM content_warnings cw
+           LEFT JOIN warning_texts wt ON wt.text = cw.text AND wt.lang = :lang
+          WHERE cw.book = :slug ORDER BY cw.position`,
+      )
+      .all({ lang, slug }) as { text: string }[];
     const seriesBooks = row.series_slug
       ? (this.db
           .prepare(
@@ -188,37 +195,49 @@ export class Catalog {
   }
 
   getAuthor(slug: string, lang: Lang = 'pl'): AuthorDetail | undefined {
-    const a = this.db.prepare('SELECT slug, name, bio FROM authors WHERE slug = ?').get(slug) as
+    const a = this.db
+      .prepare(
+        `SELECT a.slug, a.name, COALESCE(ab.bio, a.bio) AS bio FROM authors a
+           LEFT JOIN author_bios ab ON ab.author = a.slug AND ab.lang = :lang
+          WHERE a.slug = :slug`,
+      )
+      .get({ lang, slug }) as
       | { slug: string; name: string; bio: string }
       | undefined;
     if (!a) return undefined;
     return { ...a, books: this.listBooks({ author: slug }, lang) };
   }
 
-  listTropes(): Trope[] {
+  listTropes(lang: Lang = 'pl'): Trope[] {
     return (
       this.db
         .prepare(
-          `SELECT t.slug, t.name, t.realm, t.description,
+          `SELECT t.slug, COALESCE(tt.name, t.name) AS name, t.realm,
+                  COALESCE(tt.description, t.description) AS description,
                   (SELECT COUNT(*) FROM book_tropes x WHERE x.trope = t.slug) AS bookCount
-             FROM tropes t ORDER BY t.position`,
+             FROM tropes t LEFT JOIN trope_texts tt ON tt.trope = t.slug AND tt.lang = :lang
+            ORDER BY t.position`,
         )
-        .all() as unknown as Trope[]
+        .all({ lang }) as unknown as Trope[]
     ).map((t) => ({ ...t }));
   }
 
   getTrope(slug: string, lang: Lang = 'pl'): TropeDetail | undefined {
-    const t = this.listTropes().find((x) => x.slug === slug);
+    const t = this.listTropes(lang).find((x) => x.slug === slug);
     if (!t) return undefined;
     return { ...t, books: this.listBooks({ tropes: [slug] }, lang) };
   }
 
   /** Releases from the given day (inclusive), nearest first. */
-  listReleases(fromDay: string): Release[] {
+  listReleases(fromDay: string, lang: Lang = 'pl'): Release[] {
     return (
       this.db
-        .prepare('SELECT slug, title, author, date, note FROM releases WHERE date >= ? ORDER BY date, title')
-        .all(fromDay) as unknown as Release[]
+        .prepare(
+          `SELECT r.slug, r.title, r.author, r.date, r.precision, COALESCE(rn.note, r.note) AS note FROM releases r
+             LEFT JOIN release_notes rn ON rn.release = r.slug AND rn.lang = :lang
+            WHERE r.date >= :fromDay ORDER BY r.date, r.title`,
+        )
+        .all({ fromDay, lang }) as unknown as Release[]
     ).map((r) => ({ ...r }));
   }
 

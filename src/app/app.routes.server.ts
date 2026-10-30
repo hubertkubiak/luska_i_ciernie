@@ -28,6 +28,8 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'szukaj', renderMode: RenderMode.Server },
   // Countdown in days → the HTML is valid for a day. Rendered on demand but cached (s-maxage in server.ts).
   { path: 'premiery', renderMode: RenderMode.Server },
+  // Shows the reader's current cover consent (cookie) → rendered on demand.
+  { path: 'prywatnosc', renderMode: RenderMode.Server },
   // Forms: rendered on demand (the error message and filled-in fields depend on query params).
   { path: 'logowanie', renderMode: RenderMode.Server },
   { path: 'rejestracja', renderMode: RenderMode.Server },

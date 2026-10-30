@@ -1,0 +1,68 @@
+<article class="privacy">
+  <h1 i18n="@@privacy.title">Prywatność</h1>
+  <p class="lead" i18n="@@privacy.lead">
+    Łuska i Ciernie to projekt demonstracyjny. Nie ma tu analityki, reklam ani skryptów śledzących,
+    a czcionki serwujemy z własnego serwera.
+  </p>
+
+  <section aria-labelledby="privacy-covers">
+    <h2 id="privacy-covers" i18n="@@privacy.coversTitle">Okładki</h2>
+    <p i18n="@@privacy.coversText">
+      Domyślnie pokazujemy własne, generowane okładki. Prawdziwe okładki wczytuje Twoja przeglądarka
+      prosto z serwisu Open Library (Internet Archive, USA) i przekazuje mu przy tym swój adres IP —
+      dlatego tylko za Twoją zgodą. Decyzję zapamiętujemy w ciasteczku na rok, a jeśli masz konto, także
+      przy koncie (z datą udzielenia zgody), żeby obowiązywała po zalogowaniu na innym urządzeniu. Zgodę
+      cofniesz jednym przyciskiem, tutaj albo na stronie książki.
+    </p>
+    @if (coversAvailable) {
+      <app-cover-consent-form class="consent" next="/prywatnosc" [moreLink]="false" />
+    } @else {
+      <p class="demo" role="note" i18n="@@privacy.coversOff">
+        Na tej stronie prawdziwe okładki są wyłączone: widzisz wyłącznie nasze, a przeglądarka nie łączy się z Open Library.
+      </p>
+    }
+  </section>
+
+  <section aria-labelledby="privacy-cookies">
+    <h2 id="privacy-cookies" i18n="@@privacy.cookiesTitle">Ciasteczka</h2>
+    <dl>
+      <dt><code>sid</code></dt>
+      <dd i18n="@@privacy.cookieSid">Sesja po zalogowaniu (30 dni bez aktywności). Niedostępna dla skryptów strony.</dd>
+      <dt><code>theme</code></dt>
+      <dd i18n="@@privacy.cookieTheme">Wybrany motyw: noc lub pergamin. Powstaje dopiero po kliknięciu przełącznika.</dd>
+      <dt><code>covers</code></dt>
+      <dd i18n="@@privacy.cookieCovers">Twoja decyzja w sprawie prawdziwych okładek (zgoda albo odmowa), żeby nie pytać ponownie. Powstaje dopiero po odpowiedzi.</dd>
+    </dl>
+    <p i18n="@@privacy.cookiesNone">Kto się nie loguje i niczego nie przełącza, nie dostaje żadnego ciasteczka.</p>
+  </section>
+
+  <section aria-labelledby="privacy-account">
+    <h2 id="privacy-account" i18n="@@privacy.accountTitle">Konto i półka</h2>
+    <p i18n="@@privacy.accountText">
+      Przy rejestracji zapisujemy e-mail, imię lub pseudonim i skrót hasła (samego hasła nie
+      przechowujemy), a jeśli zaznaczysz to przy rejestracji — datę zgody na prawdziwe okładki. Półka to
+      statusy, oceny i notatki przy książkach. Używamy tych danych wyłącznie do prowadzenia Twojego konta.
+    </p>
+    @if (demo) {
+      <p class="demo" role="note" i18n="@@privacy.demo">
+        To wersja demonstracyjna: konta i półki znikają przy każdym restarcie serwera.
+      </p>
+    }
+  </section>
+
+  <section aria-labelledby="privacy-hosting">
+    <h2 id="privacy-hosting" i18n="@@privacy.hostingTitle">Serwer</h2>
+    <p i18n="@@privacy.hostingText">
+      Strona działa u zewnętrznego dostawcy hostingu (serwer w Unii Europejskiej), który — jak każdy
+      serwer — technicznie widzi adresy IP odwiedzających i może je krótko przechowywać w logach.
+    </p>
+  </section>
+
+  <section aria-labelledby="privacy-contact">
+    <h2 id="privacy-contact" i18n="@@privacy.contactTitle">Kontakt</h2>
+    <p i18n="@@privacy.contactText">
+      Pytania i prośby o usunięcie konta lub kopię danych:
+      <a href="https://github.com/hubertkubiak/luska_i_ciernie/issues" rel="noopener">zgłoszenie w repozytorium projektu</a>.
+    </p>
+  </section>
+</article>

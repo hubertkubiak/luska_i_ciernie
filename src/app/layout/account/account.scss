@@ -99,8 +99,10 @@
   transform: perspective(40px) rotateY(-40deg);
 }
 
+// A long name (up to 40 characters) would push the header onto two lines at 1366 px — cut it,
+// the full name is in the tooltip.
 .name {
-  max-width: 10rem;
+  max-width: 7rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

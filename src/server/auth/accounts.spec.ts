@@ -1,3 +1,7 @@
+import { mkdtempSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { DatabaseSync } from 'node:sqlite';
 import { SESSION_TTL_MS, openAccounts } from './accounts';
 
 describe('accounts', () => {
@@ -20,6 +24,33 @@ describe('accounts', () => {
     expect(await accounts.register({ ...violet, displayName: 'V' })).toEqual({ error: 'imie' });
     await accounts.register(violet);
     expect(await accounts.register({ ...violet, email: 'violet@EXAMPLE.com' })).toEqual({ error: 'zajety' });
+  });
+
+  it('stores the cover consent with its time, and its withdrawal', async () => {
+    const accounts = fresh();
+    const { user } = (await accounts.register({ ...violet, coversConsent: true }, 1_000)) as { user: { id: number } };
+    expect(accounts.hasCoversConsent(user.id)).toBe(true);
+    const row = () => accounts.db.prepare('SELECT covers_consent_at AS at FROM users WHERE id = ?').get(user.id);
+    expect(row()).toEqual({ at: 1_000 });
+    accounts.setCoversConsent(user.id, false);
+    expect(accounts.hasCoversConsent(user.id)).toBe(false);
+    expect(row()).toEqual({ at: null });
+
+    const { user: other } = (await accounts.register({ ...violet, email: 'x@example.com' })) as { user: { id: number } };
+    expect(accounts.hasCoversConsent(other.id)).toBe(false); // unticked = no consent
+  });
+
+  it('adds the consent column to a users.db created before it existed', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'luska-'));
+    const path = join(dir, 'users.db');
+    const old = new DatabaseSync(path);
+    old.exec(`CREATE TABLE users (id INTEGER PRIMARY KEY, email TEXT NOT NULL UNIQUE, display_name TEXT NOT NULL,
+      password_hash TEXT NOT NULL, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`);
+    old.close();
+    const accounts = openAccounts(path);
+    expect(accounts.db.prepare('SELECT covers_consent_at FROM users').all()).toEqual([]);
+    accounts.db.close();
+    rmSync(dir, { recursive: true, force: true });
   });
 
   it('sessions: lookup, expiry and logout', async () => {

@@ -24,6 +24,7 @@ import { Catalog } from './server/catalog';
 import { openDatabase } from './server/db/database';
 import { allowedHosts, healthz, isDemo, publicOrigin, securityHeaders, trustProxy, withPublicOrigin } from './server/production';
 import { seoRouter } from './server/seo';
+import { coversRouter } from './server/covers';
 import { themeFromRequest, themeRouter, withTheme } from './server/theme';
 import { ShelfStore } from './server/shelf/shelf-store';
 import { shelfApiRouter, shelfFormRouter } from './server/shelf/shelf-router';
@@ -41,9 +42,8 @@ app.disable('x-powered-by');
  * The path is relative to the working directory — also during `ng build`, when prerendering calls our API.
  */
 const catalogDb = openCatalogDb();
-const catalog = new Catalog(catalogDb, {
-  covers: process.env['COVER_SOURCE'] === 'none' ? 'none' : 'openlibrary',
-});
+const realCovers = process.env['COVER_SOURCE'] !== 'none';
+const catalog = new Catalog(catalogDb, { covers: realCovers ? 'openlibrary' : 'none' });
 
 function openCatalogDb(): DatabaseSync {
   try {
@@ -100,9 +100,10 @@ app.use(
 app.use(session);
 
 /** Sign-in, registration and sign-out forms (POST, work without JS). */
-app.use(localized('/auth'), authRouter(accounts));
+app.use(localized('/auth'), authRouter(accounts, { realCovers }));
 app.use(localized('/polka'), shelfFormRouter(shelf, catalog));
 app.use(localized('/motyw'), themeRouter());
+app.use(localized('/okladki'), coversRouter(accounts));
 
 /** Private pages: 302 to sign-in before Angular ever sees the request. */
 app.use(localized('/moja-polka'), requireUser('/moja-polka'));
@@ -132,7 +133,7 @@ app.use((req, res, next) => {
 
   angularApp
     // The second argument reaches Angular as REQUEST_CONTEXT.
-    .handle(req, { user: publicUser(user), demo, apiOrigin } satisfies RequestContext)
+    .handle(req, { user: publicUser(user), demo, covers: realCovers, apiOrigin } satisfies RequestContext)
     // Theme from the cookie, also in prerendered and Client-mode HTML (src/server/theme.ts).
     .then((response) => (response ? withTheme(response, themeFromRequest(req)) : null))
     // Prerendered pages were built without knowing our address — fill it in (src/server/production.ts).

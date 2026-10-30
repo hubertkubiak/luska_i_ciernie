@@ -24,6 +24,8 @@ describe('Strona główna', () => {
       cy.viewport(w, h);
       cy.visit('/');
       cy.get('app-trope-of-the-day a');
+      // Measure the final layout: before the web fonts load, the wider fallback font wraps the tagline.
+      cy.document().then((d) => d.fonts.ready);
       cy.document().then((d) => {
         expect(d.documentElement.scrollHeight, 'wysokość strony').to.be.at.most(d.documentElement.clientHeight);
         expect(d.documentElement.scrollWidth, 'szerokość strony').to.be.at.most(d.documentElement.clientWidth);

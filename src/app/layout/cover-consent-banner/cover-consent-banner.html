@@ -1,0 +1,14 @@
+@if (visible()) {
+  <!-- action is RELATIVE: against <base href> it gives /okladki or /en/okladki (src/server/covers.ts). -->
+  <form class="banner" method="post" action="okladki" i18n-aria-label="@@coversBanner.label" aria-label="Prawdziwe okładki">
+    <input type="hidden" name="next" [attr.value]="here()" />
+    <p>
+      <ng-container i18n="@@coversBanner.text">Pokazujemy własne okładki. Prawdziwe wczytalibyśmy z Open Library (USA) — Twoja przeglądarka przekazałaby tam swój adres IP.</ng-container>
+      <a routerLink="/prywatnosc" i18n="@@coversBanner.more">Prywatność</a>
+    </p>
+    <div class="actions">
+      <button type="submit" name="zgoda" value="tak" i18n="@@coversBanner.yes">Pokaż prawdziwe okładki</button>
+      <button type="submit" name="zgoda" value="nie" i18n="@@coversBanner.no">Nie, dziękuję</button>
+    </div>
+  </form>
+}

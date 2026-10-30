@@ -17,7 +17,11 @@ describe('Strona książki (SSR + transfer cache)', () => {
     cy.intercept('GET', '/api/books/iron-flame').as('ironFlame');
 
     cy.visit('/ksiazka/fourth-wing');
-    cy.contains('a', 'Iron Flame').click();
+    // Wait for hydration (Angular drops the jsaction markers): a click before it is a plain link —
+    // a full page load from the server, which is fine, but not what this test checks.
+    cy.contains('a', 'Iron Flame')
+      .should(($a) => expect($a).not.to.have.attr('jsaction'))
+      .click();
 
     cy.wait('@ironFlame');
     cy.location('pathname').should('eq', '/ksiazka/iron-flame');

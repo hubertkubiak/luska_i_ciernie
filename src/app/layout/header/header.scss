@@ -1,6 +1,6 @@
 // Width below which the navigation hides behind the "Map" button. Chosen so that
-// five items with captions + the theme toggle + the account fit on one line — measured:
-// at 1366 px they fit, at 1320 px the header broke onto two lines.
+// five items with captions + language and theme buttons + the account fit on one line — measured:
+// at 1366 px they fit (with the tighter gaps below), at 1320 px the header broke onto two lines.
 $collapse: 85rem;
 
 .header {
@@ -24,7 +24,7 @@ $collapse: 85rem;
 ul {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.25rem 1.1rem;
+  gap: 0.25rem 0.8rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -33,7 +33,7 @@ ul {
 nav a {
   display: flex;
   flex-direction: column;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: var(--text);
   text-decoration: none;
   transition: color var(--dur) var(--ease);
@@ -47,6 +47,11 @@ nav a {
 small {
   font-size: 0.7rem;
   color: var(--text-muted);
+}
+
+.prefs {
+  display: flex;
+  gap: 0.4rem;
 }
 
 .skip {
@@ -185,7 +190,7 @@ small {
   }
 
   app-account,
-  app-theme-toggle {
+  .prefs {
     justify-self: start;
   }
 }
@@ -199,14 +204,14 @@ small {
   }
 
   .header {
-    column-gap: 1.5rem;
+    column-gap: 1.25rem;
   }
 
   .menu {
     display: flex;
     flex: 1;
     align-items: center;
-    gap: 1rem 1.25rem;
+    gap: 1rem;
     position: static;
     width: auto;
     height: auto;

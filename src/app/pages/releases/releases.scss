@@ -97,6 +97,12 @@ h1 {
   color: var(--ember);
 }
 
+// Only the month or quarter is known — a quieter badge than a day count.
+.approximate .badge {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
 .rss {
   margin-top: 2rem;
   font-size: 0.9rem;

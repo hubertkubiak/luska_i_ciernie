@@ -69,6 +69,17 @@
       }
     </div>
 
+    <!-- Optional and unticked: the account never depends on it (GDPR art. 7(4)). Only when real covers exist at all. -->
+    @if (!login && coversAvailable) {
+      <div class="consent">
+        <input id="okladki" name="okladki" type="checkbox" value="tak" />
+        <label for="okladki">
+          <ng-container i18n="@@auth.coversConsent">Pokazuj mi prawdziwe okładki z Open Library (USA). Moja przeglądarka przekaże tam swój adres IP.</ng-container>
+          <small i18n="@@auth.coversConsentHint">Opcjonalne — zgodę cofniesz jednym przyciskiem na stronie książki lub w sekcji Prywatność.</small>
+        </label>
+      </div>
+    }
+
     <button class="cta" type="submit">
       @if (login) {
         <ng-container i18n="@@auth.loginSubmit">Przekrocz próg</ng-container>

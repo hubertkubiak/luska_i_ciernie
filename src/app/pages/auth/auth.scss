@@ -79,6 +79,32 @@ form {
   }
 }
 
+// The optional cover consent: a native checkbox (keyboard, screen readers) in the theme's accent colour.
+.consent {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.6rem;
+  align-items: start;
+  font-size: 0.9rem;
+
+  input {
+    width: 1.1rem;
+    height: 1.1rem;
+    margin: 0.15rem 0 0;
+    accent-color: var(--gilt);
+  }
+
+  label {
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  small {
+    @include forms.field-label;
+    font-size: 0.75rem;
+  }
+}
+
 // Main button (SPEC §2.7): the "Ember" gradient, Cormorant small-caps.
 .cta {
   justify-self: center;

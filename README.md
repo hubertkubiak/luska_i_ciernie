@@ -96,7 +96,9 @@ URLs are Polish (the source language); the English version lives under the `/en/
 | 🌍 | **Languages** | `/…` and `/en/…` | Polish (default) and English, with book titles as published in each market |
 
 The titles are real romantasy books, but only with metadata and our own descriptions —
-**no quotes**. Releases in `seed/releases.json` are **fictional** sample data (the page says so).
+**no quotes**. Releases in `seed/releases.json` are real Polish-edition announcements. When only the
+month or quarter is known, the date is written as `"2026-11"` or `"2026-Q4"` and the page shows
+"listopad 2026" / "IV kw. 2026" with no countdown. Update the file by hand as announcements change.
 
 ---
 
@@ -210,10 +212,13 @@ Defined in `src/app/app.routes.server.ts`, each with its rationale in a comment:
 ## 💾 Data and database
 
 - 🌱 **`seed/*.json`** — the catalogue's source of truth: books, authors, series, tropes, releases.
-  Titles and series names have per-language variants (e.g. "Okrutny książę" / "The Cruel Prince"),
-  and so do covers of local editions.
+  Base texts are Polish; every other language sits next to them — `titles`, `names`, `descriptions`,
+  `bios`, `notes` (e.g. `"descriptions": { "en": "…" }`) — and content warnings are translated once in
+  `seed/warnings.json`. Titles follow each market's edition ("Okrutny książę" / "The Cruel Prince"),
+  and so do covers of local editions. A missing translation falls back to Polish.
 - 🔨 **`scripts/seed.ts`** → **`data/luska.db`**: schema in `src/server/db/database.ts` (books, titles
-  per language, covers per language, tropes, warnings, series, releases, old slugs → 301 redirects).
+  per language, covers per language, tropes, warnings, series, releases, old slugs → 301 redirects,
+  plus `*_texts` / `*_descriptions` / `*_bios` / `*_notes` translation tables read with `COALESCE`).
   The seed rebuilds the database **in place, in a single transaction**, with a foreign key check —
   it works even while a running server holds the file open.
 - 👤 **`data/users.db`**: accounts, sessions and shelves (writable, not in git). A shelf is deleted
@@ -223,8 +228,10 @@ Defined in `src/app/app.routes.server.ts`, each with its rationale in a comment:
   order in JS (`localeCompare`), diacritics-insensitive search (`search_text` column), "kindred
   books" by number of shared tropes.
 
-Covers come from Open Library by default; `COVER_SOURCE=none` switches to **our own generated
-covers** (realm background, trope rune, title) — see [legal notes](#-legal-notes).
+Every reader sees **our own generated covers** (realm background, trope rune, title) until they
+press "Show real covers" — only then does their browser load images from Open Library (consent in the
+`covers` cookie, withdrawn with one button; the `/prywatnosc` page linked from the footer explains it).
+`COVER_SOURCE=none` removes real covers and the consent form altogether — see [legal notes](#-legal-notes).
 
 ---
 
@@ -250,7 +257,7 @@ All responses are JSON. The content language is selected by a header added by `a
 
 Outside the API: `/robots.txt`, `/sitemap.xml` (with `hreflang` for both languages), `/rss/premiery`
 (+ `/en/rss/premiery`) and the forms `POST /auth/logowanie`, `/auth/rejestracja`,
-`/auth/wyloguj`, `/polka`, `/motyw`.
+`/auth/wyloguj`, `/polka`, `/motyw`, `/okladki` (cover consent).
 
 </details>
 
@@ -284,13 +291,18 @@ Outside the API: `/robots.txt`, `/sitemap.xml` (with `hreflang` for both languag
 
 - 🇵🇱 Polish is the source language (path `/`), 🇬🇧 English is a translation (`/en/`). The
   `--localize` build produces a separate app per language; the server picks one by path prefix.
+- 🔀 The **PL / EN** button in the header (`app-language-switch`) leads to the same page in the other
+  language, query string included. It is a plain `<a href hreflang>`: switching loads the other build,
+  works without JS, and the URL alone decides the language (no cookie, no `Accept-Language` redirect).
+- 📚 Catalogue content is translated too — trope names and descriptions, book descriptions, content
+  warnings, author bios and release notes — and the API serves it in the app's language.
 - Template texts have stable IDs (`i18n="@@book.similarTitle"`); translations live in
   `src/locale/messages.en.json`. After adding a text: `npx ng extract-i18n` and add the translation.
 - Plurals ("1 tom / 2 tomy / 5 tomów") are handled by pipes built on `Intl.PluralRules` — ICU
   expressions inside `@for` break i18n hydration.
 - ➕ Adding another language: an entry in `i18n.locales` in `angular.json`, a translation file, and an
   entry in `LANGS` / `LANG_PREFIX` in `src/shared/models.ts` (which drives `hreflang`, the sitemap
-  and the switcher).
+  and the switcher), plus `<lang>` keys in the seed.
 
 ---
 
@@ -408,7 +420,7 @@ request, so a broken build is caught before Render picks it up.
 | `PORT` | `4000` | Node server port |
 | `DB_PATH` | `data/luska.db` | catalogue database (read-only) |
 | `USERS_DB_PATH` | `data/users.db` | accounts, sessions and shelves database |
-| `COVER_SOURCE` | `openlibrary` | `none` = generated covers only |
+| `COVER_SOURCE` | `openlibrary` | real covers after the reader's consent; `none` = generated covers only |
 | `PUBLIC_ORIGIN` | `RENDER_EXTERNAL_URL`, locally the request | public site URL for the sitemap and RSS |
 | `COOKIE_SECURE` | — | `true` forces `Secure` on cookies (e.g. behind an HTTPS proxy) |
 | `REGISTER_LIMIT_PER_HOUR` | `5` | registrations per hour from one address |
@@ -498,8 +510,11 @@ Each stage is one commit — `git log` walks through the project like a course.
 
 > [!IMPORTANT]
 > The site shows only book metadata and its own descriptions — **no quotes**. The main risk is
-> covers (publishers' copyright): `COVER_SOURCE=none` is recommended in production. Fonts are
-> self-hosted and the only cookies (`sid`, `theme`) are functional. Details:
+> covers (publishers' copyright): `COVER_SOURCE=none` is the safe choice in production. Real covers
+> load only after the reader's consent (GDPR: the browser sends its IP to Open Library) — asked once
+> in a small corner banner, or with an optional unticked checkbox at registration (stored on the
+> account with its time). Fonts are self-hosted; cookies: `sid`, `theme` (functional) and `covers`
+> (the decision). Details:
 > [`docs/PRAWNE.md`](docs/PRAWNE.md) (in Polish). This is not legal advice.
 
 ---

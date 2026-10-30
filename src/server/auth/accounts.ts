@@ -16,7 +16,10 @@ CREATE TABLE IF NOT EXISTS users (
   email         TEXT NOT NULL UNIQUE COLLATE NOCASE,
   display_name  TEXT NOT NULL,
   password_hash TEXT NOT NULL,
-  created_at    TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+  created_at    TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  -- Consent to real covers (docs/PRAWNE.md §2): NULL = none, otherwise WHEN it was given (ms) —
+  -- the controller must be able to show the consent was given (GDPR art. 7(1)).
+  covers_consent_at INTEGER
 );
 
 -- W bazie jest tylko SHA-256 tokenu. Sam token zna wyłącznie przeglądarka (ciasteczko), więc
@@ -50,7 +53,17 @@ export function openAccounts(path: string): Accounts {
   // WAL: reads (checking the session on every request) do not wait for writes (signing in).
   if (path !== ':memory:') db.exec('PRAGMA journal_mode = WAL;');
   db.exec(SCHEMA);
+  migrate(db);
   return new Accounts(db);
+}
+
+/**
+ * CREATE TABLE IF NOT EXISTS does not touch a table that already exists, so a column added later
+ * must be added to existing databases by hand (on a server with a persistent disk, users.db survives deploys).
+ */
+function migrate(db: DatabaseSync): void {
+  const columns = (db.prepare('PRAGMA table_info(users)').all() as { name: string }[]).map((c) => c.name);
+  if (!columns.includes('covers_consent_at')) db.exec('ALTER TABLE users ADD COLUMN covers_consent_at INTEGER');
 }
 
 export class Accounts {
@@ -58,7 +71,8 @@ export class Accounts {
   constructor(readonly db: DatabaseSync) {}
 
   async register(
-    input: { email: string; password: string; displayName: string },
+    input: { email: string; password: string; displayName: string; coversConsent?: boolean },
+    now = Date.now(),
   ): Promise<{ user: Account } | { error: RegisterError }> {
     const email = normalizeEmail(input.email);
     const displayName = input.displayName.trim();
@@ -72,8 +86,8 @@ export class Accounts {
     const passwordHash = await hashPassword(input.password);
     try {
       const { lastInsertRowid } = this.db
-        .prepare('INSERT INTO users (email, display_name, password_hash) VALUES (?, ?, ?)')
-        .run(email, displayName, passwordHash);
+        .prepare('INSERT INTO users (email, display_name, password_hash, covers_consent_at) VALUES (?, ?, ?, ?)')
+        .run(email, displayName, passwordHash, input.coversConsent ? now : null);
       return { user: { id: Number(lastInsertRowid), email, displayName } };
     } catch (e) {
       // UNIQUE on the e-mail is checked by the database — no "check, then insert" race.
@@ -91,6 +105,19 @@ export class Accounts {
       | undefined;
     const ok = await verifyPassword(password, row?.password_hash ?? DUMMY_HASH);
     return row && ok ? { id: row.id, email: row.email, displayName: row.display_name } : null;
+  }
+
+  /** Has this person consented to real covers (on any device)? */
+  hasCoversConsent(userId: number): boolean {
+    const row = this.db.prepare('SELECT covers_consent_at FROM users WHERE id = ?').get(userId) as
+      | { covers_consent_at: number | null }
+      | undefined;
+    return row?.covers_consent_at != null;
+  }
+
+  /** Records a new decision: the time of consent, or NULL after it is withdrawn. */
+  setCoversConsent(userId: number, granted: boolean, now = Date.now()): void {
+    this.db.prepare('UPDATE users SET covers_consent_at = ? WHERE id = ?').run(granted ? now : null, userId);
   }
 
   /** A new session = a new random token (256 bits). We never use a token supplied by the client. */

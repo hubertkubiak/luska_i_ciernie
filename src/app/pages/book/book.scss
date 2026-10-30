@@ -28,6 +28,9 @@
 
 .cover {
   grid-area: cover;
+  display: grid;
+  gap: 0.75rem;
+  align-content: start;
 
   app-cover {
     width: 180px;

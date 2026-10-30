@@ -5,6 +5,7 @@ import type { BookDetail } from '../../../shared/models';
 import { Seo, summary } from '../../core/seo';
 import { ServerResponse } from '../../core/server-response';
 import { Cover } from '../../ui/cover/cover';
+import { CoverConsentForm } from '../../ui/cover-consent-form/cover-consent-form';
 import { ShelfControl } from '../../ui/shelf-control/shelf-control';
 import { Rune } from '../../ui/rune/rune';
 import { SpiceMeter } from '../../ui/spice-meter/spice-meter';
@@ -16,7 +17,7 @@ const ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
 @Component({
   selector: 'app-book-page',
   // SimilarBooks is used only inside @defer, so the compiler splits it into its own chunk.
-  imports: [RouterLink, Cover, SpiceMeter, NotFound, Rune, ShelfControl, SimilarBooks],
+  imports: [RouterLink, Cover, CoverConsentForm, SpiceMeter, NotFound, Rune, ShelfControl, SimilarBooks],
   templateUrl: './book.html',
   styleUrl: './book.scss',
 })

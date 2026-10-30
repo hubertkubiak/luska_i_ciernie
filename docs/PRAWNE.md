@@ -11,14 +11,14 @@ czytelniczek w Polsce, więc punktem odniesienia jest prawo polskie i unijne.
 
 | Obszar | Ryzyko | Stan | Co dalej |
 |---|---|---|---|
-| Okładki z Open Library | **wysokie** w produkcji | przełącznik `COVER_SOURCE=none` i własne generowane okładki | na produkcji `none`, dopóki nie ma licencji (§1) |
+| Okładki z Open Library | **wysokie** w produkcji | przełącznik `COVER_SOURCE=none`; domyślnie własne generowane okładki, prawdziwe dopiero po zgodzie | demo: okładki po zgodzie; docelowo `none` albo licencja (§1) |
 | Fonty Google | średnie (RODO) | **naprawione**: fonty z własnej domeny (`@fontsource`) | — |
-| Połączenia do covers.openlibrary.org | średnie (RODO) | usunięty `preconnect`; przy `COVER_SOURCE=none` brak połączeń | — |
+| Połączenia do covers.openlibrary.org | średnie (RODO) | **naprawione**: tylko po zgodzie (ciasteczko `covers`), wycofanie jednym przyciskiem; usunięty `preconnect` | — |
 | Opisy, biogramy, ostrzeżenia | niskie | własne teksty, bez cytatów (SPEC §1) | utrzymać zasadę przy nowych danych |
 | Tytuły, nazwy serii | niskie | użycie opisowe (oznaczenie książki) | nie robić z tytułów nazw własnych usług |
-| Cookies | niskie | `sid` (sesja, po zalogowaniu) i `theme` (motyw, po kliknięciu przełącznika) — oba funkcjonalne | opisać w polityce prywatności; analityka wymagałaby zgody (§3) |
+| Cookies | niskie | `sid` (sesja), `theme` (motyw), `covers` (zgoda na okładki) — opisane na `/prywatnosc` | analityka wymagałaby zgody (§3) |
 | Konta użytkowników | średnie | są: e‑mail, imię, hash hasła (scrypt), sesje (§2) | polityka prywatności, regulamin, usuwanie konta (§2, §4) |
-| Dane usługodawcy, regulamin | średnie po dodaniu kont | brak | dodać przed publikacją (§4) |
+| Dane usługodawcy, regulamin | średnie po dodaniu kont | strona `/prywatnosc` (link w stopce); regulaminu i danych usługodawcy brak | uzupełnić przed publikacją produkcyjną (§4) |
 
 ---
 
@@ -59,7 +59,7 @@ inni uprawnieni. Okładki ma kilkanaście książek, tam gdzie Open Library zna 
 ### Co zrobiono w kodzie
 
 - `COVER_SOURCE=none` (zmienna środowiskowa serwera): API zwraca `coverUrl: null`, a `<app-cover>` rysuje własną okładkę z kolorem krainy, runą tropu, tytułem i autorką (SPEC §2.9). Nikt nie ma do niej praw poza nami, a przeglądarka nie łączy się z zewnętrznym serwerem.
-- Domyślnie (dev) okładki są włączone, żeby przyjemnie się pracowało.
+- Przy `COVER_SOURCE=openlibrary` (domyślnie) API zwraca adresy okładek, ale `<app-cover>` pokazuje je **dopiero po zgodzie** czytelnika (`CoverConsent`, ciasteczko `covers=on`). Bez zgody HTML z serwera nie zawiera żadnego adresu `covers.openlibrary.org`, więc przeglądarka niczego stamtąd nie pobiera. Zgoda nie rozwiązuje kwestii prawa autorskiego — tylko RODO.
 
 ### Rekomendacja
 
@@ -73,7 +73,12 @@ inni uprawnieni. Okładki ma kilkanaście książek, tam gdzie Open Library zna 
 ## 2. Ochrona danych (RODO)
 
 - **Fonty — naprawione.** Wczytywanie Google Fonts z serwerów Google przekazuje Google adres IP odwiedzającego, a adres IP jest daną osobową. Bez zgody trudno to uzasadnić, skoro fonty można po prostu hostować u siebie. Fonty są teraz w buildzie (`@fontsource`, licencja OFL) i serwowane z naszej domeny.
-- **Okładki z Open Library.** Analogicznie: przeglądarka łączy się z serwerem Internet Archive (USA) i przekazuje IP. Przy `COVER_SOURCE=none` to znika. Usunięto też `<link rel="preconnect">`, który łączył się z Open Library przy każdej wizycie, nawet bez okładek. Alternatywa „proxy okładek przez nasz serwer” rozwiązałaby kwestię IP, ale wtedy **sami** zwielokrotniamy i udostępniamy utwór, co jest gorsze pod kątem prawa autorskiego.
+- **Okładki z Open Library.** Analogicznie: przeglądarka łączy się z serwerem Internet Archive (USA) i przekazuje IP. Dlatego dzieje się to tylko po zgodzie (art. 6 ust. 1 lit. a). Gdzie się o nią pytamy:
+  - **jednorazowy pasek** w rogu ekranu dla niezalogowanych: bez zasłaniania strony, dwa równorzędne przyciski („Pokaż prawdziwe okładki” / „Nie, dziękuję”) i informacja, dokąd trafia IP. Obie odpowiedzi są zapamiętane (`covers=on|off`), więc pasek nie wraca;
+  - **pole przy rejestracji**: niezaznaczone, opcjonalne, osobne od samej rejestracji; konto działa bez niego (art. 7 ust. 4). Zgoda trafia do bazy z datą udzielenia (`users.covers_consent_at`), co pozwala ją wykazać (art. 7 ust. 1), i obowiązuje po zalogowaniu na innym urządzeniu;
+  - przycisk pod okładką na stronie książki i na `/prywatnosc`.
+
+  Zgoda jest ważna rok, cofa się ją jednym przyciskiem „Cofnij zgodę na prawdziwe okładki” (art. 7 ust. 3); u zalogowanej osoby cofnięcie czyści też zapis przy koncie. Przy `COVER_SOURCE=none` formularza w ogóle nie ma. Transfer do USA: Internet Archive najpewniej nie jest objęte Data Privacy Framework, więc podstawą jest sama zgoda po poinformowaniu o ryzyku (art. 49 ust. 1 lit. a) — dla dema to akceptowalne, dla produkcji lepiej `none` albo licencjonowane źródło w UE. Usunięto też `<link rel="preconnect">`, który łączył się z Open Library przy każdej wizycie, nawet bez okładek. Alternatywa „proxy okładek przez nasz serwer” rozwiązałaby kwestię IP, ale wtedy **sami** zwielokrotniamy i udostępniamy utwór, co jest gorsze pod kątem prawa autorskiego.
 - **Logi serwera** (`[api] …` w konsoli) nie zapisują IP. Jeśli kiedyś będą (bezpieczeństwo), podstawą jest prawnie uzasadniony interes (art. 6 ust. 1 lit. f), z krótką retencją i wzmianką w polityce prywatności.
 - **Konta — wdrożone (etap 12).** Co jest:
   - zbieramy minimum: e‑mail, imię lub pseudonim i hash hasła (`data/users.db`);
@@ -101,14 +106,17 @@ W praktyce dla nas:
 - ciasteczko `theme` (etap 13) powstaje dopiero po kliknięciu przełącznika motywu. To preferencja ustawiona na wyraźne żądanie, raczej też wyjątek, ale opisujemy je w polityce prywatności. Nie jest `HttpOnly`, bo zapisuje je także skrypt strony, i nie zawiera żadnych danych osobowych;
 - analityka, piksele reklamowe i osadzone media zewnętrzne **wymagają zgody** (baner z równorzędnym „odrzuć”).
 
-Poza tymi dwoma ciasteczkami serwis nie zapisuje żadnych cookies ani `localStorage`. Osoba, która się nie loguje i nie zmienia motywu, nie dostaje żadnego.
+- ciasteczko `covers` powstaje dopiero po odpowiedzi na pytanie o okładki: `on` (zgoda) albo `off` (odmowa lub cofnięcie). To zapis decyzji podjętej na żądanie osoby, potrzebny, żeby nie pytać ponownie.
+
+Poza tymi trzema ciasteczkami serwis nie zapisuje żadnych cookies ani `localStorage`. Osoba, która się nie loguje i niczego nie przełącza, nie dostaje żadnego. Wszystkie trzy opisuje strona `/prywatnosc`.
 
 **Półka** (etap 13) to dane osobowe powiązane z kontem: statusy, oceny i notatki. Leżą w `data/users.db` i kasują się razem z kontem (`ON DELETE CASCADE`). Notatki mogą zawierać cokolwiek, co osoba wpisze, więc przy usuwaniu konta i eksporcie danych traktujemy je jak resztę konta.
 
 ## 4. Obowiązki informacyjne usługodawcy
 
 - Ustawa o świadczeniu usług drogą elektroniczną: usługodawca podaje swoje dane (art. 5), a przy usługach takich jak konto i półka potrzebny jest **regulamin** (art. 8).
-- **Do zrobienia przed publikacją:** strony „Regulamin” i „Polityka prywatności” z linkami w stopce, w obu wersjach językowych.
+- **Jest:** strona „Prywatność” (`/prywatnosc`, obie wersje językowe, dyskretny link w stopce): dane konta i półki, ciasteczka, okładki, hosting, kontakt przez zgłoszenie w repozytorium.
+- **Do zrobienia przed publikacją produkcyjną:** regulamin, pełne dane administratora (imię i nazwisko lub firma, adres e‑mail) oraz usuwanie konta i eksport danych w samym serwisie.
 
 ## 5. Treści katalogu
 

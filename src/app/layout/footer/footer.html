@@ -1,7 +1,12 @@
 <footer class="footer">
   <hr class="gilt" />
-  <p class="label" i18n="@@footer.label">Łuska i Ciernie · archiwum romantasy</p>
+  <!-- The privacy link shares the label's line: a separate line would push the home page past one screen.
+       A plain link, not routerLink: the footer is never hydrated (app.html). Relative → /en/… in English. -->
+  <p class="label">
+    <span i18n="@@footer.label">Łuska i Ciernie · archiwum romantasy</span> ·
+    <a class="privacy" href="prywatnosc" i18n="@@footer.privacy">Prywatność</a>
+  </p>
   <p class="note" i18n="@@footer.note">
-    Tylko metadane i własne opisy tropów. Okładki z Open Library. Żadnych cytatów — czytaj książki.
+    Tylko metadane i własne opisy tropów. Żadnych cytatów — czytaj książki.
   </p>
 </footer>

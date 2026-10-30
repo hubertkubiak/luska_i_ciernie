@@ -9,7 +9,7 @@
         <path class="leaf open" d="M9 21V11.5a3 3 0 0 1 3-3l3 1v11.5" />
       </svg>
       <span class="login-text">
-        <span class="name">{{ u.displayName }}</span>
+        <span class="name" [attr.title]="u.displayName">{{ u.displayName }}</span>
         <small i18n="@@header.yourShelf">Twój skarbiec</small>
       </span>
     </a>

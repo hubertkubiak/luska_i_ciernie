@@ -33,7 +33,11 @@
       </ul>
     </nav>
 
-    <app-theme-toggle />
+    <!-- Language and theme: two small round buttons kept together, so they take one slot in the bar. -->
+    <div class="prefs">
+      <app-language-switch />
+      <app-theme-toggle />
+    </div>
     <app-account />
   </div>
 </header>

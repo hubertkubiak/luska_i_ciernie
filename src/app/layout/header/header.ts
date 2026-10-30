@@ -6,6 +6,7 @@ import { filter, map } from 'rxjs';
 import { Session } from '../../core/session';
 import { Rune } from '../../ui/rune/rune';
 import { Account } from '../account/account';
+import { LanguageSwitch } from '../language-switch/language-switch';
 import { ThemeToggle } from '../theme-toggle/theme-toggle';
 
 interface NavItem {
@@ -18,7 +19,7 @@ interface NavItem {
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, RouterLinkActive, Rune, Account, ThemeToggle],
+  imports: [RouterLink, RouterLinkActive, Rune, Account, LanguageSwitch, ThemeToggle],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })

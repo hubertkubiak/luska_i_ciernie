@@ -13,6 +13,7 @@ const data: SeedData = {
   authors: read('authors'),
   series: read('series'),
   releases: read('releases'),
+  warnings: read('warnings'),
 };
 
 // Always from scratch (in place, in one transaction): the seed is the source of truth, the database only its "compiled" form.

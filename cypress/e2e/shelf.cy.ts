@@ -21,7 +21,8 @@ describe('Skarbiec', () => {
     signUp();
     cy.intercept('PUT', '/api/shelf/fourth-wing').as('save');
     cy.visit('/ksiazka/fourth-wing');
-    cy.get('.spark, app-shelf-control form').should('exist');
+    // Hydrated (jsaction markers gone) — before that the click would be a native form POST.
+    cy.get('app-shelf-control form').should(($f) => expect($f).not.to.have.attr('jsaction'));
     cy.window().then((w) => ((w as unknown as { bezPrzeladowania: boolean }).bezPrzeladowania = true));
 
     cy.contains('app-shelf-control button', 'Czytam').click();

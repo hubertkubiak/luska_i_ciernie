@@ -1,13 +1,14 @@
 import { NgOptimizedImage } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import type { BookSummary } from '../../../shared/models';
+import { CoverConsent } from '../../core/cover-consent';
 import { Rune } from '../rune/rune';
 
 /**
- * A book cover. The real one (NgOptimizedImage) when the API gave a coverUrl, or our own,
- * generated one (SPEC §2.9): realm background, the main trope's rune, title and author. The generated
- * one infringes nobody's rights and does not send the reader's IP address to a third-party server
- * (COVER_SOURCE=none, see docs/PRAWNE.md).
+ * A book cover. The real one (NgOptimizedImage) when the API gave a coverUrl AND the reader agreed
+ * to load it (CoverConsent), otherwise our own, generated one (SPEC §2.9): realm background, the main
+ * trope's rune, title and author. The generated one infringes nobody's rights and does not send
+ * the reader's IP address to a third-party server (see docs/PRAWNE.md).
  */
 @Component({
   selector: 'app-cover',
@@ -27,4 +28,7 @@ export class Cover {
   readonly priority = input(false);
   /** Empty = decoration (the title is right next to it, a screen reader need not read it twice). */
   readonly alt = input('');
+
+  private readonly consent = inject(CoverConsent).granted;
+  protected readonly src = computed(() => (this.consent() ? this.book().coverUrl : null));
 }

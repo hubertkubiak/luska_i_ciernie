@@ -1,0 +1,28 @@
+// The same round shape as the theme toggle next to it.
+:host {
+  display: inline-flex;
+  gap: 0.5rem;
+}
+
+a {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--velvet);
+  border-radius: 50%;
+  color: var(--gilt);
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  transition:
+    border-color var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease);
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--gilt);
+    box-shadow: 0 0 0.9rem color-mix(in srgb, var(--gilt) 35%, transparent);
+  }
+}

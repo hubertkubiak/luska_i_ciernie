@@ -29,13 +29,20 @@ describe('sitemap', () => {
 });
 
 describe('rss', () => {
-  const release = { slug: 'a', title: 'Sól & <Przysięga>', author: 'M. K.', date: '2026-11-14', note: null };
+  const release = { slug: 'a', title: 'Sól & <Przysięga>', author: 'M. K.', date: '2026-11-14', precision: 'day', note: null } as const;
 
   it('escapes data so a title cannot break the XML', () => {
     const xml = rssXml([release], 'https://x.pl', 'pl');
     expect(xml).toContain('<title>Sól &amp; &lt;Przysięga&gt; — M. K.</title>');
     expect(xml).toContain('<pubDate>Sat, 14 Nov 2026 00:00:00 GMT</pubDate>');
     expect(xml).toContain('<link>https://x.pl/premiery#a</link>');
+  });
+
+  it('says when only the month or quarter is known', () => {
+    const month = { ...release, date: '2026-11-30', precision: 'month', note: 'Tom 6' } as const;
+    expect(rssXml([month], 'https://x.pl', 'pl')).toContain('<description>Termin przybliżony: listopad 2026 · Tom 6</description>');
+    const quarter = { ...release, date: '2026-12-31', precision: 'quarter' } as const;
+    expect(rssXml([quarter], 'https://x.pl', 'en')).toContain('<description>Approximate date: Q4 2026</description>');
   });
 
   it('points to the page of its language', () => {

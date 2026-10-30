@@ -124,23 +124,43 @@ export interface RequestContext {
   user: SessionUser | null;
   /** Public demo with ephemeral storage (DEMO_MODE=true) — auth pages warn about it. */
   demo?: boolean;
+  /** Real covers can be shown at all (COVER_SOURCE ≠ none) — otherwise there is nothing to consent to. */
+  covers?: boolean;
   /** Where SSR should call our own API directly (http://127.0.0.1:PORT) — see core/internal-api.ts. */
   apiOrigin?: string;
 }
 
 /** A release announcement (GET /api/releases). */
+/**
+ * How exact a release date is. Announcements often name only a month ("November 2026") or
+ * "the end of the year" — we show that as it is instead of inventing a day.
+ */
+export const RELEASE_PRECISIONS = ['day', 'month', 'quarter'] as const;
+export type ReleasePrecision = (typeof RELEASE_PRECISIONS)[number];
+
 export interface Release {
   slug: string;
   title: string;
   author: string;
-  /** Release day, YYYY-MM-DD. */
+  /**
+   * YYYY-MM-DD. For a 'day' — the release day; for a month or quarter — the LAST day of that period,
+   * so sorting puts "November" after every known November day and the entry stays listed until it ends.
+   */
   date: string;
+  precision: ReleasePrecision;
   note: string | null;
 }
 
 /** Theme: night (default) or parchment. Stored in the `theme` cookie. */
 export const THEMES = ['night', 'parchment'] as const;
 export type Theme = (typeof THEMES)[number];
+
+/**
+ * The decision about real covers from Open Library: `covers=on` (consent) or `covers=off` (declined or
+ * withdrawn). Without consent the UI draws only our own covers, so the reader's browser never connects
+ * to a third-party server (docs/PRAWNE.md §2).
+ */
+export const COVERS_COOKIE = 'covers';
 
 /** Shelf: to read / reading / read. */
 export const SHELF_STATUSES = ['tbr', 'reading', 'read'] as const;

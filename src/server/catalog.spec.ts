@@ -1,5 +1,6 @@
 import { Catalog } from './catalog';
 import { memoryDatabase, repoSeed } from './db/testing';
+import { releaseDate } from './db/database';
 
 describe('Catalog', () => {
   const catalog = new Catalog(memoryDatabase());
@@ -148,3 +149,53 @@ describe('database constraints', () => {
   });
 });
 
+
+describe('releaseDate', () => {
+  it('keeps a known day and maps a month or quarter to its last day', () => {
+    expect(releaseDate('2026-11-11')).toEqual({ date: '2026-11-11', precision: 'day' });
+    expect(releaseDate('2026-11')).toEqual({ date: '2026-11-30', precision: 'month' });
+    expect(releaseDate('2028-02')).toEqual({ date: '2028-02-29', precision: 'month' });
+    expect(releaseDate('2026-Q4')).toEqual({ date: '2026-12-31', precision: 'quarter' });
+    expect(releaseDate('2027-Q1')).toEqual({ date: '2027-03-31', precision: 'quarter' });
+  });
+
+  it('rejects anything else', () => {
+    expect(() => releaseDate('koniec 2026')).toThrow(/RRRR-MM-DD/);
+  });
+});
+
+describe('translations', () => {
+  const catalog = new Catalog(memoryDatabase());
+
+  it('serves English texts on /en/ and Polish ones by default', () => {
+    const en = catalog.getBook('fourth-wing', 'en')!;
+    expect(en.description).toMatch(/^A fragile girl/);
+    expect(en.contentWarnings).toEqual(['violence', 'death', 'sex scenes']);
+    expect(en.tropes.map((t) => t.name)).toContain('Dragon riders');
+    expect(catalog.getBook('fourth-wing')!.contentWarnings).toEqual(['przemoc', 'śmierć', 'sceny erotyczne']);
+
+    expect(catalog.getAuthor('rebecca-yarros', 'en')!.bio).toMatch(/^An American author/);
+    expect(catalog.listTropes('en').find((t) => t.slug === 'slow-burn')!.name).toBe('Slow burn');
+    expect(catalog.listTropes().find((t) => t.slug === 'slow-burn')!.name).toBe('Powolny żar');
+    expect(catalog.listReleases('2026-01-01', 'en')[0].note).toMatch(/A Court of Thorns and Roses/);
+  });
+
+  it('has an English version of every text in the seed', () => {
+    const englishWarnings = new Set(Object.values(repoSeed().warnings!).map((t) => t['en']));
+    for (const { slug } of catalog.listBooks()) {
+      const en = catalog.getBook(slug, 'en')!;
+      expect(en.description, slug).not.toBe(catalog.getBook(slug)!.description);
+      for (const w of en.contentWarnings) expect(englishWarnings.has(w), `${slug}: ${w}`).toBe(true);
+      expect(catalog.getAuthor(en.author.slug, 'en')!.bio, en.author.slug).not.toBe(catalog.getAuthor(en.author.slug)!.bio);
+    }
+    const plTropes = catalog.listTropes();
+    catalog.listTropes('en').forEach((t, i) => expect(t.description, t.slug).not.toBe(plTropes[i].description));
+  });
+
+  it('falls back to Polish when a translation is missing', () => {
+    const seed = repoSeed();
+    delete seed.books.find((b) => b.slug === 'fourth-wing')!.descriptions;
+    const partial = new Catalog(memoryDatabase(seed));
+    expect(partial.getBook('fourth-wing', 'en')!.description).toMatch(/^Krucha dziewczyna/);
+  });
+});

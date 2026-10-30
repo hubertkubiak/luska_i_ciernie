@@ -65,12 +65,12 @@ export function apiRouter(catalog: Catalog): Router {
   });
 
   // Releases from 30 days back (the latest "already in bookshops") to the furthest announcement.
-  router.get('/releases', (_req, res) => {
-    res.json(catalog.listReleases(releasesFrom()));
+  router.get('/releases', (req, res) => {
+    res.json(catalog.listReleases(releasesFrom(), lang(req)));
   });
 
-  router.get('/tropes', (_req, res) => {
-    res.json(catalog.listTropes());
+  router.get('/tropes', (req, res) => {
+    res.json(catalog.listTropes(lang(req)));
   });
 
   router.get('/tropes/:slug', (req, res) => {

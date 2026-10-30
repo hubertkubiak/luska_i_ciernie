@@ -1,5 +1,6 @@
 import { Component, computed, effect, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { CoverConsent } from '../../core/cover-consent';
 import { injectDemoMode } from '../../core/demo';
 import { Seo } from '../../core/seo';
 
@@ -50,6 +51,7 @@ export class AuthPage {
 
   /** Demo hosting without a persistent disk: say honestly that accounts will not last. */
   protected readonly demo = injectDemoMode();
+  protected readonly coversAvailable = inject(CoverConsent).available;
 
   /** The same `next` in the "Seal the pact / Cross the threshold" link, so the target survives switching forms. */
   protected readonly nextParams = computed(() => (this.next() ? { next: this.next() } : {}));

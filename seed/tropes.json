@@ -2,103 +2,205 @@
   {
     "slug": "enemies-to-lovers",
     "name": "Od wrogów do kochanków",
+    "names": {
+      "en": "Enemies to lovers"
+    },
     "realm": "turnie",
-    "description": "Ostrza skrzyżowały się, zanim splotły się dłonie. Każde spotkanie to pojedynek, a każdy pojedynek — o krok bliżej do kapitulacji, której żadne z nich nie chce przyznać."
+    "description": "Ostrza skrzyżowały się, zanim splotły się dłonie. Każde spotkanie to pojedynek, a każdy pojedynek — o krok bliżej do kapitulacji, której żadne z nich nie chce przyznać.",
+    "descriptions": {
+      "en": "Blades crossed before hands ever joined. Every meeting is a duel, and every duel is one step closer to a surrender neither of them wants to admit."
+    }
   },
   {
     "slug": "fated-mates",
     "name": "Przeznaczeni sobie",
+    "names": {
+      "en": "Fated mates"
+    },
     "realm": "mgly",
-    "description": "Nici przeznaczenia splotły się, zanim którekolwiek z nich wiedziało o istnieniu drugiego. Pytanie nie brzmi „czy”, lecz „ile będzie kosztować przyjęcie tej więzi”."
+    "description": "Nici przeznaczenia splotły się, zanim którekolwiek z nich wiedziało o istnieniu drugiego. Pytanie nie brzmi „czy”, lecz „ile będzie kosztować przyjęcie tej więzi”.",
+    "descriptions": {
+      "en": "The threads of fate were woven together before either of them knew the other existed. The question is not \"if\", but \"what will accepting this bond cost\"."
+    }
   },
   {
     "slug": "jezdzcy-smokow",
     "name": "Jeźdźcy smoków",
+    "names": {
+      "en": "Dragon riders"
+    },
     "realm": "turnie",
-    "description": "Więź z bestią, która mogłaby spopielić miasto, a wybrała właśnie ciebie. Skrzydła, ogień i lojalność silniejsza niż rozkazy."
+    "description": "Więź z bestią, która mogłaby spopielić miasto, a wybrała właśnie ciebie. Skrzydła, ogień i lojalność silniejsza niż rozkazy.",
+    "descriptions": {
+      "en": "A bond with a beast that could burn a city to ash, yet chose you. Wings, fire and a loyalty stronger than orders."
+    }
   },
   {
     "slug": "dwory-fae",
     "name": "Dwory fae",
+    "names": {
+      "en": "Fae courts"
+    },
     "realm": "mgly",
-    "description": "Piękno ostre jak szkło, uczty, które trwają tygodniami, i słowa, które nigdy nie są kłamstwem — choć rzadko są całą prawdą."
+    "description": "Piękno ostre jak szkło, uczty, które trwają tygodniami, i słowa, które nigdy nie są kłamstwem — choć rzadko są całą prawdą.",
+    "descriptions": {
+      "en": "Beauty as sharp as glass, feasts that last for weeks, and words that are never a lie — though rarely the whole truth."
+    }
   },
   {
     "slug": "pakty-i-targi",
     "name": "Pakty i targi",
+    "names": {
+      "en": "Pacts and bargains"
+    },
     "realm": "mgly",
-    "description": "Pieczęć odciśnięta w wosku albo na skórze. Raz zawarty targ wiąże mocniej niż łańcuch, a jego warunki zawsze kryją drugie dno."
+    "description": "Pieczęć odciśnięta w wosku albo na skórze. Raz zawarty targ wiąże mocniej niż łańcuch, a jego warunki zawsze kryją drugie dno.",
+    "descriptions": {
+      "en": "A seal pressed into wax or into skin. A bargain once struck binds tighter than a chain, and its terms always hide a false bottom."
+    }
   },
   {
     "slug": "wojenne-akademie",
     "name": "Wojenne akademie",
+    "names": {
+      "en": "War academies"
+    },
     "realm": "turnie",
-    "description": "Mury, które bardziej sprawdzają, niż uczą. Kadeci giną, przetrwają najtwardsi — i ci, którzy znajdą sojuszników."
+    "description": "Mury, które bardziej sprawdzają, niż uczą. Kadeci giną, przetrwają najtwardsi — i ci, którzy znajdą sojuszników.",
+    "descriptions": {
+      "en": "Walls that test more than they teach. Cadets die, the toughest survive — and so do those who find allies."
+    }
   },
   {
     "slug": "proby-i-turnieje",
     "name": "Próby i turnieje",
+    "names": {
+      "en": "Trials and tournaments"
+    },
     "realm": "turnie",
-    "description": "Areny, wyzwania, eliminacje. Zwycięstwo daje władzę lub wolność, porażka zwykle kończy się na piasku."
+    "description": "Areny, wyzwania, eliminacje. Zwycięstwo daje władzę lub wolność, porażka zwykle kończy się na piasku.",
+    "descriptions": {
+      "en": "Arenas, challenges, eliminations. Victory brings power or freedom; defeat usually ends in the sand."
+    }
   },
   {
     "slug": "slow-burn",
     "name": "Powolny żar",
+    "names": {
+      "en": "Slow burn"
+    },
     "realm": "skryptorium",
-    "description": "Żar tli się przez setki stron. Spojrzenia, niedokończone zdania, dłonie, które prawie się spotykają — i nagroda dla cierpliwych."
+    "description": "Żar tli się przez setki stron. Spojrzenia, niedokończone zdania, dłonie, które prawie się spotykają — i nagroda dla cierpliwych.",
+    "descriptions": {
+      "en": "The embers smoulder for hundreds of pages. Glances, unfinished sentences, hands that almost touch — and a reward for the patient."
+    }
   },
   {
     "slug": "forced-proximity",
     "name": "Wymuszona bliskość",
+    "names": {
+      "en": "Forced proximity"
+    },
     "realm": "skryptorium",
-    "description": "Jeden namiot, jedna komnata, jedna droga przez zaśnieżone przełęcze. Trudno nienawidzić kogoś, kto czuwa przy twoim ognisku."
+    "description": "Jeden namiot, jedna komnata, jedna droga przez zaśnieżone przełęcze. Trudno nienawidzić kogoś, kto czuwa przy twoim ognisku.",
+    "descriptions": {
+      "en": "One tent, one chamber, one road through snowbound passes. It is hard to hate someone who keeps watch by your fire."
+    }
   },
   {
     "slug": "morally-grey",
     "name": "Moralna szarość",
+    "names": {
+      "en": "Morally grey"
+    },
     "realm": "mgly",
-    "description": "Bohater, który zrobił rzeczy niewybaczalne — z powodów, które prawie da się zrozumieć. Ciemność tu nie jest kostiumem."
+    "description": "Bohater, który zrobił rzeczy niewybaczalne — z powodów, które prawie da się zrozumieć. Ciemność tu nie jest kostiumem.",
+    "descriptions": {
+      "en": "A hero who has done unforgivable things — for reasons you can almost understand. Here darkness is not a costume."
+    }
   },
   {
     "slug": "found-family",
     "name": "Wybrana rodzina",
+    "names": {
+      "en": "Found family"
+    },
     "realm": "skryptorium",
-    "description": "Rodzina wybrana, nie dana. Ludzie, którzy pojawili się przypadkiem, a zostali na zawsze — i za których warto spłonąć."
+    "description": "Rodzina wybrana, nie dana. Ludzie, którzy pojawili się przypadkiem, a zostali na zawsze — i za których warto spłonąć.",
+    "descriptions": {
+      "en": "A family chosen, not given. People who turned up by chance and stayed for good — and are worth burning for."
+    }
   },
   {
     "slug": "malzenstwo-z-rozsadku",
     "name": "Małżeństwo z rozsądku",
+    "names": {
+      "en": "Marriage of convenience"
+    },
     "realm": "skryptorium",
-    "description": "Sojusz przypieczętowany obrączką. Najpierw polityka i obowiązek, potem wspólna komnata i coraz trudniejsza do utrzymania obojętność."
+    "description": "Sojusz przypieczętowany obrączką. Najpierw polityka i obowiązek, potem wspólna komnata i coraz trudniejsza do utrzymania obojętność.",
+    "descriptions": {
+      "en": "An alliance sealed with a ring. First politics and duty, then a shared chamber and an indifference ever harder to keep up."
+    }
   },
   {
     "slug": "ukryta-tozsamosc",
     "name": "Ukryta tożsamość",
+    "names": {
+      "en": "Hidden identity"
+    },
     "realm": "mgly",
-    "description": "Maska, fałszywe imię, sekret, którego odkrycie oznacza wyrok. Im bliżej ktoś podchodzi, tym bardziej niebezpieczna staje się prawda."
+    "description": "Maska, fałszywe imię, sekret, którego odkrycie oznacza wyrok. Im bliżej ktoś podchodzi, tym bardziej niebezpieczna staje się prawda.",
+    "descriptions": {
+      "en": "A mask, a false name, a secret whose discovery means a death sentence. The closer someone comes, the more dangerous the truth becomes."
+    }
   },
   {
     "slug": "wampiry",
     "name": "Wampiry",
+    "names": {
+      "en": "Vampires"
+    },
     "realm": "mgly",
-    "description": "Nieśmiertelni władcy nocy, dwory spowite mrokiem i głód, który jest zarówno groźbą, jak i obietnicą."
+    "description": "Nieśmiertelni władcy nocy, dwory spowite mrokiem i głód, który jest zarówno groźbą, jak i obietnicą.",
+    "descriptions": {
+      "en": "Immortal lords of the night, courts shrouded in darkness, and a hunger that is both a threat and a promise."
+    }
   },
   {
     "slug": "smiertelniczka-wsrod-niesmiertelnych",
     "name": "Śmiertelniczka wśród nieśmiertelnych",
+    "names": {
+      "en": "A mortal among immortals"
+    },
     "realm": "mgly",
-    "description": "Jedno krótkie życie w świecie istot, które liczą czas stuleciami. Krucha — i właśnie dlatego nieprzewidywalna."
+    "description": "Jedno krótkie życie w świecie istot, które liczą czas stuleciami. Krucha — i właśnie dlatego nieprzewidywalna.",
+    "descriptions": {
+      "en": "One short life in a world of beings who count time in centuries. Fragile — and for that very reason unpredictable."
+    }
   },
   {
     "slug": "rivals-to-lovers",
     "name": "Od rywali do kochanków",
+    "names": {
+      "en": "Rivals to lovers"
+    },
     "realm": "skryptorium",
-    "description": "Nie wrogowie, tylko rywale: ta sama posada, ta sama nagroda, ten sam upór. Rywalizacja, która powoli zamienia się w coś zupełnie innego."
+    "description": "Nie wrogowie, tylko rywale: ta sama posada, ta sama nagroda, ten sam upór. Rywalizacja, która powoli zamienia się w coś zupełnie innego.",
+    "descriptions": {
+      "en": "Not enemies, just rivals: the same post, the same prize, the same stubbornness. A rivalry that slowly turns into something else entirely."
+    }
   },
   {
     "slug": "klatwy",
     "name": "Klątwy",
+    "names": {
+      "en": "Curses"
+    },
     "realm": "mgly",
-    "description": "Zaklęcie rzucone pokolenia temu wciąż zbiera żniwo. Ktoś musi zapłacić, by je złamać — i rzadko jest to ten, kto je rzucił."
+    "description": "Zaklęcie rzucone pokolenia temu wciąż zbiera żniwo. Ktoś musi zapłacić, by je złamać — i rzadko jest to ten, kto je rzucił.",
+    "descriptions": {
+      "en": "A spell cast generations ago still takes its toll. Someone has to pay to break it — and it is rarely the one who cast it."
+    }
   }
 ]

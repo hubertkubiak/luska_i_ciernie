@@ -1,6 +1,6 @@
 @let b = book();
-@if (b.coverUrl) {
-  <img [ngSrc]="b.coverUrl" [width]="width()" [height]="height()" [priority]="priority()" [alt]="alt()" />
+@if (src(); as url) {
+  <img [ngSrc]="url" [width]="width()" [height]="height()" [priority]="priority()" [alt]="alt()" />
 } @else {
   <div
     class="generated"

@@ -1,13 +1,13 @@
 <section class="releases">
   <p class="label" i18n="@@nav.releasesMeaning">Kalendarz premier</p>
   <h1 i18n="@@releases.title">Nadchodzące przepowiednie</h1>
-  <p class="notice" i18n="@@releases.sample">Dane przykładowe: tytuły i autorki są fikcyjne — tak będzie wyglądał kalendarz prawdziwych zapowiedzi.</p>
+  <p class="notice" i18n="@@releases.sources">Polskie wydania według zapowiedzi wydawców i księgarń. Terminy przybliżone (miesiąc, kwartał) mogą się jeszcze zmienić.</p>
 
   @if (next(); as n) {
     <article class="featured">
       <p class="label" i18n="@@releases.nextKicker">Najbliższa przepowiednia</p>
       <h2>{{ n.title }}</h2>
-      <p class="author">{{ n.author }} · {{ n.date | date: 'd MMMM yyyy' }}</p>
+      <p class="author">{{ n.author }} · {{ n | releaseWhen: 'long' }}</p>
       <!-- A clock only when the release is close; further out the number of days is enough (fixed for a day). -->
       @if (n.days <= 1) {
         <app-countdown class="when" [date]="n.date" [label]="n.days | daysLeft" />
@@ -19,13 +19,17 @@
 
   <ol class="timeline">
     @for (r of items(); track r.slug) {
-      <li [id]="r.slug" [class.out]="r.days < 0">
-        <time [attr.datetime]="r.date">{{ r.date | date: 'd MMM yyyy' }}</time>
+      <li [id]="r.slug" [class.out]="!r.approximate && r.days < 0" [class.approximate]="r.approximate">
+        <time [attr.datetime]="r.datetime">{{ r | releaseWhen }}</time>
         <div>
           <h3>{{ r.title }}</h3>
           <p class="author">{{ r.author }}@if (r.note) { · {{ r.note }} }</p>
         </div>
-        <span class="badge">{{ r.days | daysLeft }}</span>
+        @if (r.approximate) {
+          <span class="badge" i18n="@@releases.approximate">termin przybliżony</span>
+        } @else {
+          <span class="badge">{{ r.days | daysLeft }}</span>
+        }
       </li>
     } @empty {
       @if (loading()) {

@@ -1,5 +1,6 @@
 import express, { Router, type Request, type RequestHandler, type Response } from 'express';
 import { LANG_PREFIX, LANGS, type SessionUser } from '../../shared/models';
+import { setCoversCookie } from '../covers';
 import { LIMITS, SESSION_TTL_MS, normalizeEmail, type Account, type Accounts } from './accounts';
 import { RateLimiter, SESSION_COOKIE, clearSessionCookie, isSameOrigin, readCookie, safeNext, setSessionCookie } from './http';
 
@@ -33,7 +34,7 @@ export function sessionMiddleware(accounts: Accounts): RequestHandler {
  * without JavaScript: the browser sends a POST and we answer with a 303 redirect to a page
  * (the Post/Redirect/Get pattern — reloading the page does not resubmit the form).
  */
-export function authRouter(accounts: Accounts): Router {
+export function authRouter(accounts: Accounts, options: { realCovers: boolean }): Router {
   const router = Router();
   const loginLimit = new RateLimiter(10, 15 * 60 * 1000);
   // By default 5 accounts per hour from one IP. The e2e test server may raise it
@@ -66,6 +67,8 @@ export function authRouter(accounts: Accounts): Router {
 
     loginLimit.reset(key);
     startSession(req, res, accounts, user.id);
+    // Consent given earlier (registration, another device) applies in this browser too.
+    if (options.realCovers && accounts.hasCoversConsent(user.id)) setCoversCookie(req, res, true);
     res.redirect(303, prefix + next);
   });
 
@@ -86,10 +89,14 @@ export function authRouter(accounts: Accounts): Router {
       displayName,
       // No trimming of length: a too-long password must fail, not be silently cut.
       password: typeof req.body?.password === 'string' ? req.body.password : '',
+      // An optional, unticked checkbox — the account never depends on it (GDPR art. 7(4)).
+      coversConsent: options.realCovers && req.body?.okladki === 'tak',
     });
     if ('error' in result) return back(result.error);
 
     startSession(req, res, accounts, result.user.id);
+    // Either way the person has decided, so the consent banner will not ask again.
+    if (options.realCovers) setCoversCookie(req, res, req.body?.okladki === 'tak');
     res.redirect(303, prefix + next);
   });
 

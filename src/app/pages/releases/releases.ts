@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import { httpResource } from '@angular/common/http';
 import { Component, computed, inject } from '@angular/core';
 import type { Release } from '../../../shared/models';
@@ -6,6 +5,7 @@ import { daysBetween, injectRenderDay } from '../../core/daily';
 import { Seo } from '../../core/seo';
 import { Countdown } from '../../ui/countdown/countdown';
 import { DaysLeftPipe } from '../../ui/days-left.pipe';
+import { ReleaseWhenPipe, releaseDatetime } from '../../ui/release-when.pipe';
 
 /**
  * /premiery — RenderMode.Server with Cache-Control: s-maxage=3600 (server.ts): the HTML depends only
@@ -22,7 +22,7 @@ import { DaysLeftPipe } from '../../ui/days-left.pipe';
  */
 @Component({
   selector: 'app-releases-page',
-  imports: [DatePipe, Countdown, DaysLeftPipe],
+  imports: [Countdown, DaysLeftPipe, ReleaseWhenPipe],
   templateUrl: './releases.html',
   styleUrl: './releases.scss',
 })
@@ -31,10 +31,16 @@ export class ReleasesPage {
   private readonly releases = httpResource<Release[]>(() => '/api/releases', { defaultValue: [] });
 
   protected readonly items = computed(() =>
-    this.releases.value().map((r) => ({ ...r, days: daysBetween(this.day, r.date) })),
+    this.releases.value().map((r) => ({
+      ...r,
+      days: daysBetween(this.day, r.date),
+      // Only a month or a quarter is known: no day count, no countdown.
+      approximate: r.precision !== 'day',
+      datetime: releaseDatetime(r),
+    })),
   );
-  /** The nearest release (today or later) — highlighted at the top. */
-  protected readonly next = computed(() => this.items().find((r) => r.days >= 0));
+  /** The nearest release with a known day (today or later) — highlighted at the top with a countdown. */
+  protected readonly next = computed(() => this.items().find((r) => !r.approximate && r.days >= 0));
   protected readonly loading = this.releases.isLoading;
 
   constructor() {

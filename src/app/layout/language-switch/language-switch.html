@@ -1,0 +1,6 @@
+<!-- hreflang + lang: browsers, screen readers and search engines know the link leads to another language. -->
+@for (o of others(); track o.lang) {
+  <a [attr.href]="o.href" [attr.hreflang]="o.lang" [attr.lang]="o.lang" [attr.aria-label]="o.name" [attr.title]="o.name">
+    {{ o.code }}
+  </a>
+}

@@ -37,6 +37,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/oracle/oracle').then((m) => m.OraclePage),
   },
   {
+    path: 'prywatnosc',
+    loadComponent: () => import('./pages/privacy/privacy').then((m) => m.PrivacyPage),
+  },
+  {
     path: 'logowanie',
     data: { mode: 'login' },
     loadComponent: () => import('./pages/auth/auth').then((m) => m.AuthPage),

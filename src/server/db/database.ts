@@ -7,16 +7,36 @@
 import { existsSync, mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
-import type { Realm, SeriesStatus } from '../../shared/models';
+import type { Realm, ReleasePrecision, SeriesStatus } from '../../shared/models';
 
 /** Records from seed/*.json — relations stored as slugs, so the files stay hand-editable. */
 export interface SeedData {
   books: SeedBook[];
-  tropes: { slug: string; name: string; realm: string; description: string }[];
-  authors: { slug: string; name: string; bio: string }[];
+  // Base texts are Polish (the source language); `names` / `descriptions` / `bios` / `notes` hold the other languages.
+  tropes: {
+    slug: string;
+    name: string;
+    names?: Record<string, string>;
+    realm: string;
+    description: string;
+    descriptions?: Record<string, string>;
+  }[];
+  authors: { slug: string; name: string; bio: string; bios?: Record<string, string> }[];
   series: { slug: string; name: string; names?: Record<string, string>; status: string; plannedBooks?: number }[];
-  /** Release announcements — SAMPLE data in the seed (fictional titles and authors). */
-  releases?: { slug: string; title: string; author: string; date: string; note?: string }[];
+  /**
+   * Real release announcements (Polish editions). `date` is "2026-11-11" (a known day),
+   * "2026-11" (only the month) or "2026-Q4" (only the quarter) — see releaseDate().
+   */
+  releases?: {
+    slug: string;
+    title: string;
+    author: string;
+    date: string;
+    note?: string;
+    notes?: Record<string, string>;
+  }[];
+  /** Content warnings repeat across books, so they are translated once: Polish text → { lang: text }. */
+  warnings?: Record<string, Record<string, string>>;
 }
 
 export interface SeedBook {
@@ -36,6 +56,7 @@ export interface SeedBook {
   tropes: string[];
   contentWarnings: string[];
   description: string;
+  descriptions?: Record<string, string>;
 }
 
 /**
@@ -123,13 +144,53 @@ CREATE TABLE content_warnings (
   PRIMARY KEY (book, position)
 );
 
+-- Translations of the remaining texts, same pattern as book_titles: a missing row = the Polish original.
+CREATE TABLE trope_texts (
+  trope       TEXT NOT NULL REFERENCES tropes (slug),
+  lang        TEXT NOT NULL,
+  name        TEXT NOT NULL,
+  description TEXT NOT NULL,
+  PRIMARY KEY (trope, lang)
+);
+
+CREATE TABLE book_descriptions (
+  book        TEXT NOT NULL REFERENCES books (slug),
+  lang        TEXT NOT NULL,
+  description TEXT NOT NULL,
+  PRIMARY KEY (book, lang)
+);
+
+CREATE TABLE author_bios (
+  author TEXT NOT NULL REFERENCES authors (slug),
+  lang   TEXT NOT NULL,
+  bio    TEXT NOT NULL,
+  PRIMARY KEY (author, lang)
+);
+
+-- A dictionary keyed by the Polish warning text (content_warnings.text).
+CREATE TABLE warning_texts (
+  text        TEXT NOT NULL,
+  lang        TEXT NOT NULL,
+  translation TEXT NOT NULL,
+  PRIMARY KEY (text, lang)
+);
+
 -- Data jako tekst ISO (RRRR-MM-DD): sortuje się poprawnie i porównuje zwykłym < / >.
 CREATE TABLE releases (
   slug   TEXT PRIMARY KEY,
   title  TEXT NOT NULL,
   author TEXT NOT NULL,
   date   TEXT NOT NULL CHECK (date GLOB '[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]'),
+  -- 'day' = an exact date; 'month' / 'quarter' = only the period is known, date = its last day.
+  precision TEXT NOT NULL DEFAULT 'day' CHECK (precision IN ('day', 'month', 'quarter')),
   note   TEXT
+);
+
+CREATE TABLE release_notes (
+  release TEXT NOT NULL REFERENCES releases (slug),
+  lang    TEXT NOT NULL,
+  note    TEXT NOT NULL,
+  PRIMARY KEY (release, lang)
 );
 
 CREATE TABLE old_slugs (
@@ -212,7 +273,11 @@ function insertSeed(db: DatabaseSync, data: SeedData): void {
   const authorById = new Map(data.authors.map((a) => [a.slug, a]));
   {
     const author = db.prepare('INSERT INTO authors (slug, name, bio) VALUES (?, ?, ?)');
-    for (const a of data.authors) author.run(a.slug, a.name, a.bio);
+    const authorBio = db.prepare('INSERT INTO author_bios (author, lang, bio) VALUES (?, ?, ?)');
+    for (const a of data.authors) {
+      author.run(a.slug, a.name, a.bio);
+      for (const [lang, bio] of Object.entries(a.bios ?? {})) authorBio.run(a.slug, lang, bio);
+    }
 
     const series = db.prepare('INSERT INTO series (slug, name, status, planned_books) VALUES (?, ?, ?, ?)');
     const seriesName = db.prepare('INSERT INTO series_names (series, lang, name) VALUES (?, ?, ?)');
@@ -222,13 +287,30 @@ function insertSeed(db: DatabaseSync, data: SeedData): void {
     }
 
     const trope = db.prepare('INSERT INTO tropes (slug, name, realm, description, position) VALUES (?, ?, ?, ?, ?)');
-    data.tropes.forEach((t, i) => trope.run(t.slug, t.name, t.realm as Realm, t.description, i));
+    const tropeText = db.prepare('INSERT INTO trope_texts (trope, lang, name, description) VALUES (?, ?, ?, ?)');
+    data.tropes.forEach((t, i) => {
+      trope.run(t.slug, t.name, t.realm as Realm, t.description, i);
+      const langs = new Set([...Object.keys(t.names ?? {}), ...Object.keys(t.descriptions ?? {})]);
+      for (const lang of langs) {
+        const name = t.names?.[lang];
+        const description = t.descriptions?.[lang];
+        // Name and description come as a pair — half a translation would mix languages on one tile.
+        if (!name || !description) throw new Error(`[seed] trop ${t.slug}: brak nazwy lub opisu w języku ${lang}`);
+        tropeText.run(t.slug, lang, name, description);
+      }
+    });
+
+    const warningText = db.prepare('INSERT INTO warning_texts (text, lang, translation) VALUES (?, ?, ?)');
+    for (const [text, translations] of Object.entries(data.warnings ?? {})) {
+      for (const [lang, translation] of Object.entries(translations)) warningText.run(text, lang, translation);
+    }
 
     const book = db.prepare(`
       INSERT INTO books (slug, title, author, series, series_index, isbn, year, pages, cover_id, spice, description, search_text)
       VALUES (:slug, :title, :author, :series, :seriesIndex, :isbn, :year, :pages, :coverId, :spice, :description, :searchText)`);
     const title = db.prepare('INSERT INTO book_titles (book, lang, title) VALUES (?, ?, ?)');
     const cover = db.prepare('INSERT INTO book_covers (book, lang, cover_id) VALUES (?, ?, ?)');
+    const bookDescription = db.prepare('INSERT INTO book_descriptions (book, lang, description) VALUES (?, ?, ?)');
     const bookTrope = db.prepare('INSERT INTO book_tropes (book, trope, position) VALUES (?, ?, ?)');
     const warning = db.prepare('INSERT INTO content_warnings (book, position, text) VALUES (?, ?, ?)');
     const oldSlug = db.prepare('INSERT INTO old_slugs (old_slug, book) VALUES (?, ?)');
@@ -255,6 +337,7 @@ function insertSeed(db: DatabaseSync, data: SeedData): void {
         });
         for (const [lang, t] of Object.entries(b.titles ?? {})) title.run(b.slug, lang, t);
         for (const [lang, c] of Object.entries(b.covers ?? {})) cover.run(b.slug, lang, c);
+        for (const [lang, d] of Object.entries(b.descriptions ?? {})) bookDescription.run(b.slug, lang, d);
         b.tropes.forEach((t, i) => bookTrope.run(b.slug, t, i));
         b.contentWarnings.forEach((w, i) => warning.run(b.slug, i, w));
       } catch (e) {
@@ -272,9 +355,30 @@ function insertSeed(db: DatabaseSync, data: SeedData): void {
         }
       }
     }
-    const release = db.prepare('INSERT INTO releases (slug, title, author, date, note) VALUES (?, ?, ?, ?, ?)');
-    for (const r of data.releases ?? []) release.run(r.slug, r.title, r.author, r.date, r.note ?? null);
+    const release = db.prepare(
+      'INSERT INTO releases (slug, title, author, date, precision, note) VALUES (?, ?, ?, ?, ?, ?)',
+    );
+    const releaseNote = db.prepare('INSERT INTO release_notes (release, lang, note) VALUES (?, ?, ?)');
+    for (const r of data.releases ?? []) {
+      const { date, precision } = releaseDate(r.date);
+      release.run(r.slug, r.title, r.author, date, precision, r.note ?? null);
+      for (const [lang, note] of Object.entries(r.notes ?? {})) releaseNote.run(r.slug, lang, note);
+    }
   }
+}
+
+/**
+ * The seed's release date → the stored date and its precision:
+ * "2026-11-11" → that day; "2026-11" → 2026-11-30 (month); "2026-Q4" → 2026-12-31 (quarter).
+ */
+export function releaseDate(text: string): { date: string; precision: ReleasePrecision } {
+  const lastDay = (year: number, month: number) =>
+    new Date(Date.UTC(year, month, 0)).toISOString().slice(0, 10); // day 0 of the next month
+  let m: RegExpExecArray | null;
+  if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return { date: text, precision: 'day' };
+  if ((m = /^(\d{4})-(\d{2})$/.exec(text))) return { date: lastDay(+m[1], +m[2]), precision: 'month' };
+  if ((m = /^(\d{4})-Q([1-4])$/.exec(text))) return { date: lastDay(+m[1], +m[2] * 3), precision: 'quarter' };
+  throw new Error(`[seed] nieznany format daty premiery: "${text}" (RRRR-MM-DD, RRRR-MM albo RRRR-Qn)`);
 }
 
 /** "Łuska Ćmy" → "luska cmy": lowercase, no diacritics (ł does not decompose in NFD, hence separately). */

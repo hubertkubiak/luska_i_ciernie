@@ -131,7 +131,7 @@ export function summary(text: string, max = 160): string {
   return cut.slice(0, cut.lastIndexOf(' ')).replace(/[\s,;:—–-]+$/, '') + '…';
 }
 
-function currentLang(localeId: string): Lang {
+export function currentLang(localeId: string): Lang {
   const lang = localeId.slice(0, 2) as Lang;
   return LANGS.includes(lang) ? lang : LANGS[0];
 }

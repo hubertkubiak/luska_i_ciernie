@@ -1,4 +1,4 @@
-// Pomoc dla testów: świeża baza w pamięci z prawdziwego seeda — testy nie dotykają data/luska.db.
+// Test helper: a fresh in-memory database from the real seed — tests never touch data/luska.db.
 import authors from '../../../seed/authors.json';
 import books from '../../../seed/books.json';
 import series from '../../../seed/series.json';

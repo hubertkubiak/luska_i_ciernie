@@ -2,8 +2,8 @@
   display: inline-flex;
 }
 
-// Przycisk konta: łukowate drzwi ze złotą obwódką.
-// Obwódka z gradientu: dwa tła (wnętrze na padding-box, gradient na border-box) i przezroczysta ramka.
+// The account button: an arched door with a gold outline.
+// Gradient outline: two backgrounds (inside on padding-box, gradient on border-box) and a transparent border.
 .login {
   position: relative;
   display: inline-flex;
@@ -22,7 +22,7 @@
     box-shadow var(--dur) var(--ease),
     color var(--dur) var(--ease);
 
-  // Błysk światła przebiegający po przycisku przy najechaniu.
+  // A glint of light sweeping across the button on hover.
   &::after {
     content: '';
     position: absolute;
@@ -87,7 +87,7 @@
   }
 }
 
-// Zalogowana osoba: drzwi otwarte na stałe, obok „Opuść dwór”.
+// Signed in: the door stays open, with "Leave the court" next to it.
 .account {
   display: inline-flex;
   align-items: center;

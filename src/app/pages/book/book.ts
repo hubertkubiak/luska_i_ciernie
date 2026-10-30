@@ -15,7 +15,7 @@ const ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
 
 @Component({
   selector: 'app-book-page',
-  // SimilarBooks jest użyty tylko w @defer, więc kompilator wydzieli go do osobnego chunka.
+  // SimilarBooks is used only inside @defer, so the compiler splits it into its own chunk.
   imports: [RouterLink, Cover, SpiceMeter, NotFound, Rune, ShelfControl, SimilarBooks],
   templateUrl: './book.html',
   styleUrl: './book.scss',
@@ -24,14 +24,14 @@ export class BookPage {
   private readonly router = inject(Router);
   private readonly response = inject(ServerResponse);
 
-  /** Parametr :slug z trasy — wstrzyknięty dzięki withComponentInputBinding(). */
+  /** The :slug route parameter — injected thanks to withComponentInputBinding(). */
   readonly slug = input.required<string>();
 
   /**
-   * Względny URL działa również na serwerze: podczas SSR Angular rozwiązuje go względem
-   * adresu bieżącego żądania (np. http://localhost:4000/api/...). Na serwerze odpowiedź
-   * trafia do transfer cache, a w przeglądarce ten sam request jest z niego odczytywany.
-   * Zmiana slug() (nawigacja między tomami serii) automatycznie odpala nowy request.
+   * A relative URL works on the server too: during SSR Angular resolves it against the
+   * current request's address (in production InternalApiBackend sends it to loopback). On the server
+   * the response goes into the transfer cache, and in the browser the same request is read from it.
+   * A change of slug() (navigating between volumes of a series) fires a new request automatically.
    */
   protected readonly book = httpResource<BookDetail>(() => `/api/books/${this.slug()}`);
 
@@ -40,12 +40,12 @@ export class BookPage {
     return err instanceof HttpErrorResponse && err.status === 404;
   });
 
-  /** „TOM II · SERIA W TRAKCIE” */
+  /** "BOOK II · SERIES ONGOING" */
   protected readonly seriesLabel = computed(() => {
     const series = this.book.value()?.series;
     if (!series) return null;
     const volume = ROMAN[series.index] ?? String(series.index);
-    // Nazwane placeholdery (:volume:) — tłumacz widzi w pliku nazwę, a nie ${…}, i może zmienić kolejność.
+    // Named placeholders (:volume:) — the translator sees a name in the file, not ${…}, and can reorder them.
     const tom = series.plannedBooks
       ? $localize`:@@book.volumeOf:Tom ${volume}:volume: z ${series.plannedBooks}:total:`
       : $localize`:@@book.volume:Tom ${volume}:volume:`;
@@ -57,17 +57,17 @@ export class BookPage {
   });
 
   constructor() {
-    // Brak książki → prawdziwe HTTP 404 (ważne dla wyszukiwarek: „soft 404” z kodem 200
-    // zostałoby zaindeksowane jako zwykła strona).
+    // No book → a real HTTP 404 (matters for search engines: a "soft 404" with status 200
+    // would be indexed as an ordinary page).
     effect(() => {
       if (this.notFound()) this.response.setStatus(404);
     });
 
-    // Stary slug: API odpowiedziało 301, fetch poszedł za przekierowaniem i dostaliśmy
-    // książkę o INNYM slugu niż w adresie. Przekierowujemy na adres kanoniczny:
-    // - na serwerze: status 301 + nawigacja → silnik widzi, że URL końcowy różni się
-    //   od żądanego, i zamiast HTML-a odsyła odpowiedź 301 z nagłówkiem Location,
-    // - w przeglądarce: zwykła nawigacja z podmianą wpisu w historii.
+    // Old slug: the API answered 301, fetch followed the redirect and we got a book with a
+    // DIFFERENT slug than the URL. We redirect to the canonical address:
+    // - on the server: status 301 + navigation → the engine sees that the final URL differs
+    //   from the requested one and sends a 301 with a Location header instead of HTML,
+    // - in the browser: a normal navigation that replaces the history entry.
     effect(() => {
       if (!this.book.hasValue()) return;
       const canonical = this.book.value().slug;
@@ -77,7 +77,7 @@ export class BookPage {
       }
     });
 
-    // Meta i JSON-LD Book. Przy starym slugu nie ustawiamy nic — za chwilę i tak będzie 301.
+    // Meta and JSON-LD Book. Nothing for an old slug — a 301 follows anyway.
     const seo = inject(Seo);
     effect(() => {
       if (!this.book.hasValue() || this.book.value().slug !== this.slug()) return;

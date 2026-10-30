@@ -6,23 +6,23 @@
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Odkrywaj romantasy po tropach, pikanterii i statusie serii." />
-    <!-- Favicon: SVG dla nowoczesnych przeglądarek, ICO (16/32/48 px) jako zapas, PNG dla iOS. -->
+    <!-- Favicon: SVG for modern browsers, ICO (16/32/48 px) as a fallback, PNG for iOS. -->
     <link rel="icon" href="favicon.ico" sizes="48x48" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     <meta name="theme-color" content="#0b0910" />
 
-    <!-- Fonty są serwowane z naszej domeny (pakiety @fontsource w angular.json → "styles"), a nie
-         z Google Fonts: wczytanie ich z serwerów Google przekazuje Google adres IP czytelniczki
-         bez jej zgody (RODO). Patrz docs/PRAWNE.md. -->
-    <!-- Bez preconnect do covers.openlibrary.org: otwierałby połączenie (i przekazywał IP) przy każdej
-         wizycie, także gdy okładki są wyłączone (COVER_SOURCE=none). Okładkę LCP i tak zapowiada
-         <link rel="preload">, który NgOptimizedImage dopisuje w SSR — patrz app.config.ts. -->
+    <!-- Fonts are served from our own domain (@fontsource packages in angular.json → "styles"), not
+         from Google Fonts: loading them from Google's servers hands Google the reader's IP address
+         without her consent (GDPR). See docs/PRAWNE.md. -->
+    <!-- No preconnect to covers.openlibrary.org: it would open a connection (and pass the IP) on every
+         visit, even when covers are switched off (COVER_SOURCE=none). The LCP cover is announced anyway
+         by the <link rel="preload"> that NgOptimizedImage adds during SSR — see app.config.ts. -->
   </head>
   <body>
-    <!-- Runy tropów (SPEC §2.5): sprite SVG wklejony w szablon dokumentu. Trafia do każdego
-         HTML-a z serwera i prerenderu, a komponent <app-rune> tylko wskazuje symbol przez <use>.
-         Id symbolu = "rune-" + slug tropu. Kolor i grubość linii dziedziczą się z miejsca użycia. -->
+    <!-- Trope runes (SPEC §2.5): an SVG sprite pasted into the document template. It is in every
+         HTML from the server and the prerender, and the <app-rune> component only points at a symbol via <use>.
+         Symbol id = "rune-" + trope slug. Colour and stroke width are inherited from where it is used. -->
     <svg width="0" height="0" style="position: absolute" aria-hidden="true">
       <symbol id="rune-enemies-to-lovers" viewBox="0 0 24 24">
         <path d="M5 5l14 14M19 5L5 19M3 11l4-4M17 7l4 4M8 20l-4-4M20 16l-4 4" />

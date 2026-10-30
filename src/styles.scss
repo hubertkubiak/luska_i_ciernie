@@ -35,7 +35,7 @@ a {
   color: var(--ember);
 }
 
-// Etykiety i metadane: „TOM II · SERIA ZAKOŃCZONA”
+// Labels and metadata: "TOM II · SERIA ZAKOŃCZONA"
 .label {
   font-family: var(--font-heading);
   font-variant: small-caps;
@@ -52,7 +52,7 @@ a {
   white-space: nowrap;
 }
 
-// View Transitions (withViewTransitions w app.config.ts): przenikanie stron i lot okładki.
+// View Transitions (withViewTransitions in app.config.ts): cross-fading pages and the flying cover.
 ::view-transition-group(*) {
   animation-duration: var(--dur);
   animation-timing-function: var(--ease);
@@ -65,8 +65,8 @@ a {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
-  // Pseudoelementy przejścia nie pasują do selektora *, więc wyłączamy je osobno:
-  // strona podmienia się od razu, bez lotu okładki i bez przenikania.
+  // Transition pseudo-elements do not match the * selector, so they are turned off separately:
+  // the page swaps at once, without the flying cover and without cross-fading.
   ::view-transition-group(*),
   ::view-transition-old(*),
   ::view-transition-new(*) {

@@ -1,6 +1,6 @@
 import { Component, computed, input } from '@angular/core';
 
-/** Skala pikanterii z SPEC §2.6. */
+/** The spice scale from SPEC §2.6. */
 const SPICE_LABELS = [
   $localize`:@@spice.0:Niewinny pocałunek`,
   $localize`:@@spice.1:Iskra`,
@@ -10,7 +10,7 @@ const SPICE_LABELS = [
   $localize`:@@spice.5:Smoczy ogień`,
 ];
 
-/** 0–5 płomieni. Kolor nie jest jedynym nośnikiem znaczenia: obok jest liczba i nazwa (SPEC §2.3). */
+/** 0–5 flames. Colour is not the only carrier of meaning: the number and name are next to it (SPEC §2.3). */
 @Component({
   selector: 'app-spice-meter',
   templateUrl: './spice-meter.html',

@@ -4,44 +4,44 @@ import { PrerenderFallback, RenderMode, ServerRoute } from '@angular/ssr';
 import { firstValueFrom } from 'rxjs';
 import type { Trope } from '../shared/models';
 
-// Strategia renderowania per trasa (SPEC §3). Ścieżki muszą odpowiadać tym z app.routes.ts.
+// Rendering strategy per route (SPEC §3). Paths must match the ones in app.routes.ts.
 export const serverRoutes: ServerRoute[] = [
-  // Landing: render na żądanie, choć SPEC §3 proponuje Prerender. Powód: Trop dnia. W prerenderze
-  // „dzisiaj” = dzień `ng build`, zapisany w TransferState pliku index.html — strona byłaby spójna
-  // przy hydracji, ale codziennie nieaktualna. (Cache do północy UTC dołożymy w etapie 12.)
+  // Home: rendered on demand, although SPEC §3 suggests Prerender. Reason: the trope of the day. In a
+  // prerender "today" = the day of `ng build`, stored in the TransferState of index.html — the page
+  // would hydrate consistently, but be out of date every day.
   { path: '', renderMode: RenderMode.Server },
-  // Lista tropów zmienia się rzadko → też plik z buildu (dist/.../browser/tropy/index.html).
+  // The trope list rarely changes → also a file from the build (dist/.../browser/tropy/index.html).
   { path: 'tropy', renderMode: RenderMode.Prerender },
   {
     path: 'tropy/:slug',
     renderMode: RenderMode.Prerender,
-    // Wołane w `ng build`, w kontekście wstrzykiwania aplikacji serwerowej — działa inject().
-    // Zwraca listę parametrów; każdy element = jeden wygenerowany plik HTML.
+    // Called during `ng build`, in the server app's injection context — inject() works.
+    // Returns a list of parameters; each item = one generated HTML file.
     async getPrerenderParams() {
       const tropes = await firstValueFrom(inject(HttpClient).get<Trope[]>('/api/tropes'));
       return tropes.map((t) => ({ slug: t.slug }));
     },
-    // Slug spoza listy z buildu → render na żądanie (domyślne zachowanie, tu jawnie).
+    // A slug outside the build-time list → rendered on demand (the default, spelled out here).
     fallback: PrerenderFallback.Server,
   },
-  // Wyniki zależą od query params → tylko render na żądanie (prerender zna wyłącznie ścieżkę).
+  // Results depend on query params → on-demand rendering only (a prerender knows just the path).
   { path: 'szukaj', renderMode: RenderMode.Server },
-  // Odliczanie w dniach → HTML ważny przez dobę. Render na żądanie, ale cache'owany (s-maxage w server.ts).
+  // Countdown in days → the HTML is valid for a day. Rendered on demand but cached (s-maxage in server.ts).
   { path: 'premiery', renderMode: RenderMode.Server },
-  // Formularze: render na żądanie (komunikat błędu i wypełnione pola zależą od query params).
+  // Forms: rendered on demand (the error message and filled-in fields depend on query params).
   { path: 'logowanie', renderMode: RenderMode.Server },
   { path: 'rejestracja', renderMode: RenderMode.Server },
-  // Prywatne, bez SEO → tylko przeglądarka. 302 dla niezalogowanych robi wcześniej Express.
+  // Private, no SEO → browser only. Express redirects anonymous visitors (302) before that.
   { path: 'moja-polka', renderMode: RenderMode.Client },
   { path: 'moja-polka/**', renderMode: RenderMode.Client },
-  // Quiz: sama interakcja, nic do zaindeksowania → pusta skorupa HTML, wszystko rysuje przeglądarka.
-  // Serwer nie uruchamia Angulara, więc odpowiada od razu i nie ma czego hydratować.
+  // Quiz: pure interaction, nothing to index → an empty HTML shell, the browser draws everything.
+  // The server does not run Angular, so it answers at once and there is nothing to hydrate.
   { path: 'wyrocznia', renderMode: RenderMode.Client },
-  // Tysiące pozycji i zmienne dane → render na żądanie. 404/301 ustawia sama strona
-  // (RESPONSE_INIT), bo zależą od odpowiedzi API.
+  // Thousands of items and changing data → rendered on demand. The page itself sets 404/301
+  // (RESPONSE_INIT), because they depend on the API response.
   { path: 'ksiazka/:slug', renderMode: RenderMode.Server },
   { path: 'autor/:slug', renderMode: RenderMode.Server },
-  // Wszystko, czego nie ma wyżej, to nieznany adres → status ustawiony statycznie w konfiguracji.
-  // UWAGA: każda nowa trasa z app.routes.ts musi dostać tu własny wpis, inaczej odpowie 404.
+  // Anything not listed above is an unknown address → the status is set statically in the config.
+  // NOTE: every new route in app.routes.ts needs its own entry here, otherwise it answers 404.
   { path: '**', renderMode: RenderMode.Server, status: 404 },
 ];

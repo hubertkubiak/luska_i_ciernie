@@ -1,34 +1,34 @@
-import { DOCUMENT } from '@angular/common';
-import { Injectable, LOCALE_ID, inject } from '@angular/core';
+import { DOCUMENT, isPlatformServer } from '@angular/common';
+import { Injectable, LOCALE_ID, PLATFORM_ID, REQUEST_CONTEXT, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { LANG_PREFIX, LANGS, type Lang } from '../../shared/models';
+import { LANG_PREFIX, LANGS, PRERENDER_ORIGIN, type Lang } from '../../shared/models';
 
 export const SITE_NAME = 'Łuska i Ciernie';
 
 const OG_LOCALE: Record<Lang, string> = { pl: 'pl_PL', en: 'en_US' };
 
 export interface PageMeta {
-  /** Tytuł strony bez nazwy serwisu (ta dochodzi sama), chyba że już ją zawiera. */
+  /** Page title without the site name (added automatically), unless it already contains it. */
   title: string;
   description: string;
-  /** Ścieżka aplikacji BEZ prefiksu języka, z query stringiem, np. "/szukaj?trop=slow-burn". */
+  /** App path WITHOUT the language prefix, with the query string, e.g. "/szukaj?trop=slow-burn". */
   path: string;
-  /** Obraz do podglądu linku (absolutny URL). Brak = domyślny obraz serwisu. */
+  /** Link preview image (absolute URL). Missing = the site's default image. */
   image?: string | null;
   type?: 'website' | 'book' | 'profile';
-  /** Dane strukturalne schema.org — trafiają do <script type="application/ld+json">. */
+  /** schema.org structured data — goes into <script type="application/ld+json">. */
   jsonLd?: object;
-  /** Strony, których nie chcemy w wynikach wyszukiwania (np. 404). */
+  /** Pages we do not want in search results (e.g. 404). */
   noindex?: boolean;
-  /** Kanał RSS strony — czytniki kanałów wykrywają go po <link rel="alternate">. */
+  /** The page's RSS feed — feed readers discover it via <link rel="alternate">. */
   feed?: { title: string; path: string };
 }
 
 /**
- * Cały <head> pod SEO w jednym miejscu: tytuł, opis, canonical, hreflang, Open Graph, robots
- * i JSON-LD. Strony wołają update(), gdy mają już dane — na serwerze dzieje się to przed
- * zakończeniem renderu (whenStable), więc wszystko jest w HTML-u, który widzi wyszukiwarka
- * i podgląd linku w komunikatorze (te nie wykonują JavaScriptu).
+ * The whole SEO <head> in one place: title, description, canonical, hreflang, Open Graph, robots
+ * and JSON-LD. Pages call update() once they have data — on the server that happens before
+ * rendering finishes (whenStable), so everything is in the HTML seen by search engines
+ * and messenger link previews (which do not run JavaScript).
  */
 @Injectable({ providedIn: 'root' })
 export class Seo {
@@ -36,6 +36,11 @@ export class Seo {
   private readonly title = inject(Title);
   private readonly meta = inject(Meta);
   private readonly lang = currentLang(inject(LOCALE_ID));
+  /** On the server without a request (prerendering in `ng build`) the real address is unknown. */
+  private readonly origin =
+    isPlatformServer(inject(PLATFORM_ID)) && !inject(REQUEST_CONTEXT, { optional: true })
+      ? PRERENDER_ORIGIN
+      : this.doc.location.origin;
 
   update(page: PageMeta): void {
     const fullTitle = page.title.includes(SITE_NAME) ? page.title : `${page.title} | ${SITE_NAME}`;
@@ -46,7 +51,7 @@ export class Seo {
     this.setMeta('name', 'description', page.description);
     this.setMeta('name', 'robots', page.noindex ? 'noindex, follow' : 'index, follow');
 
-    // Adres kanoniczny i odpowiedniki w innych językach. Strona noindex nie ma ani jednego, ani drugiego.
+    // Canonical URL and its equivalents in other languages. A noindex page has neither.
     this.removeLinks('link[rel="canonical"], link[rel="alternate"][hreflang]');
     if (!page.noindex) {
       this.addLink({ rel: 'canonical', href: url });
@@ -65,7 +70,7 @@ export class Seo {
     for (const lang of LANGS) {
       if (lang !== this.lang) this.meta.addTag({ property: 'og:locale:alternate', content: OG_LOCALE[lang] });
     }
-    // Okładki są pionowe → mała karta; domyślny obraz jest panoramiczny (1200×630) → duża.
+    // Covers are portrait → small card; the default image is wide (1200×630) → large card.
     this.setMeta('name', 'twitter:card', page.image ? 'summary' : 'summary_large_image');
 
     this.removeLinks('link[rel="alternate"][type="application/rss+xml"]');
@@ -76,14 +81,17 @@ export class Seo {
     this.setJsonLd(page.jsonLd);
   }
 
-  /** Absolutny adres ścieżki w bieżącej wersji językowej. */
+  /** Absolute URL of a path in the current language version. */
   link(path: string): string {
     return this.url(this.lang, path);
   }
 
-  /** Absolutny adres ścieżki w danej wersji językowej. Origin = adres z żądania (allowedHosts). */
+  /**
+   * Absolute URL of a path in a given language. Origin = the request's address (validated by
+   * allowedHosts), or PRERENDER_ORIGIN in prerendered pages — Express replaces it (withPublicOrigin).
+   */
   url(lang: Lang, path: string): string {
-    return this.doc.location.origin + LANG_PREFIX[lang] + path;
+    return this.origin + LANG_PREFIX[lang] + path;
   }
 
   private setMeta(attr: 'name' | 'property', key: string, content: string): void {
@@ -111,12 +119,12 @@ export class Seo {
   }
 }
 
-/** JSON do <script>: „<” zamieniamy na <, żeby „</script>” w danych nie zamknęło skryptu. */
+/** JSON for <script>: "<" becomes \u003c, so a "</script>" in the data cannot close the script. */
 export function jsonLdText(data: object): string {
   return JSON.stringify({ '@context': 'https://schema.org', ...data }).replace(/</g, '\\u003c');
 }
 
-/** Opis do meta description: pierwsze zdania, które mieszczą się w ~160 znakach. */
+/** Text for meta description: the first sentences that fit in ~160 characters. */
 export function summary(text: string, max = 160): string {
   if (text.length <= max) return text;
   const cut = text.slice(0, max - 1);

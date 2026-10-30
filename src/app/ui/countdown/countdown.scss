@@ -6,7 +6,7 @@
   display: inline-flex;
   align-items: baseline;
   gap: 0.25rem;
-  font-variant-numeric: tabular-nums; // cyfry równej szerokości — zegar nie „skacze”
+  font-variant-numeric: tabular-nums; // equal-width digits — the clock does not "jump"
 
   b {
     font-family: var(--font-heading);

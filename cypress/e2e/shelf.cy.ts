@@ -1,5 +1,5 @@
-// Skarbiec: półka zapisywana w bazie, „Dodaj do półki” bez JS, przed i po hydracji.
-// Każdy test zakłada konto (limit rejestracji: uruchom serwer z REGISTER_LIMIT_PER_HOUR=1000).
+// Treasury: the shelf saved in the database, "Add to shelf" without JS, before and after hydration.
+// Every test creates an account (registration limit: start the server with REGISTER_LIMIT_PER_HOUR=1000).
 const signUp = () =>
   cy.request({
     method: 'POST',
@@ -74,7 +74,7 @@ describe('Skarbiec', () => {
     signUp();
     cy.visit('/ksiazka/the-cruel-prince', {
       onBeforeLoad(win) {
-        // HTML z serwera już jest, aplikacja jeszcze nie wystartowała.
+        // The server HTML is there, the app has not started yet.
         win.document.addEventListener('DOMContentLoaded', () => {
           const button = [...win.document.querySelectorAll<HTMLButtonElement>('app-shelf-control button')].find(
             (b) => b.textContent?.trim() === 'Czytam',

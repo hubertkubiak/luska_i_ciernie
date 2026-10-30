@@ -1,5 +1,5 @@
 @if (remaining(); as r) {
-  <!-- aria-live="off": czytnik ekranu nie odczytuje każdej sekundy; aktualny stan jest w tekście. -->
+  <!-- aria-live="off": a screen reader does not read every second; the current state is in the text. -->
   <span class="clock" aria-live="off">
     <ng-container i18n="@@countdown.in">za</ng-container>
     <b>{{ r.h }}</b><small i18n="@@countdown.h">godz.</small>

@@ -5,15 +5,15 @@ import { THEMES, type Theme } from '../../shared/models';
 const COOKIE = 'theme';
 
 /**
- * Motyw noc / pergamin (SPEC §6, pułapka #3). Gdyby motyw siedział w localStorage, serwer by go
- * nie znał: HTML przychodziłby w motywie domyślnym i przełączał się dopiero po starcie JS — mignięcie.
- * Dlatego ciasteczko: przeglądarka wysyła je z każdym żądaniem, a serwer ustawia
- * <html data-theme> już w HTML-u.
+ * Night / parchment theme (SPEC §6, pitfall #3). If the theme lived in localStorage the server would
+ * not know it: the HTML would arrive in the default theme and switch only after JS starts — a flash.
+ * Hence a cookie: the browser sends it with every request, and the server sets
+ * <html data-theme> right in the HTML.
  *
- * - SSR: czytamy ciasteczko przez REQUEST (webowy Request bieżącego żądania) i ustawiamy atrybut
- *   przez DOCUMENT — <html> jest poza aplikacją, więc hydracja go nie dotyka.
- * - Prerender i tryb Client: tam poprawia HTML Express (src/server/theme.ts).
- * - Przeglądarka: tylko czytamy atrybut, który przyszedł z serwera.
+ * - SSR: we read the cookie via REQUEST (the current request's web Request) and set the attribute
+ *   through DOCUMENT — <html> is outside the app, so hydration does not touch it.
+ * - Prerender and Client mode: Express fixes the HTML there (src/server/theme.ts).
+ * - Browser: we only read the attribute that came from the server.
  */
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
@@ -24,7 +24,7 @@ export class ThemeService {
 
   constructor() {
     if (isPlatformServer(inject(PLATFORM_ID))) {
-      // Podczas prerenderu nie ma prawdziwego żądania — wtedy zostaje motyw domyślny.
+      // There is no real request while prerendering — the default theme stays.
       const cookies = inject(REQUEST, { optional: true })?.headers.get('cookie') ?? '';
       this.apply(parseTheme(cookies));
     } else {
@@ -32,7 +32,7 @@ export class ThemeService {
     }
   }
 
-  /** Zmiana z poziomu aplikacji (z JS): od razu na stronie i w ciasteczku na kolejne wizyty. */
+  /** A change from inside the app (JS): applied to the page at once and stored in the cookie for later visits. */
   set(theme: Theme): void {
     this.apply(theme);
     const secure = this.doc.location.protocol === 'https:' ? '; Secure' : '';

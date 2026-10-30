@@ -6,12 +6,12 @@ import { filter, map } from 'rxjs';
 import { Session } from '../../core/session';
 
 /**
- * Konto w nagłówku. Anonim: „Przekrocz próg” (z ?next=, żeby po zalogowaniu wrócić na tę stronę).
- * Zalogowana osoba: imię (link do Skarbca) i „Opuść dwór”.
+ * The account in the header. Anonymous: "Cross the threshold" (with ?next= to return to this page after signing in).
+ * Signed in: the name (a link to the Treasury) and "Leave the court".
  *
- * Na stronach z SSR serwer zna osobę od razu (REQUEST_CONTEXT → Session). Strony z prerenderu
- * powstały w `ng build` i nie wiedzą, kto patrzy — dlatego po hydracji pytamy /api/me
- * (afterNextRender = tylko przeglądarka, już po hydracji, więc zmiana nie psuje hydracji).
+ * On SSR pages the server knows the person right away (REQUEST_CONTEXT → Session). Prerendered pages
+ * were made in `ng build` and do not know who is looking — so after hydration we ask /api/me
+ * (afterNextRender = browser only, already after hydration, so the change does not break it).
  */
 @Component({
   selector: 'app-account',
@@ -25,10 +25,10 @@ export class Account {
 
   protected readonly user = this.session.user;
 
-  // Wartość startowa z Location, nie z router.url: zanim skończy się PIERWSZA nawigacja,
-  // router.url to jeszcze „/”. Od etapu 15 (withViewTransitions) ta nawigacja kończy się
-  // tick później, a kliknięcie odtworzone przez event replay trafiało w link bez ?next=.
-  // Location zna adres od razu — w przeglądarce z paska adresu, na serwerze z żądania.
+  // The initial value comes from Location, not router.url: until the FIRST navigation finishes,
+  // router.url is still "/". Since stage 15 (withViewTransitions) that navigation finishes a tick
+  // later, and a click replayed by event replay hit a link without ?next=.
+  // Location knows the address right away — in the browser from the address bar, on the server from the request.
   private readonly url = toSignal(
     this.router.events.pipe(
       filter((e) => e instanceof NavigationEnd),

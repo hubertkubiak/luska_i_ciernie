@@ -1,9 +1,9 @@
 import { Component, input } from '@angular/core';
 
 /**
- * Runa tropu (SPEC §2.5). Same glify mieszkają w sprite'cie SVG wklejonym do src/index.html,
- * tu tylko odwołujemy się do nich przez <use href="#rune-…">. Sprite jest częścią każdego HTML-a
- * z serwera, więc runy widać od razu — bez JS i bez dodatkowego requestu.
+ * A trope rune (SPEC §2.5). The glyphs themselves live in the SVG sprite pasted into src/index.html,
+ * here we only reference them via <use href="#rune-…">. The sprite is part of every HTML page
+ * from the server, so runes are visible at once — without JS and without an extra request.
  */
 @Component({
   selector: 'app-rune',
@@ -11,6 +11,6 @@ import { Component, input } from '@angular/core';
   styleUrl: './rune.scss',
 })
 export class Rune {
-  /** Slug tropu, np. "enemies-to-lovers". */
+  /** Trope slug, e.g. "enemies-to-lovers". */
   readonly trope = input.required<string>();
 }

@@ -28,7 +28,7 @@ h2 {
 ul {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
-  // 1fr: wszystkie kafelki tej samej wysokości, także gdy nazwa tropu zawija się do dwóch linii.
+  // 1fr: all tiles the same height, even when a trope name wraps onto two lines.
   grid-auto-rows: 1fr;
   gap: 0.75rem;
   padding: 0;

@@ -1,5 +1,5 @@
-// SEO sprawdzamy na surowym HTML-u (cy.request) — tak widzą stronę wyszukiwarki i podglądy linków,
-// które nie wykonują JavaScriptu.
+// SEO is checked on the raw HTML (cy.request) — that is how search engines and link previews see the page,
+// since they do not run JavaScript.
 describe('SEO', () => {
   const head = (html: string) => {
     const doc = new DOMParser().parseFromString(html, 'text/html');
@@ -32,7 +32,7 @@ describe('SEO', () => {
     cy.get('head link[rel="canonical"]').should('have.length', 1).and('have.attr', 'href').and('match', /\/ksiazka\/iron-flame$/);
     cy.get('head script#ld-json').should('have.length', 1).invoke('text').should('contain', 'Iron Flame');
 
-    // Strona bez JSON-LD (lista tropów) usuwa dane strukturalne książki.
+    // A page without JSON-LD (the trope list) removes the book's structured data.
     cy.visit('/ksiazka/fourth-wing');
     cy.contains('a', 'Jeźdźcy smoków').click();
     cy.location('pathname').should('eq', '/tropy/jezdzcy-smokow');

@@ -1,14 +1,14 @@
 describe('Strona książki (SSR + transfer cache)', () => {
   it('renderuje treść i po hydracji nie pyta API ponownie', () => {
-    // Przechwytujemy wszystkie wywołania /api z przeglądarki. Request wykonany podczas SSR
-    // dzieje się w Node, więc Cypress go nie widzi — i dobrze, o to chodzi.
+    // Intercept every /api call from the browser. The request made during SSR
+    // happens in Node, so Cypress does not see it — and that is the point.
     cy.intercept('/api/**').as('api');
 
     cy.visit('/ksiazka/fourth-wing');
     cy.contains('h1', 'Fourth Wing');
     cy.contains('Tom I z 5 · seria w trakcie');
 
-    // Dajemy hydracji czas; transfer cache powinien obsłużyć httpResource bez sieci.
+    // Give hydration time; the transfer cache should serve httpResource without the network.
     cy.wait(1000);
     cy.get('@api.all').should('have.length', 0);
   });
@@ -25,7 +25,7 @@ describe('Strona książki (SSR + transfer cache)', () => {
   });
 
   it('pokazuje komunikat dla nieistniejącej księgi', () => {
-    // Od etapu 4 strona odpowiada 404, a cy.visit domyślnie traktuje to jako błąd.
+    // Since stage 4 the page answers 404, and cy.visit treats that as an error by default.
     cy.visit('/ksiazka/nie-ma-takiej-ksiazki', { failOnStatusCode: false });
     cy.contains('Ta ścieżka zarosła cierniami.');
   });

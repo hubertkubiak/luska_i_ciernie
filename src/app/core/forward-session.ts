@@ -2,15 +2,15 @@ import type { HttpInterceptorFn } from '@angular/common/http';
 import { REQUEST, inject } from '@angular/core';
 
 /**
- * SSR i sesja. Podczas renderu na serwerze HttpClient woła nasze API jak każdy inny klient —
- * BEZ ciasteczek czytelniczki, bo to serwer wysyła żądanie, a nie jej przeglądarka. Dla katalogu
- * to dobrze (wspólne odpowiedzi), ale stan półki na stronie książki zależy od tego, kto patrzy.
+ * SSR and the session. While rendering on the server HttpClient calls our API like any other client —
+ * WITHOUT the reader's cookies, because the server sends the request, not her browser. For the catalogue
+ * that is good (shared responses), but the shelf state on a book page depends on who is looking.
  *
- * Dlatego przekazujemy dalej ciasteczko sesji, z dwoma ograniczeniami:
- * - tylko do naszego /api/shelf (adres względny = ten sam serwer) — przekazanie sesji do obcego
- *   API oddałoby mu konto czytelniczki,
- * - tylko ciasteczko `sid`, nie cały nagłówek Cookie.
- * W przeglądarce REQUEST nie istnieje — tam ciasteczka dołącza sama przeglądarka.
+ * So we forward the session cookie, with two restrictions:
+ * - only to our own /api/shelf (a relative URL = the same server) — forwarding the session to a foreign
+ *   API would hand it the reader's account,
+ * - only the `sid` cookie, not the whole Cookie header.
+ * In the browser REQUEST does not exist — there the browser attaches cookies itself.
  */
 export const forwardSessionInterceptor: HttpInterceptorFn = (req, next) => {
   const request = inject(REQUEST, { optional: true });

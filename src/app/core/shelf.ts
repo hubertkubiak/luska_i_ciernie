@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import type { ShelfEntry, ShelfItem, ShelfStatus } from '../../shared/models';
 
-/** Zapis półki z przeglądarki (JSON API). Odczyt robią komponenty przez httpResource. */
+/** Saving the shelf from the browser (JSON API). Components read it via httpResource. */
 @Injectable({ providedIn: 'root' })
 export class ShelfService {
   private readonly http = inject(HttpClient);

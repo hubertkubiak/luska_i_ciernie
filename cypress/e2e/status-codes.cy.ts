@@ -1,5 +1,5 @@
-// cy.request wysyła zwykłe żądanie HTTP (jak curl) — widzimy dokładnie to, co dostaje
-// wyszukiwarka, zanim jakikolwiek JavaScript się wykona.
+// cy.request sends a plain HTTP request (like curl) — we see exactly what a search engine
+// gets, before any JavaScript runs.
 describe('Kody HTTP z SSR', () => {
   const status = (url: string) =>
     cy.request({ url, failOnStatusCode: false, followRedirect: false });

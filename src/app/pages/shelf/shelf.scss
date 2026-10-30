@@ -41,10 +41,10 @@ h2 {
   list-style: none;
 }
 
-// Każda pozycja zajmuje DWA wiersze siatki rodzica (karta, kontrolki) i dzieli je z sąsiadami
-// przez subgrid. Wiersz kart ma więc wysokość najwyższej karty w rzędzie — karty są równe,
-// a kontrolki zaczynają się na tej samej wysokości. (grid-auto-rows: 1fr jak na innych
-// listach tu nie wystarczy: pod kartą są kontrolki, różne dla „Przeczytane” i reszty.)
+// Each entry takes TWO rows of the parent grid (card, controls) and shares them with its neighbours
+// through subgrid. The card row is as tall as the tallest card in the row — cards are equal,
+// and the controls start at the same height. (grid-auto-rows: 1fr as on the other lists is not
+// enough here: below the card there are controls, different for "Read" and the rest.)
 .item {
   display: grid;
   grid-row: span 2;

@@ -2,10 +2,10 @@ import type { DatabaseSync } from 'node:sqlite';
 import { SHELF_STATUSES, type ShelfEntry, type ShelfStatus } from '../../shared/models';
 
 /**
- * Półka w tej samej bazie co konta (data/users.db) — to dane osoby, nie katalogu.
- * Książkę wskazujemy slugiem: katalog leży w innym pliku (luska.db), więc klucz obcy między
- * bazami nie jest możliwy. Spójność pilnujemy w kodzie: API przyjmuje tylko slugi z katalogu,
- * a przy odczycie pomijamy książki, których w katalogu już nie ma.
+ * The shelf lives in the same database as accounts (data/users.db) — it is personal data, not catalogue.
+ * A book is referenced by slug: the catalogue sits in another file (luska.db), so a foreign key across
+ * databases is impossible. Consistency is kept in code: the API accepts only slugs from the catalogue,
+ * and reads skip books that are no longer in the catalogue.
  */
 const SCHEMA = `
 CREATE TABLE IF NOT EXISTS shelf_items (
@@ -48,7 +48,7 @@ export class ShelfStore {
     return row && toItem(row);
   }
 
-  /** Wstawia albo zmienia (UPSERT) — jedna pozycja na książkę, bez wyścigu „sprawdź, potem wstaw”. */
+  /** Inserts or updates (UPSERT) — one entry per book, without a "check, then insert" race. */
   save(userId: number, slug: string, entry: ShelfEntry): StoredItem {
     const rating = entry.status === 'read' ? (entry.rating ?? null) : null;
     this.db
@@ -67,7 +67,7 @@ export class ShelfStore {
   }
 }
 
-/** Walidacja danych od klienta. Zwraca poprawny wpis albo opis błędu (dla odpowiedzi 400). */
+/** Validates client data. Returns a valid entry or an error description (for a 400 response). */
 export function parseEntry(body: unknown): ShelfEntry | { error: string } {
   const b = (body ?? {}) as Record<string, unknown>;
   if (!SHELF_STATUSES.includes(b['status'] as ShelfStatus)) return { error: 'Nieznany status półki' };

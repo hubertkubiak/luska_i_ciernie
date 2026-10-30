@@ -1,5 +1,5 @@
-// Wymaga buildu z wersjami językowymi: npm run build:i18n. Przy zwykłym `npm run build`
-// /en/ nie istnieje — wtedy test się pomija (zwykły build = tylko polski).
+// Needs a build with the language versions: npm run build:i18n. With a plain `npm run build`
+// /en/ does not exist — the test is skipped then (a plain build = Polish only).
 describe('Wersje językowe (build --localize)', () => {
   before(function () {
     cy.request({ url: '/en/', failOnStatusCode: false }).then((res) => {

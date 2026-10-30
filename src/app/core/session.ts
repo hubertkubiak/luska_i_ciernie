@@ -7,17 +7,17 @@ import type { RequestContext, SessionUser } from '../../shared/models';
 const USER_KEY = makeStateKey<SessionUser | null>('sesja');
 
 /**
- * Kto jest zalogowany. Trzy stany:
- * - SessionUser — zalogowana osoba,
- * - null — na pewno anonim,
- * - undefined — jeszcze nie wiemy.
+ * Who is signed in. Three states:
+ * - SessionUser — a signed-in person,
+ * - null — definitely anonymous,
+ * - undefined — we do not know yet.
  *
- * Skąd wiemy:
- * 1. SSR: Express odczytał ciasteczko i przekazał osobę w REQUEST_CONTEXT (server.ts). Zapisujemy ją
- *    w TransferState, więc przeglądarka po hydracji wie to samo bez dodatkowego żądania.
- * 2. Prerender (`ng build`): nie ma żadnego żądania, więc REQUEST_CONTEXT jest pusty. NIE zapisujemy
- *    wtedy „anonim” — ten sam plik HTML dostanie później każdy, także zalogowany.
- * 3. Przeglądarka bez wpisu w TransferState (strona z prerenderu, tryb Client): pyta /api/me.
+ * How we know:
+ * 1. SSR: Express read the cookie and passed the person in REQUEST_CONTEXT (server.ts). We store it
+ *    in TransferState, so after hydration the browser knows the same without an extra request.
+ * 2. Prerender (`ng build`): there is no request at all, so REQUEST_CONTEXT is empty. We do NOT store
+ *    "anonymous" then — the same HTML file is later served to everyone, signed-in people too.
+ * 3. The browser without a TransferState entry (prerendered page, Client mode): asks /api/me.
  */
 @Injectable({ providedIn: 'root' })
 export class Session {
@@ -41,11 +41,11 @@ export class Session {
     }
   }
 
-  /** Pewna odpowiedź: od razu, jeśli ją znamy, a w przeglądarce w razie potrzeby przez /api/me. */
+  /** A certain answer: at once if we know it, and in the browser via /api/me if needed. */
   load(): Promise<SessionUser | null> {
     const known = this.current();
     if (known !== undefined) return Promise.resolve(known);
-    // Na serwerze bez kontekstu (prerender) nie mamy kogo zapytać — strona ma być „anonimowa”.
+    // On the server without a context (prerender) there is no one to ask — the page is to be "anonymous".
     if (this.server) return Promise.resolve(null);
     return (this.pending ??= firstValueFrom(
       this.http.get<SessionUser>('/api/me').pipe(catchError(() => of(null))),

@@ -1,21 +1,21 @@
-// Baza katalogu: SQLite wbudowany w Node (node:sqlite) — jeden plik, bez serwera i bez konta.
+// Catalogue database: SQLite built into Node (node:sqlite) — one file, no server, no account.
 //
-// Ten plik jest wczytywany na trzy sposoby: przez build Angulara (server.ts), przez testy (Vitest)
-// i bezpośrednio przez Node w scripts/seed.ts (Node 24 sam wycina typy z .ts). Dlatego nie ma tu
-// importów względnych poza `import type` — te znikają przy wycinaniu typów, a zwykły import bez
-// rozszerzenia .ts Node by odrzucił.
+// This file is loaded in three ways: by the Angular build (server.ts), by the tests (Vitest)
+// and directly by Node in scripts/seed.ts (Node 24 strips the types from .ts itself). That is why
+// there are no relative imports here except `import type` — those vanish when types are stripped,
+// and Node would reject a plain import without the .ts extension.
 import { existsSync, mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import type { Realm, SeriesStatus } from '../../shared/models';
 
-/** Rekordy z seed/*.json — relacje zapisane slugami, żeby pliki dało się edytować ręcznie. */
+/** Records from seed/*.json — relations stored as slugs, so the files stay hand-editable. */
 export interface SeedData {
   books: SeedBook[];
   tropes: { slug: string; name: string; realm: string; description: string }[];
   authors: { slug: string; name: string; bio: string }[];
   series: { slug: string; name: string; names?: Record<string, string>; status: string; plannedBooks?: number }[];
-  /** Zapowiedzi premier — w seedzie dane PRZYKŁADOWE (fikcyjne tytuły i autorki). */
+  /** Release announcements — SAMPLE data in the seed (fictional titles and authors). */
   releases?: { slug: string; title: string; author: string; date: string; note?: string }[];
 }
 
@@ -39,9 +39,9 @@ export interface SeedBook {
 }
 
 /**
- * Schemat. Reguły, które wcześniej sprawdzał ręcznie Catalog.validate(), pilnuje teraz sama baza:
- * klucze obce (nieznany autor / seria / trop), CHECK (zakres pikanterii, krainy, statusy)
- * i trigger (stary slug nie może być slugiem istniejącej książki).
+ * Schema. Rules that Catalog.validate() used to check by hand are now enforced by the database:
+ * foreign keys (unknown author / series / trope), CHECK (spice range, realms, statuses)
+ * and a trigger (an old slug may not be the slug of an existing book).
  */
 export const SCHEMA = `
 CREATE TABLE authors (
@@ -145,8 +145,8 @@ END;
 `;
 
 /**
- * Otwiera bazę. Plik musi istnieć — tworzy go `npm run db:seed`. Nie zakładamy go po cichu,
- * bo pusta baza dałaby katalog bez książek zamiast czytelnego błędu.
+ * Opens the database. The file must exist — `npm run db:seed` creates it. We do not create it
+ * silently, because an empty database would give a catalogue without books instead of a clear error.
  */
 export function openDatabase(path: string): DatabaseSync {
   if (path !== ':memory:' && !existsSync(path)) {
@@ -157,18 +157,18 @@ export function openDatabase(path: string): DatabaseSync {
   return db;
 }
 
-/** Tworzy nowy plik bazy (albo bazę w pamięci dla testów) ze schematem i danymi z seeda. */
+/** Creates a new database file (or an in-memory database for tests) with the schema and seed data. */
 /**
- * Tworzy bazę albo przebudowuje istniejącą W MIEJSCU — w jednej transakcji: usunięcie starych
- * tabel, nowy schemat i dane. Nie kasujemy pliku, bo na Windowsie nie da się usunąć pliku, który
- * trzyma otwarty działający serwer. Serwer do chwili COMMIT czyta stare dane, potem od razu nowe;
- * błąd w seedzie wycofuje całość (ROLLBACK) i baza zostaje taka, jaka była.
+ * Creates the database or rebuilds an existing one IN PLACE — in a single transaction: dropping the old
+ * tables, new schema and data. We do not delete the file, because on Windows you cannot delete a file
+ * that a running server holds open. The server reads the old data until COMMIT, then the new data;
+ * an error in the seed rolls everything back (ROLLBACK) and the database stays as it was.
  */
 export function createDatabase(path: string, data: SeedData): DatabaseSync {
   if (path !== ':memory:') mkdirSync(dirname(path), { recursive: true });
   const db = new DatabaseSync(path);
-  // Klucze obce wyłączone na czas przebudowy (DROP TABLE w dowolnej kolejności); PRAGMA nie
-  // działa wewnątrz transakcji, dlatego przed BEGIN. Spójność sprawdza foreign_key_check niżej.
+  // Foreign keys are off during the rebuild (DROP TABLE in any order); PRAGMA does not work
+  // inside a transaction, hence before BEGIN. Consistency is checked by foreign_key_check below.
   db.exec('PRAGMA foreign_keys = OFF;');
   db.exec('BEGIN');
   try {
@@ -178,7 +178,7 @@ export function createDatabase(path: string, data: SeedData): DatabaseSync {
     for (const o of objects) db.exec(`DROP ${o.type.toUpperCase()} IF EXISTS "${o.name}"`);
     db.exec(SCHEMA);
     insertSeed(db, data);
-    // Klucze obce sprawdzamy na końcu, hurtem: pierwszy błąd pokazujemy razem z treścią wiersza.
+    // Foreign keys are checked at the end, all at once: the first error is shown with the row's content.
     const broken = db.prepare('PRAGMA foreign_key_check').all() as { table: string; rowid: number; parent: string }[];
     if (broken.length) {
       const { table, rowid, parent } = broken[0];
@@ -195,7 +195,7 @@ export function createDatabase(path: string, data: SeedData): DatabaseSync {
   return db;
 }
 
-/** Wstawia dane w jednej transakcji: albo cały seed jest poprawny, albo baza zostaje pusta. */
+/** Inserts the data in one transaction: either the whole seed is valid, or the database stays empty. */
 export function seedDatabase(db: DatabaseSync, data: SeedData): void {
   db.exec('BEGIN');
   try {
@@ -258,11 +258,11 @@ function insertSeed(db: DatabaseSync, data: SeedData): void {
         b.tropes.forEach((t, i) => bookTrope.run(b.slug, t, i));
         b.contentWarnings.forEach((w, i) => warning.run(b.slug, i, w));
       } catch (e) {
-        // Błąd constraintu sam nie mówi, którego rekordu dotyczy — dopisujemy slug.
+        // A constraint error alone does not say which record it is about — we add the slug.
         throw new Error(`[seed] ${b.slug}: ${(e as Error).message}`);
       }
     }
-    // Stare slugi na końcu: trigger porównuje je z kompletną listą książek.
+    // Old slugs last: the trigger compares them with the complete list of books.
     for (const b of data.books) {
       for (const old of b.oldSlugs ?? []) {
         try {
@@ -277,7 +277,7 @@ function insertSeed(db: DatabaseSync, data: SeedData): void {
   }
 }
 
-/** "Łuska Ćmy" → "luska cmy": małe litery, bez ogonków (ł nie rozkłada się w NFD, stąd osobno). */
+/** "Łuska Ćmy" → "luska cmy": lowercase, no diacritics (ł does not decompose in NFD, hence separately). */
 export function fold(text: string): string {
   return text.toLowerCase().normalize('NFD').replace(/\p{M}/gu, '').replace(/ł/g, 'l').trim();
 }

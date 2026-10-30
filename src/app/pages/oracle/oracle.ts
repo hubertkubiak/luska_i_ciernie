@@ -20,12 +20,12 @@ import { QUESTIONS, SPICE_QUESTION, pickTrope } from './questions';
 const MAX_BOOKS = 6;
 
 /**
- * /wyrocznia — quiz „Jaki trop jest dla Ciebie?”. RenderMode.Client (app.routes.server.ts):
- * serwer odsyła pustą skorupę index.csr.html, całą stronę rysuje przeglądarka. Nie ma więc
- * hydracji ani pułapek SSR, ale też nic dla robotów — dlatego tej strony nie ma w sitemap.xml.
+ * /wyrocznia — the quiz "Which trope is yours?". RenderMode.Client (app.routes.server.ts):
+ * the server sends the empty index.csr.html shell, the browser draws the whole page. So there is no
+ * hydration and no SSR pitfalls, but nothing for crawlers either — that is why it is not in sitemap.xml.
  *
- * Stan quizu żyje w sygnałach, a WYNIK w adresie (?wynik=slow-burn&ogien=3). Dzięki temu
- * wynikiem można się podzielić, przeładowanie go nie gubi, a „wstecz” wraca do pytań.
+ * Quiz state lives in signals, the RESULT in the URL (?wynik=slow-burn&ogien=3). That way
+ * the result can be shared, a reload keeps it, and "back" returns to the questions.
  */
 @Component({
   selector: 'app-oracle-page',
@@ -37,20 +37,20 @@ export class OraclePage {
   private readonly router = inject(Router);
   private readonly injector = inject(Injector);
 
-  /** Query params z wynikiem — wstrzyknięte przez withComponentInputBinding(). */
+  /** Query params with the result — injected by withComponentInputBinding(). */
   readonly wynik = input<string>();
   readonly ogien = input<string>();
 
   protected readonly total = QUESTIONS.length + 1;
 
-  /** Indeksy wybranych odpowiedzi. Zmiana wyniku w adresie (np. „Zapytaj jeszcze raz”) czyści quiz. */
+  /** Indexes of the chosen answers. A change of the result in the URL (e.g. "Ask again") clears the quiz. */
   private readonly answers = linkedSignal<number[]>(() => {
     this.wynik();
     return [];
   });
   protected readonly step = computed(() => this.answers().length);
 
-  /** Bieżące pytanie; po pytaniach o tropy przychodzi pytanie o pikanterię. */
+  /** The current question; after the trope questions comes the spice question. */
   protected readonly current = computed(() => {
     const q = QUESTIONS[this.step()] ?? SPICE_QUESTION;
     return { title: q.title, labels: q.answers.map((a) => a.label) };
@@ -63,13 +63,13 @@ export class OraclePage {
     return slug ? `/api/tropes/${encodeURIComponent(slug)}` : undefined;
   });
 
-  /** Granica ognia z adresu; cokolwiek spoza 0–5 (ręcznie wpisany adres) = bez granicy. */
+  /** Spice limit from the URL; anything outside 0–5 (a hand-typed URL) = no limit. */
   protected readonly maxSpice = computed(() => {
     const n = Number(this.ogien());
     return Number.isInteger(n) && n >= 0 && n <= 5 ? n : 5;
   });
 
-  /** Najpierw księgi w granicy ognia (od najbliższych granicy), potem najmniej ją przekraczające. */
+  /** Books within the spice limit first (closest to the limit first), then those exceeding it least. */
   protected readonly books = computed(() => {
     const max = this.maxSpice();
     const books = this.trope.value()?.books ?? [];
@@ -90,12 +90,12 @@ export class OraclePage {
     const answers = [...this.answers(), index];
     if (answers.length < this.total) {
       this.answers.set(answers);
-      // Nowe pytanie podmienia treść w tym samym miejscu — przenosimy na nie fokus, żeby czytnik
-      // ekranu je odczytał, a fokus klawiatury nie został na usuniętym przycisku.
+      // The new question replaces the content in the same place — move focus to it, so a screen
+      // reader reads it and keyboard focus does not stay on a removed button.
       afterNextRender(() => this.heading()?.nativeElement.focus(), { injector: this.injector });
       return;
     }
-    // Ostatnia odpowiedź: wynik ląduje w adresie, a widok wyniku czyta go stamtąd (input()).
+    // The last answer: the result goes into the URL, and the result view reads it from there (input()).
     const spice = SPICE_QUESTION.answers[index].maxSpice;
     void this.router.navigate([], { queryParams: { wynik: pickTrope(answers), ogien: spice } });
   }

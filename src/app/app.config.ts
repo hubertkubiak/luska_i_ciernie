@@ -7,43 +7,43 @@ import { routes } from './app.routes';
 import { apiLanguageInterceptor } from './core/api-language';
 import { forwardSessionInterceptor } from './core/forward-session';
 
-// LOCALE_ID nie jest tu ustawiany ręcznie: przy i18n CLI wkompilowuje locale w każdy build
-// (pl dla wersji źródłowej, en dla tłumaczenia — patrz "i18n" w angular.json) i sam dołącza
-// dane locale. Ręczne { provide: LOCALE_ID, useValue: 'pl' } zablokowałoby polski we wszystkich
-// wersjach językowych. Serwer i przeglądarka mają ten sam build, więc formatują identycznie.
+// LOCALE_ID is not set by hand here: with i18n the CLI compiles the locale into every build
+// (pl for the source version, en for the translation — see "i18n" in angular.json) and adds the
+// locale data itself. A manual { provide: LOCALE_ID, useValue: 'pl' } would force Polish in every
+// language version. Server and browser share the same build, so they format identically.
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    // withComponentInputBinding: parametr :slug trafia prosto do input() komponentu strony.
-    // withViewTransitions: każda nawigacja idzie przez document.startViewTransition() — stara
-    // i nowa strona przenikają się, a elementy o tej samej view-transition-name (okładka na
-    // karcie i na stronie książki, patrz Cover) płynnie „przelatują” na nowe miejsce.
-    // skipInitialTransition: pierwsza nawigacja to hydracja HTML-a z serwera — nie ma czego animować.
-    // Przeglądarki bez View Transitions API po prostu nawigują jak dotąd.
+    // withComponentInputBinding: the :slug parameter goes straight into the page component's input().
+    // withViewTransitions: every navigation goes through document.startViewTransition() — the old
+    // and new page cross-fade, and elements with the same view-transition-name (the cover on the
+    // card and on the book page, see Cover) smoothly "fly" to their new place.
+    // skipInitialTransition: the first navigation is hydrating the server HTML — nothing to animate.
+    // Browsers without the View Transitions API simply navigate as before.
     provideRouter(routes, withComponentInputBinding(), withViewTransitions({ skipInitialTransition: true })),
-    // withFetch: na serwerze HttpClient używa natywnego fetch z Node zamiast emulacji XHR.
-    // apiLanguageInterceptor: API odpowiada w języku tej wersji aplikacji (tytuły pl/en).
-    // forwardSessionInterceptor: przy SSR przekazuje sesję do /api/shelf (w przeglądarce nic nie robi).
+    // withFetch: on the server HttpClient uses Node's native fetch instead of an XHR emulation.
+    // apiLanguageInterceptor: the API answers in this app version's language (pl/en titles).
+    // forwardSessionInterceptor: during SSR forwards the session to /api/shelf (does nothing in the browser).
     provideHttpClient(withFetch(), withInterceptors([apiLanguageInterceptor, forwardSessionInterceptor])),
-    // provideClientHydration domyślnie włącza też HTTP transfer cache: odpowiedzi GET
-    // pobrane podczas SSR lądują w <script id="ng-state"> i klient nie pyta API drugi raz.
-    // withI18nSupport: BEZ tego Angular pomija hydrację każdego komponentu z blokami i18n
-    // i renderuje go od nowa (nowe węzły DOM, zgubione kliknięcia sprzed hydracji) — po cichu.
+    // provideClientHydration also enables the HTTP transfer cache by default: GET responses
+    // fetched during SSR land in <script id="ng-state"> and the client does not call the API again.
+    // withI18nSupport: WITHOUT it Angular skips hydrating every component with i18n blocks
+    // and re-renders it from scratch (new DOM nodes, clicks before hydration lost) — silently.
     //
-    // Domyślnie Angular NIE wkleja do HTML-a prywatnych odpowiedzi — nie wie, czy sama strona nie
-    // wyląduje we wspólnym cache. Dotyczy to półki z /api/shelf na dwa sposoby:
-    // - includeRequestsWithAuthHeaders: żądanie ma nagłówek Cookie (dodaje go forwardSessionInterceptor,
-    //   a interceptor transfer cache działa PO naszych, tuż przed wysłaniem),
-    // - includeNonCacheableRequests: odpowiedź ma Cache-Control: private, no-store.
-    // U nas to bezpieczne: dane prywatne pobiera tylko SSR z sesją (wyłącznie /api/shelf), a HTML
-    // zalogowanej osoby ma Cache-Control: private, no-store (server.ts). Bez tego przycisk półki
-    // po hydracji na chwilę „odskakiwał”, dopóki przeglądarka nie pobrała stanu jeszcze raz.
+    // By default Angular does NOT embed private responses in the HTML — it cannot know whether the
+    // page itself ends up in a shared cache. That affects the shelf from /api/shelf in two ways:
+    // - includeRequestsWithAuthHeaders: the request has a Cookie header (added by forwardSessionInterceptor,
+    //   and the transfer cache interceptor runs AFTER ours, right before sending),
+    // - includeNonCacheableRequests: the response has Cache-Control: private, no-store.
+    // Safe for us: private data is fetched only by SSR with a session (only /api/shelf), and the HTML
+    // of a signed-in person has Cache-Control: private, no-store (server.ts). Without this the shelf
+    // button briefly "jumped back" after hydration until the browser fetched the state again.
     provideClientHydration(
       withI18nSupport(),
       withHttpTransferCacheOptions({ includeRequestsWithAuthHeaders: true, includeNonCacheableRequests: true }),
     ),
-    // NgOptimizedImage w trybie dev ostrzega o braku <link rel="preconnect"> dla obrazów `priority`.
-    // Celowo go nie mamy (RODO, patrz index.html), więc wyłączamy to sprawdzenie dla Open Library.
+    // NgOptimizedImage in dev mode warns about a missing <link rel="preconnect"> for `priority` images.
+    // We leave it out on purpose (GDPR, see index.html), so the check is disabled for Open Library.
     { provide: PRECONNECT_CHECK_BLOCKLIST, useValue: 'https://covers.openlibrary.org' },
   ],
 };

@@ -7,13 +7,13 @@ import type { Catalog } from '../catalog';
 import { parseEntry, type ShelfStore, type StoredItem } from './shelf-store';
 
 /**
- * JSON API półki: GET/PUT/DELETE /api/shelf[/:slug]. Tylko dla zalogowanych (ciasteczko sesji).
+ * Shelf JSON API: GET/PUT/DELETE /api/shelf[/:slug]. Signed-in users only (session cookie).
  *
- * Ochrona przed CSRF, bo autoryzacja jedzie w ciasteczku, które przeglądarka dołącza sama:
- * 1. SameSite=Lax — przeglądarka nie dołączy ciasteczka do PUT/DELETE z cudzej strony,
- * 2. Origin — zapis z obcego adresu dostaje 403,
- * 3. wymagany Content-Type: application/json — zwykły formularz HTML z cudzej strony takiego
- *    nie wyśle, a fetch z innej domeny musiałby przejść zapytanie wstępne CORS, którego nie wpuszczamy.
+ * CSRF protection, because authorisation travels in a cookie the browser attaches by itself:
+ * 1. SameSite=Lax — the browser will not attach the cookie to a PUT/DELETE from a foreign site,
+ * 2. Origin — a write from a foreign address gets 403,
+ * 3. Content-Type: application/json is required — a plain HTML form on a foreign site cannot send it,
+ *    and fetch from another domain would need a CORS preflight, which we do not allow.
  */
 export function shelfApiRouter(shelf: ShelfStore, catalog: Catalog): Router {
   const router = Router();
@@ -43,9 +43,9 @@ export function shelfApiRouter(shelf: ShelfStore, catalog: Catalog): Router {
   router.get('/:slug', (req, res) => {
     const item = shelf.get(userId(res), req.params['slug'] as string);
     const [full] = item ? withBooks([item], catalog, req) : [];
-    // „Nie ma na półce” to zwykły stan, nie błąd → 200 z null, nie 404. Ma to znaczenie dla SSR:
-    // HTTP transfer cache zapisuje tylko udane odpowiedzi, więc 404 z serwera nie trafiało do
-    // HTML-a i przeglądarka po hydracji pytała drugi raz (i dostawała w konsoli czerwone 404).
+    // "Not on the shelf" is a normal state, not an error → 200 with null, not 404. It matters for SSR:
+    // the HTTP transfer cache stores only successful responses, so a 404 from the server never reached
+    // the HTML and the browser asked again after hydration (getting a red 404 in the console).
     res.json(full ?? null);
   });
 
@@ -72,9 +72,9 @@ export function shelfApiRouter(shelf: ShelfStore, catalog: Catalog): Router {
 }
 
 /**
- * POST /polka (+ /en/polka) — ta sama półka jako zwykły formularz: działa bez JavaScriptu
- * i przy kliknięciu, zanim aplikacja się zhydratuje (przeglądarka wysyła wtedy formularz sama).
- * Pola: slug, status albo remove=1, next (dokąd wrócić).
+ * POST /polka (+ /en/polka) — the same shelf as a plain form: works without JavaScript
+ * and for clicks before the app hydrates (the browser then submits the form itself).
+ * Fields: slug, status or remove=1, next (where to return).
  */
 export function shelfFormRouter(shelf: ShelfStore, catalog: Catalog): Router {
   const router = Router();
@@ -97,7 +97,7 @@ export function shelfFormRouter(shelf: ShelfStore, catalog: Catalog): Router {
       if (req.body?.remove) {
         shelf.remove(user.id, slug);
       } else {
-        // Formularz zmienia tylko status — ocena i notatka (jeśli były) zostają.
+        // The form changes only the status — rating and note (if any) stay.
         const entry = parseEntry({ ...shelf.get(user.id, slug), status: req.body?.status });
         if (!('error' in entry)) shelf.save(user.id, slug, entry);
       }
@@ -112,7 +112,7 @@ function userId(res: Response): number {
   return currentUser(res)!.id;
 }
 
-/** Dołącza karty książek z katalogu (w języku żądania). Książek usuniętych z katalogu nie pokazujemy. */
+/** Attaches book cards from the catalogue (in the request language). Books removed from the catalogue are skipped. */
 function withBooks(items: StoredItem[], catalog: Catalog, req: Request): ShelfItem[] {
   const books = new Map(catalog.listBooks({ slugs: items.map((i) => i.slug) }, lang(req)).map((b) => [b.slug, b]));
   return items.flatMap((item) => {

@@ -2,10 +2,10 @@ describe('Wyszukiwarka /szukaj', () => {
   it('serwer renderuje wyniki z query params i kanoniczny adres', () => {
     cy.request('/szukaj?tryb=wszystkie&trop=enemies-to-lovers&trop=jezdzcy-smokow').then((res) => {
       expect(res.status).to.eq(200);
-      // ICU zostawia w HTML znaczniki hydracji, np. „Znaleziono <!--ngtns-->6 ksiąg”.
+      // ICU leaves hydration markers in the HTML, e.g. "Znaleziono <!--ngtns-->6 ksiąg".
       expect(res.body).to.match(/Znaleziono (<!--[^>]*-->)?[1-9]\d* ksi/);
       expect(res.body).to.contain('Fourth Wing');
-      // Inna kolejność + domyślny tryb w adresie → ten sam adres kanoniczny.
+      // A different order + the default mode in the URL → the same canonical URL.
       expect(res.body).to.match(/<link rel="canonical" href="[^"]+\/szukaj\?trop=enemies-to-lovers&amp;trop=jezdzcy-smokow">/);
     });
   });
@@ -20,7 +20,7 @@ describe('Wyszukiwarka /szukaj', () => {
 
     cy.location('search').should('contain', 'trop=wampiry').and('contain', 'pikanteria=3');
     cy.contains(/Znaleziono \d+ ksi/);
-    // Po przeładowaniu stan formularza odtworzył serwer: atrybuty checked/selected w HTML.
+    // After a reload the form state was restored by the server: checked/selected attributes in the HTML.
     cy.get('input[name="trop"][value="wampiry"]').should('be.checked');
     cy.get('select[name="pikanteria"]').should('have.value', '3');
   });
@@ -50,8 +50,8 @@ describe('Wyszukiwarka /szukaj', () => {
   });
 
   it('kliknięcie przed hydracją nie ginie', () => {
-    // Klik w chwili, gdy jest już HTML z serwera, a aplikacja jeszcze nie wystartowała.
-    // Z bindingiem właściwości [checked] hydracja ustawiłaby checked=false i kliknięcie by przepadło.
+    // A click when the server HTML is there but the app has not started yet.
+    // With a [checked] property binding hydration would set checked=false and the click would be lost.
     cy.visit('/szukaj', {
       onBeforeLoad(win) {
         win.document.addEventListener('DOMContentLoaded', () => {
@@ -59,7 +59,7 @@ describe('Wyszukiwarka /szukaj', () => {
         });
       },
     });
-    // Event replay odtworzył „change” po hydracji → nawigacja z zaznaczonym tropem.
+    // Event replay replayed "change" after hydration → navigation with the trope selected.
     cy.location('search').should('eq', '?trop=slow-burn');
     cy.get('input[value="slow-burn"]').should('be.checked');
   });

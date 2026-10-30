@@ -11,11 +11,11 @@ export function themeFromRequest(req: Request): Theme {
 }
 
 /**
- * POST /motyw (+ /en/motyw) — przełącznik motywu bez JavaScriptu. Z JS aplikacja ustawia
- * ciasteczko sama (src/app/core/theme.ts) i nie przeładowuje strony.
+ * POST /motyw (+ /en/motyw) — the theme toggle without JavaScript. With JS the app sets
+ * the cookie itself (src/app/core/theme.ts) and does not reload the page.
  *
- * Ciasteczko motywu NIE jest HttpOnly: to nie sekret, a przełącznik z JS musi móc je zapisać.
- * To preferencja ustawiana na wyraźne żądanie osoby — patrz docs/PRAWNE.md §3.
+ * The theme cookie is NOT HttpOnly: it is not a secret, and the JS toggle must be able to write it.
+ * It is a preference set at the person's explicit request — see docs/PRAWNE.md §3.
  */
 export function themeRouter(): Router {
   const router = Router();
@@ -38,10 +38,10 @@ export function themeRouter(): Router {
 }
 
 /**
- * Strony z SSR mają już właściwy motyw — ustawia go Angular, czytając ciasteczko przez REQUEST.
- * Ale HTML z prerenderu (powstał w `ng build`) i „skorupa” stron w trybie Client nie znają
- * żadnego żądania, więc zawsze mają domyślny `data-theme="night"`. Bez tej poprawki osoba
- * z motywem pergaminowym zobaczyłaby na nich błysk ciemnego motywu (FOUC), zanim zadziała JS.
+ * SSR pages already have the right theme — Angular sets it by reading the cookie via REQUEST.
+ * But prerendered HTML (made in `ng build`) and the shell of Client-mode pages know no request,
+ * so they always carry the default `data-theme="night"`. Without this fix a person using the
+ * parchment theme would see a flash of the dark theme on them (FOUC) before the JS runs.
  */
 export async function withTheme(response: Response, theme: Theme): Promise<Response> {
   if (theme === DEFAULT_THEME || !response.headers.get('content-type')?.includes('text/html')) return response;

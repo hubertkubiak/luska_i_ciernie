@@ -35,6 +35,7 @@
     "auth.registerKicker": "Nowe przymierze",
     "auth.registerTitle": "Zawrzyj pakt",
     "auth.registerLead": "Załóż konto, a archiwum zapamięta twoje księgi.",
+    "auth.demo": "Wersja demonstracyjna: konta i półki są czyszczone przy każdym restarcie serwera.",
     "auth.displayName": "Imię lub pseudonim",
     "auth.email": "E-mail",
     "auth.password": "Hasło",

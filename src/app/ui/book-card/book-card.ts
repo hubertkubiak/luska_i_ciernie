@@ -4,7 +4,7 @@ import type { BookSummary } from '../../../shared/models';
 import { Cover } from '../cover/cover';
 import { SpiceMeter } from '../spice-meter/spice-meter';
 
-/** Karta książki do list (autor, tropy, wyniki wyszukiwania). */
+/** A book card for lists (author, tropes, search results). */
 @Component({
   selector: 'app-book-card',
   imports: [RouterLink, Cover, SpiceMeter],

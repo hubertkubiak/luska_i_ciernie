@@ -6,7 +6,7 @@
     <p class="label" id="shelf-title" i18n="@@shelf.controlTitle">W twoim skarbcu</p>
     <div class="options" role="group" aria-labelledby="shelf-title">
       @for (s of statuses; track s) {
-        <!-- aria-pressed: przycisk-przełącznik — czytnik ekranu mówi, który status jest wybrany. -->
+        <!-- aria-pressed: a toggle button — a screen reader says which status is selected. -->
         <button type="submit" name="status" [value]="s" [attr.aria-pressed]="current === s" [disabled]="saving()">
           {{ labels[s] }}
         </button>
@@ -20,6 +20,6 @@
     }
   </form>
 } @else if (user() === null) {
-  <!-- Link w środku komunikatu: tłumacz może przestawić szyk zdania, a link zostaje linkiem. -->
+  <!-- A link inside the message: the translator can reorder the sentence, and the link stays a link. -->
   <p class="anon" i18n="@@shelf.loginToAdd"><a routerLink="/logowanie" [queryParams]="{ next: here() }">Przekrocz próg</a>, by dodać księgę do skarbca.</p>
 }

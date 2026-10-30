@@ -1,5 +1,5 @@
-// Pola formularzy (SPEC §2.7): tylko dolna linia jak atrament na pergaminie; przy focusie
-// złota linia rozlewa się od środka. Używane w komponentach: @use '../../../styles/forms';
+// Form fields (SPEC §2.7): only a bottom line like ink on parchment; on focus a gold
+// line spreads from the centre. Used in components: @use '../../../styles/forms';
 @mixin ink-field {
   padding: 0.45rem 0.1rem;
   border: 0;

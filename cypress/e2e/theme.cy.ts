@@ -1,4 +1,4 @@
-// Motyw noc / pergamin w ciasteczku — bez mignięcia przy przeładowaniu (SPEC §6, pułapka #3).
+// Night / parchment theme in a cookie — no flash on reload (SPEC §6, pitfall #3).
 describe('Motyw', () => {
   beforeEach(() => cy.viewport(1400, 900));
 
@@ -23,7 +23,7 @@ describe('Motyw', () => {
     cy.window().its('bezPrzeladowania').should('eq', true);
   });
 
-  // Najważniejsze: motyw jest w HTML-u, zanim wykona się jakikolwiek skrypt — brak mignięcia.
+  // Most important: the theme is in the HTML before any script runs — no flash.
   for (const [page, kind] of [
     ['/', 'SSR (REQUEST w Angularze)'],
     ['/tropy', 'prerender (poprawka w Expressie)'],

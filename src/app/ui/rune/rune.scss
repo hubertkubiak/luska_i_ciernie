@@ -7,8 +7,8 @@
 svg {
   width: 100%;
   height: 100%;
-  /* Właściwości dziedziczone przechodzą do wnętrza <use>, więc glify w sprite'cie
-     nie muszą mieć własnych kolorów — przejmują currentColor z miejsca użycia. */
+  /* Inherited properties pass into <use>, so the glyphs in the sprite
+     need no colours of their own — they take currentColor from where they are used. */
   fill: none;
   stroke: currentColor;
   stroke-width: 1.5;

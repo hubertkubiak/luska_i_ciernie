@@ -1,10 +1,10 @@
-// Logowanie: formularze POST do Expressa, sesja w ciasteczku httpOnly, strażnik /moja-polka.
-// Serwer ma limit rejestracji z jednego IP (domyślnie 5 na godzinę). Testy zakładają 2 konta na
-// przebieg; przy częstych przebiegach uruchom serwer z REGISTER_LIMIT_PER_HOUR=1000.
+// Sign-in: POST forms to Express, session in an httpOnly cookie, the /moja-polka guard.
+// The server limits registrations per IP (5 per hour by default). The tests create 2 accounts per
+// run; for frequent runs start the server with REGISTER_LIMIT_PER_HOUR=1000.
 const unique = () => `e2e-${Date.now()}-${Cypress._.random(1e6)}@example.com`;
 const PASSWORD = 'smoczy-ogien-123';
 
-/** Konto „od ręki” przez API formularza — szybciej niż klikanie, gdy test dotyczy czegoś innego. */
+/** An account "on the spot" through the form API — faster than clicking when the test is about something else. */
 function register(email: string, displayName = 'Violet') {
   return cy.request({
     method: 'POST',
@@ -16,7 +16,7 @@ function register(email: string, displayName = 'Violet') {
 }
 
 describe('Konta i sesja', () => {
-  // Jedno wspólne konto dla testów, które nie sprawdzają samej rejestracji.
+  // One shared account for tests that do not check registration itself.
   const email = unique();
   before(() => {
     register(email, 'Xaden');
@@ -24,7 +24,7 @@ describe('Konta i sesja', () => {
   });
   beforeEach(() => cy.viewport(1400, 900));
 
-  /** Zalogowanie bez klikania (żądanie formularza) — ciasteczko trafia do przeglądarki testu. */
+  /** Signing in without clicking (a form request) — the cookie lands in the test browser. */
   const login = () =>
     cy.request({ method: 'POST', url: '/auth/logowanie', form: true, body: { email, password: PASSWORD }, followRedirect: false });
 
@@ -46,7 +46,7 @@ describe('Konta i sesja', () => {
 
     cy.location('pathname').should('eq', '/moja-polka');
     cy.getCookie('sid').should('exist').and('have.property', 'httpOnly', true);
-    // HTML z SSR zna już zalogowaną osobę (REQUEST_CONTEXT) i nie może trafić do wspólnego cache.
+    // SSR HTML already knows the signed-in person (REQUEST_CONTEXT) and must not land in a shared cache.
     cy.request('/').then((res) => {
       expect(res.body).to.contain('Violet').and.contain('Opuść dwór');
       expect(res.headers['cache-control']).to.eq('private, no-store');
@@ -85,7 +85,7 @@ describe('Konta i sesja', () => {
 
   it('strona z prerenderu nie zna sesji — nagłówek uzupełnia /api/me po hydracji', () => {
     login();
-    cy.request('/tropy').its('body').should('not.contain', 'Xaden'); // ten sam plik HTML dla wszystkich
+    cy.request('/tropy').its('body').should('not.contain', 'Xaden'); // the same HTML file for everyone
     cy.intercept('GET', '/api/me').as('me');
     cy.visit('/tropy');
     cy.wait('@me').its('response.statusCode').should('eq', 200);
@@ -101,8 +101,8 @@ describe('Konta i sesja', () => {
 
   it('„Opuść dwór” kończy sesję po stronie serwera', () => {
     login();
-    // Nagłówek z imieniem przychodzi z SSR, a przeglądarka bierze osobę z TransferState —
-    // obie strony widzą to samo, więc hydracja przechodzi bez błędów.
+    // The header with the name comes from SSR, and the browser takes the person from TransferState —
+    // both sides see the same, so hydration passes without errors.
     cy.visit('/', { onBeforeLoad: (win) => cy.spy(win.console, 'error').as('consoleError') });
     cy.get('.spark').should('exist');
     cy.get('@consoleError').should('not.have.been.called');
@@ -122,7 +122,7 @@ describe('Konta i sesja', () => {
       failOnStatusCode: false,
     }).its('status').should('eq', 403);
 
-    const victim = unique(); // osobny adres: limit liczy się dla pary IP + e-mail
+    const victim = unique(); // a separate address: the limit counts per IP + e-mail pair
     const attempt = () =>
       cy.request({ method: 'POST', url: '/auth/logowanie', form: true, body: { email: victim, password: 'zle' }, followRedirect: false });
     Cypress._.times(10, attempt);

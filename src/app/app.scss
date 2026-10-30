@@ -2,8 +2,8 @@
   display: contents;
 }
 
-// main zajmuje całą wysokość między nagłówkiem a stopką. Jako kolumna flex pozwala stronie
-// (np. landingowi) rozciągnąć się na tę wysokość; zwykłe strony mają po prostu swoją wysokość.
+// main takes the whole height between header and footer. As a flex column it lets a page
+// (e.g. the home page) stretch to that height; ordinary pages simply keep their own height.
 main {
   flex: 1;
   display: flex;

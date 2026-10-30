@@ -16,13 +16,13 @@ import { fold } from './db/database';
 
 export interface CatalogOptions {
   /**
-   * Skąd brać okładki. 'openlibrary' — obrazy z covers.openlibrary.org; 'none' — brak URL-i,
-   * UI rysuje własne okładki. Okładki są chronione prawem autorskim — patrz docs/PRAWNE.md.
+   * Where covers come from. 'openlibrary' — images from covers.openlibrary.org; 'none' — no URLs,
+   * the UI draws its own covers. Covers are protected by copyright — see docs/PRAWNE.md.
    */
   covers?: 'openlibrary' | 'none';
 }
 
-/** Wiersz zapytania summarySql() — kolumny nazwane tak, żeby mapowanie na BookSummary było oczywiste. */
+/** A summarySql() row — columns named so that mapping to BookSummary is obvious. */
 interface SummaryRow {
   slug: string;
   title: string;
@@ -38,14 +38,14 @@ interface SummaryRow {
   series_status: SeriesStatus | null;
   planned_books: number | null;
   series_index: number | null;
-  /** JSON z json_group_array — SQLite składa listę tropów w jednym zapytaniu. */
+  /** JSON from json_group_array — SQLite builds the trope list in a single query. */
   tropes: string;
 }
 
 /**
- * Wspólny SELECT kart książek. Tytuł, okładka i nazwa serii biorą wersję lokalną (LEFT JOIN
- * po języku), a gdy jej brak — oryginał (COALESCE). Tropy i kraina przychodzą z podzapytań,
- * więc lista 91 książek to jedno zapytanie, a nie 91 dodatkowych (problem N+1).
+ * The shared SELECT for book cards. Title, cover and series name take the local version (LEFT JOIN
+ * by language) and fall back to the original (COALESCE). Tropes and realm come from subqueries,
+ * so a list of 91 books is one query, not 91 extra ones (the N+1 problem).
  */
 const summarySql = (extraColumns = '') => `
 SELECT ${extraColumns}
@@ -76,8 +76,8 @@ LEFT JOIN series_names sn ON sn.series = s.slug AND sn.lang = :lang
 `;
 
 /**
- * Katalog nad bazą SQLite. Publiczne metody są te same co w wersji „w pamięci” z etapów 2–10,
- * więc api.ts, seo.ts i cała aplikacja Angular nie zauważyły zmiany.
+ * The catalogue over the SQLite database. The public methods are the same as in the in-memory version
+ * from stages 2–10, so api.ts, seo.ts and the whole Angular app did not notice the change.
  */
 export class Catalog {
   private readonly covers: NonNullable<CatalogOptions['covers']>;
@@ -89,7 +89,7 @@ export class Catalog {
     this.covers = options.covers ?? 'openlibrary';
   }
 
-  /** Aktualny slug dla dawnego adresu książki albo undefined. */
+  /** The current slug for a book's old address, or undefined. */
   currentBookSlug(oldSlug: string): string | undefined {
     const row = this.db.prepare('SELECT book FROM old_slugs WHERE old_slug = ?').get(oldSlug) as
       | { book: string }
@@ -97,7 +97,7 @@ export class Catalog {
     return row?.book;
   }
 
-  /** Lista książek po filtrach, posortowana po tytule w danym języku — kolejność jest stabilna. */
+  /** Filtered book list, sorted by title in the given language — the order is stable. */
   listBooks(query: BookQuery = {}, lang: Lang = 'pl'): BookSummary[] {
     const tropes = query.tropes ?? [];
     const rows = this.db
@@ -131,7 +131,7 @@ export class Catalog {
       const order = query.slugs;
       return books.sort((x, y) => order.indexOf(x.slug) - order.indexOf(y.slug));
     }
-    // Sortujemy w JS: SQLite bez rozszerzenia ICU nie zna polskiej kolejności (Ł po L, Ś po S).
+    // Sorted in JS: SQLite without the ICU extension does not know Polish order (Ł after L, Ś after S).
     return books.sort((x, y) => x.title.localeCompare(y.title, lang));
   }
 
@@ -169,8 +169,8 @@ export class Catalog {
   }
 
   /**
-   * „Podobne książki”: najwięcej wspólnych tropów, przy remisie bliższa pikanteria.
-   * Pomijamy tomy tej samej serii — te strona książki pokazuje osobno.
+   * "Kindred books": the most shared tropes, ties broken by closer spice.
+   * Volumes of the same series are skipped — the book page lists those separately.
    */
   private similarBooks(slug: string, series: string | null, spice: number, lang: Lang, limit = 4): BookSummary[] {
     const rows = this.db
@@ -213,7 +213,7 @@ export class Catalog {
     return { ...t, books: this.listBooks({ tropes: [slug] }, lang) };
   }
 
-  /** Premiery od podanego dnia (włącznie), od najbliższej. */
+  /** Releases from the given day (inclusive), nearest first. */
   listReleases(fromDay: string): Release[] {
     return (
       this.db
@@ -245,7 +245,7 @@ export class Catalog {
   }
 }
 
-/** % i _ to w LIKE symbole wieloznaczne — w tekście od użytkownika muszą znaczyć siebie. */
+/** % and _ are wildcards in LIKE — in user text they must mean themselves. */
 function escapeLike(text: string): string {
   return text.replace(/[\\%_]/g, (c) => `\\${c}`);
 }

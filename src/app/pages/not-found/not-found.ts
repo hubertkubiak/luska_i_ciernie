@@ -3,9 +3,9 @@ import { Router, RouterLink } from '@angular/router';
 import { Seo } from '../../core/seo';
 
 /**
- * Widok „zarosła cierniami”. Sam NIE ustawia statusu HTTP — robią to:
- * - dla nieznanych adresów: `status: 404` przy trasie '**' w app.routes.server.ts (statycznie),
- * - dla nieistniejących książek/autorów: strona przez ServerResponse (dynamicznie, po odpowiedzi API).
+ * The "overgrown with thorns" view. It does NOT set the HTTP status itself — that is done:
+ * - for unknown URLs: by `status: 404` on the '**' route in app.routes.server.ts (statically),
+ * - for missing books/authors: by the page through ServerResponse (dynamically, after the API response).
  */
 @Component({
   selector: 'app-not-found',
@@ -17,8 +17,8 @@ export class NotFound {
   readonly message = input($localize`:@@notFound.default:Nikt nie chodził tędy od stuleci.`);
 
   constructor() {
-    // noindex: strona błędu nie powinna trafić do wyników wyszukiwania (status 404 to jedno,
-    // ale meta robots chroni też przed indeksowaniem, gdyby status kiedyś się zgubił).
+    // noindex: an error page should not end up in search results (the 404 status is one thing,
+    // but meta robots also protects against indexing should the status ever get lost).
     inject(Seo).update({
       title: $localize`:@@title.notFound:Ścieżka zarosła cierniami`,
       description: $localize`:@@notFound.default:Nikt nie chodził tędy od stuleci.`,

@@ -101,6 +101,7 @@
     "seo.tropesDescription": "A catalogue of romantasy tropes — from fated bonds to fae courts. Every rune leads to the tomes that follow it.",
     "seo.searchDescription": "Search romantasy by trope, spice level and series status — even without JavaScript.",
     "auth.description": "An account at Łuska i Ciernie: your own treasury of books.",
+    "auth.demo": "Demo version: accounts and shelves are wiped whenever the server restarts.",
     "auth.displayName": "Name or pen name",
     "auth.email": "E-mail",
     "auth.errorCredentials": "Wrong e-mail or password.",

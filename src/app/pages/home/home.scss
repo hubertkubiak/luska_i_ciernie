@@ -1,6 +1,6 @@
-// Landing wypełnia wysokość okna. Nadwyżkę miejsca (duże monitory) flex dzieli po równo: połowa
-// do hero (rozkłada się nad i pod tekstem), połowa pod kartę Tropu dnia — dzięki temu blok
-// „tytuł + karta” wypada mniej więcej na środku. Na laptopie 15" nadwyżki nie ma.
+// The home page fills the window height. Extra space (big monitors) is split evenly by flex: half
+// to the hero (spread above and below the text), half below the Trope of the day card — so the
+// "title + card" block lands roughly in the middle. On a 15" laptop there is no extra space.
 :host {
   flex: 1;
   display: flex;
@@ -19,8 +19,8 @@
   isolation: isolate;
   display: grid;
   justify-items: center;
-  // Odstępy liczone od WYSOKOŚCI okna (vh), nie szerokości: landing ma się zmieścić bez
-  // przewijania także na laptopie 15" (1920×1080 przy skali 125% → ok. 1536×730 px okna przeglądarki).
+  // Spacing based on the window HEIGHT (vh), not width: the home page must fit without
+  // scrolling on a 15" laptop too (1920×1080 at 125% scale → about a 1536×730 px browser window).
   gap: clamp(0.75rem, 2.5vh, 1.5rem);
   padding: clamp(1.75rem, 7vh, 6rem) 1rem clamp(3.25rem, 9vh, 7rem);
   text-align: center;
@@ -36,12 +36,12 @@ h1 {
 
 .tagline {
   margin: 0;
-  // Na laptopach hasło mieści się w jednej linii — każda linia to ~30 px mniej do przewijania.
+  // On laptops the tagline fits on one line — every line is ~30 px less scrolling.
   max-width: 44rem;
   font-size: 1.25rem;
 }
 
-// Przycisk główny: gradient „Żar”, Cormorant small-caps (SPEC §2.7)
+// Main button: the "Ember" gradient, Cormorant small-caps (SPEC §2.7)
 .cta {
   padding: 0.7rem 1.8rem;
   border-radius: 2px;

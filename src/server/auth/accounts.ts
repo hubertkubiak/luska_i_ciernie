@@ -6,9 +6,9 @@ import type { SessionUser } from '../../shared/models';
 import { DUMMY_HASH, hashPassword, verifyPassword } from './passwords';
 
 /**
- * Konta i sesje mieszkają w OSOBNEJ bazie (data/users.db) niż katalog (data/luska.db):
- * katalog jest tylko do odczytu i odtwarzany z seeda (npm run db:seed kasuje plik),
- * a danych użytkowników nie wolno tak po prostu skasować.
+ * Accounts and sessions live in a SEPARATE database (data/users.db) from the catalogue (data/luska.db):
+ * the catalogue is read-only and rebuilt from the seed (npm run db:seed),
+ * whereas user data must never be wiped just like that.
  */
 const SCHEMA = `
 CREATE TABLE IF NOT EXISTS users (
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS sessions (
 CREATE INDEX IF NOT EXISTS sessions_user ON sessions (user_id);
 `;
 
-/** Czas życia sesji. Przedłużamy ją przy aktywności (sliding expiration). */
+/** Session lifetime. Extended on activity (sliding expiration). */
 export const SESSION_TTL_MS = 30 * 24 * 60 * 60 * 1000;
 
 export const LIMITS = {
@@ -40,21 +40,21 @@ export const LIMITS = {
 
 export type RegisterError = 'email' | 'haslo' | 'imie' | 'zajety';
 
-/** Osoba po stronie serwera — z wewnętrznym id (do półki). Na zewnątrz wychodzi tylko SessionUser. */
+/** A person on the server side — with the internal id (for the shelf). Only SessionUser goes out. */
 export type Account = SessionUser & { id: number };
 
 export function openAccounts(path: string): Accounts {
   if (path !== ':memory:' && !existsSync(dirname(path))) mkdirSync(dirname(path), { recursive: true });
   const db = new DatabaseSync(path);
   db.exec('PRAGMA foreign_keys = ON;');
-  // WAL: odczyty (sprawdzanie sesji przy każdym żądaniu) nie czekają na zapisy (logowanie).
+  // WAL: reads (checking the session on every request) do not wait for writes (signing in).
   if (path !== ':memory:') db.exec('PRAGMA journal_mode = WAL;');
   db.exec(SCHEMA);
   return new Accounts(db);
 }
 
 export class Accounts {
-  /** Ta sama baza służy też półce (src/server/shelf/shelf-store.ts). */
+  /** The same database also serves the shelf (src/server/shelf/shelf-store.ts). */
   constructor(readonly db: DatabaseSync) {}
 
   async register(
@@ -76,13 +76,13 @@ export class Accounts {
         .run(email, displayName, passwordHash);
       return { user: { id: Number(lastInsertRowid), email, displayName } };
     } catch (e) {
-      // UNIQUE na e-mailu sprawdza baza — bez wyścigu „sprawdź, potem wstaw”.
+      // UNIQUE on the e-mail is checked by the database — no "check, then insert" race.
       if (String((e as Error).message).includes('UNIQUE')) return { error: 'zajety' };
       throw e;
     }
   }
 
-  /** Zwraca osobę albo null. Ten sam błąd i (prawie) ten sam czas dla złego e-maila i złego hasła. */
+  /** Returns the person or null. Same error and (almost) the same time for a wrong e-mail and a wrong password. */
   async login(emailInput: string, password: string): Promise<Account | null> {
     const row = this.db
       .prepare('SELECT id, email, display_name, password_hash FROM users WHERE email = ?')
@@ -93,7 +93,7 @@ export class Accounts {
     return row && ok ? { id: row.id, email: row.email, displayName: row.display_name } : null;
   }
 
-  /** Nowa sesja = nowy losowy token (256 bitów). Nigdy nie używamy tokenu podanego przez klienta. */
+  /** A new session = a new random token (256 bits). We never use a token supplied by the client. */
   createSession(userId: number, now = Date.now()): string {
     const token = randomBytes(32).toString('base64url');
     this.db
@@ -114,7 +114,7 @@ export class Accounts {
       this.destroySession(token);
       return null;
     }
-    // Przedłużamy najwyżej raz na dobę — nie piszemy do bazy przy każdym żądaniu.
+    // Extended at most once a day — we do not write to the database on every request.
     if (row.expires_at - now < SESSION_TTL_MS - 24 * 60 * 60 * 1000) {
       this.db.prepare('UPDATE sessions SET expires_at = ? WHERE token_hash = ?').run(now + SESSION_TTL_MS, hashToken(token));
     }
@@ -135,8 +135,8 @@ export function normalizeEmail(email: string): string {
 }
 
 function isEmail(email: string): boolean {
-  // Celowo luźno: pełna składnia adresu (RFC 5322) jest zbyt zawiła, a i tak liczy się to,
-  // czy da się na niego coś wysłać. Tu tylko odsiewamy oczywiste pomyłki.
+  // Loose on purpose: the full address syntax (RFC 5322) is too convoluted, and what counts anyway
+  // is whether mail can be sent to it. Here we only weed out obvious typos.
   return email.length <= LIMITS.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 

@@ -8,7 +8,7 @@
       <p class="label" i18n="@@releases.nextKicker">Najbliższa przepowiednia</p>
       <h2>{{ n.title }}</h2>
       <p class="author">{{ n.author }} · {{ n.date | date: 'd MMMM yyyy' }}</p>
-      <!-- Zegar tylko, gdy premiera jest blisko; dalej wystarczy liczba dni (stała przez dobę). -->
+      <!-- A clock only when the release is close; further out the number of days is enough (fixed for a day). -->
       @if (n.days <= 1) {
         <app-countdown class="when" [date]="n.date" [label]="n.days | daysLeft" />
       } @else {

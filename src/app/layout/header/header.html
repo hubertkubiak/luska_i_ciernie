@@ -1,14 +1,14 @@
 <header class="header">
-  <!-- Nie samo href="#tresc": względem <base href="/"> to "/#tresc", czyli strona główna. -->
+  <!-- Not just href="#tresc": against <base href="/"> that is "/#tresc", i.e. the home page. -->
   <a class="skip" [attr.href]="skipHref()" i18n="@@header.skip">Przejdź do treści</a>
 
   <a class="logo" routerLink="/" i18n-aria-label="@@header.logoLabel" aria-label="Łuska i Ciernie — strona główna">Łuska i Ciernie</a>
 
-  <!-- Na wąskich ekranach menu chowa się w popoverze. popovertarget = przeglądarka sama
-       otwiera i zamyka panel (Esc, klik obok) — działa przed hydracją i bez JavaScriptu. -->
+  <!-- On narrow screens the menu hides in a popover. popovertarget = the browser itself
+       opens and closes the panel (Esc, click outside) — works before hydration and without JavaScript. -->
   <button class="toggle" type="button" popovertarget="mapa-krain" i18n-aria-label="@@header.openMenu" aria-label="Otwórz menu">
     <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <!-- trzy smocze pazury -->
+      <!-- three dragon claws -->
       <path d="M6 3c3 5 3 12 0 18M12 3c3 5 3 12 0 18M18 3c3 5 3 12 0 18" />
     </svg>
     <span class="toggle-label" i18n="@@header.menu">Mapa</span>

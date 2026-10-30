@@ -1,13 +1,13 @@
 import { LOCALE_ID, Pipe, PipeTransform, inject } from '@angular/core';
 
 /**
- * „5 ksiąg” / „3 księgi” / „1 księga” — odmiana bez ICU.
+ * "5 ksiąg" / "3 księgi" / "1 księga" — plural forms without ICU.
  *
- * Normalnie użylibyśmy ICU ({n, plural, …}) w szablonie, ale w Angularze 22.2 hydracja i18n
- * wywraca się na ICU wewnątrz widoków @for (ASSERTION ERROR: expected matching nodeType 8 == 3).
- * W listach używamy więc tego pipe'a: Intl.PluralRules wybiera kategorię dla bieżącego locale
- * (pl: one/few/many/other, en: one/other), a każdy wariant to osobny komunikat do tłumaczenia.
- * Wynik to zwykły tekst — hydracja i18n go nie dotyczy, a Node i przeglądarka liczą to samo.
+ * Normally we would use ICU ({n, plural, …}) in the template, but in Angular 22.2 i18n hydration
+ * breaks on ICU inside @for views (ASSERTION ERROR: expected matching nodeType 8 == 3).
+ * So lists use this pipe: Intl.PluralRules picks the category for the current locale
+ * (pl: one/few/many/other, en: one/other), and each variant is a separate message to translate.
+ * The result is plain text — i18n hydration does not apply to it, and Node and the browser compute the same.
  */
 @Pipe({ name: 'booksCount' })
 export class BooksCountPipe implements PipeTransform {

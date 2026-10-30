@@ -1,13 +1,13 @@
 import { EventPhase } from '@angular/core/primitives/event-dispatch';
 
 /**
- * Czy to zdarzenie odtworzone przez event replay (wydarzyło się PRZED hydracją)?
+ * Is this an event replayed by event replay (did it happen BEFORE hydration)?
  *
- * Event replay zapamiętuje zdarzenia sprzed startu aplikacji i po hydracji wywołuje dla nich
- * nasze handlery. Ale przeglądarka swoją domyślną akcję wykonała już wtedy sama — formularz
- * POST został wysłany natywnie i strona właśnie przechodzi na odpowiedź serwera. W handlerze
- * takiego zdarzenia nie wolno więc wołać preventDefault() (Angular rzuci błąd) ani robić tego
- * samego drugi raz (np. drugi zapis przez API).
+ * Event replay records events from before the app started and calls our handlers for them after
+ * hydration. But the browser has already performed its default action by itself — a POST form
+ * was submitted natively and the page is navigating to the server's response. In the handler
+ * of such an event you must not call preventDefault() (Angular throws) nor do the same thing
+ * a second time (e.g. a second save through the API).
  */
 export function isReplayed(event: Event): boolean {
   return event.eventPhase === EventPhase.REPLAY;

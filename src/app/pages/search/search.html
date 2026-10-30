@@ -3,14 +3,14 @@
   <p class="label" i18n="@@search.kicker">Archiwum</p>
   <h1 i18n="@@search.title">Przeszukaj archiwum</h1>
 
-  <!-- method="get" + action: bez JS to zwykła nawigacja na /szukaj?… obsłużona przez SSR.
-       action="szukaj" jest WZGLĘDNE: rozwiązuje się względem <base href>, więc w wersji /en/
-       formularz trafi na /en/szukaj, a nie do polskiej wersji.
-       Nazwy pól = nazwy parametrów w URL, więc FormData i ParamMap czyta ta sama funkcja.
-       Stan pól idzie przez ATRYBUTY (attr.checked / attr.selected / attr.value), nie właściwości:
-       atrybut to wartość domyślna — trafia do HTML-a z serwera, a przeglądarka nie nadpisze nim
-       pola, które czytelniczka zdążyła zmienić przed hydracją. Synchronizację po nawigacji
-       robi form.reset() w search.ts. -->
+  <!-- method="get" + action: without JS it is a plain navigation to /szukaj?… handled by SSR.
+       action="szukaj" is RELATIVE: it resolves against <base href>, so in the /en/ version
+       the form goes to /en/szukaj, not to the Polish version.
+       Field names = URL parameter names, so FormData and ParamMap are read by the same function.
+       Field state goes through ATTRIBUTES (attr.checked / attr.selected / attr.value), not properties:
+       an attribute is the default value — it lands in the server HTML, and the browser will not use it
+       to overwrite a field the reader changed before hydration. Syncing after navigation
+       is done by form.reset() in search.ts. -->
   <form #form class="filters" method="get" action="szukaj" role="search" (submit)="onSubmit($event)" (change)="onChange($event)">
     <div class="field query">
       <label for="q" i18n="@@search.qLabel">Tytuł, autorka lub seria</label>

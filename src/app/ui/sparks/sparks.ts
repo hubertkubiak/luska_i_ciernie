@@ -9,10 +9,10 @@ interface Spark {
 }
 
 /**
- * Unoszące się iskry w hero (SPEC §2.7). Losowe pozycje są tu w porządku, bo powstają
- * WYŁĄCZNIE w przeglądarce: serwer renderuje pusty kontener, a afterNextRender odpala się
- * dopiero po pierwszym renderze na kliencie (czyli po hydracji) i nigdy na serwerze.
- * Hydracja porównuje więc pusty kontener z pustym kontenerem.
+ * Floating sparks in the hero (SPEC §2.7). Random positions are fine here, because they are created
+ * ONLY in the browser: the server renders an empty container, and afterNextRender fires only
+ * after the first render on the client (i.e. after hydration) and never on the server.
+ * Hydration therefore compares an empty container with an empty container.
  */
 @Component({
   selector: 'app-sparks',
@@ -24,7 +24,7 @@ export class Sparks {
 
   constructor() {
     afterNextRender(() => {
-      // matchMedia istnieje tylko w przeglądarce — tutaj wolno, bo ten kod nie biegnie na serwerze.
+      // matchMedia exists only in the browser — allowed here, because this code never runs on the server.
       if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       this.sparks.set(
         Array.from({ length: 18 }, () => ({

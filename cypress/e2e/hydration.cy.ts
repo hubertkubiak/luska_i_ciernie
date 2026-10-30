@@ -1,11 +1,11 @@
-// Etap 15: incremental hydration (@defer z wyzwalaczami hydrate) i View Transitions.
+// Stage 15: incremental hydration (@defer with hydrate triggers) and View Transitions.
 describe('Hydracja przyrostowa', () => {
   it('„Podobne ścieżki” są w HTML-u z serwera, choć ich kod ładuje się później', () => {
     cy.request('/ksiazka/fourth-wing').then((res) => {
       expect(res.body).to.contain('Podobne ścieżki');
-      // Pełne karty, nie placeholder — roboty i czytelniczka bez JS widzą linki.
+      // Full cards, not a placeholder — crawlers and readers without JS see the links.
       expect(res.body).to.match(/<app-similar-books[^>]*>[\s\S]*?<app-book-card/);
-      // ngb = identyfikator odwodnionego bloku na elementach, które mają zdarzenia (linki).
+      // ngb = the dehydrated block's id, on elements that have events (links).
       expect(res.body).to.match(/<a [^>]*ngb="d\d+"/);
     });
   });
@@ -15,15 +15,15 @@ describe('Hydracja przyrostowa', () => {
     cy.visit('/ksiazka/fourth-wing');
     cy.contains('h1', 'Fourth Wing');
 
-    // Po hydracji reszty strony blok nadal jest odwodniony: atrybuty ngb wciąż na miejscu.
+    // After the rest of the page has hydrated the block is still dehydrated: the ngb attributes remain.
     cy.wait(1000);
     cy.get('app-similar-books a[ngb]').should('have.length.greaterThan', 0);
 
-    // Wjazd w ekran → Angular pobiera chunk similar-books i hydratuje blok (zdejmuje ngb).
+    // Scrolling into view → Angular loads the similar-books chunk and hydrates the block (removes ngb).
     cy.get('app-similar-books').scrollIntoView();
     cy.get('app-similar-books a[ngb]').should('not.exist');
 
-    // Nawigacja w przeglądarce (bez przeładowania): nowa książka przychodzi z API.
+    // Navigation in the browser (no reload): the new book comes from the API.
     cy.get('app-similar-books app-book-card a').first().then(($a) => {
       const href = $a.attr('href')!;
       cy.wrap($a).click();
@@ -57,7 +57,7 @@ describe('View Transitions', () => {
     );
 
     cy.window().then((win) => {
-      // Spy, nie stub: przejście ma się naprawdę wykonać.
+      // A spy, not a stub: the transition must really run.
       if (win.document.startViewTransition) cy.spy(win.document, 'startViewTransition').as('vt');
     });
     cy.get('app-book-card a[href="/ksiazka/fourth-wing"]').click();

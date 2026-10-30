@@ -30,7 +30,7 @@ h1 {
   }
 }
 
-// Pole formularza (SPEC §2.7): tylko dolna linia jak atrament; przy focusie rozlewa się złoto od środka.
+// Form field (SPEC §2.7): only a bottom line like ink; on focus gold spreads from the centre.
 input[type='search'],
 select {
   padding: 0.4rem 0.1rem;
@@ -77,7 +77,7 @@ select option {
   }
 }
 
-// Tag tropu (SPEC §2.7): pigułka z runą; aktywny filtr — świecąca obwódka.
+// Trope tag (SPEC §2.7): a pill with a rune; an active filter — a glowing outline.
 .pill {
   display: inline-flex;
   align-items: center;
@@ -94,7 +94,7 @@ select option {
     border-color var(--dur) var(--ease),
     box-shadow var(--dur) var(--ease);
 
-  // Sam checkbox chowamy wizualnie, ale zostaje dostępny dla klawiatury i czytników ekranu.
+  // The checkbox itself is visually hidden but stays available to keyboards and screen readers.
   input {
     position: absolute;
     opacity: 0;
@@ -155,7 +155,7 @@ select option {
 .books {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
-  // 1fr: każdy wiersz ma wysokość najwyższej karty w CAŁEJ siatce — karty są równe.
+  // 1fr: every row is as tall as the tallest card in the WHOLE grid — cards are equal.
   grid-auto-rows: 1fr;
   gap: 1rem;
   padding: 0;

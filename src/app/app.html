@@ -3,10 +3,10 @@
   <router-outlet />
 </main>
 <!--
-  hydrate never: stopka to sam tekst, bez zdarzeń i zmiennych danych. Serwer ją renderuje,
-  a przeglądarka zostawia ten HTML w spokoju — nie pobiera kodu komponentu i nie hydratuje go
-  nigdy. Strony renderowane tylko w przeglądarce (RenderMode.Client) nie mają HTML-a z serwera,
-  więc tam działa domyślny wyzwalacz @defer: on idle.
+  hydrate never: the footer is plain text, with no events and no changing data. The server renders it,
+  and the browser leaves that HTML alone — it never downloads the component's code nor hydrates it.
+  Pages rendered only in the browser (RenderMode.Client) have no server HTML,
+  so the default @defer trigger applies there: on idle.
 -->
 @defer (hydrate never) {
   <app-footer />

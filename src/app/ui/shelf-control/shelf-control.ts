@@ -7,15 +7,15 @@ import { Session } from '../../core/session';
 import { STATUS_LABELS, ShelfService } from '../../core/shelf';
 
 /**
- * „Dodaj do półki” na stronie książki.
+ * "Add to shelf" on the book page.
  *
- * Stan półki zna już SSR: forwardSessionInterceptor przekazuje ciasteczko sesji do /api/shelf,
- * a odpowiedź jedzie do przeglądarki w transfer cache — przycisk od razu pokazuje właściwy stan.
+ * SSR already knows the shelf state: forwardSessionInterceptor forwards the session cookie to /api/shelf,
+ * and the response travels to the browser in the transfer cache — the button shows the right state at once.
  *
- * Kliknięcie działa w trzech chwilach:
- * - bez JavaScriptu i PRZED hydracją: to zwykły <form method="post" action="polka"> — przeglądarka
- *   wysyła go sama, Express zapisuje i odsyła z powrotem (303). Kliknięcie nie ginie;
- * - po hydracji: przechwytujemy submit i zapisujemy przez JSON API, bez przeładowania strony.
+ * A click works at three moments:
+ * - without JavaScript and BEFORE hydration: it is a plain <form method="post" action="polka"> — the browser
+ *   submits it itself, Express saves and redirects back (303). The click is not lost;
+ * - after hydration: we intercept submit and save through the JSON API, without reloading the page.
  */
 @Component({
   selector: 'app-shelf-control',
@@ -31,10 +31,10 @@ export class ShelfControl {
   protected readonly statuses = SHELF_STATUSES;
   protected readonly labels = STATUS_LABELS;
 
-  /** Pozycja z API; null = książki nie ma na półce. Anonim: nie pytamy wcale. */
+  /** The entry from the API; null = the book is not on the shelf. Anonymous: we do not ask at all. */
   private readonly remote = httpResource<ShelfItem | null>(() => (this.user() ? `/api/shelf/${this.slug()}` : undefined));
 
-  /** Lokalny stan: startuje z odpowiedzi API, potem zmieniają go kliknięcia. */
+  /** Local state: starts from the API response, then clicks change it. */
   protected readonly item = linkedSignal<ShelfItem | null>(() => (this.remote.hasValue() ? this.remote.value() : null));
   protected readonly saving = signal(false);
   protected readonly failed = signal(false);
@@ -42,7 +42,7 @@ export class ShelfControl {
   protected readonly here = computed(() => `/ksiazka/${this.slug()}`);
 
   protected async submit(event: SubmitEvent): Promise<void> {
-    // Kliknięcie sprzed hydracji: przeglądarka już wysłała formularz sama — nie zapisujemy drugi raz.
+    // A click from before hydration: the browser has already submitted the form — do not save twice.
     if (isReplayed(event)) return;
     event.preventDefault();
     const button = event.submitter as HTMLButtonElement | null;

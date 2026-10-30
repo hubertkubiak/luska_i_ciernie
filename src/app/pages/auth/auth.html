@@ -15,12 +15,16 @@
     <p class="lead" i18n="@@auth.registerLead">Załóż konto, a archiwum zapamięta twoje księgi.</p>
   }
 
+  @if (demo) {
+    <p class="demo" role="note" i18n="@@auth.demo">Wersja demonstracyjna: konta i półki są czyszczone przy każdym restarcie serwera.</p>
+  }
+
   @if (error(); as e) {
     <p class="error" role="alert">{{ e }}</p>
   }
 
-  <!-- action jest WZGLĘDNE: względem <base href> daje /auth/… albo /en/auth/…, więc Express
-       wie, do której wersji językowej przekierować. Pola mają name — tylko te trafiają do POST-a. -->
+  <!-- action is RELATIVE: against <base href> it gives /auth/… or /en/auth/…, so Express
+       knows which language version to redirect to. Fields have a name — only those go into the POST. -->
   <form method="post" [attr.action]="login ? 'auth/logowanie' : 'auth/rejestracja'">
     @if (next()) {
       <input type="hidden" name="next" [attr.value]="next()" />
@@ -49,7 +53,7 @@
 
     <div class="field">
       <label for="password" i18n="@@auth.password">Hasło</label>
-      <!-- autocomplete: menedżer haseł wie, czy podpowiedzieć zapisane hasło, czy wygenerować nowe. -->
+      <!-- autocomplete: the password manager knows whether to offer a saved password or generate a new one. -->
       <input
         id="password"
         name="password"

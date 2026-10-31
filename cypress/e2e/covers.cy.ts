@@ -24,30 +24,33 @@ describe('Zgoda na okładki', () => {
   // The URL itself may sit in the transfer-state JSON (that is just data) — what matters is that no
   // element would make the browser fetch it: no <img>, no <link rel="preload">.
   const fetchesCover = /<(img|link)\b[^>]*covers\.openlibrary\.org/;
-  const bookForm = '.book .cover app-cover-consent-form';
+  const privacyButton = 'app-privacy-page button';
 
   it('bez zgody serwer rysuje własne okładki, a przeglądarka nie łączy się z Open Library', () => {
     cy.request('/ksiazka/fourth-wing').its('body').should('not.match', fetchesCover);
     cy.visit('/ksiazka/fourth-wing');
     cy.get('.book .cover app-cover .generated').should('exist');
     cy.get('.book .cover app-cover img').should('not.exist');
+    cy.get('.book app-cover-consent-form').should('not.exist'); // consent lives in the banner and on /prywatnosc
     cy.wait(500);
     cy.get('@openLibrary.all').should('have.length', 0);
   });
 
   it('zgoda pokazuje prawdziwe okładki od razu w HTML z serwera, a cofnięcie je chowa', () => {
-    cy.visit('/ksiazka/fourth-wing');
-    cy.contains(`${bookForm} button`, 'Pokaż prawdziwe okładki').click();
-    cy.location('pathname').should('eq', '/ksiazka/fourth-wing');
+    cy.visit('/prywatnosc');
+    cy.contains(privacyButton, 'Pokaż prawdziwe okładki').click();
     cy.getCookie('covers').should('have.property', 'value', 'on');
+    cy.visit('/ksiazka/fourth-wing');
     cy.get('.book .cover app-cover img').should('have.attr', 'src').and('contain', 'covers.openlibrary.org');
     // Straight from the server, before any JS: the HTML already contains the real cover and its preload.
     cy.request({ url: '/ksiazka/fourth-wing', headers: { Cookie: 'covers=on' } })
       .its('body')
       .should('match', fetchesCover);
 
-    cy.contains(`${bookForm} button`, 'Cofnij zgodę na prawdziwe okładki').click();
+    cy.visit('/prywatnosc');
+    cy.contains(privacyButton, 'Cofnij zgodę na prawdziwe okładki').click();
     cy.getCookie('covers').should('have.property', 'value', 'off');
+    cy.visit('/ksiazka/fourth-wing');
     cy.get('.book .cover app-cover .generated').should('exist');
   });
 
@@ -90,7 +93,7 @@ describe('Zgoda na okładki', () => {
 
     // Withdrawn on /prywatnosc → saved on the account: the next sign-in elsewhere brings no consent.
     cy.visit('/prywatnosc');
-    cy.contains('app-privacy-page button', 'Cofnij zgodę na prawdziwe okładki').click();
+    cy.contains(privacyButton, 'Cofnij zgodę na prawdziwe okładki').click();
     cy.getCookie('covers').should('have.property', 'value', 'off');
     cy.clearCookies();
     login(email);
@@ -116,9 +119,9 @@ describe('Zgoda na okładki', () => {
     cy.get('app-footer a.privacy').click();
     cy.location('pathname').should('eq', '/prywatnosc');
     cy.get('h1').should('contain', 'Prywatność');
-    cy.contains('app-privacy-page button', 'Pokaż prawdziwe okładki').click();
+    cy.contains(privacyButton, 'Pokaż prawdziwe okładki').click();
     cy.location('pathname').should('eq', '/prywatnosc');
-    cy.contains('app-privacy-page button', 'Cofnij zgodę na prawdziwe okładki').should('exist');
+    cy.contains(privacyButton, 'Cofnij zgodę na prawdziwe okładki').should('exist');
   });
 
   it('formularz z innej strony jest odrzucany', () => {

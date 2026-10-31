@@ -1,5 +1,4 @@
 import { Component, inject, input } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { CoverConsent } from '../../core/cover-consent';
 
 /**
@@ -9,15 +8,12 @@ import { CoverConsent } from '../../core/cover-consent';
  */
 @Component({
   selector: 'app-cover-consent-form',
-  imports: [RouterLink],
   templateUrl: './cover-consent-form.html',
   styleUrl: './cover-consent-form.scss',
 })
 export class CoverConsentForm {
   /** Where to return after the decision — app path without the language prefix. */
   readonly next = input.required<string>();
-  /** The link to /prywatnosc (pointless on that page itself). */
-  readonly moreLink = input(true);
 
   private readonly consent = inject(CoverConsent);
   protected readonly available = this.consent.available;

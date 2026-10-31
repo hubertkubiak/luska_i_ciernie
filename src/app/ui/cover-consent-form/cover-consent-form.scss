@@ -1,4 +1,4 @@
-// Deliberately quiet: small print under the cover, not a banner.
+// Deliberately quiet: small print, not a banner.
 form {
   display: grid;
   justify-items: start;
@@ -21,8 +21,4 @@ button {
   &:hover {
     text-decoration-style: solid;
   }
-}
-
-a {
-  color: inherit;
 }

@@ -20,6 +20,13 @@
     transform var(--dur) var(--ease),
     box-shadow var(--dur) var(--ease);
 }
+// On a phone the card spans the whole width, so its contents go to the middle.
+@media (max-width: 40rem) {
+  .card {
+    justify-items: center;
+    text-align: center;
+  }
+}
 .card:hover {
   transform: translateY(-4px);
   box-shadow: 0 0 1.5rem color-mix(in srgb, var(--ember) 30%, transparent);

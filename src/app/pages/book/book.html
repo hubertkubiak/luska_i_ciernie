@@ -4,10 +4,6 @@
     <div class="cover">
       <!-- priority: the LCP image. On the server Angular adds a <link rel="preload"> for it to <head>. -->
       <app-cover [book]="b" [width]="180" [height]="270" [priority]="true" i18n-alt="@@book.coverAlt" alt="Okładka: {{ b.title }}" />
-      <!-- Only when there is a real cover to show at all (none with COVER_SOURCE=none). -->
-      @if (b.coverUrl) {
-        <app-cover-consent-form [next]="'/ksiazka/' + b.slug" />
-      }
     </div>
 
     <header class="head">

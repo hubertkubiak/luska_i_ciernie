@@ -216,7 +216,6 @@
     "seo.privacyDescription": "What data Łuska i Ciernie processes, which cookies it sets and where the covers come from.",
     "covers.show": "Show real covers",
     "covers.note": "Loaded from Open Library (USA): your browser will send it your IP address.",
-    "covers.more": "Privacy",
     "covers.withdraw": "Withdraw consent to real covers",
     "auth.coversConsent": "Show me real covers from Open Library (USA). My browser will send it my IP address.",
     "auth.coversConsentHint": "Optional — you can withdraw consent with one button on a book page or in the Privacy section.",

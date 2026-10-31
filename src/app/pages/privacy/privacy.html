@@ -15,7 +15,7 @@
       cofniesz jednym przyciskiem, tutaj albo na stronie książki.
     </p>
     @if (coversAvailable) {
-      <app-cover-consent-form class="consent" next="/prywatnosc" [moreLink]="false" />
+      <app-cover-consent-form class="consent" next="/prywatnosc" />
     } @else {
       <p class="demo" role="note" i18n="@@privacy.coversOff">
         Na tej stronie prawdziwe okładki są wyłączone: widzisz wyłącznie nasze, a przeglądarka nie łączy się z Open Library.
